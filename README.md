@@ -62,7 +62,7 @@ OPENROUTER_API_KEY=...
 | 5 | [**Workflows y agentes**](modulo-05-workflows-agentes/README.md) | Diferencia entre workflow y agente; cuándo cada uno | Orquestar la búsqueda |
 | 6 | [**LangGraph**](modulo-06-langgraph/README.md) | Grafos de estado, nodos, aristas condicionales, checkpoints | Flujo del buscador como grafo |
 | 7 | [**Observabilidad**](modulo-07-observabilidad/README.md) | Tracing, evals, métricas de un sistema no determinista | Medir calidad de respuestas |
-| 8 | **Memoria y guardrails** | Memoria conversacional y defensas de entrada/salida | Endurecer el buscador |
+| 8 | [**Memoria y guardrails**](modulo-08-memoria-guardrails/README.md) | Memoria conversacional y defensas de entrada/salida | Endurecer el buscador |
 | 9 | **Proyecto integrador** | Todo junto, de punta a punta | El buscador completo |
 
 ---

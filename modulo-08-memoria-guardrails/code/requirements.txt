@@ -1,0 +1,8 @@
+instructor
+pydantic>=2
+openai
+tiktoken
+# memoria (Qdrant + embedder del Módulo 2) y el buscador del Módulo 4:
+numpy
+qdrant-client>=1.10
+sentence-transformers
