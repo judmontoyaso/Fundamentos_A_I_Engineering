@@ -108,7 +108,7 @@ def run(session_id: str, code: str, file: str | None = None, timeout: float | No
     los scripts del laboratorio resuelvan rutas relativas a su carpeta.
     Devuelve {stdout, stderr, result, timed_out}."""
     # Límite por celda: los agentes encadenan varias llamadas al modelo.
-    timeout = timeout or float(os.getenv("KERNEL_TIMEOUT", "120"))
+    timeout = timeout or float(os.getenv("KERNEL_TIMEOUT", "300"))
     ns, lock = _get(session_id)
     if file:
         ns["__file__"] = file

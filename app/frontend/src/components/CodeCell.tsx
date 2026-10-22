@@ -118,7 +118,7 @@ export function CodeCell({ cell, nbId, onReload }: Props) {
           )}
           {output.result !== null && <pre className="result">{output.result}</pre>}
           {output.timed_out && (
-            <div className="meta timeout">⏱ La celda superó el tiempo límite (KERNEL_TIMEOUT, 120 s por defecto) y sigue corriendo en segundo plano.</div>
+            <div className="meta timeout">⏱ La celda superó el tiempo límite (KERNEL_TIMEOUT, 300 s por defecto) y sigue corriendo en segundo plano.</div>
           )}
         </div>
       )}

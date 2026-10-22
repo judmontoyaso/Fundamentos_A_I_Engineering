@@ -1,0 +1,8 @@
+instructor
+pydantic>=2
+openai
+langgraph>=1.0
+numpy
+qdrant-client>=1.10
+sentence-transformers
+tiktoken
