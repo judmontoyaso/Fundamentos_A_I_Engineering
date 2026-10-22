@@ -1,0 +1,582 @@
+<title>Curso AI Engineering</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  /* Layout: app de lectura a dos columnas — sidebar de navegación + panel de contenido.
+     Estética "cuaderno de ingeniería": grotesca IBM Plex, mono para código y etiquetas,
+     acento cobalto, bloques de código oscuros en ambos temas. */
+  :root {
+    --bg: #f3f5f8;
+    --surface: #ffffff;
+    --surface-2: #e9edf2;
+    --fg: #121722;
+    --muted: #5a6473;
+    --border: #dce1e8;
+    --accent: #1d63d1;
+    --accent-soft: rgba(29, 99, 209, .10);
+    --ok: #0f9d58;
+    --warn: #c47f0a;
+    --code-bg: #0e1522;
+    --code-fg: #d7dce6;
+    --sidebar-w: 300px;
+    --maxread: 76ch;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d1017;
+      --surface: #151b24;
+      --surface-2: #1b2230;
+      --fg: #e7eaf0;
+      --muted: #97a1b1;
+      --border: #27303d;
+      --accent: #5b8def;
+      --accent-soft: rgba(91, 141, 239, .14);
+      --ok: #41c586;
+      --warn: #e0a53a;
+      --code-bg: #0a0e15;
+      --code-fg: #d7dce6;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1017;
+    --surface: #151b24;
+    --surface-2: #1b2230;
+    --fg: #e7eaf0;
+    --muted: #97a1b1;
+    --border: #27303d;
+    --accent: #5b8def;
+    --accent-soft: rgba(91, 141, 239, .14);
+    --ok: #41c586;
+    --warn: #e0a53a;
+    --code-bg: #0a0e15;
+    --code-fg: #d7dce6;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+  .app { display: grid; grid-template-columns: var(--sidebar-w) 1fr; height: 100%; }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    min-height: 0;
+    padding-left: max(0px, env(safe-area-inset-left, 0px));
+  }
+  .brand {
+    display: flex; align-items: center; gap: .65rem;
+    padding: 1.1rem 1.1rem .9rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand .logo {
+    width: 34px; height: 34px; border-radius: 9px; flex: none;
+    background: var(--accent); color: #fff;
+    display: grid; place-items: center; font-weight: 700; font-size: .95rem;
+    font-family: "IBM Plex Mono", monospace;
+  }
+  .brand h1 { margin: 0; font-size: .98rem; font-weight: 600; letter-spacing: -.01em; }
+  .brand p { margin: 1px 0 0; font-size: .72rem; color: var(--muted); }
+
+  .nav { overflow-y: auto; padding: .6rem .6rem 1.5rem; flex: 1; min-height: 0; }
+  .nav-group { margin-top: .9rem; }
+  .nav-group:first-child { margin-top: .2rem; }
+  .nav-group > .glabel {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: .66rem; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--muted); padding: .35rem .6rem; display: block;
+  }
+  .nav-item {
+    display: flex; align-items: center; gap: .55rem;
+    width: 100%; text-align: left;
+    background: none; border: 0; cursor: pointer;
+    color: var(--fg); font: inherit; font-size: .9rem;
+    padding: .5rem .6rem; border-radius: 8px; line-height: 1.3;
+  }
+  .nav-item:hover { background: var(--surface-2); }
+  .nav-item.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+  .nav-item .tick {
+    width: 17px; height: 17px; flex: none; border-radius: 50%;
+    border: 1.5px solid var(--border); display: grid; place-items: center;
+    font-size: .6rem; color: transparent;
+  }
+  .nav-item.done .tick { background: var(--ok); border-color: var(--ok); color: #fff; }
+  .nav-item.locked { color: var(--muted); cursor: default; }
+  .nav-item.locked:hover { background: none; }
+  .nav-item .lock { margin-left: auto; font-size: .72rem; opacity: .7; }
+
+  /* ---------- Main ---------- */
+  .main { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+  .topbar {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+    display: flex; align-items: center; gap: .9rem;
+    padding: .7rem max(16px, env(safe-area-inset-right, 0px)) .7rem max(16px, env(safe-area-inset-left, 0px));
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+    z-index: 10; background: var(--surface);
+  }
+  .menu-btn {
+    display: none; background: none; border: 1px solid var(--border);
+    border-radius: 8px; width: 38px; height: 38px; color: var(--fg); cursor: pointer; flex: none;
+  }
+  .progress-wrap { flex: 1; min-width: 0; }
+  .progress-top { display: flex; justify-content: space-between; font-size: .72rem; color: var(--muted); margin-bottom: 4px; }
+  .progress-top .mono { color: var(--fg); font-weight: 500; }
+  .bar { height: 6px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+  .bar > span { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 999px; transition: width .35s ease; }
+  .theme-btn {
+    background: none; border: 1px solid var(--border); border-radius: 8px;
+    width: 38px; height: 38px; cursor: pointer; color: var(--fg); flex: none;
+    display: grid; place-items: center;
+  }
+  .theme-btn:hover { background: var(--surface-2); }
+
+  .scroll { overflow-y: auto; flex: 1; min-height: 0; }
+  .reader {
+    max-width: var(--maxread);
+    margin: 0 auto;
+    padding: 2rem max(16px, env(safe-area-inset-right, 0px)) 5rem max(16px, env(safe-area-inset-left, 0px));
+  }
+
+  /* ---------- Markdown typography ---------- */
+  .reader h1, .reader h2, .reader h3, .reader h4 { line-height: 1.25; text-wrap: balance; letter-spacing: -.01em; }
+  .reader h1 { font-size: 1.95rem; font-weight: 700; margin: .2em 0 .5em; }
+  .reader h2 {
+    font-size: 1.4rem; font-weight: 600; margin: 2.2em 0 .7em;
+    padding-top: 1.1em; border-top: 1px solid var(--border);
+  }
+  .reader h2:first-of-type { border-top: 0; padding-top: 0; margin-top: 1em; }
+  .reader h3 { font-size: 1.12rem; font-weight: 600; margin: 1.8em 0 .5em; }
+  .reader p, .reader li { overflow-wrap: break-word; }
+  .reader a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-soft); }
+  .reader a:hover { border-bottom-color: var(--accent); }
+  .reader strong { font-weight: 600; }
+  .reader ul, .reader ol { padding-left: 1.3em; }
+  .reader li { margin: .3em 0; }
+
+  .reader blockquote {
+    margin: 1.4em 0; padding: .9em 1.1em;
+    background: var(--accent-soft); border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+  }
+  .reader blockquote p { margin: .3em 0; }
+
+  .reader table { border-collapse: collapse; width: 100%; font-size: .9rem; margin: 1.3em 0; }
+  .reader table th, .reader table td { border: 1px solid var(--border); padding: .5em .7em; text-align: left; vertical-align: top; }
+  .reader table th { background: var(--surface-2); font-weight: 600; }
+  .table-scroll { overflow-x: auto; }
+
+  .reader :not(pre) > code {
+    font-family: "IBM Plex Mono", monospace; font-size: .86em;
+    background: var(--surface-2); padding: .12em .4em; border-radius: 5px;
+    border: 1px solid var(--border);
+  }
+
+  .codeblock { position: relative; margin: 1.3em 0; }
+  .codeblock pre {
+    margin: 0; background: var(--code-bg); color: var(--code-fg);
+    border-radius: 11px; padding: 1rem 1.1rem; overflow-x: auto;
+    border: 1px solid var(--border);
+  }
+  .codeblock pre code { font-family: "IBM Plex Mono", monospace; font-size: .83rem; line-height: 1.6; background: none; border: 0; padding: 0; }
+  .copy-btn {
+    position: absolute; top: .55rem; right: .55rem;
+    font-family: "IBM Plex Mono", monospace; font-size: .68rem;
+    background: rgba(255,255,255,.08); color: #cbd3e1; border: 1px solid rgba(255,255,255,.14);
+    border-radius: 7px; padding: .3em .6em; cursor: pointer; opacity: 0; transition: opacity .15s;
+  }
+  .codeblock:hover .copy-btn, .copy-btn:focus { opacity: 1; }
+  .copy-btn.ok { color: #7ee2a8; border-color: #7ee2a8; }
+
+  .reader hr { border: 0; border-top: 1px solid var(--border); margin: 2.4em 0; }
+
+  /* highlight.js (inline, ambos temas usan el bloque oscuro) */
+  .hljs-comment, .hljs-quote { color: #7c8699; font-style: italic; }
+  .hljs-keyword, .hljs-selector-tag, .hljs-built_in, .hljs-literal { color: #c792ea; }
+  .hljs-string, .hljs-attr, .hljs-regexp { color: #c3e88d; }
+  .hljs-number, .hljs-symbol { color: #f78c6c; }
+  .hljs-title, .hljs-title.function_, .hljs-section { color: #82aaff; }
+  .hljs-params { color: #d7dce6; }
+  .hljs-type, .hljs-class .hljs-title, .hljs-title.class_ { color: #ffcb6b; }
+  .hljs-meta { color: #89ddff; }
+  .hljs-variable, .hljs-template-variable { color: #f07178; }
+  .hljs-deletion { color: #f07178; }
+  .hljs-addition { color: #c3e88d; }
+
+  /* footer de lección */
+  .lesson-foot {
+    display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; justify-content: space-between;
+    margin-top: 3rem; padding-top: 1.4rem; border-top: 1px solid var(--border);
+  }
+  .btn {
+    font: inherit; font-size: .88rem; cursor: pointer;
+    border: 1px solid var(--border); background: var(--surface); color: var(--fg);
+    border-radius: 9px; padding: .55em .9em; display: inline-flex; align-items: center; gap: .45rem;
+  }
+  .btn:hover { background: var(--surface-2); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover { filter: brightness(1.05); }
+  .btn.done-state { background: var(--ok); border-color: var(--ok); color: #fff; }
+  .nav-arrows { display: flex; gap: .5rem; }
+
+  .loading, .empty { color: var(--muted); padding: 3rem 0; text-align: center; }
+  .toast {
+    position: fixed; left: 50%; bottom: calc(1.3rem + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%) translateY(20px);
+    background: var(--fg); color: var(--bg); font-size: .82rem;
+    padding: .6em 1em; border-radius: 9px; opacity: 0; pointer-events: none;
+    transition: opacity .2s, transform .2s; z-index: 50; max-width: 90vw;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .scrim { display: none; }
+
+  @media (max-width: 860px) {
+    .app { grid-template-columns: 1fr; }
+    .sidebar {
+      position: fixed; z-index: 30; top: 0; bottom: 0; left: 0; width: min(82vw, var(--sidebar-w));
+      transform: translateX(-102%); transition: transform .22s ease;
+      box-shadow: 0 10px 40px rgba(0,0,0,.25);
+    }
+    .sidebar.open { transform: none; }
+    .menu-btn { display: grid; place-items: center; }
+    .scrim.show { display: block; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 20; }
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+
+<div class="app">
+  <div class="scrim" id="scrim"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="logo mono">AIE</div>
+      <div>
+        <h1>AI Engineering</h1>
+        <p>Curso profundo · edición personal</p>
+      </div>
+    </div>
+    <nav class="nav" id="nav"></nav>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="Menú">☰</button>
+      <div class="progress-wrap">
+        <div class="progress-top">
+          <span>Progreso del curso</span>
+          <span class="mono" id="progLabel">0%</span>
+        </div>
+        <div class="bar"><span id="progBar"></span></div>
+      </div>
+      <button class="theme-btn" id="themeBtn" aria-label="Cambiar tema" title="Cambiar tema">◐</button>
+    </header>
+    <div class="scroll" id="scroll">
+      <article class="reader" id="reader">
+        <p class="loading">Cargando…</p>
+      </article>
+    </div>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  // ---- Estructura de navegación: cada "lección" apunta a un .md publicado al lado ----
+  var NAV = [
+    { group: "Inicio", items: [
+      { id: "inicio", label: "Presentación del curso", file: "content/inicio.md" }
+    ]},
+    { group: "Módulo 1 · Datos estructurados", items: [
+      { id: "m1-manual", label: "Manual", file: "content/m1-manual.md" },
+      { id: "m1-ejercicios", label: "Ejercicios", file: "content/m1-ejercicios.md" }
+    ]},
+    { group: "Módulo 2 · Embeddings y búsqueda", items: [
+      { id: "m2-manual", label: "Manual", file: "content/m2-manual.md" },
+      { id: "m2-ejercicios", label: "Ejercicios", file: "content/m2-ejercicios.md" }
+    ]},
+    { group: "Módulo 3 · Chunking, metadata y RAG", items: [
+      { id: "m3-manual", label: "Manual", file: "content/m3-manual.md" },
+      { id: "m3-ejercicios", label: "Ejercicios", file: "content/m3-ejercicios.md" }
+    ]},
+    { group: "Módulo 4 · BM25, híbrida y RRF", items: [
+      { id: "m4-manual", label: "Manual", file: "content/m4-manual.md" },
+      { id: "m4-ejercicios", label: "Ejercicios", file: "content/m4-ejercicios.md" }
+    ]},
+    { group: "Módulo 5 · Workflows y agentes", items: [
+      { id: "m5-manual", label: "Manual", file: "content/m5-manual.md" },
+      { id: "m5-ejercicios", label: "Ejercicios", file: "content/m5-ejercicios.md" }
+    ]},
+    { group: "Módulo 6 · LangGraph", items: [
+      { id: "m6-manual", label: "Manual", file: "content/m6-manual.md" },
+      { id: "m6-ejercicios", label: "Ejercicios", file: "content/m6-ejercicios.md" }
+    ]},
+    { group: "Próximamente", locked: true, items: [
+      { id: "m7", label: "Módulo 7 · Observabilidad" },
+      { id: "m8", label: "Módulo 8 · Memoria y guardrails" }
+    ]}
+  ];
+
+  // Mapa de links relativos (en el Markdown) -> id de lección, para que la navegación interna funcione.
+  var LINKMAP = [
+    { match: "modulo-01", needEx: "ejercicios", id: "m1-ejercicios", elseId: "m1-manual" },
+    { match: "modulo-02", needEx: "ejercicios", id: "m2-ejercicios", elseId: "m2-manual" },
+    { match: "modulo-03", needEx: "ejercicios", id: "m3-ejercicios", elseId: "m3-manual" },
+    { match: "modulo-04", needEx: "ejercicios", id: "m4-ejercicios", elseId: "m4-manual" },
+    { match: "modulo-05", needEx: "ejercicios", id: "m5-ejercicios", elseId: "m5-manual" },
+    { match: "modulo-06", needEx: "ejercicios", id: "m6-ejercicios", elseId: "m6-manual" }
+  ];
+
+  var FLAT = [];
+  NAV.forEach(function (g) { if (!g.locked) g.items.forEach(function (it) { FLAT.push(it); }); });
+
+  var LS_PROG = "rea_curso_progreso", LS_THEME = "rea_curso_tema", LS_LAST = "rea_curso_ultima";
+
+  function lsGet(k, d) { try { var v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+  function getDone() {
+    try { return JSON.parse(lsGet(LS_PROG, "[]")) || []; } catch (e) { return []; }
+  }
+  function setDone(arr) { lsSet(LS_PROG, JSON.stringify(arr)); }
+  function isDone(id) { return getDone().indexOf(id) !== -1; }
+  function toggleDone(id, val) {
+    var arr = getDone(), i = arr.indexOf(id);
+    if (val && i === -1) arr.push(id);
+    if (!val && i !== -1) arr.splice(i, 1);
+    setDone(arr);
+  }
+
+  var reader = document.getElementById("reader");
+  var navEl = document.getElementById("nav");
+  var scroll = document.getElementById("scroll");
+  var current = null;
+  var mdCache = {};
+
+  // ---- marked + highlight ----
+  marked.setOptions({
+    gfm: true, breaks: false,
+    highlight: function (code, lang) {
+      try {
+        if (lang && hljs.getLanguage(lang)) return hljs.highlight(code, { language: lang }).value;
+        return hljs.highlightAuto(code).value;
+      } catch (e) { return code; }
+    }
+  });
+
+  function buildNav() {
+    navEl.innerHTML = "";
+    NAV.forEach(function (g) {
+      var grp = document.createElement("div");
+      grp.className = "nav-group";
+      var gl = document.createElement("span");
+      gl.className = "glabel"; gl.textContent = g.group;
+      grp.appendChild(gl);
+      g.items.forEach(function (it) {
+        var b = document.createElement("button");
+        b.className = "nav-item" + (g.locked ? " locked" : "");
+        b.dataset.id = it.id;
+        if (g.locked) {
+          b.innerHTML = '<span>' + it.label + '</span><span class="lock">🔒</span>';
+        } else {
+          b.innerHTML = '<span class="tick">✓</span><span>' + it.label + '</span>';
+          b.addEventListener("click", function () { go(it.id); closeSidebar(); });
+        }
+        grp.appendChild(b);
+      });
+      navEl.appendChild(grp);
+    });
+    refreshNavState();
+  }
+
+  function refreshNavState() {
+    Array.prototype.forEach.call(navEl.querySelectorAll(".nav-item"), function (b) {
+      var id = b.dataset.id;
+      b.classList.toggle("active", id === current);
+      if (!b.classList.contains("locked")) b.classList.toggle("done", isDone(id));
+    });
+  }
+
+  function updateProgress() {
+    var total = FLAT.length;
+    var done = FLAT.filter(function (it) { return isDone(it.id); }).length;
+    var pct = total ? Math.round(done / total * 100) : 0;
+    document.getElementById("progBar").style.width = pct + "%";
+    document.getElementById("progLabel").textContent = pct + "% · " + done + "/" + total;
+  }
+
+  function fetchMd(file) {
+    if (mdCache[file]) return Promise.resolve(mdCache[file]);
+    return fetch(file).then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.text();
+    }).then(function (t) { mdCache[file] = t; return t; });
+  }
+
+  function enhance() {
+    // envolver bloques de código y añadir botón copiar
+    Array.prototype.forEach.call(reader.querySelectorAll("pre"), function (pre) {
+      var wrap = document.createElement("div");
+      wrap.className = "codeblock";
+      pre.parentNode.insertBefore(wrap, pre);
+      wrap.appendChild(pre);
+      var btn = document.createElement("button");
+      btn.className = "copy-btn mono"; btn.type = "button"; btn.textContent = "copiar";
+      btn.addEventListener("click", function () {
+        var code = pre.innerText;
+        function ok() { btn.textContent = "copiado ✓"; btn.classList.add("ok"); setTimeout(function () { btn.textContent = "copiar"; btn.classList.remove("ok"); }, 1400); }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(code).then(ok).catch(function () { selectText(pre); });
+        } else { selectText(pre); }
+      });
+      wrap.appendChild(btn);
+    });
+    // tablas con scroll
+    Array.prototype.forEach.call(reader.querySelectorAll("table"), function (t) {
+      if (t.parentNode.classList.contains("table-scroll")) return;
+      var w = document.createElement("div"); w.className = "table-scroll";
+      t.parentNode.insertBefore(w, t); w.appendChild(t);
+    });
+  }
+
+  function selectText(el) {
+    var r = document.createRange(); r.selectNodeContents(el);
+    var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    toast("Selección lista — copia con Ctrl/Cmd+C");
+  }
+
+  function interceptLinks() {
+    reader.addEventListener("click", function (e) {
+      var a = e.target.closest ? e.target.closest("a") : null;
+      if (!a) return;
+      var href = a.getAttribute("href") || "";
+      if (href.charAt(0) === "#") {
+        e.preventDefault();
+        var tgt = reader.querySelector('[name="' + href.slice(1) + '"], #' + CSS.escape(href.slice(1)));
+        if (tgt) tgt.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+      if (/^https?:\/\//.test(href)) { a.target = "_blank"; a.rel = "noopener"; return; }
+      // link relativo del repo
+      e.preventDefault();
+      var low = href.toLowerCase();
+      for (var i = 0; i < LINKMAP.length; i++) {
+        if (low.indexOf(LINKMAP[i].match) !== -1) {
+          go(low.indexOf(LINKMAP[i].needEx) !== -1 ? LINKMAP[i].id : LINKMAP[i].elseId);
+          return;
+        }
+      }
+      toast("Ese archivo vive en tu carpeta del proyecto (" + href + ")");
+    });
+  }
+
+  function go(id) {
+    var item = FLAT.filter(function (it) { return it.id === id; })[0];
+    if (!item) return;
+    current = id;
+    lsSet(LS_LAST, id);
+    refreshNavState();
+    scroll.scrollTop = 0;
+    reader.innerHTML = '<p class="loading">Cargando…</p>';
+    fetchMd(item.file).then(function (md) {
+      reader.innerHTML = marked.parse(md);
+      enhance();
+      appendFooter(id);
+    }).catch(function () {
+      reader.innerHTML = '<div class="empty"><p><strong>No pude cargar el contenido.</strong></p>'
+        + '<p>Si abriste el archivo HTML directamente (file://), el navegador bloquea la carga de los '
+        + '.md. Sírvelo con un servidor local:</p>'
+        + '<div class="codeblock"><pre><code>python -m http.server 8000</code></pre></div>'
+        + '<p>y abre <code>http://localhost:8000/app-curso.html</code>. En la versión publicada funciona sin pasos extra.</p></div>';
+    });
+  }
+
+  function appendFooter(id) {
+    var idx = FLAT.map(function (it) { return it.id; }).indexOf(id);
+    var prev = FLAT[idx - 1], next = FLAT[idx + 1];
+    var foot = document.createElement("div");
+    foot.className = "lesson-foot";
+
+    var done = isDone(id);
+    var mark = document.createElement("button");
+    mark.className = "btn " + (done ? "done-state" : "primary");
+    mark.innerHTML = done ? "✓ Leída" : "Marcar como leída";
+    mark.addEventListener("click", function () {
+      var nowDone = !isDone(id);
+      toggleDone(id, nowDone);
+      mark.className = "btn " + (nowDone ? "done-state" : "primary");
+      mark.innerHTML = nowDone ? "✓ Leída" : "Marcar como leída";
+      refreshNavState(); updateProgress();
+    });
+
+    var arrows = document.createElement("div");
+    arrows.className = "nav-arrows";
+    if (prev) { var pb = document.createElement("button"); pb.className = "btn"; pb.innerHTML = "← " + prev.label; pb.addEventListener("click", function () { go(prev.id); }); arrows.appendChild(pb); }
+    if (next) { var nb = document.createElement("button"); nb.className = "btn"; nb.innerHTML = next.label + " →"; nb.addEventListener("click", function () { go(next.id); }); arrows.appendChild(nb); }
+
+    foot.appendChild(mark);
+    foot.appendChild(arrows);
+    reader.appendChild(foot);
+  }
+
+  // ---- tema ----
+  var themeBtn = document.getElementById("themeBtn");
+  function applyTheme(t) {
+    if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+    else document.documentElement.removeAttribute("data-theme");
+  }
+  themeBtn.addEventListener("click", function () {
+    var cur = lsGet(LS_THEME, "system");
+    var order = ["system", "light", "dark"];
+    var nextT = order[(order.indexOf(cur) + 1) % 3];
+    lsSet(LS_THEME, nextT); applyTheme(nextT);
+    toast("Tema: " + (nextT === "system" ? "del sistema" : nextT === "light" ? "claro" : "oscuro"));
+  });
+  applyTheme(lsGet(LS_THEME, "system"));
+
+  // ---- sidebar móvil ----
+  var sidebar = document.getElementById("sidebar"), scrim = document.getElementById("scrim");
+  function closeSidebar() { sidebar.classList.remove("open"); scrim.classList.remove("show"); }
+  document.getElementById("menuBtn").addEventListener("click", function () {
+    sidebar.classList.toggle("open"); scrim.classList.toggle("show");
+  });
+  scrim.addEventListener("click", closeSidebar);
+
+  // ---- toast ----
+  var toastEl = document.getElementById("toast"), toastT;
+  function toast(msg) {
+    toastEl.textContent = msg; toastEl.classList.add("show");
+    clearTimeout(toastT); toastT = setTimeout(function () { toastEl.classList.remove("show"); }, 2600);
+  }
+
+  // ---- init ----
+  buildNav();
+  updateProgress();
+  interceptLinks();
+  var last = lsGet(LS_LAST, "inicio");
+  if (!FLAT.some(function (it) { return it.id === last; })) last = "inicio";
+  go(last);
+})();
+</script>

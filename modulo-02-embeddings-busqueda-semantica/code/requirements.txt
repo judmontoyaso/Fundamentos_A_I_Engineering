@@ -1,0 +1,5 @@
+numpy
+qdrant-client
+openai
+# para embeddings locales/privados (recomendado con datos personales como CVs):
+sentence-transformers

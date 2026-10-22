@@ -1,0 +1,5 @@
+numpy
+qdrant-client
+openai
+# embeddings locales/privados (recomendado con datos personales):
+sentence-transformers

@@ -1,0 +1,7 @@
+instructor
+pydantic>=2
+openai
+# el buscador que usan los workflows y el agente (Módulo 4):
+numpy
+qdrant-client>=1.10
+sentence-transformers

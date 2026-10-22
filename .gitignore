@@ -1,0 +1,23 @@
+# Secretos y configuración local (las API keys viven aquí: nunca al repositorio)
+.env
+.env.*
+!.env.example
+
+# Entornos y dependencias
+.venv/
+venv/
+node_modules/
+dist/
+__pycache__/
+*.pyc
+
+# Datos locales: progreso, trazas y cachés (pueden contener datos personales)
+app/backend/data/
+*.db
+.cache_extraccion/
+qdrant_data/
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini

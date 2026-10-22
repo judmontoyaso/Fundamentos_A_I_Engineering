@@ -1,0 +1,7 @@
+instructor
+pydantic>=2
+openai
+anthropic
+jinja2
+pymupdf
+tiktoken
