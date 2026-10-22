@@ -1,0 +1,7 @@
+instructor
+pydantic>=2
+openai
+# el buscador y las utilidades que reutiliza (Módulos 4 y 5):
+numpy
+qdrant-client>=1.10
+sentence-transformers
