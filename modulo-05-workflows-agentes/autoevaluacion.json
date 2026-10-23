@@ -1,0 +1,70 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Cuál es la diferencia entre un workflow y un agente?",
+   "opciones": [
+    "El agente usa un modelo más grande",
+    "El workflow no usa LLM",
+    "El agente siempre es más barato",
+    "En el workflow el camino lo decide tu código; en el agente lo decide el modelo"
+   ],
+   "correcta": 3,
+   "explicacion": "Un workflow es predecible en costo y latencia; un agente se adapta a cada pedido a cambio de menos control. Empieza por lo más simple que funcione."
+  },
+  {
+   "pregunta": "¿Quién ejecuta una herramienta en un agente?",
+   "opciones": [
+    "El modelo",
+    "El proveedor de la API",
+    "Tu código: el modelo solo propone la llamada estructurada",
+    "La base de datos"
+   ],
+   "correcta": 2,
+   "explicacion": "El LLM devuelve «llama a buscar con estos argumentos». Tu código valida, ejecuta y devuelve el resultado. Por eso los argumentos y los resultados son entrada no confiable."
+  },
+  {
+   "pregunta": "¿Qué patrón usarías para que un borrador se revise contra una rúbrica y se rehaga hasta aprobar?",
+   "opciones": [
+    "Enrutamiento",
+    "Evaluador-optimizador",
+    "Paralelización",
+    "Encadenamiento sin puertas"
+   ],
+   "correcta": 1,
+   "explicacion": "El evaluador-optimizador alterna generar y evaluar con feedback, con un tope de vueltas. Funciona si la rúbrica es concreta; con una vaga, aprueba a la primera."
+  },
+  {
+   "pregunta": "En el ejercicio del CV malicioso, el agente no recomendó a Pedro. ¿Qué había que comprobar antes de concluir que «resistió» la inyección?",
+   "opciones": [
+    "Que la inyección apareció en una observación: si no la leyó, no resistió nada",
+    "Que usó el modelo correcto",
+    "Que tardó menos de 10 s",
+    "Que hizo más de 3 pasos"
+   ],
+   "correcta": 0,
+   "explicacion": "Con Pedro como junior, el filtro por nivel impidió que el agente lo viera. Una prueba de seguridad solo vale si el ataque llegó al modelo; la traza lo confirma."
+  },
+  {
+   "pregunta": "¿Qué propiedades debe tener el bucle de un agente según el módulo?",
+   "opciones": [
+    "Solo una buena descripción de herramientas",
+    "Memoria de largo plazo",
+    "Temperatura cero",
+    "Condición de parada, tope de pasos, observaciones compactas y traza"
+   ],
+   "correcta": 3,
+   "explicacion": "Sin tope de pasos un agente puede gastar sin fin; sin observaciones compactas el historial crece; sin traza no sabes por qué decidió lo que decidió."
+  },
+  {
+   "pregunta": "En el orquestador-trabajadores, ¿por qué un criterio en el que todos los candidatos sacan 1/5 es un mal criterio?",
+   "opciones": [
+    "Porque es demasiado estricto",
+    "Porque el modelo se equivocó",
+    "Porque no discrimina entre candidatos: solo añade costo y ruido",
+    "Porque hay que usar 0 a 10"
+   ],
+   "correcta": 2,
+   "explicacion": "Un criterio útil separa a los candidatos. Si los CVs no permiten evaluarlo, todos empatan abajo y el orquestador gastó una llamada por candidato para nada."
+  }
+ ]
+}

@@ -185,6 +185,21 @@ informe = llm(Informe, f"Combina estos resultados: {resultados}")
 Fíjate en el `max_length=5`: **acotar** lo que el modelo puede decidir es la defensa principal contra planes
 absurdos o caros. Es el mismo principio que el `Literal` del Módulo 1.
 
+El laboratorio ([`code/07_orquestador_trabajadores.py`](code/07_orquestador_trabajadores.py)) lo ejecuta con dos
+vacantes y lo compara con evaluar todo en **una sola llamada**:
+
+- El orquestador **sí adapta** la descomposición: para "líder técnico de datos en tiempo real" eligió liderazgo,
+  arquitectura de tiempo real, ingeniería de datos y fiabilidad; para "Product Manager SaaS", estrategia de producto,
+  métricas, experimentación y ejecución. Las 14 evidencias de los trabajadores eran citas literales del CV.
+- **Una sola llamada llegó al mismo primer puesto en las dos vacantes**, con 1 llamada en vez de 6 y unas 4 veces
+  menos tiempo.
+- **Un defecto real:** el orquestador eligió criterios que los CVs no permiten evaluar ("fiabilidad en producción",
+  "experimentación"), y todos los candidatos sacaron 1/5 en ellos. Es ruido que diluye el ranking. Pedir criterios
+  "que se puedan evaluar con la información de los CVs" es la corrección obvia (ejercicio 9).
+
+Conclusión: aquí el orquestador no acierta más; se justifica por lo que **añade**: criterios explícitos, puntajes por
+criterio y evidencia verificable, es decir, una decisión **auditable**. Si no necesitas auditar, una llamada basta.
+
 ---
 
 <a name="8-evaluador"></a>

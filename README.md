@@ -19,6 +19,26 @@ a nivel de tokens, los *trade-offs* reales, el código que ejecutas, y ejercicio
 2. **Corre el código** de la carpeta `code/` de cada módulo. Todo está pensado para ejecutarse de verdad.
 3. **Haz los ejercicios** (`ejercicios.md`). Las soluciones están al final, tápalas hasta intentarlo.
 4. **Avanza el proyecto**: cada módulo deja una pieza del buscador de CVs.
+5. **Comprueba lo aprendido** con la autoevaluación de cada módulo (`autoevaluacion.json`, se corrige y explica cada
+   respuesta).
+
+### La app del curso
+
+`app/` es una aplicación local para estudiar todo lo anterior de forma interactiva: backend FastAPI en `app/backend`
+(puerto 8000) y frontend React en `app/frontend` (puerto 5173). Incluye, por módulo, el manual, los ejercicios, el
+**laboratorio** (los scripts de `code/` como celdas ejecutables, estilo notebook) y la **autoevaluación**. En el
+Módulo 9 está el **asistente de selección en vivo**: el sistema completo, con su traza y su memoria por reclutador,
+usable desde el navegador.
+
+```bash
+cd app/backend
+python run.py
+```
+
+```bash
+cd app/frontend
+npm run dev
+```
 
 ### Requisitos
 
@@ -75,7 +95,7 @@ un **contrato** alrededor de ese proceso —un esquema que valida, reintenta y f
 para que el resto de tu sistema pueda confiar en la salida como confía en cualquier otra función.
 
 Ese es el salto que saca a un producto del **"PoC Purgatory"**: el demo funcionó una vez en la presentación, pero en
-producción falla 1 de cada 20 veces de formas silenciosas. El Módulo 1 es, literalmente, cómo convertir "texto plausible"
+producción falla de vez en cuando, y de formas silenciosas. El Módulo 1 es, literalmente, cómo convertir "texto plausible"
 en "dato en el que puedo confiar".
 
 Empieza por [`modulo-01-datos-estructurados/README.md`](modulo-01-datos-estructurados/README.md).

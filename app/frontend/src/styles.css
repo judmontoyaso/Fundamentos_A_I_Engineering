@@ -119,6 +119,57 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
 .btn.done-state { background: var(--ok); border-color: var(--ok); color: #fff; }
 .nav-arrows { display: flex; flex-wrap: wrap; gap: .5rem; }
+.btn:disabled { opacity: .6; cursor: progress; }
+.small { font-size: .84rem; }
+.nav-item .kind.live { color: var(--ok); font-family: "IBM Plex Mono", monospace; white-space: nowrap; }
+
+/* ---------- Autoevaluación ---------- */
+.q { margin: 1.6rem 0; padding: 1.1rem 1.2rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+.q h3 { margin: 0 0 .8rem; font-size: 1.02rem; font-weight: 600; line-height: 1.45; display: flex; gap: .6rem; }
+.q-n { flex: none; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-size: .78rem; }
+.q-ops { display: grid; gap: .45rem; }
+.q-op { text-align: left; font: inherit; font-size: .92rem; line-height: 1.45; padding: .6rem .8rem; border-radius: 9px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); cursor: pointer; }
+.q-op:hover:not(:disabled) { border-color: var(--accent); }
+.q-op:disabled { cursor: default; }
+.q-op.ok { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, transparent); }
+.q-op.bad { border-color: var(--err); background: color-mix(in srgb, var(--err) 10%, transparent); }
+.q-exp { margin: .8rem 0 0; font-size: .9rem; padding: .6rem .8rem; border-radius: 9px; background: var(--surface-2); border-left: 3px solid var(--ok); }
+.q-exp.bad { border-left-color: var(--err); }
+.q-score { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; }
+
+/* ---------- Asistente en vivo ---------- */
+.asis-meta { font-size: .74rem; color: var(--muted); margin: -.2rem 0 1rem; }
+.asis-form { display: grid; gap: .8rem; padding: 1.1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+.asis-form label { display: grid; gap: .3rem; font-size: .8rem; color: var(--muted); }
+.asis-form input, .asis-form textarea { font: inherit; font-size: .95rem; color: var(--fg); background: var(--bg); border: 1px solid var(--border); border-radius: 9px; padding: .55rem .7rem; resize: vertical; }
+.asis-form input:focus, .asis-form textarea:focus { outline: 2px solid var(--accent); outline-offset: 0; }
+.asis-user input { max-width: 14rem; }
+.asis-chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.chip { font: inherit; font-size: .78rem; border: 1px solid var(--border); background: var(--bg); color: var(--fg); border-radius: 999px; padding: .25em .75em; cursor: pointer; }
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+.asis-form .btn { justify-self: start; }
+.asis-error { margin: 0; color: var(--err); font-size: .88rem; overflow-wrap: anywhere; }
+.asis-mem { margin: 1.4rem 0; }
+.asis-mem h3 { font-size: .95rem; margin: 0 0 .4rem; }
+.asis-mem ul { margin: 0; padding-left: 1.1rem; }
+.asis-mem li { display: flex; gap: .6rem; align-items: baseline; justify-content: space-between; font-size: .9rem; }
+.link-btn { background: none; border: 0; color: var(--accent); cursor: pointer; font: inherit; font-size: .8rem; flex: none; }
+.asis-res { margin: 1.4rem 0; padding: 1.1rem 1.2rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+.asis-q { font-size: .88rem; color: var(--muted); }
+.asis-q b { color: var(--fg); }
+.asis-badge { display: inline-block; margin: .5rem 0 .2rem; font: .7rem "IBM Plex Mono", monospace; padding: .15em .6em; border-radius: 6px; border: 1px solid currentColor; }
+.asis-badge.ok { color: var(--ok); } .asis-badge.err { color: var(--err); } .asis-badge.warn { color: var(--warn); }
+.asis-answer { font-size: 1rem; margin: .5rem 0 .8rem; }
+.asis-table { border-collapse: collapse; width: 100%; font-size: .86rem; margin: .6rem 0; }
+.asis-table th, .asis-table td { border-top: 1px solid var(--border); padding: .45em .5em; text-align: left; vertical-align: top; }
+.asis-table th { font-weight: 600; color: var(--muted); font-size: .76rem; }
+.score { display: inline-block; width: 52px; height: 6px; border-radius: 999px; background: var(--surface-2); vertical-align: middle; overflow: hidden; }
+.score > span { display: block; height: 100%; background: var(--accent); }
+.warn-badge { margin-left: .4rem; }
+.asis-uso { font-size: .7rem; color: var(--muted); margin: .6rem 0; overflow-wrap: anywhere; }
+.asis-res details { margin-top: .5rem; font-size: .88rem; }
+.asis-res summary { cursor: pointer; color: var(--accent); }
+.asis-trace { background: var(--code-bg); color: var(--code-fg); padding: .8rem; border-radius: 9px; font-size: .72rem; overflow-x: auto; white-space: pre; }
 
 /* ---------- Estados ---------- */
 .api-down { max-width: 60ch; margin: 12vh auto; padding: 0 16px; }

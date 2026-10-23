@@ -1,7 +1,9 @@
 // Composición de la app: navegación, barra superior y el notebook activo.
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { api, API_URL } from "./api";
+import { Asistente } from "./components/Asistente";
 import { Notebook } from "./components/Notebook";
+import { Quiz } from "./components/Quiz";
 import { Sidebar } from "./components/Sidebar";
 import { Toaster, toast } from "./toast";
 import type { NavGroup, Progress } from "./types";
@@ -29,7 +31,15 @@ export default function App() {
     return t === "light" || t === "dark" ? t : "system";
   });
 
-  const flat = useMemo(() => nav.flatMap((g) => g.items), [nav]);
+  const items = useMemo(() => nav.flatMap((g) => g.items), [nav]);
+  const flat = useMemo(() => items.filter((it) => it.type !== "app"), [items]);   // lo que cuenta para el progreso
+  const currentType = items.find((it) => it.id === current)?.type;
+
+  const markPassed = useCallback(() => {
+    if (!current) return;
+    setProgress((p) => ({ ...p, [current]: true }));
+    api.setProgress(current, true).catch(() => toast("No se pudo guardar el progreso"));
+  }, [current]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -107,7 +117,12 @@ export default function App() {
 
         <div className="scroll">
           <div className="reader">
-            {current ? (
+            {current && currentType === "app" ? (
+              <Asistente />
+            ) : current && currentType === "quiz" ? (
+              <Quiz key={current} id={current} flat={flat} done={Boolean(progress[current])}
+                    onPassed={markPassed} onNavigate={go} />
+            ) : current ? (
               <Notebook
                 key={current}
                 id={current}

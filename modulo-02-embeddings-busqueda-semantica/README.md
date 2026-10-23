@@ -183,7 +183,29 @@ Ejes de decisión, en orden de impacto:
 4. **Longitud de contexto** del embedder (cuántos tokens admite por texto).
 5. **Matryoshka (MRL).** Varios modelos modernos (p. ej. `text-embedding-3-*`, `bge-m3`) permiten **truncar** el
    vector a menos dimensiones perdiendo poca calidad: embedeas a 1536 y, si te sobra, usas los primeros 512 para
-   ahorrar memoria. Es una palanca costo/calidad muy práctica. Ver [`code/06_elegir_modelo.py`](code/06_elegir_modelo.py).
+   ahorrar memoria. Es una palanca costo/calidad muy práctica. Ver [`code/06_embeddings_reales.py`](code/06_embeddings_reales.py),
+y para elegir modelo midiendo, [`code/12_elegir_modelo.py`](code/12_elegir_modelo.py).
+
+### Lo que dio la medición (y por qué no decide nada)
+
+`12_elegir_modelo.py` compara cinco configuraciones sobre los 10 CVs del Módulo 9 con 10 consultas de paráfrasis.
+Dos pasadas dieron exactamente lo mismo (un embedding es determinista; la variación que viste en el Módulo 7 era del
+LLM):
+
+| Modelo | recall@1 | recall@3 | MRR | Dim. | Consulta que falla en el primer puesto |
+|---|---|---|---|---|---|
+| MiniLM multilingüe (local) | 0.90 | 1.00 | 0.95 | 384 | "orquestación de contenedores…" → Laura |
+| E5-small sin prefijos | 0.90 | 0.95 | 0.93 | 384 | "líder de ingeniería de datos con inglés fluido" → Laura |
+| E5-small con prefijos | 0.90 | 0.95 | 0.95 | 384 | la misma |
+| `text-embedding-3-small` (API) | 0.90 | 1.00 | 0.93 | 1536 | la misma → Valentina |
+| `text-embedding-3-large` (API) | 0.90 | 1.00 | 0.95 | 3072 | la misma → Laura |
+
+Es un **empate**: cada modelo falla una sola consulta, y las diferencias de MRR son de un puesto en una consulta. Los
+prefijos de E5 ayudaron poco aquí (0.93 → 0.95), y un vector 8 veces más grande no compró nada. La lección no es "da
+igual el modelo", es que **este set es demasiado fácil para elegir**: con 10 CVs muy distintos entre sí, casi
+cualquier modelo acierta. El Módulo 9 encontró justo el caso que este set no tiene: **consultas largas con varios
+requisitos**, donde MiniLM sí se quedaba atrás (Módulo 9 §4, arreglo 5). Para elegir de verdad, el set tiene que
+parecerse a lo que buscan tus usuarios y tener candidatos parecidos entre sí.
 
 **Recomendación pragmática para el proyecto:** empieza con un modelo multilingüe sólido (API como
 `text-embedding-3-small` por simplicidad, o `BAAI/bge-m3` local por privacidad de los CVs). Haz que funcione, mide, y
@@ -199,7 +221,7 @@ consulta, comparar contra todos? Porque **no escala**: comparar la query contra 
 (**k-NN exacto**, fuerza bruta) es O(n) por consulta y se vuelve lentísimo.
 
 Una **vector database** resuelve esto con búsqueda de **vecinos aproximados** (**ANN**, *Approximate Nearest
-Neighbors*): sacrifica un poquito de exactitud (quizá el 0.5% de las veces no te da el vecino #1 perfecto) a cambio
+Neighbors*): sacrifica un poco de exactitud (a veces no te da el vecino más cercano exacto; cuánto depende de los parámetros del índice) a cambio
 de ser **órdenes de magnitud más rápida**. El algoritmo dominante es **HNSW** (*Hierarchical Navigable Small World*):
 
 - Construye un **grafo multinivel** de vectores. Los niveles altos tienen pocos nodos muy conectados (autopistas);

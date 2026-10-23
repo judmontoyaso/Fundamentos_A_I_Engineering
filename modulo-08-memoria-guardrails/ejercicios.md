@@ -36,9 +36,17 @@ dentro de una celda). ¿Qué ve el reclutador? Ahora imagina una política fail-
 ### Ejercicio 7 — Corregir en vez de bloquear
 En [`code/04_guardrails_salida.py`](code/04_guardrails_salida.py), el caso "menciona graduación sin usarla" se bloquea.
 Implementa una acción **corregir**: cuando la capa de política detecta un atributo protegido mencionado pero no usado
-para valorar, pide al LLM que reescriba la respuesta sin ese dato, y vuelve a pasar los guardrails.
+para valorar, pide al LLM que reescriba la respuesta sin ese dato, y vuelve a pasar los guardrails. Hazlo antes de
+abrir [`code/06_corregir_salida.py`](code/06_corregir_salida.py), que es una solución completa.
 
-### Ejercicio 8 — Proyecto: medir el asistente
+### Ejercicio 8 — ¿Una segunda vuelta?
+En `06`, el caso de Valentina acaba en revisión humana: la corrección quitó el año, pero el juez encontró después "le
+falta experiencia dirigiendo equipos", que el CV no dice. Permite **una** segunda vuelta: si la versión corregida falla
+en fidelidad, regenérala con esa falla como feedback y revisa otra vez. ¿Llega a "el CV no menciona experiencia
+dirigiendo equipos"? ¿Cuántas llamadas cuesta ese caso ahora? Escribe en una frase cuándo dejarías de corregir y
+pasarías a revisión humana.
+
+### Ejercicio 9 — Proyecto: medir el asistente
 Con [`code/05_asistente_protegido.py`](code/05_asistente_protegido.py), arma 20 turnos (de al menos dos reclutadores)
 mezclando pedidos legítimos, discriminatorios, de manipulación y fuera de alcance. Instrumenta el asistente con el
 trazador del Módulo 7 y reporta: falsos bloqueos y falsos pases por capa, llamadas y tokens que añaden los guardrails
@@ -84,9 +92,23 @@ if p.usa_atributo_protegido:
                       f"{p.cual}; no cambies nada más.", respuesta).recomendacion
     return revisar_salida(corregida, contexto)   # vuelve a pasar TODAS las capas
 ```
-Pon un límite (una sola corrección) para no entrar en un bucle, y registra en la traza que hubo corrección.
+Pon un límite (una sola corrección) para no entrar en un bucle, y registra en la traza que hubo corrección. La versión
+de `06` añade dos cosas que el esqueleto no tiene: antes de corregir pregunta si el atributo es **parte del motivo**
+(si lo es, se bloquea: quitar la palabra escondería el sesgo), y comprueba que la corrección no cambió los candidatos.
 
-**8.** No hay una única solución. Lo típico: los guardrails añaden entre 2 y 4 llamadas por turno permitido
+**8.** Esqueleto, dentro de `verificar()`:
+```python
+if not r.aprobada and r.capa == "3 fidelidad" and vueltas < 2:
+    nueva = c.llm(Reescritura, REGENERAR, f"Revisión: {r.fallas}\n<contexto>\n{contexto}\n</contexto>\n"
+                                          f"<respuesta>\n{nuevo}\n</respuesta>")
+    return verificar(original, nueva.texto, contexto, "regenerada", ..., vueltas=vueltas + 1)
+```
+El caso pasa de 3-4 llamadas a 5-6 (corrección, regeneración y dos revisiones completas). Un criterio razonable:
+corrige mientras cada vuelta **quite** algo concreto y verificable; si una vuelta tiene que reinterpretar la
+valoración, o el texto ya no se parece al original, ya no es una corrección sino otra respuesta, y la decide una
+persona.
+
+**9.** No hay una única solución. Lo típico: los guardrails añaden entre 2 y 4 llamadas por turno permitido
 (clasificador de entrada, política y fidelidad de salida, extracción de recuerdos) y casi nada en los turnos
 bloqueados por la heurística. Si un recuerdo cruzó entre reclutadores, revisa que **todas** las consultas a la memoria
 filtren por usuario.

@@ -1,0 +1,70 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "Un nodo de LangGraph devuelve {'evaluaciones': [x]} y el campo tiene el reductor operator.add. ¿Qué pasa con el estado?",
+   "opciones": [
+    "Se reemplaza la lista por [x]",
+    "Se lanza un error",
+    "Se ignora el cambio",
+    "Se añade x a la lista existente"
+   ],
+   "correcta": 3,
+   "explicacion": "Los nodos devuelven solo los cambios y el reductor decide cómo combinarlos. Sin reductor, el valor se reemplaza; con operator.add, se acumula (clave para Send en paralelo)."
+  },
+  {
+   "pregunta": "¿Para qué sirve Send?",
+   "opciones": [
+    "Para enviar correos",
+    "Para guardar el estado",
+    "Para lanzar en paralelo un número dinámico de tareas (map-reduce)",
+    "Para pausar el grafo"
+   ],
+   "correcta": 2,
+   "explicacion": "Send('evaluar', {...}) por cada candidato reparte trabajo cuyo número no conoces al diseñar el grafo; un reductor junta los resultados."
+  },
+  {
+   "pregunta": "Tras un interrupt, reanudas con Command(resume=...). ¿Qué hace LangGraph con el nodo que se interrumpió?",
+   "opciones": [
+    "Sigue desde la línea del interrupt",
+    "Re-ejecuta el nodo desde el principio",
+    "Salta al siguiente nodo",
+    "Pide confirmación otra vez"
+   ],
+   "correcta": 1,
+   "explicacion": "El nodo se re-ejecuta entero y esta vez interrupt devuelve el valor de resume. Todo lo que haya antes del interrupt en ese nodo debe poder repetirse sin efectos duplicados."
+  },
+  {
+   "pregunta": "En el laboratorio de persistencia, el envío se cortó DESPUÉS de enviar el mensaje y sin idempotencia. ¿Qué pasó al reanudar?",
+   "opciones": [
+    "El mensaje salió dos veces",
+    "Nada: el checkpointer lo evitó",
+    "Se perdió el borrador",
+    "Se volvió a llamar al modelo"
+   ],
+   "correcta": 0,
+   "explicacion": "El checkpointer evita repetir lo que quedó registrado (no se volvió a pagar al modelo), pero no sabe de un efecto que ocurrió y no llegó a guardarse. Para eso hace falta una clave de idempotencia."
+  },
+  {
+   "pregunta": "¿Qué identifica una conversación o ejecución persistente en LangGraph?",
+   "opciones": [
+    "El nombre del grafo",
+    "El nombre del nodo",
+    "El modelo usado",
+    "El thread_id en la configuración"
+   ],
+   "correcta": 3,
+   "explicacion": "Con un checkpointer, cada thread_id tiene su historia de estados. Volver a invocar con el mismo thread_id continúa; con otro, empieza de cero."
+  },
+  {
+   "pregunta": "¿Cuándo NO hace falta LangGraph?",
+   "opciones": [
+    "Cuando hay pausas para una persona",
+    "Cuando hay ciclos",
+    "Cuando el flujo es una secuencia fija sin pausas, persistencia ni paralelismo dinámico",
+    "Cuando hay varios nodos"
+   ],
+   "correcta": 2,
+   "explicacion": "LangGraph paga su complejidad con pausas, persistencia y paralelismo dinámico. Para tres llamadas en fila, una función basta."
+  }
+ ]
+}

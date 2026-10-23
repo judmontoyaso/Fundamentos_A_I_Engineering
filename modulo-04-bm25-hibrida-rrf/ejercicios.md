@@ -42,6 +42,11 @@ Monta la búsqueda híbrida del §13 sobre tus chunks de CV del Módulo 3. Arma 
 paráfrasis, 4 mixtas), corre los tres modos y escribe tres párrafos: dónde gana BM25, dónde gana la semántica y si la
 híbrida compensa en **tu** colección. Si no compensa, di por qué.
 
+### Ejercicio 9 — ¿Cuándo vale la pena un reranker?
+En [`code/06_reranking.py`](code/06_reranking.py), cambia `CANDIDATOS`, el tamaño del top que se reordena (por ejemplo, 4, 6 y 10), y
+anota recall@3, MRR y segundos por consulta. Después responde con tus números: si tu sistema muestra 10 resultados a
+una persona, ¿pondrías el reranker? ¿Y si pasa 3 fragmentos a un LLM?
+
 ---
 
 <details>
@@ -83,5 +88,10 @@ solo puede reordenar lo que recibe: el *prefetch* debe traer bastantes candidato
 **8.** No hay una única respuesta. El entregable es la tabla y tu lectura. Si la híbrida no compensa en tu colección,
 las causas típicas son: colección demasiado pequeña (el top-k ya cubre casi todo), consultas casi todas de un mismo
 tipo, o un tokenizador débil que hace de BM25 un mal compañero de fusión.
+
+**9.** Al escribir el curso, reordenar con el LLM subió recall@3 de 0.95 a 1.00 y MRR de 0.91 a 1.00, a unos 5 s por
+consulta. Reordenar un top más grande da al reranker más donde elegir, pero cuesta más tokens y tiempo; uno demasiado
+pequeño no puede rescatar lo que quedó fuera. Con 10 resultados para una persona, el orden fino importa poco y 5 s
+por búsqueda es mucho. Con 3 fragmentos para un LLM, cada puesto cuenta y el reranker suele pagarse.
 
 </details>

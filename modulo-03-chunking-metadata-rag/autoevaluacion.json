@@ -1,0 +1,70 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Por qué no conviene meter un documento largo entero en un solo vector?",
+   "opciones": [
+    "Porque es más caro",
+    "Porque Qdrant no lo permite",
+    "Porque los embeddings solo aceptan una frase",
+    "Porque el vector promedia todos los temas y el modelo trunca lo que excede su contexto"
+   ],
+   "correcta": 3,
+   "explicacion": "Un vector por documento mezcla todo en un promedio y pierde lo que pasa del límite del modelo. Los chunks permiten recuperar el pasaje concreto que responde."
+  },
+  {
+   "pregunta": "¿Qué problema resuelve el overlap entre chunks?",
+   "opciones": [
+    "Reduce el número de chunks",
+    "Acelera la indexación",
+    "Evita que una idea que cae en la frontera quede partida entre dos chunks",
+    "Elimina duplicados"
+   ],
+   "correcta": 2,
+   "explicacion": "Si una frase importante cae en el corte, ningún chunk la contiene entera. Repetir un margen entre chunks consecutivos la conserva, a cambio de algo más de índice."
+  },
+  {
+   "pregunta": "Un RAG responde mal. ¿Cuál es la primera pregunta de depuración que propone el módulo?",
+   "opciones": [
+    "¿Usé el modelo más grande?",
+    "¿Falló la recuperación o la generación?",
+    "¿Subí la temperatura?",
+    "¿Tengo suficientes chunks?"
+   ],
+   "correcta": 1,
+   "explicacion": "Si el pasaje correcto no llegó al contexto, ningún prompt lo arregla; si llegó y la respuesta es mala, el problema está en la generación. Separarlo es media depuración resuelta."
+  },
+  {
+   "pregunta": "En el laboratorio de contextual retrieval, la primera ejecución sugería que el contexto largo empeoraba y el breve mejoraba. ¿Qué pasó al repetir?",
+   "opciones": [
+    "El resultado no se sostuvo: con repeticiones, la diferencia quedó dentro de la variación",
+    "Se confirmó exactamente igual",
+    "El contexto largo pasó a ser el mejor por mucho",
+    "No se pudo repetir"
+   ],
+   "correcta": 0,
+   "explicacion": "Con pocos casos y un modelo estocástico, una sola ejecución puede engañar. Por eso el laboratorio repite y redondea antes de declarar una mejora: «no concluyente» también es un resultado."
+  },
+  {
+   "pregunta": "¿Qué hace el laboratorio de citas verificadas con cada afirmación de la respuesta?",
+   "opciones": [
+    "La reformula",
+    "Le pide a otro LLM que la puntúe",
+    "La elimina si es larga",
+    "Comprueba en código que la cita aparece literalmente en el CV citado"
+   ],
+   "correcta": 3,
+   "explicacion": "La citación verificable convierte «confía en el modelo» en «compruébalo». Una cita que no está en la fuente es una invención detectada sin gastar otra llamada."
+  },
+  {
+   "pregunta": "Ante «¿Quién habla japonés?» sin ningún CV que lo mencione, ¿qué debe hacer el RAG?",
+   "opciones": [
+    "Elegir al candidato más parecido",
+    "Inventar un nivel probable",
+    "Abstenerse y decir que los documentos no lo mencionan",
+    "Repetir la búsqueda con k más alto hasta encontrar algo"
+   ],
+   "correcta": 2,
+   "explicacion": "Responder solo con lo recuperado incluye saber decir «no está». Un RAG que siempre contesta algo es un RAG que inventa cuando no hay evidencia."
+  }
+ ]
+}

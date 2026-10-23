@@ -34,6 +34,8 @@ export function Sidebar({ nav, current, progress, open, onSelect }: Props) {
                 <span className="tick">✓</span>
                 <span>{it.title}</span>
                 {it.type === "lab" && <span className="kind">▶</span>}
+                {it.type === "quiz" && <span className="kind">?</span>}
+                {it.type === "app" && <span className="kind live">● en vivo</span>}
               </button>
             ))}
           </div>

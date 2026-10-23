@@ -31,10 +31,12 @@ Añade al grafo una rama: si el pedido contiene "invita a", el sistema redacta l
 puntuado y **se detiene** con `interrupt` (Módulo 6) hasta que el reclutador la apruebe. Recuerda: el correo del
 candidato está en `s.contactos`, fuera del índice; úsalo solo en el nodo que "envía".
 
-### Ejercicio 6 — Un endpoint para la app
-En `app/backend/curso_api/main.py`, añade un endpoint `POST /api/asistente` que reciba `{usuario, pedido}`, llame a
-`sistema().consultar(...)` y devuelva la respuesta y el `trace_id`. ¿Qué tendrías que cambiar para que `usuario`
-salga de un inicio de sesión y no del cuerpo de la petición?
+### Ejercicio 6 — El asistente en la app
+La app ya sirve el sistema en la página **Asistente de selección (en vivo)**: lee
+[`app/backend/curso_api/asistente.py`](../app/backend/curso_api/asistente.py) y los endpoints `/api/asistente/*` de
+`main.py`. Haz en la página los cinco pedidos de ejemplo y abre la traza de cada uno. Después responde: el `usuario`
+llega en el cuerpo de la petición; ¿qué puede hacer cualquiera que conozca el nombre de otro reclutador? ¿Qué
+tendrías que cambiar para que salga de un inicio de sesión?
 
 ### Ejercicio 7 — Busca un sesgo
 Pide a otra persona 10 pedidos que intenten, de forma disimulada, que el sistema discrimine o filtre datos personales.
@@ -44,6 +46,14 @@ Pásalos por el sistema. ¿Cuántos se colaron, y en qué capa debió atraparlos
 Escribe una página para alguien que tiene que decidir si usar este asistente en su equipo de selección. Incluye: qué
 hace, qué números tiene (con su tamaño de muestra), qué riesgos conoces, qué falta para producción (§7) y tu
 recomendación. Es el entregable que de verdad se le pide a un AI engineer.
+
+### Ejercicio 9 — Volver a K_CV = 4 sin perder a nadie
+El arreglo 5 del §4 subió `K_CV` a 6 y la consulta cuesta un tercio más. Escribe 5 pedidos **largos** (con dos o tres
+requisitos, como los de un reclutador real) con sus candidatos correctos y mide solo la recuperación, sin llamadas al
+modelo: el puesto de cada correcto con `s.buscar(pedido, k_cv=10)`. Después prueba una de las causas: otro modelo de
+embeddings (`EMB_BACKEND=openai` en `app/backend/.env` y reinicia la API) o un reranking del top 8 (Módulo 4,
+`06_reranking.py`). ¿Con cuál entran todos los correctos en los 4 primeros? ¿Cuánto cuesta cada opción frente a evaluar
+2 candidatos más?
 
 ---
 
@@ -68,9 +78,10 @@ equilibrio entre costo y memoria: mídelo con conversaciones reales.
 `interrupt` y un nodo que "envía". El grafo necesita un checkpointer y un `thread_id` por consulta para poder
 reanudarse.
 
-**6.** El endpoint es una función de pocas líneas. Lo difícil es la identidad: el `usuario` tiene que venir de un
-token validado por el backend. Si lo manda el cliente, cualquiera puede leer la memoria de otro reclutador poniendo su
-nombre.
+**6.** El endpoint es una función de pocas líneas. Lo difícil es la identidad: con el `usuario` en el cuerpo,
+cualquiera puede leer **y borrar** la memoria de otro reclutador poniendo su nombre (la página lo permite). Tiene que
+salir de un token validado por el backend (una sesión o un JWT), y el endpoint debe ignorar cualquier `usuario` que
+mande el cliente. Para uso personal en `127.0.0.1` es aceptable; en un servidor compartido, no.
 
 **7.** Los que suelen colarse son los indirectos: código postal o barrio, universidad, "cultura de la empresa",
 "presencia". Algunos son legítimos según el contexto. Por eso este ejercicio necesita a otra persona, y por eso cada
@@ -78,5 +89,12 @@ caso dudoso merece una discusión, no solo una regla.
 
 **8.** No hay solución única. Una buena señal: que alguien que no hizo el curso entienda tu recomendación y sus
 límites sin preguntarte nada.
+
+**9.** Con la medición del §4 como referencia: con MiniLM, el modo solo denso dejaba a la correcta hasta el puesto 9 en
+pedidos largos y la fusión con RRF, en el 5-6. Al escribir el curso, `text-embedding-3-small` en modo solo denso puso
+a las dos correctas en los puestos 3 y 4 en los mismos pedidos largos: dentro del top 4, pero justo. Un reranking con
+LLM ordena el top por el pedido completo, a cambio de una llamada y unos segundos por consulta (Módulo 4). Un embedding
+mejor no añade llamadas pero obliga a reindexar. Compara contra la alternativa actual (2 evaluaciones más, en
+paralelo) y decide con los números de tus 5 pedidos, no con los de este manual.
 
 </details>

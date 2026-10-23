@@ -88,7 +88,13 @@ temas sin estructura clara.
 encabezados, código por funciones, un PDF por sus secciones y tablas. Variante moderna muy potente: **contextual
 retrieval** — antes de embedear cada chunk, le antepones una o dos frases generadas por un LLM que lo sitúan en el
 documento ("Este fragmento es de la sección Experiencia del CV de Laura, sobre su rol como Tech Lead"). Eso le
-devuelve al chunk el contexto que perdió al separarlo, y sube el recall de forma notable.
+devuelve al chunk el contexto que perdió al separarlo. Cuánto ayuda **depende**, y medirlo tiene una trampa que el
+laboratorio ([`code/06_contextual_retrieval.py`](code/06_contextual_retrieval.py)) deja a la vista. Sobre los 10 CVs
+del proyecto partidos por líneas, la primera corrida dijo que el contexto **largo empeoraba** la recuperación y el
+**breve la mejoraba**. Repetido, salió al revés. El contexto lo genera un LLM, así que cada corrida produce frases
+distintas, y **esa variación era del mismo tamaño que el efecto**. Por eso el laboratorio repite cada variante y
+compara rangos, no números sueltos. La técnica está bien documentada en colecciones grandes; en una de 10 documentos
+y 8 consultas, lo honesto es decir "no concluyente" hasta tener más datos.
 
 > Mención aparte: **late chunking.** En vez de embedear cada chunk por separado, embedeas el documento largo de una
 > vez con un modelo de contexto largo y *luego* promedias por chunk, de modo que cada vector "recuerda" el documento
@@ -212,6 +218,13 @@ SYSTEM = (
 
 Fíjate en las tres defensas en una sola frase: **anclar al contexto** (no inventar), **permiso de abstenerse** (si no
 está, dilo), y **citar** (verificable), más la nota anti-inyección del Módulo 1 §12.
+
+Citar con un nombre entre corchetes no prueba nada: el modelo puede poner `[Laura]` junto a algo que Laura no dice.
+La versión fuerte es pedir, por cada afirmación, **una cita copiada literalmente** del documento y **comprobar con
+código** que la cita existe en el documento citado. Las afirmaciones cuya cita no aparece se descartan.
+[`code/07_rag_citas_verificadas.py`](code/07_rag_citas_verificadas.py) lo implementa, con un control que demuestra que
+el verificador rechaza citas parafraseadas o atribuidas a otra persona. Con `gpt-6-luna`, 3 de 3 citas fueron
+literales, y ante una pregunta sin respuesta en los CVs ("¿quién habla japonés?") el sistema se abstuvo.
 
 ---
 

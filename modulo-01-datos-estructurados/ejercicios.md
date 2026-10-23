@@ -45,6 +45,16 @@ Completa `CV` en [`code/14_proyecto_schema.py`](code/14_proyecto_schema.py) para
 educación (lista de títulos con institución y año) e idiomas (con nivel A1–C2 usando `Enum`). Corre la extracción
 sobre 3 CVs distintos (invéntalos o usa PDFs tuyos) y revisa que la evidencia del nivel aparezca literal en cada uno.
 
+### Ejercicio 9 — Plantillas que fallan pronto
+En [`code/08_jinja.py`](code/08_jinja.py), quita una variable del diccionario que se pasa a `render()` y ejecuta. ¿Qué
+error ves y en qué momento? Cambia `undefined=StrictUndefined` por el valor por defecto de Jinja y repite: ¿qué le
+llega ahora al modelo? Por último, quita `.value` del Enum en la plantilla y mira el prompt renderizado.
+
+### Ejercicio 10 — Tu propio PDF difícil
+Con [`code/11_pdf.py`](code/11_pdf.py) como base, genera un CV en **dos columnas** (experiencia a la izquierda,
+habilidades a la derecha) y extrae el texto con `get_text()`, con `get_text("blocks")` y con `get_text(sort=True)`.
+¿En cuál se mezclan las columnas? Pasa el mejor a la extracción con `CVPdf` y comprueba la evidencia con el resaltado.
+
 ---
 
 <details>
@@ -115,5 +125,15 @@ class Idioma(BaseModel):
 #   educacion: list[Titulo]
 #   idiomas: list[Idioma]
 ```
+
+**9.** Con `StrictUndefined`, la plantilla lanza `UndefinedError` al renderizar, **antes** de gastar una llamada. Con el
+valor por defecto, la variable ausente se renderiza como cadena vacía y el modelo recibe un prompt incompleto sin que
+nada avise: el fallo aparece después, como una extracción rara. Sin `.value`, el prompt dice `Area.datos` en vez de
+`datos`: el modelo ve un detalle interno de Python. Regla: valida las variables (Pydantic) y falla al renderizar.
+
+**10.** Lo típico es que el texto plano lea por líneas de lado a lado y mezcle frases de las dos columnas; los bloques
+conservan cada columna junta, y `sort=True` ordena por posición, lo que puede ayudar o empeorar según el diseño. Lo
+importante es el método: **mira el texto que le llega al modelo antes de culpar al modelo**. Si la evidencia no se
+encuentra con `search_for`, casi siempre es porque el parseo partió o mezcló la frase.
 
 </details>

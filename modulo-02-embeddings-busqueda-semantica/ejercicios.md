@@ -42,6 +42,11 @@ del dataclass de juguete; (b) añade caché de embeddings por `hash(texto+modelo
 `texto_para_embedding` —una que incluya solo skills y otra que incluya todo— y mide con el Ejercicio 7 cuál da mejor
 `recall@5`. Documenta qué texto indexado funcionó mejor y tu hipótesis de por qué.
 
+### Ejercicio 9 — Elige tu modelo de embeddings
+Ejecuta [`code/12_elegir_modelo.py`](code/12_elegir_modelo.py). Añade a `CONSULTAS` cinco paráfrasis tuyas con su
+candidato correcto y vuelve a correr. Para cada modelo anota recall@1, MRR, tiempo y **qué consultas falla**. ¿Cambia
+algo E5 con y sin prefijos? ¿Te quedarías con el modelo local o con el de la API, y por qué?
+
 ---
 
 <details>
@@ -83,5 +88,13 @@ del Módulo 3 debería cerrar.
 semántico para emparejar consultas sobre responsabilidades ("lideró equipos"), no solo tecnologías. Pero depende de
 tus consultas: si siempre buscan por tecnología, "solo skills" puede ser más limpio (menos ruido). El punto del
 ejercicio es que **lo decidas con el número de recall, no con intuición**.
+
+**9.** Como referencia, con las 10 consultas originales los cinco modelos empataron en recall@1 = 0.90 (manual §6):
+el set no discrimina. Tus consultas nuevas son las que pueden separarlos, sobre todo si son largas o combinan
+requisitos. No hay una respuesta única: depende de tus consultas. Lo que importa es el criterio. (a) Mira las consultas
+que falla cada modelo, no solo la media: con 15 consultas, una diferencia de una consulta son ~7 puntos. (b) Si E5 sin
+prefijos rinde peor que con ellos, es el recordatorio de usar el modelo como se entrenó. (c) El modelo de API suele
+ganar en calidad y cuesta por consulta y por reindexación; el local es gratis y privado, y su tiempo incluye la
+carga. Elige el más barato que no pierda consultas importantes.
 
 </details>

@@ -11,6 +11,7 @@ Dos tipos de notebook:
 No reescribe tus archivos: los lee tal cual.
 """
 from __future__ import annotations
+import json
 import os
 import re
 from pathlib import Path
@@ -33,8 +34,10 @@ def _titulo(readme: Path, numero: int) -> str:
 def modules() -> list[dict]:
     """Navegación descubierta en disco: cada carpeta modulo-NN-* con README.md es un módulo.
     Se recalcula en cada llamada, así que un módulo nuevo aparece sin reiniciar la API.
-      type "md"  -> archivo Markdown (fragmentos NO ejecutables)
-      type "lab" -> carpeta code/ (scripts completos, SÍ ejecutables)"""
+      type "md"   -> archivo Markdown (fragmentos NO ejecutables)
+      type "lab"  -> carpeta code/ (scripts completos, SÍ ejecutables)
+      type "quiz" -> autoevaluacion.json del módulo (preguntas con corrección y explicación)
+      type "app"  -> el asistente del Módulo 9 funcionando (no cuenta para el progreso)"""
     grupos = [{"group": "Inicio", "items": [
         {"id": "inicio", "title": "Presentación del curso", "type": "md", "file": "README.md"}]}]
     for carpeta in sorted(COURSE_ROOT.glob("modulo-*")):
@@ -49,6 +52,11 @@ def modules() -> list[dict]:
         if any((carpeta / "code").glob("*.py")):
             items.append({"id": f"m{n}-lab", "title": "Laboratorio (código ejecutable)", "type": "lab",
                           "dir": f"{carpeta.name}/code"})
+        if (carpeta / "autoevaluacion.json").exists():
+            items.append({"id": f"m{n}-quiz", "title": "Autoevaluación", "type": "quiz",
+                          "file": f"{carpeta.name}/autoevaluacion.json"})
+        if n == 9 and (carpeta / "code" / "00_sistema.py").exists():
+            items.append({"id": "asistente", "title": "Asistente de selección (en vivo)", "type": "app"})
         grupos.append({"group": _titulo(carpeta / "README.md", n), "items": items})
     return grupos
 
@@ -147,6 +155,15 @@ def notebook(nb_id: str) -> dict | None:
         return {"id": nb_id, "title": item["title"], "cells": [
             {"idx": 0, "type": "md", "lang": "md", "source": f"> No se encontró `{item['file']}`."}]}
     return {"id": nb_id, "title": item["title"], "cells": _split_md_cells(path.read_text(encoding="utf-8"))}
+
+
+def quiz(nb_id: str) -> dict | None:
+    """Preguntas de autoevaluación. Se mandan con la respuesta y la explicación: es para estudiar, no un examen."""
+    item = _item(nb_id)
+    if not item or item["type"] != "quiz":
+        return None
+    datos = json.loads((COURSE_ROOT / item["file"]).read_text(encoding="utf-8"))
+    return {"id": nb_id, "title": item["title"], "preguntas": datos["preguntas"]}
 
 
 def exists(nb_id: str) -> bool:

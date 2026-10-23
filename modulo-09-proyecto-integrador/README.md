@@ -121,8 +121,23 @@ mostrar**. Son la lección principal del módulo:
    5.8 s de llamadas al modelo: tres consultas en paralelo esperaban su turno porque la llamada al LLM estaba
    **dentro** del candado. Arreglo: llamar al LLM fuera y bloquear solo la escritura en la base.
 4. **Detalles de datos reales:** un nombre en mayúsculas ("MARTA SOL") que se propagaba hasta las respuestas.
+5. **El arreglo 1 tenía un efecto secundario.** Al servir el sistema en la app (página *Asistente de selección*),
+   el mismo pedido de arriba dejó de recomendar a Lucía: **ni la evaluó**. Midiendo solo la recuperación (sin
+   llamadas al modelo), los 8 pedidos cortos del examen del §5 ponían a los correctos entre los 4 primeros, pero
+   con pedidos largos (el pedido con su requisito, o el pedido más los recuerdos del arreglo 1) Lucía quedaba 5.ª o
+   6.ª. El vector denso de una consulta larga mezcla varios temas y se diluye: con MiniLM, en modo solo denso, la
+   correcta caía hasta el puesto 9; BM25 sola la ponía 1.ª. Probar a buscar cada recuerdo por separado y fusionar
+   con RRF no cambió nada. Arreglo: evaluar 6 candidatos en vez de 4 (`K_CV`). Cuesta 2 evaluaciones más, en
+   paralelo, y el umbral de puntaje descarta a los que sobran. El examen del §5 no lo detectó porque **todos sus
+   pedidos eran cortos**: un set de evaluación tiene que parecerse a lo que escriben los usuarios.
+6. **Con Lucía ya evaluada (5/5), la respuesta acabó en revisión humana.** La traza de la página mostró dos capas
+   fallando por razones equivocadas. La política leyó "inglés nativo" como alusión al **origen** (es una
+   competencia; el arreglo está en el Módulo 8). Y, tras regenerar, el juez marcó "se exige inglés avanzado" como
+   invención: el requisito venía **en el pedido de este turno**, que todavía no estaba en la memoria, y el arreglo 2
+   solo había añadido los recuerdos. Ahora las fuentes de la verificación incluyen también el pedido actual. Es el
+   mismo error dos veces: **la verificación tiene que ver todo lo que el sistema tuvo derecho a usar**.
 
-Dos de estos cuatro fallos se vieron **solo gracias a la traza** (el 3 y el diagnóstico del 2). Sin observabilidad
+Dos de estos fallos se vieron **solo gracias a la traza** (el 3 y el diagnóstico del 2). Sin observabilidad
 habrías visto "a veces no recomienda a la mejor" y "a veces tarda mucho", sin saber por qué.
 
 ---
@@ -130,23 +145,31 @@ habrías visto "a veces no recomienda a la mejor" y "a veces tarda mucho", sin s
 <a name="5-examen"></a>
 ## 5. El examen final: evaluación de punta a punta
 
-[`code/03_evaluacion_e2e.py`](code/03_evaluacion_e2e.py) pasa 11 pedidos etiquetados por el sistema completo: 7
-legítimos con su candidato correcto, 3 dañinos (edad, sexo, manipulación) y uno con trampa, "busco un analista junior
-de SQL", que corresponde **legítimamente** al candidato cuyo CV tenía una inyección. Recomendarlo para ese rol es
-correcto: la inyección no debe hacerlo subir, pero tampoco debe vetarlo de por vida.
+[`code/03_evaluacion_e2e.py`](code/03_evaluacion_e2e.py) pasa 12 pedidos etiquetados por el sistema completo: 7
+legítimos cortos con su candidato correcto, uno largo como los que escribe un reclutador (el del arreglo 5 del §4),
+3 dañinos (edad, sexo, manipulación) y uno con trampa, "busco un analista junior de SQL", que corresponde
+**legítimamente** al candidato cuyo CV tenía una inyección. Recomendarlo para ese rol es correcto: la inyección no
+debe hacerlo subir, pero tampoco debe vetarlo de por vida. La recuperación cuenta como acierto solo si **todos** los
+correctos están en la lista: con "alguno", perder a Lucía pasaba inadvertido.
 
-Resultado medido con `gpt-6-luna`:
+Resultado medido con `gpt-6-luna`, antes y después del arreglo 5:
 
-| Dimensión | Resultado |
-|---|---|
-| Guardrails | 3/3 dañinos bloqueados · 0/8 falsos bloqueos (incluido "Coordinadora de calidad", en femenino) |
-| Recuperación | candidato correcto en la lista en 8/8 |
-| Recomendación | candidato correcto recomendado en 8/8 |
-| Salidas inseguras | 0 (ni contactos ni atributos protegidos) |
-| Latencia | p50 13.4 s · p95 21.3 s |
-| Costo | ~7 llamadas y ~2.200 tokens de entrada + ~730 de salida por consulta; 46 % de la salida es razonamiento |
+| Dimensión | Antes (`K_CV = 4`, 11 casos) | Después (`K_CV = 6`, 12 casos) |
+|---|---|---|
+| Guardrails | 3/3 dañinos bloqueados · 0/8 falsos bloqueos | 3/3 bloqueados · 0/9 falsos bloqueos |
+| Recuperación | 8/8 (métrica "alguno") | 9/9 (métrica "todos") |
+| Recomendación | 8/8 | 9/9 |
+| Salidas inseguras | 0 | 0 |
+| Latencia | p50 13.4 s · p95 21.3 s | p50 17.3 s · p95 32.8 s |
+| Costo por consulta | ~7 llamadas · ~2.200 tokens de entrada · ~730 de salida | ~9.6 llamadas · ~2.900 de entrada · ~1.000 de salida |
 
-Léelo como en el Módulo 7: 11 casos escritos por la misma persona que construyó el sistema son una **pista**, no una
+El arreglo **no es gratis**: dos evaluaciones más por consulta suben el costo un tercio, y la latencia también,
+porque las evaluaciones en paralelo esperan a la más lenta y hay más candidatos que redactar y verificar en la
+respuesta. Es un intercambio consciente: no evaluar a la mejor candidata es un fallo de calidad; tardar más es un
+costo que el §6 enseña a bajar. (Con tan pocos casos, parte de la diferencia de latencia también es variación entre
+ejecuciones.)
+
+Léelo como en el Módulo 7: 12 casos escritos por la misma persona que construyó el sistema son una **pista**, no una
 garantía. El valor de este script es que es **la prueba de regresión del sistema completo**: cada cambio (de
 modelo, de prompt, de chunking, de umbral) pasa por aquí antes de darse por bueno.
 
@@ -155,13 +178,15 @@ modelo, de prompt, de chunking, de umbral) pasa por aquí antes de darse por bue
 <a name="6-optimizar"></a>
 ## 6. Qué optimizar primero, con los números en la mano
 
-Un p50 de 13 s es lento para un buscador. La traza dice dónde está el tiempo, y por tanto qué atacar primero:
+Un p50 de 13 a 17 s es lento para un buscador. La traza dice dónde está el tiempo, y por tanto qué atacar primero:
 
 1. **`responder` es el nodo más caro** (respuesta + política + juez, y a veces una regeneración). Opciones: un modelo
    más barato y rápido para la política y el juez, que son clasificaciones sencillas (mide que no pierdan calidad con
    el set del Módulo 8); y saltarse el juez de fidelidad cuando la respuesta solo cita frases literales de los CVs.
-2. **Las evaluaciones en paralelo** ya están optimizadas en tiempo, pero no en costo: 4 llamadas por consulta. Un
-   primer filtro barato (por ejemplo, solo los candidatos cuya búsqueda superó un umbral) reduce llamadas.
+2. **Las evaluaciones en paralelo** ya están optimizadas en tiempo, pero no en costo: 6 llamadas por consulta desde
+   el arreglo 5 del §4. Para volver a bajarlas sin perder a nadie, ataca la causa (la recuperación de consultas
+   largas): un modelo de embeddings mejor (Módulo 2, `12_elegir_modelo.py`) o un reranking (Módulo 4,
+   `06_reranking.py`), y mide con pedidos largos antes de reducir `K_CV`.
 3. **La memoria cuesta una extracción por pedido**, aunque la mayoría de los pedidos no contienen requisitos nuevos.
    Un clasificador barato ("¿este mensaje contiene una preferencia?") o una regla puede ahorrar la llamada.
 4. **El razonamiento es casi la mitad de la salida.** Para tareas simples (clasificar, extraer), un modelo sin

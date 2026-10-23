@@ -44,6 +44,12 @@ Instrumenta el grafo de selección del Módulo 6 (`04_humano_en_el_bucle.py`): u
 al LLM y el `thread_id` del grafo como atributo de la traza. Genera el informe de `02` sobre 5 vacantes y escribe tres
 conclusiones accionables (qué optimizarías primero y por qué, con números).
 
+### Ejercicio 9 — ¿Se sostiene la recomendación?
+`06_comparar_modelos.py` recomienda un modelo por tarea con una sola pasada. Repite la comparación tres veces y anota,
+por modelo, la exactitud y los casos que fallan en cada pasada. ¿Los fallos son siempre los mismos casos o cambian?
+Después añade la fecha de hoy al prompt de extracción (`PROMPT_V1 + "\nHoy es 2026-10-22."`) y vuelve a correr
+`gpt-4.1-mini`. ¿Cuántos puntos recupera? ¿Cambia la recomendación?
+
 ---
 
 <details>
@@ -97,5 +103,15 @@ de `c.llm`. Las conclusiones típicas: el arranque en frío de la búsqueda domi
 índice al arrancar la API); la evaluación de candidatos es la mayor parte del costo (evaluar menos candidatos o usar
 un modelo más barato para el primer filtro); el razonamiento es una fracción grande de la salida (probar un modelo
 sin razonamiento para las tareas simples, y medir si la calidad se mantiene).
+
+**9.** Distingue dos tipos de fallo. Los **sistemáticos** (el mismo caso falla en cada pasada, como "hasta hoy" sin
+fecha en el prompt, o la inyección en `gpt-4.1-nano`) son propiedades del modelo o del prompt y se corrigen o deciden.
+Los **ocasionales** (un caso falla una vez de tres) son ruido: con 10 casos, un fallo son 10 puntos, así que no basan
+una decisión. Medido con `gpt-4.1-mini`, dos pasadas por variante: **sin fecha**, "depende de hoy" falló 2 de 2
+(sistemático) y "versiones" 1 de 2 (ocasional), 98 % y 95 %; **con fecha**, "depende de hoy" pasó 2 de 2 y
+"versiones" siguió fallando 1 de 2, 100 % y 98 %. Una línea en el prompt quitó el fallo sistemático; el ocasional
+sigue ahí y solo se ve repitiendo. Si con eso `gpt-4.1-mini` queda al nivel del mejor, la recomendación cambia a él
+por precio y latencia, siempre que no falle la inyección. Una regla útil: ningún modelo que obedezca una inyección del dataset se recomienda para leer documentos
+de terceros, aunque su exactitud global sea alta.
 
 </details>

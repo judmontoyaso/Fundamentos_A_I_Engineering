@@ -48,6 +48,10 @@ par = import_module("03_paralelizacion")            # M5: Encaje
 datos = import_module("00_datos_cvs")
 
 UMBRAL = 3          # puntaje mínimo para recomendar (M6)
+# Candidatos que pasan a evaluación. Con 4, los pedidos largos (pedido + recuerdos) dejaban fuera a una de
+# las dos correctas, que quedaba 5.ª o 6.ª: el vector denso de una consulta larga se diluye. Medido en el
+# manual §4: con 6 entran todas, a cambio de 2 evaluaciones más (en paralelo: casi no suma latencia).
+K_CV = 6
 COL = "cvs_integrador"
 
 
@@ -192,7 +196,7 @@ class Sistema:
                                                                             if v["revisar"]])
             return raiz.trace_id
 
-    def buscar(self, consulta: str, k_cv: int = 4) -> list[dict]:
+    def buscar(self, consulta: str, k_cv: int = K_CV) -> list[dict]:
         """Búsqueda híbrida sobre fragmentos, agrupada por candidato (M3, M4)."""
         denso = embed([consulta])[0].tolist()
         disperso = bm25.vector_consulta(consulta)
@@ -264,10 +268,11 @@ class Sistema:
             prompt = (f"<recuerdos>\n{chr(10).join(e['recuerdos']) or '(ninguno)'}\n</recuerdos>\n"
                       f"<evaluaciones>\n{evals}\n</evaluaciones>\n<cvs>\n{contexto}\n</cvs>\n"
                       f"<pedido>\n{e['pedido']}\n</pedido>")
-            # La verificación de fidelidad debe conocer TODAS las fuentes legítimas: los CVs y los requisitos
-            # que el reclutador dio antes. Sin los recuerdos, "se requiere inglés avanzado" parecía inventado.
-            fuentes = (f"Requisitos que el reclutador indicó: {'; '.join(e['recuerdos'])}\n" if e["recuerdos"] else "") \
-                + contexto
+            # La verificación de fidelidad debe conocer TODAS las fuentes legítimas: los CVs, los requisitos
+            # que el reclutador dio antes Y el pedido de este turno. Sin los recuerdos, "se requiere inglés
+            # avanzado" parecía inventado; sin el pedido, también cuando el requisito llegaba en este mismo turno.
+            requisitos = [*e["recuerdos"], f"(pedido actual) {e['pedido']}"]
+            fuentes = f"Requisitos que el reclutador indicó: {'; '.join(requisitos)}\n" + contexto
             r = c.llm(Respuesta, SYSTEM, prompt)
             rev = salida.revisar_salida(r.recomendacion, fuentes)
             if not rev.aprobada:                                         # una regeneración con las fallas

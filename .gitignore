@@ -21,3 +21,6 @@ qdrant_data/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Archivos que generan los laboratorios
+salida/

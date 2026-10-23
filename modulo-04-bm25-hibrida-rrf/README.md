@@ -303,6 +303,20 @@ híbrida (barata) -> top 50  ->  re-ranker (caro) -> top 5  ->  LLM (Módulo 3)
 Solo pagas el re-ranker sobre 50 documentos, no sobre toda la colección. Mide si te compensa: si la híbrida ya pone
 lo relevante en el top 5, el re-ranker solo añade latencia.
 
+El laboratorio ([`code/06_reranking.py`](code/06_reranking.py)) usa como re-ranker un LLM que lee los 6 candidatos de
+la híbrida junto con la consulta y los reordena. Sobre el set del §12:
+
+| | recall@3 | MRR | latencia por consulta |
+|---|---|---|---|
+| Híbrida | 0.95 | 0.91 | ~0.2 s |
+| Híbrida + re-ranking con LLM | **1.00** | **1.00** | ~5.2 s |
+
+Resolvió justo lo que la híbrida no podía: deshizo el empate simétrico de "ISO 27001" (§7) y, en "AWS", subió al
+primer puesto el CV que dice "Amazon Web Services", porque el modelo conoce esa equivalencia y ni BM25 ni el
+embedding pequeño la conocían. El precio son unas 25 veces más de latencia y una llamada por consulta. Dos cosas a
+tener en cuenta: el re-ranker **solo reordena** lo que recibe (si el relevante no está entre los candidatos, no lo
+rescata), y el código **valida** su salida (ids inventados, repetidos o perdidos) antes de usarla.
+
 ---
 
 <a name="12-medir"></a>

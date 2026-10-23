@@ -1,0 +1,70 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Qué es una traza?",
+   "opciones": [
+    "El árbol de spans de un pedido: cada paso con su duración, atributos y padre",
+    "Un log de errores",
+    "Un gráfico de costo",
+    "El historial de prompts"
+   ],
+   "correcta": 0,
+   "explicacion": "Una traza por pedido y un span por paso (LLM, búsqueda, nodo) permiten responder dónde se fue el tiempo, el dinero y por qué salió esa respuesta."
+  },
+  {
+   "pregunta": "Con 10 casos de prueba, ¿por qué el p95 de latencia es poco fiable?",
+   "opciones": [
+    "Porque el p95 no existe con menos de 100 casos",
+    "Porque el p95 siempre es igual al p50",
+    "Porque hay que usar la media",
+    "Porque depende de uno o dos casos: con tan pocos datos, un valor atípico lo mueve todo"
+   ],
+   "correcta": 3,
+   "explicacion": "Con n pequeño, los percentiles altos los decide un solo caso. Repite, junta más casos y reporta n junto al percentil."
+  },
+  {
+   "pregunta": "No viste ningún fallo en 12 ejecuciones. Según la regla del tres, ¿qué puedes afirmar con ~95 % de confianza?",
+   "opciones": [
+    "Que la tasa de fallo es 0",
+    "Que la tasa es menor que 1 %",
+    "Que la tasa de fallo es menor que ~3/12 = 25 %",
+    "Nada"
+   ],
+   "correcta": 2,
+   "explicacion": "Cero fallos en n intentos acota la tasa por debajo de ≈3/n con 95 % de confianza. Con 12 ejecuciones eso es ~25 %: no ver fallos no es lo mismo que no tenerlos."
+  },
+  {
+   "pregunta": "Antes de usar un LLM como juez, ¿qué hay que hacer?",
+   "opciones": [
+    "Nada: es más objetivo que una persona",
+    "Calibrarlo contra etiquetas humanas, mirando sobre todo los falsos aprobados",
+    "Usar el modelo más grande",
+    "Darle temperatura alta"
+   ],
+   "correcta": 1,
+   "explicacion": "Un juez es un clasificador más. Se mide su acuerdo con personas; en fidelidad, aprobar una invención (falso aprobado) es el error caro."
+  },
+  {
+   "pregunta": "En la comparación de modelos, gpt-4.1-nano sacó 92 % en extracción. ¿Qué fallo pesaba más que los 8 puntos?",
+   "opciones": [
+    "Que obedeció la inyección escondida en un CV",
+    "Que tardaba más",
+    "Que no devolvía JSON",
+    "Que gastaba más tokens"
+   ],
+   "correcta": 0,
+   "explicacion": "La cifra global esconde en qué falla cada modelo. Un modelo que obedece inyecciones no sirve para leer documentos de terceros, aunque su exactitud sea alta."
+  },
+  {
+   "pregunta": "Un caso del dataset falla 1 de cada 2 pasadas. ¿Cómo debes tratarlo?",
+   "opciones": [
+    "Como sistemático: cambia de modelo",
+    "Borrarlo del dataset",
+    "Ignorarlo siempre",
+    "Como ocasional: repite antes de decidir y no lo tomes como prueba de una diferencia"
+   ],
+   "correcta": 3,
+   "explicacion": "Distingue fallos sistemáticos (el mismo caso falla siempre: se corrigen) de ocasionales (ruido: se ven repitiendo). Con 10 casos, un fallo son 10 puntos."
+  }
+ ]
+}

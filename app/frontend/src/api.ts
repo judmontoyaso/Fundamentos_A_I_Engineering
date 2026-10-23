@@ -1,5 +1,7 @@
 // Cliente HTTP de la API del curso. Toda la comunicación con el backend pasa por aquí.
-import type { NavGroup, Notebook, Progress, RunResult } from "./types";
+import type {
+  Consulta, EstadoAsistente, NavGroup, Notebook, Progress, Quiz, Recuerdo, RunResult,
+} from "./types";
 
 export const API_URL = (import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000").replace(/\/$/, "");
 
@@ -8,7 +10,10 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     headers: { "Content-Type": "application/json" },
     ...init,
   });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  if (!res.ok) {
+    const detail = await res.json().then((b) => b?.detail, () => null);
+    throw new Error(typeof detail === "string" ? detail : `HTTP ${res.status}`);
+  }
   return (await res.json()) as T;
 }
 
@@ -27,4 +32,13 @@ export const api = {
   resetCell: (nbId: string, cellIdx: number) =>
     post<{ ok: boolean }>("/cell/reset", { nb_id: nbId, cell_idx: cellIdx, source: "" }),
   setProgress: (nbId: string, done: boolean) => post<{ ok: boolean }>("/progress", { nb_id: nbId, done }),
+  quiz: (id: string) => request<Quiz>(`/quiz/${encodeURIComponent(id)}`),
+  asistente: {
+    estado: () => request<EstadoAsistente>("/asistente/estado"),
+    consultar: (usuario: string, pedido: string) => post<Consulta>("/asistente/consultar", { usuario, pedido }),
+    memoria: (usuario: string) =>
+      request<{ recuerdos: Recuerdo[] }>(`/asistente/memoria/${encodeURIComponent(usuario)}`),
+    olvidar: (usuario: string, recuerdoId: string) =>
+      post<{ ok: boolean }>("/asistente/olvidar", { usuario, recuerdo_id: recuerdoId }),
+  },
 };

@@ -252,6 +252,38 @@ Lo que pasó al construirlo, y vale más que la teoría:
   el año), no bloquear.
 - **Al copiar una rúbrica se perdió una cláusula** ("decir que algo no se puede verificar es fiel"), y el guardrail
   empezó a castigar justo la respuesta honesta que el prompt pedía. Se detectó al integrar (§13).
+- **El idioma no es el origen.** Usando el asistente en la app (Módulo 9), la capa de política bloqueó "Lucía tiene
+  inglés nativo" como alusión al origen, cuando el nivel de idioma es una competencia legítima (tabla del §9). Se
+  aclaró en la política y el caso entró al set (ahora 11 respuestas): un guardrail se mide también con los falsos
+  bloqueos que aparecen en uso real, y cada uno se convierte en un caso de prueba.
+
+### Corregir en vez de bloquear
+
+[`code/06_corregir_salida.py`](code/06_corregir_salida.py) le da a cada falla su acción:
+
+| Falla | Acción | Por qué |
+|---|---|---|
+| Datos de contacto | **Corregir en código** (enmascarar) | Exacto y gratis |
+| Salario | **Bloquear** | No hay versión segura de una promesa |
+| Atributo protegido que **es parte del motivo** | **Bloquear** | Quitar la palabra deja la misma decisión sesgada, solo que escondida |
+| Atributo protegido **incidental** | **Corregir con LLM** (quitar solo esa mención) | La valoración no depende de él |
+| Hecho no respaldado | **Regenerar** con la falla como feedback (Módulo 5 §8) | El problema está en el contenido, no en una palabra |
+
+La regla que lo sostiene: **toda corrección vuelve a pasar por todas las capas**, y si no pasa a la primera va a
+revisión humana. Una corrección que no se verifica es solo otra respuesta sin revisar.
+
+Resultado: 9/10, 8/10 y (tras el arreglo de abajo) 9/10 dos veces; con el caso del idioma añadido, 10/11. Lo
+interesante son los dos "fallos":
+
+- **La corrección destapó un segundo problema.** En "Valentina se graduó en 2023 y trabaja con PyTorch; para
+  liderazgo le falta experiencia dirigiendo equipos", el LLM quitó el año y nada más (bien). Pero la versión
+  corregida llegó por primera vez al juez de fidelidad, y este marcó "le falta experiencia dirigiendo equipos": el CV
+  no dice eso, **no lo menciona**. La versión honesta es "el CV no menciona experiencia dirigiendo equipos". Pasó en
+  las cuatro pasadas, y la acción (revisión humana) es la correcta: la etiqueta "corregir" suponía un solo problema.
+  Una capa que bloquea primero oculta lo que habrían visto las siguientes.
+- **El juez castigó el marcador.** En una pasada, "Laura Gómez ([correo omitido], [teléfono omitido]) es la indicada"
+  no pasó la fidelidad: el juez leyó el marcador como la afirmación "tiene un correo". Una corrección produce textos
+  que el juez nunca vio al calibrarse. Ahora la versión enmascarada se revisa sin los marcadores.
 
 ---
 

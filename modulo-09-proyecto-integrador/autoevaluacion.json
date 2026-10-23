@@ -1,0 +1,70 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Por qué los correos de los candidatos no entran al índice de búsqueda?",
+   "opciones": [
+    "Porque ocupan espacio",
+    "Minimización de datos: lo que no está en el índice no puede filtrarse por ningún fragmento, prompt ni traza",
+    "Porque BM25 no los tokeniza",
+    "Porque son difíciles de extraer"
+   ],
+   "correcta": 1,
+   "explicacion": "Guardar los contactos aparte elimina toda una clase de fugas en lugar de intentar detectarlas después."
+  },
+  {
+   "pregunta": "La reclutadora pregunta «¿a quién me recomiendas para la vacante de datos?» sin repetir requisitos. ¿Qué arreglo hizo falta?",
+   "opciones": [
+    "Buscar con el pedido más los recuerdos, no solo con el pedido",
+    "Usar un modelo más grande",
+    "Aumentar el umbral",
+    "Quitar la memoria"
+   ],
+   "correcta": 0,
+   "explicacion": "Los recuerdos llegaban al prompt final, pero la búsqueda usaba solo el pedido vago y la mejor candidata no se recuperaba."
+  },
+  {
+   "pregunta": "¿Por qué se subió K_CV de 4 a 6 candidatos evaluados?",
+   "opciones": [
+    "Para gastar más",
+    "Porque el umbral era muy alto",
+    "Porque había 6 CVs",
+    "Porque en pedidos largos el vector denso se diluye y una candidata correcta quedaba 5.ª o 6.ª"
+   ],
+   "correcta": 3,
+   "explicacion": "El examen tenía solo pedidos cortos y no lo detectó. Al servir el sistema en la app, con pedidos como los reales, apareció. El umbral de puntaje descarta a los que sobran."
+  },
+  {
+   "pregunta": "¿Por qué el guardrail de salida debe recibir también los requisitos que el reclutador dio antes?",
+   "opciones": [
+    "No debe recibirlos",
+    "Para que sea más rápido",
+    "Porque si solo ve los CVs, marca como invención un requisito recordado y manda a revisión una respuesta correcta",
+    "Para filtrar candidatos"
+   ],
+   "correcta": 2,
+   "explicacion": "La verificación de fidelidad debe conocer todas las fuentes legítimas de la respuesta: los CVs y lo que dijo el usuario."
+  },
+  {
+   "pregunta": "¿Qué reveló la traza en el nodo de memoria que tardaba 10.7 s con solo 5.8 s de llamadas?",
+   "opciones": [
+    "Que el modelo era lento",
+    "Que la llamada al LLM estaba dentro del candado y las consultas paralelas esperaban su turno",
+    "Que Qdrant estaba caído",
+    "Que faltaban índices"
+   ],
+   "correcta": 1,
+   "explicacion": "El tiempo que no es de llamadas es espera. Mover la llamada al LLM fuera del candado y bloquear solo la escritura deshizo la serialización."
+  },
+  {
+   "pregunta": "¿Cómo hay que leer el 8/8 del examen de punta a punta?",
+   "opciones": [
+    "Como una pista y como prueba de regresión: pocos casos escritos por quien construyó el sistema",
+    "Como una garantía de calidad",
+    "Como irrelevante",
+    "Como prueba de que no hace falta revisión humana"
+   ],
+   "correcta": 0,
+   "explicacion": "Su valor es correrlo en cada cambio (modelo, prompt, chunking, umbral) y ver si algo empeora, y ampliarlo con casos que se parezcan a lo que escriben los usuarios."
+  }
+ ]
+}

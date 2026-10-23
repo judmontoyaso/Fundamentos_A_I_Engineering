@@ -45,6 +45,17 @@ filtro)` con anclaje + abstención + cita. Prueba una pregunta con pre-filtrado 
 `faithfulness` a mano en 10 preguntas. Documenta: ¿qué cambió tu `recall` al pasar de "un vector por CV" (Módulo 2) a
 "chunks por sección" (este módulo)?
 
+### Ejercicio 9 — ¿Mejora o ruido?
+En [`code/06_contextual_retrieval.py`](code/06_contextual_retrieval.py), sube `REPETICIONES` a 5 y anota el MRR de
+cada repetición para el contexto largo y el breve. Calcula la media y el rango (máximo − mínimo). ¿La diferencia con
+la línea base es mayor que el rango? Escribe la conclusión en una frase que no exagere.
+
+### Ejercicio 10 — Citas que no son literales
+En [`code/07_rag_citas_verificadas.py`](code/07_rag_citas_verificadas.py), cambia la instrucción para que el modelo
+"resuma la evidencia" en lugar de citarla literalmente. ¿Cuántas afirmaciones pasan ahora `verificar()`? Después
+relaja `verificar()` para aceptar citas que compartan el 80 % de las palabras con alguna frase del CV. ¿Qué ganas y qué
+riesgo aceptas?
+
 ---
 
 <details>
@@ -81,5 +92,15 @@ era retrieval.
 **8.** Resultado esperado: pasar de "un vector por CV" a "chunks por sección" normalmente **sube el recall** en
 preguntas específicas (liderazgo, una tecnología concreta), porque el pasaje relevante ya no está diluido en el
 promedio del CV. Documenta el antes/después con tu número de `recall@5`.
+
+**9.** Cuando se escribió el curso, el contexto largo dio 0.88, 0.77 y 0.81 en tres repeticiones: un rango de 0.11,
+mayor que cualquier diferencia con la línea base. Con ese ruido, la única conclusión honesta es "no concluyente". Si
+con 5 repeticiones la diferencia sigue dentro del rango, no cambies el sistema por ella; si queda claramente fuera,
+tienes una mejora candidata que confirmar con más consultas.
+
+**10.** Con citas resumidas, la verificación literal falla en casi todas: no porque sean falsas, sino porque ya no son
+comprobables con código. Relajar a coincidencia parcial recupera las paráfrasis, pero también deja pasar una cita que
+cambia un dato pequeño (un número, una tecnología) y comparte el resto de palabras. Por eso el laboratorio exige cita
+literal: es más estricto con el modelo y deja la verificación exacta y gratuita.
 
 </details>

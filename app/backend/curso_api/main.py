@@ -27,7 +27,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from . import content, kernel, db
+from . import asistente, content, kernel, db
 
 # Orígenes del frontend autorizados a llamar a la API (separados por coma).
 FRONTEND_ORIGINS = [
@@ -69,6 +69,16 @@ class EditReq(BaseModel):
 class ProgressReq(BaseModel):
     nb_id: str
     done: bool
+
+
+class ConsultaReq(BaseModel):
+    usuario: str
+    pedido: str
+
+
+class OlvidarReq(BaseModel):
+    usuario: str
+    recuerdo_id: str
 
 
 # ---------- API ----------
@@ -127,4 +137,40 @@ def cell_reset(req: EditReq):
 @app.post("/api/progress")
 def progress(req: ProgressReq):
     db.set_progress(req.nb_id, req.done)
+    return {"ok": True}
+
+
+@app.get("/api/quiz/{nb_id}")
+def quiz(nb_id: str):
+    q = content.quiz(nb_id)
+    if q is None:
+        raise HTTPException(404, "autoevaluación no encontrada")
+    return q
+
+
+# ---------- Asistente del Módulo 9 ----------
+@app.get("/api/asistente/estado")
+def asistente_estado():
+    return asistente.estado()
+
+
+@app.post("/api/asistente/consultar")
+def asistente_consultar(req: ConsultaReq):
+    pedido = req.pedido.strip()
+    if not pedido or not req.usuario.strip():
+        raise HTTPException(400, "faltan el usuario o el pedido")
+    try:
+        return asistente.consultar(req.usuario.strip().lower(), pedido)
+    except Exception as e:          # sin API key, sin dependencias del Módulo 9...
+        raise HTTPException(500, f"{type(e).__name__}: {str(e)[:300]}")
+
+
+@app.get("/api/asistente/memoria/{usuario}")
+def asistente_memoria(usuario: str):
+    return {"recuerdos": asistente.memoria(usuario.strip().lower())}
+
+
+@app.post("/api/asistente/olvidar")
+def asistente_olvidar(req: OlvidarReq):
+    asistente.olvidar(req.usuario.strip().lower(), req.recuerdo_id)
     return {"ok": True}

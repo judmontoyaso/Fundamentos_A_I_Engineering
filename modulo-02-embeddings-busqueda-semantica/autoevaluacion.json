@@ -1,0 +1,70 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "Sobre vectores normalizados (norma 1), ¿qué relación hay entre el producto punto y el coseno?",
+   "opciones": [
+    "No tienen relación",
+    "El producto punto es el cuadrado del coseno",
+    "El coseno es siempre mayor",
+    "Son iguales"
+   ],
+   "correcta": 3,
+   "explicacion": "cos(a,b) = a·b / (|a||b|). Si |a| = |b| = 1, el denominador vale 1 y dot == coseno. Por eso muchos sistemas normalizan y usan el producto punto, que es más barato."
+  },
+  {
+   "pregunta": "Un modelo E5 se entrenó con los prefijos «query:» y «passage:». ¿Qué pasa si los omites?",
+   "opciones": [
+    "Nada: los prefijos son decorativos",
+    "El modelo lanza un error",
+    "La calidad de la búsqueda puede bajar, porque el modelo espera ese formato",
+    "Los vectores salen con otra dimensión"
+   ],
+   "correcta": 2,
+   "explicacion": "Un modelo de embeddings se usa como se entrenó. Omitir los prefijos no da error: degrada en silencio. Por eso el laboratorio 12 mide E5 con y sin prefijos sobre los mismos datos."
+  },
+  {
+   "pregunta": "¿Qué mide recall@3?",
+   "opciones": [
+    "La fracción de resultados correctos entre los 3 primeros",
+    "La fracción de los documentos relevantes que aparecen entre los 3 primeros",
+    "El puesto del primer resultado correcto",
+    "Cuántas consultas tardan menos de 3 segundos"
+   ],
+   "correcta": 1,
+   "explicacion": "Recall@k responde «¿cuánto de lo que debía encontrar está en el top k?». El puesto del primer acierto es la base de MRR; la fracción correcta del top k es precisión@k."
+  },
+  {
+   "pregunta": "¿Para qué sirve HNSW en una base vectorial?",
+   "opciones": [
+    "Para buscar vecinos aproximados entre millones de vectores sin compararlos todos",
+    "Para comprimir los vectores",
+    "Para calcular embeddings más rápido",
+    "Para filtrar por metadata"
+   ],
+   "correcta": 0,
+   "explicacion": "HNSW es un índice de vecinos aproximados (ANN): un grafo por capas que llega a los más cercanos en milisegundos a cambio de una pequeña pérdida de exactitud frente a la fuerza bruta."
+  },
+  {
+   "pregunta": "Un ranking público de embeddings pone al modelo X primero. ¿Qué recomienda el módulo?",
+   "opciones": [
+    "Usar X sin más",
+    "Elegir siempre el de más dimensiones",
+    "Elegir siempre el más barato",
+    "Medirlo con tus propios documentos y consultas antes de elegirlo"
+   ],
+   "correcta": 3,
+   "explicacion": "Los embeddings heredan los sesgos de su entrenamiento (dominio, idioma, longitud). Un ranking general no sabe nada de CVs en español: mide recall y MRR en tu caso."
+  },
+  {
+   "pregunta": "¿Qué aporta el payload (metadata) en Qdrant?",
+   "opciones": [
+    "Nada: solo ocupa espacio",
+    "Mejora la calidad del embedding",
+    "Permite filtrar por reglas (nivel, área) y combinarlo con la búsqueda por significado",
+    "Sustituye al índice HNSW"
+   ],
+   "correcta": 2,
+   "explicacion": "La similitud no sabe de reglas de negocio. Filtrar por payload (por ejemplo nivel = senior) junto a la búsqueda vectorial combina significado con restricciones exactas."
+  }
+ ]
+}

@@ -54,6 +54,12 @@ Para el pedido del laboratorio, escribe un **workflow** sin agente: enrutar la c
 4 CVs en paralelo con `Encaje` de `03` → resumir a los dos mejores. Compáralo con el agente en 5 pedidos: llamadas,
 tiempo y calidad. ¿Cuándo elegirías cada uno?
 
+### Ejercicio 9 — Criterios evaluables
+En [`code/07_orquestador_trabajadores.py`](code/07_orquestador_trabajadores.py), el orquestador elige a veces criterios
+que los CVs no permiten evaluar y todos sacan 1/5. Cambia el prompt del orquestador para que solo proponga criterios
+"verificables con la información típica de un CV", y pásale una muestra de los CVs. ¿Desaparecen esos criterios? ¿Cambia
+el ranking?
+
 ---
 
 <details>
@@ -102,6 +108,10 @@ agente herramientas que escriban.
 **7.** En general, la calidad es parecida: el modelo decide lo mismo. Las diferencias son de forma: las herramientas
 nativas suelen gastar menos tokens de salida (no hay campo `razonamiento` explícito) y el proveedor garantiza el
 formato. El agente estructurado deja la decisión más a la vista en la traza y funciona con cualquier proveedor.
+
+**9.** Darle al orquestador una muestra de los CVs (o al menos su formato) y la restricción explícita reduce los
+criterios no evaluables. Comprueba el efecto en los puntajes: si un criterio saca 1/5 para todos, no discrimina y solo
+añade ruido y costo. Un buen criterio separa a los candidatos.
 
 **8.** Lo típico: el workflow usa un número fijo y predecible de llamadas (1 enrutador + 4 evaluaciones + 1 resumen =
 6) y siempre tarda parecido. El agente puede usar menos (3 en el laboratorio) en pedidos simples y más en pedidos

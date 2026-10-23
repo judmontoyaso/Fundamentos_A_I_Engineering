@@ -60,7 +60,7 @@ El Módulo 1 construye ese contrato para el caso más común y más útil: **ext
 - **Estructurado:** `{"nombre": "Ana", "anios_exp": 2, "skills": ["python", "sql"]}`. Pensado para máquinas: lo
   filtras, lo ordenas, lo indexas, lo metes a una base de datos.
 
-El 80% del valor de los LLMs en la empresa no es "chatear": es **ser el puente** que transforma océanos de texto
+Buena parte del valor de los LLMs en la empresa no está en "chatear": está en **ser el puente** que transforma océanos de texto
 no estructurado en filas de una tabla. Y eso requiere que la salida sea confiablemente estructurada. De ahí todo.
 
 ---
@@ -360,6 +360,12 @@ CV:
 Ventaja real: separas *lógica de prompt* (condicionales, loops) de *datos*, y puedes testear el render del prompt
 sin llamar al modelo. Un prompt que no puedes inspeccionar ni testear es deuda técnica.
 
+Ejemplo ejecutable en [`code/08_jinja.py`](code/08_jinja.py), con dos detalles que importan: `StrictUndefined` (una
+variable que falta es un error, no un hueco silencioso) y las variables validadas con Pydantic antes de gastar una
+llamada. Y una lección real al escribirlo: la plantilla ponía `{{ e.area }}` y el prompt renderizado decía
+`-> Area.datos` (el nombre del `Enum`) en vez de `-> datos`. El modelo acertó igual, pero el prompt le enseñaba
+etiquetas que no existen. Solo se vio al imprimir el prompt.
+
 ---
 
 <a name="9-validacion"></a>
@@ -466,8 +472,10 @@ Hay tres mundos:
    doc = pymupdf.open("cv.pdf")
    texto = "\n".join(p.get_text() for p in doc)
    ```
-2. **PDF con tablas** (experiencia en columnas): `page.get_text()` las aplasta y mezcla. Usa extracción de tablas
-   (`page.find_tables()`) o pásalas como texto marcado para que el modelo entienda la estructura.
+2. **PDF con tablas** (experiencia en columnas): `page.get_text()` las aplana en una sola tira de texto. Con tablas
+   pequeñas el modelo suele reconstruirlas igual; con muchas columnas, celdas de varias líneas o celdas vacías, los
+   datos de filas distintas se mezclan. Usa extracción de tablas (`page.find_tables()`) y pásalas como texto marcado,
+   pero **revisa lo que sale**, porque el extractor de tablas también tiene defectos (ver abajo).
 3. **PDF escaneado** (una imagen de un papel): no hay texto que extraer. Dos rutas:
    - **OCR** (Tesseract) → texto → schema. Barato, pierde layout.
    - **Modelo multimodal**: le pasas la *imagen* de la página directamente al LLM con visión y el mismo
@@ -478,8 +486,19 @@ para resaltarlo en la UI. Pides al modelo la cita textual, buscas esa cita en el
 obtienes el rectángulo para dibujar un highlight. Así el usuario *ve de dónde salió* cada dato — y tú tienes
 verificación de evidencia (§10) gratis. Ejemplo en [`code/11_pdf.py`](code/11_pdf.py).
 
-Regla: **el 90% de los errores de extracción de PDFs nacen en el parseo, no en el LLM.** Antes de culpar al modelo,
-imprime el texto que le estás mandando.
+**Lo que midió el laboratorio** (el script genera sus propios PDFs: uno con texto, uno con tabla y uno escaneado):
+
+- **Texto:** 2/2 cargos con empresa y años correctos, y la cita de evidencia encontrada y **resaltada** en el PDF.
+- **Tabla:** tres formas de leer la misma tabla dieron tres resultados. `extract()` pegó las palabras
+  ("TechLeaddedatos"); `to_markdown()` respetó los espacios pero inventó un encabezado ("EXPERIENCIA | Col2 | Col3…")
+  con el título; solo leer cada celda por sus coordenadas (`get_textbox`) salió limpio. Con esta tabla de 2 filas,
+  la extracción acertó 2/2 **tanto desde la tabla como desde el texto aplanado**: la estructura importa en tablas
+  más complejas, no en todas.
+- **Escaneado:** 0 caracteres de texto, así que se detecta como imagen y se lee con **visión** (`gpt-6-luna` acepta
+  imágenes): 2/2 correctos, con nombre y correo.
+
+Regla: **cuando una extracción de un PDF sale mal, mira primero el parseo.** Antes de culpar al modelo, imprime el
+texto (o la tabla) que le estás mandando: muchas veces el error ya está ahí.
 
 ---
 
@@ -519,7 +538,7 @@ Un sistema que funciona pero cuesta 4.000 USD por corrida no está en producció
 **1. Cuenta tokens antes de pagar.** El costo ≈ `(tokens_in × precio_in) + (tokens_out × precio_out)`. Para 1.000 CVs:
 
 ```python
-# code/13_costo.py — estimador
+# code/13_economia.py — estimar_costo()
 costo = n_docs * ((tok_in_prom/1000)*precio_in_1k + (tok_out_prom/1000)*precio_out_1k)
 ```
 
@@ -531,7 +550,7 @@ Pydantic. Si no cacheas, pagas lo mismo una y otra vez por los mismos documentos
 `hash(documento + schema + modelo)`:
 
 ```python
-# code/13_cache.py
+# code/13_economia.py — extraer_cacheado()
 clave = hashlib.sha256((texto + schema_json + modelo).encode()).hexdigest()
 ```
 
@@ -541,7 +560,7 @@ servidor que abarata los tokens de entrada repetidos —el system prompt y el sc
 **3. Paraleliza.** Procesar 1.000 CVs en serie es esperar 1.000 latencias. Lánzalos concurrentes con límite:
 
 ```python
-# code/13_paralelo.py
+# code/13_economia.py — extraer_muchos()
 import asyncio
 sem = asyncio.Semaphore(10)   # respeta el rate limit del proveedor
 async def extraer_uno(doc):
@@ -609,7 +628,8 @@ En el Módulo 2 tomamos este `CV` estructurado y lo convertimos en **embeddings*
 - **El schema es el prompt**: nombres, tipos y descripciones son instrucciones que viajan en el request.
 - **Instructor + Pydantic** = validar + reintentar con feedback del error. El retry es la joya.
 - **JSON válido ≠ dato correcto**: defiéndelo con evidencia, coherencia y medición.
-- El 90% de los errores de PDF están en el **parseo**, no en el modelo.
+- En PDFs, **revisa el parseo antes que el modelo**: texto aplanado, tablas con palabras pegadas y escaneados sin
+  texto son errores que el LLM recibe ya hechos.
 - Todo lo que entra por un documento es **dato, no órdenes** (prompt injection).
 - A escala, **cuenta tokens, cachea y paraleliza** o el costo te saca de producción.
 

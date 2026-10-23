@@ -55,6 +55,11 @@ evaluador-optimizador del Módulo 5 como **ciclo** dentro del grafo → aprobar 
 `thread_id` por vacante. Haz que `enviar` falle a propósito una vez (`raise` la primera vez) y demuestra que al
 reanudar el hilo **no** se vuelve a pagar la evaluación ni la redacción.
 
+### Ejercicio 9 — Dos fallos seguidos
+En [`code/06_persistencia_y_fallos.py`](code/06_persistencia_y_fallos.py), haz que `enviar` falle **dos** veces antes
+del efecto (`antes=2`) y reanuda dos veces. ¿Cuántas llamadas al modelo se pagan en total? Después cambia la clave de
+idempotencia del `thread_id` por `f"{thread_id}-{candidato}"`: ¿en qué situación real sería mejor esa clave?
+
 ---
 
 <details>
@@ -122,5 +127,10 @@ pone un techo al costo: sin él, un orquestador entusiasta podría proponer 15 c
 mismo `thread_id` con `app.invoke(None, cfg)` continúa desde `enviar`, sin repetir evaluación ni redacción. Verifícalo
 con `c.resumen_costo()`: el número de llamadas no debe aumentar al reanudar. Para la aprobación, usa
 `Command(resume=...)` como en el ejercicio 4.
+
+**9.** Las dos llamadas al modelo (evaluar y redactar) se pagan una sola vez: cada reanudación parte del último
+checkpoint, que ya tiene el borrador, y solo repite `enviar`. Con `thread_id` como clave, un hilo envía un único
+mensaje; con `thread_id-candidato`, un mismo hilo puede invitar a varios candidatos sin que el segundo envío se tome por
+un duplicado del primero. La clave debe identificar **el efecto**, no la ejecución.
 
 </details>

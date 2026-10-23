@@ -213,6 +213,20 @@ app.get_state(config)          # el estado actual de ese hilo, y qué nodo toca 
   producción se usa un checkpointer con base de datos (los hay para SQLite y PostgreSQL), con la misma interfaz.
 - Con checkpoints, un fallo en el paso 4 no obliga a repetir los pasos 1-3: reanudas el hilo.
 
+El laboratorio ([`code/06_persistencia_y_fallos.py`](code/06_persistencia_y_fallos.py)) lo demuestra con un
+`SqliteSaver` y un "reinicio del proceso" (conexión y grafo nuevos, el estado sale de la base). Y destapa algo que
+los checkpoints **no** resuelven:
+
+| Escenario | Llamadas al modelo al reanudar | Veces que salió el mensaje |
+|---|---|---|
+| A · `enviar` falla **antes** del efecto | 0 | 1 |
+| B · se corta **después** del efecto, con clave de idempotencia | 0 | 1 |
+| C · se corta **después** del efecto, sin idempotencia | 0 | **2 (duplicado)** |
+
+El checkpoint se guarda **al terminar** un nodo. Si el efecto ocurrió (el correo salió) pero el nodo falló antes de
+terminar, al reanudar el nodo se ejecuta otra vez y el efecto se repite. La defensa es la de cualquier sistema
+distribuido: acciones **idempotentes**, con una clave (aquí, el `thread_id`) que permita saber que ya se hizo.
+
 ---
 
 <a name="8-humano"></a>
