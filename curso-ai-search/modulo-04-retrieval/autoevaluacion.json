@@ -1,0 +1,70 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Por qué el reranker no arregló la paráfrasis sobre la búsqueda base (0.57)?",
+   "opciones": [
+    "Por el modelo",
+    "Por la temperatura",
+    "Por la caché",
+    "Porque solo reordena el top 20, y los CVs correctos no estaban ahí"
+   ],
+   "correcta": 3,
+   "explicacion": "Un reranker no arregla la recuperación."
+  },
+  {
+   "pregunta": "El reranker sube 13 puntos sobre la base y 2 (no distinguibles) sobre la búsqueda entendida. ¿Qué enseña?",
+   "opciones": [
+    "Que no sirve",
+    "Que siempre hay que usarlo",
+    "Que el valor de una técnica depende de lo que el sistema ya hace",
+    "Que el parser sobra"
+   ],
+   "correcta": 2,
+   "explicacion": "Reranker y parser arreglan cosas parecidas: el segundo aporta poco."
+  },
+  {
+   "pregunta": "¿Qué hace MaxSim (late interaction)?",
+   "opciones": [
+    "Promedia los tokens",
+    "Para cada token de la consulta busca el token más parecido del documento y suma",
+    "Reordena con un LLM",
+    "Usa BM25"
+   ],
+   "correcta": 1,
+   "explicacion": "Así una tecnología no se diluye en el promedio de un CV con diez."
+  },
+  {
+   "pregunta": "¿Cuál es el costo principal de late interaction?",
+   "opciones": [
+    "Guardar un vector por token: aquí 86 veces más vectores",
+    "Ninguno",
+    "Una llamada al LLM",
+    "Reentrenar"
+   ],
+   "correcta": 0,
+   "explicacion": "Con millones de documentos exige índices y compresión especiales."
+  },
+  {
+   "pregunta": "El embedder afinado subió de 0.55 a 0.73 evaluado con los mismos CVs. ¿Qué problema tiene esa medida?",
+   "opciones": [
+    "Ninguno",
+    "Es muy baja",
+    "No usa nDCG",
+    "Está inflada: el modelo vio esos documentos al entrenar"
+   ],
+   "correcta": 3,
+   "explicacion": "En producción llegan CVs nuevos; se evalúa con un holdout de documentos que no vio."
+  },
+  {
+   "pregunta": "En el holdout, el embedder afinado empeoró «quien haga pruebas automatizadas» (0.64 → 0.24). ¿Por qué?",
+   "opciones": [
+    "Por azar",
+    "Por el idioma",
+    "Aprendió los sesgos de sus pares: las plantillas siempre nombran tecnologías y roles",
+    "Por la tasa de aprendizaje"
+   ],
+   "correcta": 2,
+   "explicacion": "Si las consultas reales tienen paráfrasis, los pares de entrenamiento también deben tenerlas."
+  }
+ ]
+}
