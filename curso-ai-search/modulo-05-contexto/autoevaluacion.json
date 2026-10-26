@@ -1,0 +1,59 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "Con los 119 CVs en el contexto, ¿cómo le fue frente al top 15?",
+   "opciones": [
+    "Mejor",
+    "Igual",
+    "Peor: 5 y 7 aciertos contra 8 y 8, con seis veces más tokens",
+    "No se midió"
+   ],
+   "correcta": 2,
+   "explicacion": "Darle todo al modelo no ganó en aciertos, costo ni latencia."
+  },
+  {
+   "pregunta": "¿Qué falló con todo el corpus en el contexto?",
+   "opciones": [
+    "El formato",
+    "La exhaustividad: las listas perdían a alguien y las cuentas se desviaban",
+    "La latencia",
+    "El idioma"
+   ],
+   "correcta": 1,
+   "explicacion": "Recorrer 119 elementos sin saltarse ninguno es lo que un LLM hace mal."
+  },
+  {
+   "pregunta": "Compactar el corpus a fichas, ¿qué consiguió?",
+   "opciones": [
+    "La mitad de tokens, sin mejorar los aciertos",
+    "Más aciertos",
+    "Nada",
+    "Peores tokens"
+   ],
+   "correcta": 0,
+   "explicacion": "Compactar ahorra dinero; no le da al modelo una capacidad que no tiene."
+  },
+  {
+   "pregunta": "¿Apareció el efecto «lost in the middle»?",
+   "opciones": [
+    "Sí, muy fuerte",
+    "No se pudo medir",
+    "Solo al final",
+    "No: el medio se encontró igual o mejor que los extremos; la pérdida fue pareja"
+   ],
+   "correcta": 3,
+   "explicacion": "Mide los efectos famosos en tu tarea antes de diseñar alrededor de ellos."
+  },
+  {
+   "pregunta": "¿Cómo se responden bien «¿cuántos candidatos han liderado equipos?»?",
+   "opciones": [
+    "Con más contexto",
+    "Con un reranker",
+    "Con código sobre los datos estructurados (las fichas)",
+    "Con top 5"
+   ],
+   "correcta": 2,
+   "explicacion": "Para contar, consulta datos; no los leas."
+  }
+ ]
+}
