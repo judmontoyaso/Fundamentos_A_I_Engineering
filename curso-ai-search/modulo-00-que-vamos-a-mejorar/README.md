@@ -116,4 +116,4 @@ Si alguno te suena lejano, repasa el módulo correspondiente antes de seguir.
 - **41 consultas de 12 tipos**, con relevancia graduada **calculada en código** desde los hechos.
 - La relevancia calculada es tan buena como sus reglas, y las reglas están escritas.
 
-Sigue con el Módulo 1.
+Sigue con el [Módulo 1](../modulo-01-medir-antes/README.md).

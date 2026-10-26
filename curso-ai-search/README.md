@@ -30,7 +30,7 @@ escriben": con paráfrasis, abreviaturas, erratas, requisitos numéricos, exclus
 | # | Módulo | La pregunta que responde |
 |---|---|---|
 | 0 | [Qué vamos a mejorar, y con qué datos](modulo-00-que-vamos-a-mejorar/README.md) | ¿Con qué datos se mide cada cambio? |
-| 1 | Medir antes de tocar | ¿Dónde está el buscador hoy, por tipo de consulta? |
+| 1 | [Medir antes de tocar](modulo-01-medir-antes/README.md) | ¿Dónde está el buscador hoy, por tipo de consulta? |
 | 2 | Query understanding y routing | ¿Qué busca de verdad el usuario, y dónde hay que buscarlo? |
 | 3 | El parsing le pone techo | ¿Cuánta información se pierde antes de buscar? |
 | 4 | Un retrieval que traiga el documento correcto | ¿Rerankers, embeddings afinados o late interaction? |
