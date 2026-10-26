@@ -81,15 +81,17 @@ def requisitos(f: dict, q: ConsultaEntendida) -> list[bool]:
     return r
 
 
-def buscar(consulta: str, estrategia: str, q: ConsultaEntendida | None = None) -> list[int]:
+def buscar(consulta: str, estrategia: str, q: ConsultaEntendida | None = None, idx=None,
+           fichas: dict[int, dict] | None = None) -> list[int]:
+    """idx y fichas permiten buscar en otro índice (Módulo 3); por defecto, el del curso."""
     if estrategia == "base":
-        return bs.ranking(consulta, "hibrida", profundidad=119)
+        return bs.ranking(consulta, "hibrida", profundidad=119, idx=idx)
     q = q or parsear(consulta)
-    orden = bs.ranking(q.texto_busqueda, "hibrida", profundidad=119)
+    orden = bs.ranking(q.texto_busqueda, "hibrida", profundidad=119, idx=idx)
     if estrategia == "reescrita":
         return orden
-    fichas = fx.fichas()
-    resto = [i for i in fx.fichas() if i not in orden]                # los que la búsqueda no trajo, al final
+    fichas = fichas or fx.fichas()
+    resto = [i for i in fichas if i not in orden]                     # los que la búsqueda no trajo, al final
     todos = orden + resto
     reqs = {i: requisitos(fichas[i], q) for i in todos}
     if estrategia == "duros":

@@ -32,7 +32,7 @@ escriben": con paráfrasis, abreviaturas, erratas, requisitos numéricos, exclus
 | 0 | [Qué vamos a mejorar, y con qué datos](modulo-00-que-vamos-a-mejorar/README.md) | ¿Con qué datos se mide cada cambio? |
 | 1 | [Medir antes de tocar](modulo-01-medir-antes/README.md) | ¿Dónde está el buscador hoy, por tipo de consulta? |
 | 2 | [Query understanding y routing](modulo-02-query-understanding/README.md) | ¿Qué busca de verdad el usuario, y dónde hay que buscarlo? |
-| 3 | El parsing le pone techo | ¿Cuánta información se pierde antes de buscar? |
+| 3 | [El parsing le pone techo](modulo-03-parsing/README.md) | ¿Cuánta información se pierde antes de buscar? |
 | 4 | Un retrieval que traiga el documento correcto | ¿Rerankers, embeddings afinados o late interaction? |
 | 5 | Context engineering y long context | ¿Qué va al contexto, y cuándo conviene meterlo todo? |
 | 6 | Cuándo un grafo o SQL le ganan a los vectores | ¿Qué consultas no son de similitud? |

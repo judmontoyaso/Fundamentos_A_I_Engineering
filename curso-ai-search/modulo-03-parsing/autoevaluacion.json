@@ -1,0 +1,59 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Qué pasa con un PDF escaneado y una ingesta ingenua?",
+   "opciones": [
+    "Da un error",
+    "Se indexa vacío y sin ningún error",
+    "Se lee mal",
+    "Se descarta"
+   ],
+   "correcta": 1,
+   "explicacion": "Por eso hay que contar los documentos sin texto: la falla es silenciosa."
+  },
+  {
+   "pregunta": "En dos columnas, el 100 % de los hechos estaban en el texto ingenuo. ¿Por qué no basta esa medida?",
+   "opciones": [
+    "Porque los hechos están desordenados y el desorden solo se ve aguas abajo",
+    "Sí basta",
+    "Porque el texto es corto",
+    "Porque falta el OCR"
+   ],
+   "correcta": 0,
+   "explicacion": "Contar palabras no ve el orden; las fichas y la búsqueda sí."
+  },
+  {
+   "pregunta": "¿Cuánto bajó la búsqueda sin OCR, con un tercio de CVs escaneados?",
+   "opciones": [
+    "Nada",
+    "A cero",
+    "Subió",
+    "De 0.89 a 0.72"
+   ],
+   "correcta": 3,
+   "explicacion": "Ninguna técnica posterior recupera esos puntos: no hay nada que encontrar."
+  },
+  {
+   "pregunta": "Con gpt-6-luna el texto intercalado no hizo daño; con gpt-5.4-nano perdió tecnologías. ¿Qué enseña?",
+   "opciones": [
+    "Que el orden no importa",
+    "Que nano es inútil",
+    "Que un buen extractor tapa un mal parsing y uno barato no: el techo depende de quién lee después",
+    "Nada"
+   ],
+   "correcta": 2,
+   "explicacion": "Si vas a bajar el costo de la extracción, arregla antes la ingesta."
+  },
+  {
+   "pregunta": "Un documento vacío «acertó» remoto en 27 de 39. ¿Cómo se interpreta?",
+   "opciones": [
+    "Como aciertos",
+    "Como aciertos por defecto: el valor por defecto coincidió con el hecho",
+    "Como un bug del OCR",
+    "Como ruido"
+   ],
+   "correcta": 1,
+   "explicacion": "Cuenta los campos vacíos aparte."
+  }
+ ]
+}

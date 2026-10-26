@@ -65,7 +65,8 @@ def fichas() -> dict[int, dict]:
 
 
 def extraer(cv: dict) -> dict:
-    f = ev.tz.llm_trazado(FichaIndice, PROMPT, ev.c.como_cv(cv["texto"]), nombre="ficha del índice")
+    """cv: {"texto": ...}. Usa la caché del curso de Evals: el mismo texto no se vuelve a extraer."""
+    f = ev.llm_cache(FichaIndice, PROMPT, ev.c.como_cv(cv["texto"]), nombre="ficha del índice")
     a = anios(f)
     return {**f.model_dump(), "anios": a, "nivel": nivel(a),
             "lidera": any(ev.norm(t.cargo).startswith(("lider", "lead")) for t in f.trabajos)}

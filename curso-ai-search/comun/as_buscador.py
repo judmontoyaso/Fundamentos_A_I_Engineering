@@ -18,17 +18,21 @@ import numpy as np
 ac = import_module("as_comun")
 
 
+def construir(textos: dict[int, str]):
+    """Un índice (densa + BM25) sobre cualquier conjunto de textos: el Módulo 3 lo construye con lo que sale de
+    cada forma de parsear los documentos."""
+    ids = list(textos)
+    m = ac.embed([textos[i] for i in ids])
+    return ids, m / np.linalg.norm(m, axis=1, keepdims=True), ac.bm25.BM25([textos[i] for i in ids])
+
+
 @lru_cache(maxsize=1)
 def indice():
-    cvs = ac.cvs()
-    ids = [cv["id"] for cv in cvs]
-    textos = [cv["texto"] for cv in cvs]
-    m = ac.embed(textos)
-    return ids, m / np.linalg.norm(m, axis=1, keepdims=True), ac.bm25.BM25(textos)
+    return construir({cv["id"]: cv["texto"] for cv in ac.cvs()})
 
 
-def ranking(consulta: str, modo: str = "hibrida", profundidad: int = 50) -> list[int]:
-    ids, densos, lexico = indice()
+def ranking(consulta: str, modo: str = "hibrida", profundidad: int = 50, idx=None) -> list[int]:
+    ids, densos, lexico = idx or indice()
     if modo in ("densa", "hibrida"):
         q = ac.embed([consulta])[0]
         rank_d = [ids[i] for i in np.argsort(-(densos @ (q / np.linalg.norm(q))))[:profundidad]]
