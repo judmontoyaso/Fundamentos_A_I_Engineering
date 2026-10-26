@@ -1,0 +1,81 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Qué etiqueta falta en la mayoría de los sets de evaluación de RAG?",
+   "opciones": [
+    "La respuesta esperada",
+    "El idioma",
+    "La fecha",
+    "Qué documentos hay que recuperar para responder"
+   ],
+   "correcta": 3,
+   "explicacion": "Sin relevancia etiquetada no se puede saber si falló la búsqueda o la generación."
+  },
+  {
+   "pregunta": "¿Qué es el «oráculo» en la evaluación de un RAG?",
+   "opciones": [
+    "Un juez muy capaz",
+    "El modelo más caro",
+    "Pasarle al generador exactamente los documentos relevantes, para medir la generación sola",
+    "Una herramienta de Ragas"
+   ],
+   "correcta": 2,
+   "explicacion": "Con la recuperación perfecta, cualquier fallo es del generador."
+  },
+  {
+   "pregunta": "Con el oráculo el generador acertó 40/40 y el sistema 32/40. ¿Qué conviene arreglar?",
+   "opciones": [
+    "El prompt del generador",
+    "La recuperación: todos los fallos son suyos",
+    "El modelo",
+    "Nada"
+   ],
+   "correcta": 1,
+   "explicacion": "La distancia entre el oráculo y el sistema es lo que cuesta la recuperación."
+  },
+  {
+   "pregunta": "¿Por qué «¿cuántos candidatos trabajan con Python?» falla con k = 3?",
+   "opciones": [
+    "Porque hay 7 CVs relevantes y solo se recuperan 3: falla por diseño",
+    "Porque el embedder es malo",
+    "Porque el LLM no sabe contar",
+    "Por la temperatura"
+   ],
+   "correcta": 0,
+   "explicacion": "Las agregaciones sobre todo el corpus necesitan otra ruta (fichas + código), no un mejor embedder."
+  },
+  {
+   "pregunta": "Las 4 respuestas incorrectas del sistema fueron juzgadas fieles. ¿Qué enseña?",
+   "opciones": [
+    "Que el juez falla",
+    "Que no hay que medir fidelidad",
+    "Que el set está mal",
+    "Que fiel no es correcta: una respuesta puede estar respaldada por un contexto malo"
+   ],
+   "correcta": 3,
+   "explicacion": "Un eval de solo fidelidad habría dado 20/20. Hacen falta recuperación, corrección y fidelidad."
+  },
+  {
+   "pregunta": "«Gabriel Rojas tiene más años de experiencia de todos» con 3 CVs en el contexto, ¿por qué es dañina?",
+   "opciones": [
+    "Porque es larga",
+    "Porque cita mal",
+    "Porque afirma algo sobre todo el corpus habiendo visto tres CVs",
+    "No es dañina"
+   ],
+   "correcta": 2,
+   "explicacion": "Es fiel a su contexto y falsa. Merece su propio chequeo: un juez por fallo."
+  },
+  {
+   "pregunta": "Una herramienta mide la relevancia del contexto con un LLM. ¿Qué cuidado tener?",
+   "opciones": [
+    "Ninguno",
+    "Es una estimación con sus propios errores; si puedes etiquetar la relevancia, etiquétala",
+    "Que es más exacta que etiquetar",
+    "Que solo funciona en inglés"
+   ],
+   "correcta": 1,
+   "explicacion": "Etiquetar convierte esa medida en algo gratis y exacto; inferirla con un LLM obliga a calibrar otro juez."
+  }
+ ]
+}
