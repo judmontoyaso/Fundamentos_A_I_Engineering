@@ -1,0 +1,711 @@
+[
+ {
+  "id": 1,
+  "texto": "## Analista de Datos\n\nUna organización con presencia en Barranquilla busca incorporar a su equipo un/a Analista de Datos para contribuir al análisis y la presentación de información que apoye la toma de decisiones. La persona seleccionada se integrará a un entorno de trabajo en el que será importante organizar y analizar datos, así como comunicar hallazgos de forma clara mediante herramientas de análisis y visualización. Esta oportunidad está dirigida a profesionales con trayectoria en análisis de datos que deseen aportar su experiencia en una posición presencial y colaborar con distintas áreas de la organización.\n\n### Requisitos\n- Mínimo 7 años de experiencia.\n- Manejo de Excel.\n- Manejo de Power BI.\n- Nivel de inglés B2 como mínimo.\n\n### Se consideran deseables\n- Conocimientos de SQL.\n- Conocimientos de Python.\n\n### Condiciones\n- Modalidad presencial.\n- Ubicación: Barranquilla.",
+  "hechos": {
+   "id": 1,
+   "cliente": "Finanzas Cóndor",
+   "rol": "analista de datos",
+   "requeridas": [
+    "excel",
+    "power bi"
+   ],
+   "deseables": [
+    "sql",
+    "python"
+   ],
+   "anios_min": 7,
+   "rango_anios": false,
+   "modalidad": "presencial",
+   "ciudad": "Barranquilla",
+   "ingles_min": "B2",
+   "estilo": "formal, con un párrafo largo sobre la empresa antes de los requisitos",
+   "ancla": "Natalia Ramos"
+  }
+ },
+ {
+  "id": 2,
+  "texto": "🚀 ¡Buscamos Desarrollador/a Python en Medellín! 🐍\n\n¿Tienes experiencia construyendo con Python y trabajando con PostgreSQL? Esta oportunidad puede ser para ti.\n\n🔹 Experiencia: mínimo 7 años como desarrollador/a Python.\n🔹 Requisitos: Python y PostgreSQL.\n🔹 Modalidad: híbrida, en Medellín.\n\n✨ Docker y Celery son un plus.\n\n¿Te interesa? ¡Nos encantará conocerte!",
+  "hechos": {
+   "id": 2,
+   "cliente": "Retail Pacífico",
+   "rol": "desarrollador python",
+   "requeridas": [
+    "postgresql",
+    "python"
+   ],
+   "deseables": [
+    "docker",
+    "celery"
+   ],
+   "anios_min": 7,
+   "rango_anios": false,
+   "modalidad": "híbrido",
+   "ciudad": "Medellín",
+   "ingles_min": null,
+   "estilo": "informal y cercano, como un post en redes",
+   "ancla": "Paula Gómez"
+  }
+ },
+ {
+  "id": 3,
+  "texto": "**Desarrollador/a móvil — Bogotá**\n\nModalidad híbrida.\n\n**Requisitos**\n- Experiencia de 3 a 6 años en desarrollo móvil.\n- Conocimientos de Kotlin y Flutter.\n\n**Deseables**\n- Conocimientos de Firebase.",
+  "hechos": {
+   "id": 3,
+   "cliente": "Salud Orquídea",
+   "rol": "desarrollador móvil",
+   "requeridas": [
+    "kotlin",
+    "flutter"
+   ],
+   "deseables": [
+    "firebase"
+   ],
+   "anios_min": 3,
+   "rango_anios": true,
+   "modalidad": "híbrido",
+   "ciudad": "Bogotá",
+   "ingles_min": null,
+   "estilo": "lista de requisitos y lista de deseables, corta",
+   "ancla": "Mateo Ortiz"
+  }
+ },
+ {
+  "id": 4,
+  "texto": "## Ingeniero/a de Datos\n\n**Ubicación:** Bogotá, Colombia  \n**Modalidad:** Híbrida  \n**Experiencia:** entre 5 y 8 años\n\nDesde nuestra agencia de selección buscamos un/a Ingeniero/a de Datos para una oportunidad en Bogotá. La persona seleccionada participará en el diseño, desarrollo y mantenimiento de soluciones de datos, trabajando con herramientas de orquestación y procesamiento distribuido.\n\n### Responsabilidades\n- Diseñar, desarrollar y mantener flujos de procesamiento de datos.\n- Orquestar y monitorear procesos mediante Airflow.\n- Implementar y optimizar procesos de procesamiento distribuido con Spark.\n- Apoyar la calidad, disponibilidad y confiabilidad de los datos procesados.\n- Colaborar con otros equipos para entender necesidades de información y proponer soluciones de datos.\n- Documentar los procesos y las soluciones desarrolladas.\n\n### Requisitos\n- Entre 5 y 8 años de experiencia en ingeniería de datos.\n- Experiencia con Airflow.\n- Experiencia con Spark.\n\n### Conocimientos deseables\n- Conocimiento de Kafka; es un plus.\n- Conocimiento de SQL; es deseable.\n\n### Beneficios y condiciones\n- Modalidad de trabajo híbrida en Bogotá.\n- Oportunidad de trabajar en iniciativas de ingeniería y procesamiento de datos.\n- Acompañamiento de la agencia durante el proceso de selección.\n\n### Proceso de selección\nEl proceso contempla una revisión de perfil y experiencia, entrevistas para profundizar en la trayectoria y los conocimientos relacionados con el cargo, y una etapa de cierre con la organización contratante. Las etapas y su orden podrán confirmarse durante el contacto con las personas preseleccionadas.",
+  "hechos": {
+   "id": 4,
+   "cliente": "Finanzas Cóndor",
+   "rol": "ingeniero de datos",
+   "requeridas": [
+    "airflow",
+    "spark"
+   ],
+   "deseables": [
+    "kafka",
+    "sql"
+   ],
+   "anios_min": 5,
+   "rango_anios": true,
+   "modalidad": "híbrido",
+   "ciudad": "Bogotá",
+   "ingles_min": null,
+   "estilo": "larga, con responsabilidades, beneficios y proceso de selección además de los requisitos",
+   "ancla": "Sofía Herrera"
+  }
+ },
+ {
+  "id": 5,
+  "texto": "**Python Developer**\n\nA recruitment agency is seeking a Python Developer for a hybrid position based in Bogotá, Colombia.\n\n**Requirements**\n- 3 to 6 years of experience in Python development.\n- Proficiency in Python, FastAPI, and PostgreSQL.\n\n**Desirable**\n- Experience with Django is a plus.\n\n**Work arrangement:** Hybrid\n**Location:** Bogotá, Colombia",
+  "hechos": {
+   "id": 5,
+   "cliente": "Retail Pacífico",
+   "rol": "desarrollador python",
+   "requeridas": [
+    "fastapi",
+    "python",
+    "postgresql"
+   ],
+   "deseables": [
+    "django"
+   ],
+   "anios_min": 3,
+   "rango_anios": true,
+   "modalidad": "híbrido",
+   "ciudad": "Bogotá",
+   "ingles_min": null,
+   "estilo": "en inglés, formal",
+   "ancla": "Sofía León"
+  }
+ },
+ {
+  "id": 6,
+  "texto": "Una compañía que busca fortalecer sus capacidades de desarrollo móvil se encuentra en proceso de selección para incorporar a su equipo un/a Desarrollador/a móvil. La posición tendrá como propósito contribuir al desarrollo de soluciones móviles mediante tecnologías especializadas, en un entorno de trabajo que combina la presencialidad y el trabajo remoto. La vacante se ofrece en Bucaramanga bajo modalidad híbrida y está dirigida a una persona con experiencia en desarrollo móvil y conocimientos en las tecnologías requeridas para el cargo.\n\n**Requisitos**\n- Contar con mínimo 3 años de experiencia.\n- Tener experiencia con Flutter y Kotlin.\n\n**Conocimientos deseables**\n- Firebase.\n- Swift.\n\n**Ubicación y modalidad:** Bucaramanga, híbrido.",
+  "hechos": {
+   "id": 6,
+   "cliente": "Salud Orquídea",
+   "rol": "desarrollador móvil",
+   "requeridas": [
+    "flutter",
+    "kotlin"
+   ],
+   "deseables": [
+    "firebase",
+    "swift"
+   ],
+   "anios_min": 3,
+   "rango_anios": false,
+   "modalidad": "híbrido",
+   "ciudad": "Bucaramanga",
+   "ingles_min": null,
+   "estilo": "formal, con un párrafo largo sobre la empresa antes de los requisitos",
+   "ancla": "Carlos Salas"
+  }
+ },
+ {
+  "id": 7,
+  "texto": "🚀 ¡Buscamos QA Automation en Bogotá!\n\nSi tienes mínimo 5 años de experiencia y manejas Cypress y Playwright, esta oportunidad puede ser para ti.\n\n📍 Modalidad: presencial en Bogotá\n\n¿Conoces Java o Selenium? Son un plus, pero no son indispensables.\n\n¿Te interesa? ¡Postúlate y conversemos!",
+  "hechos": {
+   "id": 7,
+   "cliente": "Finanzas Cóndor",
+   "rol": "qa automation",
+   "requeridas": [
+    "cypress",
+    "playwright"
+   ],
+   "deseables": [
+    "java",
+    "selenium"
+   ],
+   "anios_min": 5,
+   "rango_anios": false,
+   "modalidad": "presencial",
+   "ciudad": "Bogotá",
+   "ingles_min": null,
+   "estilo": "informal y cercano, como un post en redes",
+   "ancla": "Sofía Cruz"
+  }
+ },
+ {
+  "id": 8,
+  "texto": "**Ingeniero/a DevOps — remoto**\n\n**Requisitos**\n- 5 años de experiencia.\n- Conocimientos de Kubernetes y AWS.\n\n**Deseables**\n- Conocimientos de Jenkins.",
+  "hechos": {
+   "id": 8,
+   "cliente": "Retail Pacífico",
+   "rol": "ingeniero devops",
+   "requeridas": [
+    "kubernetes",
+    "aws"
+   ],
+   "deseables": [
+    "jenkins"
+   ],
+   "anios_min": 5,
+   "rango_anios": false,
+   "modalidad": "remoto",
+   "ciudad": null,
+   "ingles_min": null,
+   "estilo": "lista de requisitos y lista de deseables, corta",
+   "ancla": "Valentina Mejía"
+  }
+ },
+ {
+  "id": 9,
+  "texto": "## Analista de datos\n\nAgencia de selección busca un/a Analista de Datos para trabajar de manera presencial en Bucaramanga. Buscamos una persona con entre 7 y 10 años de experiencia en análisis de datos, que pueda transformar información en hallazgos útiles para la toma de decisiones.\n\n### Responsabilidades\n- Analizar y organizar datos para identificar tendencias, patrones y oportunidades de mejora.\n- Preparar consultas en SQL para extraer y revisar información.\n- Utilizar Excel para analizar datos y elaborar reportes.\n- Comunicar los resultados de los análisis de manera clara a las personas interesadas.\n- Apoyar la elaboración y actualización de informes que faciliten el seguimiento de indicadores y resultados.\n\n### Requisitos\n- Entre 7 y 10 años de experiencia en análisis de datos; se requiere un mínimo de 7 años.\n- Manejo de Excel.\n- Manejo de SQL.\n\n### Es deseable\n- Conocimiento o experiencia en Power BI.\n\n### Modalidad y ubicación\n- Presencial en Bucaramanga, Colombia.\n\n### Beneficios\nLa información sobre compensación y beneficios se compartirá durante el proceso de selección.\n\n### Proceso de selección\nEl proceso contempla una revisión de hojas de vida y entrevistas con las personas preseleccionadas. En las entrevistas se conversará sobre la experiencia en análisis de datos, Excel y SQL. Las etapas y los detalles adicionales se informarán a quienes avancen en el proceso.",
+  "hechos": {
+   "id": 9,
+   "cliente": "Salud Orquídea",
+   "rol": "analista de datos",
+   "requeridas": [
+    "excel",
+    "sql"
+   ],
+   "deseables": [
+    "power bi"
+   ],
+   "anios_min": 7,
+   "rango_anios": true,
+   "modalidad": "presencial",
+   "ciudad": "Bucaramanga",
+   "ingles_min": null,
+   "estilo": "larga, con responsabilidades, beneficios y proceso de selección además de los requisitos",
+   "ancla": "Daniela Ruiz"
+  }
+ },
+ {
+  "id": 10,
+  "texto": "## Data Analyst\n\nA recruitment agency is seeking a Data Analyst for a hybrid position based in Medellín, Colombia.\n\n### Requirements\n- At least 5 years of experience.\n- Proficiency in SQL and Python.\n- English proficiency at B2 level or higher.\n\n### Desirable\n- Experience with Power BI.",
+  "hechos": {
+   "id": 10,
+   "cliente": "Finanzas Cóndor",
+   "rol": "analista de datos",
+   "requeridas": [
+    "sql",
+    "python"
+   ],
+   "deseables": [
+    "power bi"
+   ],
+   "anios_min": 5,
+   "rango_anios": false,
+   "modalidad": "híbrido",
+   "ciudad": "Medellín",
+   "ingles_min": "B2",
+   "estilo": "en inglés, formal",
+   "ancla": "Lucía Pardo"
+  }
+ },
+ {
+  "id": 11,
+  "texto": "## Desarrollador .NET – Bogotá\n\nUna compañía en Colombia busca incorporar a su equipo un/a Desarrollador/a .NET con experiencia para contribuir al desarrollo de sus iniciativas tecnológicas. La organización está interesada en sumar una persona que pueda aportar sus conocimientos en programación y bases de datos, y que se integre a un entorno de trabajo híbrido en Bogotá. Esta oportunidad está dirigida a profesionales con trayectoria en el área que deseen poner en práctica su experiencia y participar en los retos de desarrollo de la compañía.\n\n### Requisitos\n- Contar con entre 7 y 10 años de experiencia.\n- Experiencia con Azure.\n- Experiencia con SQL Server.\n- Experiencia con C#.\n\n### Deseable\n- Conocimientos de .NET.\n\n### Condiciones\n- Ubicación: Bogotá.\n- Modalidad: híbrida.",
+  "hechos": {
+   "id": 11,
+   "cliente": "Retail Pacífico",
+   "rol": "desarrollador .net",
+   "requeridas": [
+    "azure",
+    "sql server",
+    "c#"
+   ],
+   "deseables": [
+    ".net"
+   ],
+   "anios_min": 7,
+   "rango_anios": true,
+   "modalidad": "híbrido",
+   "ciudad": "Bogotá",
+   "ingles_min": null,
+   "estilo": "formal, con un párrafo largo sobre la empresa antes de los requisitos",
+   "ancla": "Julián Herrera"
+  }
+ },
+ {
+  "id": 12,
+  "texto": "📊 ¡Buscamos Analista de Datos en Medellín!\n\n¿Tienes entre 7 y 10 años de experiencia y te gusta convertir datos en información útil? Esta oportunidad puede ser para ti.\n\n🔹 Requisitos: manejo de SQL y Python.\n✨ Tableau es deseable.\n📍 Modalidad híbrida en Medellín.\n\n¿Te interesa? ¡Postúlate!",
+  "hechos": {
+   "id": 12,
+   "cliente": "Salud Orquídea",
+   "rol": "analista de datos",
+   "requeridas": [
+    "sql",
+    "python"
+   ],
+   "deseables": [
+    "tableau"
+   ],
+   "anios_min": 7,
+   "rango_anios": true,
+   "modalidad": "híbrido",
+   "ciudad": "Medellín",
+   "ingles_min": null,
+   "estilo": "informal y cercano, como un post en redes",
+   "ancla": "Daniela Lozano"
+  }
+ },
+ {
+  "id": 13,
+  "texto": "**Analista de datos**\n\n**Requisitos**\n- 7 años de experiencia.\n- Manejo de Power BI y Tableau.\n- Inglés B2.\n- Modalidad presencial en Bucaramanga.\n\n**Deseables**\n- Excel.\n- Python.",
+  "hechos": {
+   "id": 13,
+   "cliente": "Finanzas Cóndor",
+   "rol": "analista de datos",
+   "requeridas": [
+    "power bi",
+    "tableau"
+   ],
+   "deseables": [
+    "excel",
+    "python"
+   ],
+   "anios_min": 7,
+   "rango_anios": false,
+   "modalidad": "presencial",
+   "ciudad": "Bucaramanga",
+   "ingles_min": "B2",
+   "estilo": "lista de requisitos y lista de deseables, corta",
+   "ancla": "Laura Duarte"
+  }
+ },
+ {
+  "id": 14,
+  "texto": "## Analista de Datos\n\n**Ubicación:** Bucaramanga, Colombia  \n**Modalidad:** Híbrida\n\nUna agencia de selección busca un/a **Analista de Datos** para apoyar la transformación de información en análisis y reportes que faciliten la toma de decisiones. La persona seleccionada trabajará con herramientas de visualización y hojas de cálculo, y colaborará con los equipos involucrados para presentar información clara y útil.\n\n### Responsabilidades\n- Analizar datos y preparar información para apoyar la toma de decisiones.\n- Crear, actualizar y mantener reportes y tableros en Power BI.\n- Organizar, revisar y analizar datos en Excel.\n- Comunicar hallazgos y resultados de manera clara a las partes interesadas.\n- Identificar oportunidades para mejorar la presentación y el análisis de la información.\n\n### Requisitos\n- **7 años de experiencia** en análisis de datos.\n- Manejo de **Power BI**.\n- Manejo de **Excel**.\n- Nivel de inglés **B2**.\n\n### Deseable\n- Conocimientos o experiencia con **Python**. Es un plus, pero no es indispensable.\n\n### Beneficios y condiciones\n- Modalidad híbrida en Bucaramanga, que combina trabajo presencial y remoto.\n- La distribución de los días presenciales y remotos se conversará durante el proceso de selección.\n\n### Proceso de selección\nEl proceso podrá incluir una revisión de hoja de vida, una entrevista para conocer la experiencia y el nivel de inglés, y una instancia para conversar sobre el manejo de Power BI y Excel. Las etapas y los detalles se confirmarán con las personas que avancen en el proceso.\n\nSi cumples con los requisitos y te interesa trabajar con datos para generar información accionable, te invitamos a postularte.",
+  "hechos": {
+   "id": 14,
+   "cliente": "Retail Pacífico",
+   "rol": "analista de datos",
+   "requeridas": [
+    "power bi",
+    "excel"
+   ],
+   "deseables": [
+    "python"
+   ],
+   "anios_min": 7,
+   "rango_anios": false,
+   "modalidad": "híbrido",
+   "ciudad": "Bucaramanga",
+   "ingles_min": "B2",
+   "estilo": "larga, con responsabilidades, beneficios y proceso de selección además de los requisitos",
+   "ancla": "Laura Duarte"
+  }
+ },
+ {
+  "id": 15,
+  "texto": "**Data Analyst**\n\nA recruitment agency is seeking a Data Analyst for a hybrid position based in Barranquilla.\n\n**Requirements**\n- At least 2 years of experience.\n- Knowledge of Tableau and SQL.\n- English proficiency at B2 level or higher.\n\n**Desirable skills**\n- Excel and Python experience are a plus.",
+  "hechos": {
+   "id": 15,
+   "cliente": "Salud Orquídea",
+   "rol": "analista de datos",
+   "requeridas": [
+    "tableau",
+    "sql"
+   ],
+   "deseables": [
+    "excel",
+    "python"
+   ],
+   "anios_min": 2,
+   "rango_anios": false,
+   "modalidad": "híbrido",
+   "ciudad": "Barranquilla",
+   "ingles_min": "B2",
+   "estilo": "en inglés, formal",
+   "ancla": "Natalia Torres"
+  }
+ },
+ {
+  "id": 16,
+  "texto": "Una organización que fortalece sus capacidades de gestión y procesamiento de información busca incorporar a su equipo un/a Ingeniero/a de Datos. La persona seleccionada contribuirá al desarrollo y mantenimiento de soluciones de datos, apoyando la organización de los flujos de información y el procesamiento de grandes volúmenes de datos. La posición ofrece la oportunidad de aportar desde la experiencia técnica en un entorno de trabajo híbrido, con base en Bogotá.\n\n**Requisitos**\n- Mínimo 5 años de experiencia.\n- Experiencia con Airflow y Spark.\n\n**Deseable**\n- Conocimiento de Databricks.\n\n**Modalidad:** Híbrida, en Bogotá.",
+  "hechos": {
+   "id": 16,
+   "cliente": "Finanzas Cóndor",
+   "rol": "ingeniero de datos",
+   "requeridas": [
+    "airflow",
+    "spark"
+   ],
+   "deseables": [
+    "databricks"
+   ],
+   "anios_min": 5,
+   "rango_anios": false,
+   "modalidad": "híbrido",
+   "ciudad": "Bogotá",
+   "ingles_min": null,
+   "estilo": "formal, con un párrafo largo sobre la empresa antes de los requisitos",
+   "ancla": "Sofía Herrera"
+  }
+ },
+ {
+  "id": 17,
+  "texto": "🚀 ¡Buscamos Desarrollador/a Python para trabajar 100 % remoto!\n\nSi tienes entre 2 y 5 años de experiencia y te gusta crear soluciones con Python, esta oportunidad puede ser para ti.\n\n**Lo que necesitas:**\n• Experiencia con Python, Django y Celery.\n• Entre 2 y 5 años de experiencia.\n\n**Es un plus si también conoces:**\n• FastAPI.\n• PostgreSQL.\n\n¿Te interesa? ¡Postúlate y conversemos!",
+  "hechos": {
+   "id": 17,
+   "cliente": "Retail Pacífico",
+   "rol": "desarrollador python",
+   "requeridas": [
+    "django",
+    "python",
+    "celery"
+   ],
+   "deseables": [
+    "fastapi",
+    "postgresql"
+   ],
+   "anios_min": 2,
+   "rango_anios": true,
+   "modalidad": "remoto",
+   "ciudad": null,
+   "ingles_min": null,
+   "estilo": "informal y cercano, como un post en redes",
+   "ancla": "Isabel Herrera"
+  }
+ },
+ {
+  "id": 18,
+  "texto": "**Desarrollador/a Backend**\n\n**Requisitos**\n- 3 años de experiencia.\n- Conocimientos de Docker y microservicios.\n- Modalidad híbrida en Cali.\n\n**Deseables**\n- Conocimientos de Kafka.",
+  "hechos": {
+   "id": 18,
+   "cliente": "Salud Orquídea",
+   "rol": "desarrollador backend",
+   "requeridas": [
+    "docker",
+    "microservicios"
+   ],
+   "deseables": [
+    "kafka"
+   ],
+   "anios_min": 3,
+   "rango_anios": false,
+   "modalidad": "híbrido",
+   "ciudad": "Cali",
+   "ingles_min": null,
+   "estilo": "lista de requisitos y lista de deseables, corta",
+   "ancla": "Felipe Martínez"
+  }
+ },
+ {
+  "id": 19,
+  "texto": "## Desarrollador/a Frontend — Bogotá\n\nUna agencia de selección busca un/a Desarrollador/a Frontend para una oportunidad en Bogotá, con modalidad de trabajo híbrida. La persona seleccionada participará en la construcción y evolución de interfaces web, colaborando con el equipo para crear experiencias claras y funcionales.\n\n### Responsabilidades\n- Desarrollar y mantener interfaces frontend utilizando React y CSS.\n- Implementar diseños y funcionalidades para ofrecer una experiencia coherente en distintos tamaños de pantalla.\n- Colaborar con el equipo en la revisión, mejora y evolución de las interfaces.\n- Identificar y resolver problemas relacionados con la presentación y el funcionamiento de las páginas.\n\n### Requisitos\n- Entre 3 y 6 años de experiencia en desarrollo frontend.\n- Conocimientos de React y CSS.\n\n### Se considerará un plus\n- Conocimientos o experiencia con Vue.\n- Conocimientos o experiencia con Angular.\n\n### Modalidad y ubicación\n- Modalidad híbrida.\n- Bogotá, Colombia.\n\n### Beneficios y condiciones\nLa modalidad híbrida ofrece una combinación de trabajo presencial y remoto. Los detalles sobre las condiciones y beneficios asociados a la oportunidad se compartirán durante el proceso de selección.\n\n### Proceso de selección\nEl proceso podrá incluir una conversación inicial con la agencia de selección y entrevistas con el equipo de la oportunidad. Las etapas y su alcance se confirmarán con las personas preseleccionadas.\n\nSi tienes experiencia en frontend y buscas un nuevo reto profesional en Bogotá, te invitamos a postularte.",
+  "hechos": {
+   "id": 19,
+   "cliente": "Finanzas Cóndor",
+   "rol": "desarrollador frontend",
+   "requeridas": [
+    "css",
+    "react"
+   ],
+   "deseables": [
+    "vue",
+    "angular"
+   ],
+   "anios_min": 3,
+   "rango_anios": true,
+   "modalidad": "híbrido",
+   "ciudad": "Bogotá",
+   "ingles_min": null,
+   "estilo": "larga, con responsabilidades, beneficios y proceso de selección además de los requisitos",
+   "ancla": "Tomás Giraldo"
+  }
+ },
+ {
+  "id": 20,
+  "texto": "**Security Analyst**\n\nA recruitment agency is seeking a Security Analyst for an on-site position in Medellín, Colombia.\n\n**Requirements**\n- 7 to 10 years of experience.\n- Knowledge of ISO 27001.\n- Knowledge of firewalls.\n\n**Desirable**\n- Experience with SIEM tools.",
+  "hechos": {
+   "id": 20,
+   "cliente": "Retail Pacífico",
+   "rol": "analista de seguridad",
+   "requeridas": [
+    "iso 27001",
+    "firewall"
+   ],
+   "deseables": [
+    "siem"
+   ],
+   "anios_min": 7,
+   "rango_anios": true,
+   "modalidad": "presencial",
+   "ciudad": "Medellín",
+   "ingles_min": null,
+   "estilo": "en inglés, formal",
+   "ancla": "Laura Lozano"
+  }
+ },
+ {
+  "id": 21,
+  "texto": "## Científico/a de Datos\n\nUna organización con operaciones en Barranquilla busca incorporar a su equipo un/a Científico/a de Datos con experiencia sólida en el desarrollo de soluciones de aprendizaje automático. La persona seleccionada contribuirá a iniciativas de ciencia de datos mediante el uso de herramientas especializadas para desarrollar y gestionar modelos, colaborando con los equipos involucrados en estas iniciativas. La posición ofrece la oportunidad de aplicar conocimientos técnicos en un entorno de trabajo híbrido, con base en Barranquilla.\n\n### Requisitos\n- Mínimo 7 años de experiencia en ciencia de datos.\n- Manejo de PyTorch.\n- Manejo de MLflow.\n\n### Es deseable\n- Conocimiento de TensorFlow.\n\n### Modalidad y ubicación\n- Modalidad híbrida.\n- Barranquilla, Colombia.",
+  "hechos": {
+   "id": 21,
+   "cliente": "Salud Orquídea",
+   "rol": "científico de datos",
+   "requeridas": [
+    "pytorch",
+    "mlflow"
+   ],
+   "deseables": [
+    "tensorflow"
+   ],
+   "anios_min": 7,
+   "rango_anios": false,
+   "modalidad": "híbrido",
+   "ciudad": "Barranquilla",
+   "ingles_min": null,
+   "estilo": "formal, con un párrafo largo sobre la empresa antes de los requisitos",
+   "ancla": "Carlos Vélez"
+  }
+ },
+ {
+  "id": 22,
+  "texto": "🚀 ¡Buscamos científico/a de datos en Bogotá! La posición es presencial.\n\n¿Tienes 7 años de experiencia o más y conocimientos de estadística y MLflow? ¡Queremos conocerte!\n\n✨ Sería un plus que tengas experiencia con scikit-learn y SQL.\n\n¿Te interesa? ¡Postúlate y conversemos!",
+  "hechos": {
+   "id": 22,
+   "cliente": "Finanzas Cóndor",
+   "rol": "científico de datos",
+   "requeridas": [
+    "estadística",
+    "mlflow"
+   ],
+   "deseables": [
+    "scikit-learn",
+    "sql"
+   ],
+   "anios_min": 7,
+   "rango_anios": false,
+   "modalidad": "presencial",
+   "ciudad": "Bogotá",
+   "ingles_min": null,
+   "estilo": "informal y cercano, como un post en redes",
+   "ancla": "Tomás León"
+  }
+ },
+ {
+  "id": 23,
+  "texto": "**Analista de Seguridad**\n\n**Requisitos**\n- Entre 5 y 8 años de experiencia.\n- Conocimientos en SIEM e ISO 27001.\n- Disponibilidad para trabajar de manera presencial en Medellín.\n\n**Deseables**\n- Conocimientos en firewall.",
+  "hechos": {
+   "id": 23,
+   "cliente": "Retail Pacífico",
+   "rol": "analista de seguridad",
+   "requeridas": [
+    "siem",
+    "iso 27001"
+   ],
+   "deseables": [
+    "firewall"
+   ],
+   "anios_min": 5,
+   "rango_anios": true,
+   "modalidad": "presencial",
+   "ciudad": "Medellín",
+   "ingles_min": null,
+   "estilo": "lista de requisitos y lista de deseables, corta",
+   "ancla": "Natalia Pardo"
+  }
+ },
+ {
+  "id": 24,
+  "texto": "## Desarrollador/a .NET — Bogotá\n\nAgencia de selección busca un/a Desarrollador/a .NET con al menos **7 años de experiencia** para trabajar en modalidad **presencial en Bogotá**. Buscamos una persona con experiencia en desarrollo de software y conocimientos sólidos de C#, Azure y SQL Server.\n\n### Responsabilidades\n- Desarrollar y mantener soluciones de software.\n- Implementar funcionalidades utilizando C# y trabajar con bases de datos SQL Server.\n- Participar en el desarrollo y la evolución de soluciones en entornos Azure.\n- Colaborar con el equipo para revisar requerimientos, proponer soluciones y entregar desarrollos de calidad.\n- Apoyar la identificación y resolución de incidentes o problemas técnicos relacionados con las aplicaciones.\n\n### Requisitos\n- **Mínimo 7 años de experiencia** en desarrollo de software.\n- Experiencia con **C#**.\n- Experiencia con **Azure**.\n- Experiencia con **SQL Server**.\n- Disponibilidad para trabajar de manera **presencial en Bogotá**.\n\n### Deseable\n- Conocimientos o experiencia con **.NET**. Es un plus; no es un requisito excluyente.\n\nNo se ha especificado un requisito de inglés para esta posición.\n\n### Beneficios\nLa información específica sobre el paquete de beneficios no fue detallada para esta vacante. Se compartirá durante el proceso de selección junto con las condiciones de contratación.\n\n### Proceso de selección\nLa agencia revisará las postulaciones y contactará a las personas cuyo perfil se ajuste a los requisitos. Las etapas y detalles de las entrevistas se informarán directamente a quienes avancen en el proceso.\n\nSi cumples con los requisitos y te interesa la oportunidad, postúlate para que podamos conocer tu perfil.",
+  "hechos": {
+   "id": 24,
+   "cliente": "Salud Orquídea",
+   "rol": "desarrollador .net",
+   "requeridas": [
+    "azure",
+    "sql server",
+    "c#"
+   ],
+   "deseables": [
+    ".net"
+   ],
+   "anios_min": 7,
+   "rango_anios": false,
+   "modalidad": "presencial",
+   "ciudad": "Bogotá",
+   "ingles_min": null,
+   "estilo": "larga, con responsabilidades, beneficios y proceso de selección además de los requisitos",
+   "ancla": "Julián Herrera"
+  }
+ },
+ {
+  "id": 25,
+  "texto": "**QA Automation Engineer**\n\nA recruitment agency is seeking a QA Automation Engineer for an on-site position in Bucaramanga, Colombia.\n\n**Requirements**\n- At least 7 years of experience in QA automation.\n- Experience with JMeter and Cypress.\n\n**Desirable skills**\n- Java experience is desirable.\n- Selenium experience is a plus.\n\n**Work arrangement:** On-site\n**Location:** Bucaramanga, Colombia",
+  "hechos": {
+   "id": 25,
+   "cliente": "Finanzas Cóndor",
+   "rol": "qa automation",
+   "requeridas": [
+    "jmeter",
+    "cypress"
+   ],
+   "deseables": [
+    "java",
+    "selenium"
+   ],
+   "anios_min": 7,
+   "rango_anios": false,
+   "modalidad": "presencial",
+   "ciudad": "Bucaramanga",
+   "ingles_min": null,
+   "estilo": "en inglés, formal",
+   "ancla": "Isabel Mejía"
+  }
+ },
+ {
+  "id": 26,
+  "texto": "**Desarrollador(a) Frontend**\n\nUna empresa con operación en Bogotá busca incorporar a su equipo un(a) Desarrollador(a) Frontend para contribuir al desarrollo de sus soluciones digitales. La persona seleccionada trabajará en modalidad híbrida y tendrá la oportunidad de aportar sus conocimientos en tecnologías de desarrollo frontend en el marco de las iniciativas de la organización. Esta convocatoria está dirigida a profesionales con experiencia en el rol y familiaridad con las herramientas y tecnologías indicadas a continuación.\n\n**Requisitos**\n- Entre 3 y 6 años de experiencia en desarrollo frontend.\n- Conocimientos de JavaScript, React y TypeScript.\n\n**Deseable**\n- Conocimientos de CSS.\n\n**Ubicación y modalidad:** Bogotá, modalidad híbrida.",
+  "hechos": {
+   "id": 26,
+   "cliente": "Retail Pacífico",
+   "rol": "desarrollador frontend",
+   "requeridas": [
+    "javascript",
+    "react",
+    "typescript"
+   ],
+   "deseables": [
+    "css"
+   ],
+   "anios_min": 3,
+   "rango_anios": true,
+   "modalidad": "híbrido",
+   "ciudad": "Bogotá",
+   "ingles_min": null,
+   "estilo": "formal, con un párrafo largo sobre la empresa antes de los requisitos",
+   "ancla": "Tomás Giraldo"
+  }
+ },
+ {
+  "id": 27,
+  "texto": "📱 ¡Estamos buscando Desarrollador/a Móvil en Bucaramanga!\n\nSi tienes 3 años de experiencia y manejas Kotlin y Flutter, esta oportunidad puede ser para ti. El trabajo es presencial.\n\nFirebase y Swift son deseables: ¡suman puntos!\n\n¿Te interesa? ¡Postúlate!",
+  "hechos": {
+   "id": 27,
+   "cliente": "Salud Orquídea",
+   "rol": "desarrollador móvil",
+   "requeridas": [
+    "kotlin",
+    "flutter"
+   ],
+   "deseables": [
+    "firebase",
+    "swift"
+   ],
+   "anios_min": 3,
+   "rango_anios": false,
+   "modalidad": "presencial",
+   "ciudad": "Bucaramanga",
+   "ingles_min": null,
+   "estilo": "informal y cercano, como un post en redes",
+   "ancla": "Carlos Salas"
+  }
+ },
+ {
+  "id": 28,
+  "texto": "**Ingeniero/a de datos — Bucaramanga (modalidad híbrida)**\n\n**Requisitos**\n- Mínimo 1 año de experiencia.\n- Conocimientos en Kafka y Python.\n\n**Deseables**\n- Conocimientos en Databricks y Airflow.",
+  "hechos": {
+   "id": 28,
+   "cliente": "Finanzas Cóndor",
+   "rol": "ingeniero de datos",
+   "requeridas": [
+    "kafka",
+    "python"
+   ],
+   "deseables": [
+    "databricks",
+    "airflow"
+   ],
+   "anios_min": 1,
+   "rango_anios": false,
+   "modalidad": "híbrido",
+   "ciudad": "Bucaramanga",
+   "ingles_min": null,
+   "estilo": "lista de requisitos y lista de deseables, corta",
+   "ancla": "Ana Rojas"
+  }
+ },
+ {
+  "id": 29,
+  "texto": "## Ingeniero/a de Datos\n\n**Ubicación:** Bogotá, Colombia  \n**Modalidad:** Presencial  \n\nUna agencia de selección busca un/a Ingeniero/a de Datos para apoyar la construcción y operación de soluciones de datos. La persona seleccionada trabajará en el desarrollo de flujos de procesamiento y en la preparación de información confiable para su uso en distintos productos y análisis.\n\n### Responsabilidades\n- Desarrollar y mantener procesos de ingesta y procesamiento de datos con Python y Kafka.\n- Construir y dar soporte a flujos de datos que permitan recibir, transformar y disponibilizar información.\n- Revisar la calidad e integridad de los datos y colaborar en la solución de incidentes relacionados con los procesos.\n- Documentar los flujos y colaborar con otros perfiles técnicos para comprender las necesidades de información.\n- Apoyar la mejora continua de las soluciones y procesos de datos existentes.\n\n### Requisitos\n- Mínimo **2 años de experiencia** en ingeniería de datos o en funciones relacionadas.\n- Experiencia con **Python**.\n- Experiencia con **Kafka**.\n- Disponibilidad para trabajar de manera **presencial en Bogotá**.\n\n### Deseables\n- Conocimiento o experiencia con **dbt**.\n- Conocimiento o experiencia con **AWS**.\n\nEstos conocimientos son un plus; no son requisitos obligatorios.\n\n### Beneficios\nLa información específica sobre compensación y beneficios se compartirá durante el proceso de selección. El cargo ofrece la oportunidad de trabajar en iniciativas de ingeniería de datos y aportar al desarrollo y mejora de flujos de información.\n\n### Proceso de selección\nEl proceso puede incluir una conversación inicial con la agencia de selección, una entrevista para profundizar en la experiencia y conocimientos técnicos, y una entrevista con el equipo de la compañía contratante. Las etapas y su orden podrán confirmarse durante el contacto inicial.",
+  "hechos": {
+   "id": 29,
+   "cliente": "Retail Pacífico",
+   "rol": "ingeniero de datos",
+   "requeridas": [
+    "kafka",
+    "python"
+   ],
+   "deseables": [
+    "dbt",
+    "aws"
+   ],
+   "anios_min": 2,
+   "rango_anios": false,
+   "modalidad": "presencial",
+   "ciudad": "Bogotá",
+   "ingles_min": null,
+   "estilo": "larga, con responsabilidades, beneficios y proceso de selección además de los requisitos",
+   "ancla": "Paula Ruiz"
+  }
+ },
+ {
+  "id": 30,
+  "texto": "## DevOps Engineer\n\nA recruitment agency is seeking a DevOps Engineer for a remote opportunity.\n\n### Requirements\n- At least 7 years of experience.\n- Experience with Docker and Jenkins.\n\n### Nice to have\n- Experience with Ansible.\n\n### Work arrangement\n- Remote",
+  "hechos": {
+   "id": 30,
+   "cliente": "Salud Orquídea",
+   "rol": "ingeniero devops",
+   "requeridas": [
+    "docker",
+    "jenkins"
+   ],
+   "deseables": [
+    "ansible"
+   ],
+   "anios_min": 7,
+   "rango_anios": false,
+   "modalidad": "remoto",
+   "ciudad": null,
+   "ingles_min": null,
+   "estilo": "en inglés, formal",
+   "ancla": "Natalia Duarte"
+  }
+ }
+]

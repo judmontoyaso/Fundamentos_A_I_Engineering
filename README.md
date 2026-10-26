@@ -90,7 +90,7 @@ OPENROUTER_API_KEY=...
 | Curso | Qué responde | Estado |
 |---|---|---|
 | [**Evals para AI Engineers**](curso-evals/README.md) | ¿Cómo sé, con evidencia, si un cambio mejoró o empeoró el sistema? | Completo: 12 módulos y proyecto final |
-| **AI search: medir y mejorar** | ¿Qué está fallando en el RAG, y qué cambio lo arregla? | Pendiente (después de Evals) |
+| [**AI search: medir y mejorar**](curso-ai-search/README.md) | ¿Qué está fallando en el RAG, y qué cambio lo arregla? | Completo: 10 módulos y proyecto final |
 
 En la app, el selector **Curso** (arriba a la izquierda) cambia entre ellos.
 
