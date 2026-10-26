@@ -1,0 +1,81 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Por qué se mide un juez con TPR y TNR en vez de exactitud?",
+   "opciones": [
+    "Porque es más moderno",
+    "Porque la exactitud no se puede calcular",
+    "Porque sus dos errores cuestan distinto y la exactitud depende de la proporción de cada clase",
+    "Da igual"
+   ],
+   "correcta": 2,
+   "explicacion": "Con un 5 % de invenciones, un juez que dice siempre «no inventa» tiene 95 % de exactitud y no sirve."
+  },
+  {
+   "pregunta": "¿Por qué el set del juez se separa en desarrollo y prueba POR CV?",
+   "opciones": [
+    "Para que sea más rápido",
+    "Para que el perfil y su copia con invención no queden en mitades distintas y la prueba siga siendo independiente",
+    "Porque lo exige el bootstrap",
+    "No importa cómo se separe"
+   ],
+   "correcta": 1,
+   "explicacion": "Si un CV aparece en las dos mitades, el prompt ajustado en desarrollo ya conoce ese caso."
+  },
+  {
+   "pregunta": "El juez v1 detectó todas las invenciones pero rechazó casi todos los perfiles correctos. ¿Qué tipo de juez es?",
+   "opciones": [
+    "Uno paranoico: TPR alto, TNR muy bajo",
+    "Uno perfecto",
+    "Uno permisivo",
+    "Uno aleatorio"
+   ],
+   "correcta": 0,
+   "explicacion": "Un juez que dice «inventa» a todo no deja pasar invenciones, pero no distingue nada."
+  },
+  {
+   "pregunta": "¿De dónde salió la mejora de v2 a v3?",
+   "opciones": [
+    "De probar en el set de prueba",
+    "De subir la temperatura",
+    "De cambiar de modelo",
+    "De leer los errores de v2 en desarrollo: todos eran usos típicos de una tecnología o tareas del cargo"
+   ],
+   "correcta": 3,
+   "explicacion": "Se mejora leyendo errores en desarrollo; el set de prueba se usa una sola vez al final."
+  },
+  {
+   "pregunta": "Un juez con TNR 81 % marca «inventa» en el 23 % de los perfiles. ¿Qué tasa real es más probable?",
+   "opciones": [
+    "23 %",
+    "Más de 23 %",
+    "Bastante menos: parte de las marcas son falsas alarmas; la corrección dio ~5 %",
+    "0 % seguro"
+   ],
+   "correcta": 2,
+   "explicacion": "La estimación de Rogan-Gladen corrige la tasa observada con los errores del juez."
+  },
+  {
+   "pregunta": "Los intervalos corregidos de v1 [0-30 %] y v2 [0-14 %] se solapan. ¿Qué concluyes?",
+   "opciones": [
+    "Que v2 inventa menos",
+    "Que con este juez y 30 perfiles no se puede afirmar una diferencia",
+    "Que v1 es mejor",
+    "Que el juez está roto"
+   ],
+   "correcta": 1,
+   "explicacion": "El juez sirve para encontrar perfiles que revisar, no para medir con precisión una diferencia pequeña."
+  },
+  {
+   "pregunta": "¿Por qué pedir la lista de afirmaciones ANTES del veredicto?",
+   "opciones": [
+    "Para que el veredicto salga del análisis y no sea la razón una justificación a posteriori",
+    "Por estética",
+    "Porque ahorra tokens",
+    "Porque lo exige Pydantic"
+   ],
+   "correcta": 0,
+   "explicacion": "El orden de los campos del schema es el orden en que el modelo genera: primero piensa, después decide."
+  }
+ ]
+}

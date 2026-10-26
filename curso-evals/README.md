@@ -37,7 +37,7 @@ extraer de cada uno, la mitad difíciles a propósito.
 | 2 | [Error analysis](modulo-02-error-analysis/README.md) | ¿Dónde falla el sistema, y qué fallo arreglo primero? |
 | 3 | [Datos sintéticos](modulo-03-datos-sinteticos/README.md) | ¿Cómo consigo casos difíciles sin tener usuarios, y sin engañarme? |
 | 4 | [Las personas que etiquetan](modulo-04-anotacion/README.md) | ¿Mis etiquetas son correctas? ¿Dos personas etiquetarían igual? |
-| 5 | LLM como juez | ¿Puedo confiar en un juez, y cuál es la tasa real de fallos si el juez se equivoca? |
+| 5 | [LLM como juez](modulo-05-llm-juez/README.md) | ¿Puedo confiar en un juez, y cuál es la tasa real de fallos si el juez se equivoca? |
 | 6 | ¿Falló el retrieval o la respuesta? | ¿Cómo evalúo un RAG por partes? |
 | 7 | Evaluar agentes con herramientas | ¿Importa el resultado o el camino? |
 | 8 | Conversaciones de varios turnos | ¿Cómo evalúo algo que depende de lo que se dijo antes? |
