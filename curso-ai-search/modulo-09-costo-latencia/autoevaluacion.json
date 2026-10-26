@@ -1,0 +1,114 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Qué tres números necesita cada pieza del buscador para decidir si se paga?",
+   "opciones": [
+    "Calidad, latencia y costo (tokens)",
+    "Solo la calidad",
+    "Calidad y número de parámetros del modelo",
+    "Latencia y memoria"
+   ],
+   "correcta": 0,
+   "explicacion": "«Mejora 2 puntos» es media frase sin cuántos segundos y cuántos tokens cuesta."
+  },
+  {
+   "pregunta": "El parser con el modelo principal dio 0.893 y con el barato 0.891. ¿Qué se decide?",
+   "opciones": [
+    "Usar el principal: es mejor",
+    "Usar el barato: misma calidad, un tercio de la latencia y menos tokens",
+    "Quitar el parser",
+    "Usar los dos"
+   ],
+   "correcta": 1,
+   "explicacion": "Se cambia el modelo cuando el eval dice que se puede."
+  },
+  {
+   "pregunta": "¿Por qué el reranker (20 llamadas) no tarda 20 veces lo que el parser?",
+   "opciones": [
+    "Porque usa caché",
+    "Porque el modelo es más rápido",
+    "Porque las llamadas van en paralelo: la latencia es la del camino más lento, el costo sí es la suma",
+    "Porque solo hace una llamada"
+   ],
+   "correcta": 2,
+   "explicacion": "Latencia y costo se suman distinto."
+  },
+  {
+   "pregunta": "¿Cómo se consiguió la calidad del reranker con el 22% de sus llamadas?",
+   "opciones": [
+    "Con un modelo más barato",
+    "Reduciendo el top 20 a top 5",
+    "Con caché",
+    "Llamándolo solo cuando el parser ve exclusiones o requisitos de años"
+   ],
+   "correcta": 3,
+   "explicacion": "Una pieza cara detrás de una condición barata, que sale de una pieza ya pagada."
+  },
+  {
+   "pregunta": "¿De qué depende cuánto ahorra una caché de parseos?",
+   "opciones": [
+    "Del tamaño de la caché",
+    "De cuánto se repiten las consultas en tu tráfico, que se mide en los logs",
+    "Del modelo",
+    "De la base de datos"
+   ],
+   "correcta": 1,
+   "explicacion": "Con la mitad del tráfico repetido sale ~46%; con casi todo único, casi nada."
+  },
+  {
+   "pregunta": "En las trazas del proyecto, ¿cuál fue la causa más común de error de las llamadas al LLM?",
+   "opciones": [
+    "Caídas del proveedor",
+    "Respuestas lentas",
+    "Configuración (falta la clave) y un modelo retirado",
+    "Inyecciones"
+   ],
+   "correcta": 2,
+   "explicacion": "Solo 1 de 84 fue un timeout del proveedor. Se detectan con una prueba de arranque y el eval en CI."
+  },
+  {
+   "pregunta": "Durante una caída del proveedor, ¿qué consiguen los reintentos?",
+   "opciones": [
+    "Nada contra la caída: multiplican la espera y las llamadas",
+    "Disponibilidad del 100%",
+    "Bajar la latencia",
+    "Mejorar el nDCG"
+   ],
+   "correcta": 0,
+   "explicacion": "Recuperan fallos sueltos, no una caída. La disponibilidad la da el respaldo."
+  },
+  {
+   "pregunta": "¿Qué es el respaldo en este buscador?",
+   "opciones": [
+    "Otro proveedor de LLM",
+    "Un mensaje de error amable",
+    "Reintentar más veces",
+    "Buscar con la híbrida sin entender la consulta: peor, pero una respuesta"
+   ],
+   "correcta": 3,
+   "explicacion": "Una ruta sin LLM es parte del diseño, no un parche."
+  },
+  {
+   "pregunta": "Con el modelo principal (p50 3.6 s), un presupuesto de 3 s y un cortacircuitos dieron nDCG 0.690. ¿Por qué?",
+   "opciones": [
+    "Por la caída",
+    "El presupuesto cortaba la mayoría de los parseos y el cortacircuitos tomó la lentitud por fallo y apagó el parser",
+    "Por un error en la búsqueda",
+    "Por la caché"
+   ],
+   "correcta": 1,
+   "explicacion": "Presupuestos y cortacircuitos se calibran contra la distribución real de latencias."
+  },
+  {
+   "pregunta": "¿Qué pasa si no fijas el tiempo límite de las llamadas?",
+   "opciones": [
+    "Nada: el SDK tiene uno razonable",
+    "Se usa 1 s",
+    "Heredas el del SDK: en la simulación, cada pedido quedó colgado media hora durante la caída",
+    "Falla de inmediato"
+   ],
+   "correcta": 2,
+   "explicacion": "Los valores por defecto no son una decisión: se heredan."
+  }
+ ]
+}
