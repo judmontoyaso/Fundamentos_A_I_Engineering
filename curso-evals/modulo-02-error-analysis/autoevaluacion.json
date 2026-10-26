@@ -1,0 +1,81 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Por qué el error analysis va antes de elegir métricas?",
+   "opciones": [
+    "Porque una métrica genérica mide fallos genéricos; primero hay que saber cómo falla TU sistema",
+    "Porque es más barato",
+    "Porque las métricas no existen",
+    "Porque lo exige el proveedor"
+   ],
+   "correcta": 0,
+   "explicacion": "Si mides lo que no falla, el número sale bien y el sistema sigue roto. Leer salidas decide qué medir."
+  },
+  {
+   "pregunta": "Durante la codificación abierta, ¿qué NO debes hacer?",
+   "opciones": [
+    "Escribir una nota con tus palabras",
+    "Anotar el primer error aguas arriba",
+    "Anotar «ok» cuando todo está bien",
+    "Empezar con una lista de categorías y encajar cada caso"
+   ],
+   "correcta": 3,
+   "explicacion": "Con categorías prefabricadas solo ves lo que ya esperabas. Las categorías salen después, de agrupar las notas."
+  },
+  {
+   "pregunta": "En el laboratorio, ¿dónde estaban los fallos graves del pipeline?",
+   "opciones": [
+    "En la ficha extraída",
+    "En la red",
+    "En los pasos de nivel y perfil, que ningún eval medía",
+    "En los datos de entrada"
+   ],
+   "correcta": 2,
+   "explicacion": "El eval del Módulo 1 daba 27-28/30 fichas perfectas. Los fallos graves estaban donde nadie miraba."
+  },
+  {
+   "pregunta": "El fallo más frecuente fue «nivel sin criterio». ¿Cuál era su causa principal?",
+   "opciones": [
+    "El modelo es demasiado pequeño",
+    "Nadie había definido qué es junior, semi-senior o senior",
+    "La temperatura",
+    "El CV estaba mal escrito"
+   ],
+   "correcta": 1,
+   "explicacion": "Era un fallo de especificación: sin regla, el modelo improvisa un criterio distinto en cada caso. La regla va antes del eval."
+  },
+  {
+   "pregunta": "Un LLM agrupó las notas casi igual que la persona, pero juntó «el perfil inventa» con «relleno genérico». ¿Por qué importa?",
+   "opciones": [
+    "Tienen gravedades distintas; fusionarlas distorsiona la prioridad",
+    "No importa: son parecidas",
+    "Porque el LLM se equivocó de idioma",
+    "Porque cambia el índice de Rand"
+   ],
+   "correcta": 0,
+   "explicacion": "Las fronteras de una categoría son decisiones de prioridad. Revisa cada grupo que proponga el LLM antes de contar."
+  },
+  {
+   "pregunta": "El chequeo de nivel marcó un caso que la persona dio por bueno (un CV que dice «junior» con 3 años). ¿Qué hiciste mal?",
+   "opciones": [
+    "Nada: el sistema falló",
+    "La persona se equivocó siempre",
+    "El regex",
+    "La regla está incompleta: no dice qué hacer cuando el CV declara su nivel"
+   ],
+   "correcta": 3,
+   "explicacion": "Validar el eval contra la revisión humana sirve para encontrar huecos en la regla, en el chequeo y en la lectura."
+  },
+  {
+   "pregunta": "En las salidas revisadas, 4 perfiles tenían contacto; en una corrida nueva del mismo sistema, 1. ¿Qué concluyes?",
+   "opciones": [
+    "Que el sistema mejoró solo",
+    "Que el regex falla",
+    "Que la frecuencia medida en 30 casos de una corrida es una estimación ruidosa",
+    "Que hay que borrar casos"
+   ],
+   "correcta": 2,
+   "explicacion": "Sirve para priorizar, no para afirmar un porcentaje exacto. Para eso hacen falta más casos o más corridas."
+  }
+ ]
+}

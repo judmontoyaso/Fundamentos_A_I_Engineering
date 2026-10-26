@@ -101,3 +101,44 @@ def guardar_jsonl(nombre: str, filas: list[dict]) -> pathlib.Path:
 def leer_jsonl(nombre: str) -> list[dict]:
     ruta = SALIDA / nombre
     return [json.loads(l) for l in ruta.read_text(encoding="utf-8").splitlines() if l.strip()]
+
+
+# ---------------- El pipeline del Módulo 2: extraer -> nivel -> perfil ----------------
+class Nivel(BaseModel):
+    razonamiento: str = Field(description="una frase con los datos del CV que justifican el nivel")
+    nivel: str = Field(description="junior, semi-senior o senior")
+
+
+class Perfil(BaseModel):
+    perfil: str = Field(description="perfil profesional para un reclutador, máximo 40 palabras")
+
+
+# Regla del nivel, escrita DESPUÉS del error analysis (Módulo 2 §6): el fallo más frecuente era que no había
+# ninguna. Es una decisión de producto; lo importante es que exista y que el eval la compruebe.
+RUBRICA_NIVEL = ("junior: menos de 3 años de experiencia; semi-senior: de 3 a 6 años; senior: 7 años o más, o 5 años "
+                 "o más si lideró equipos o tuvo un cargo de líder o arquitecto.")
+
+PROMPTS_NIVEL = {
+    "v1": f"Clasifica el nivel del candidato según su experiencia y responsabilidades. {c.INSTRUCCION_CV}",
+    "v2": f"Clasifica el nivel del candidato con esta regla: {RUBRICA_NIVEL} {c.INSTRUCCION_CV}",
+}
+PROMPTS_PERFIL = {
+    "v1": f"Escribe el perfil profesional del candidato para un reclutador. {c.INSTRUCCION_CV} Usa solo lo que dice el CV.",
+    "v2": (f"Escribe el perfil profesional del candidato para un reclutador. {c.INSTRUCCION_CV} Usa solo lo que dice "
+           "el CV: no añadas cualidades, intereses ni certificaciones que no estén escritos. No incluyas nombre, "
+           "correo, teléfono ni medios de contacto, ni fechas de graduación o datos que permitan inferir la edad."),
+}
+
+
+def pipeline(texto: str, modelo: str | None = None, version: str = "v1") -> dict:
+    """Tres pasos encadenados, cada uno con su span: la traza deja ver en qué paso nace un error.
+    La extracción usa siempre el prompt v1 del Módulo 1 para que el Módulo 2 cambie solo nivel y perfil."""
+    with tz.span("pipeline CV", version=version):
+        ficha = extraer(texto, "v1", modelo)
+        nivel = tz.llm_trazado(Nivel, PROMPTS_NIVEL[version],
+                               c.como_cv(texto) + f"\nDatos extraídos: {ficha.model_dump_json()}",
+                               nombre="nivel", version_prompt=f"nivel-{version}", modelo=modelo)
+        perfil = tz.llm_trazado(Perfil, PROMPTS_PERFIL[version], c.como_cv(texto), nombre="perfil",
+                                version_prompt=f"perfil-{version}", modelo=modelo)
+    return {"ficha": ficha.model_dump(), "nivel": nivel.nivel, "razon_nivel": nivel.razonamiento,
+            "perfil": perfil.perfil}
