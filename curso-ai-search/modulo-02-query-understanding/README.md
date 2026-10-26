@@ -126,9 +126,11 @@ Lecturas:
   todo, y el tipo subió a 0.86. **Un filtro duro convierte cualquier desacuerdo de taxonomía en un candidato perdido.**
 - **Lo que no se arregla**: la exclusión (0.63) y la numérica (0.67) siguen siendo los tipos más bajos, por la misma
   taxonomía y porque "recién egresado de desarrollo" se reescribió como "perfil de desarrollo" sin ningún rol. Y en
-  liderazgo, los suaves (0.66) quedaron por debajo de la base (0.80): "quien haya liderado equipos de desarrollo"
-  pide liderazgo y la etiqueta `lidera` del índice solo marca a quien tuvo el cargo de "líder", no a quien lo dice de
-  otra forma. Es una pérdida de la ingesta, no del parser (Módulo 3).
+  liderazgo, los suaves (0.66) quedaron por debajo de la base (0.80). La causa, leída en el ranking: para "líder técnico
+  de un equipo de datos" el parser eligió `roles: ['otro']` en vez de los roles de datos. El único filtro útil quedó
+  "lidera", que subió a líderes de **cualquier** rol (desarrolladores) por encima de los analistas de datos (0.89 → 0.46
+  en esa consulta). La otra consulta de liderazgo, en cambio, mejoró (0.72 → 0.86). Un primer diagnóstico escrito para
+  este manual culpaba a la ingesta; leer el ranking lo desmintió: el índice marcaba bien el liderazgo (118 de 119).
 
 ---
 
