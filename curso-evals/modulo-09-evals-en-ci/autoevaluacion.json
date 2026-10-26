@@ -1,0 +1,81 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Por qué testear el código de los evals, si no llama al modelo?",
+   "opciones": [
+    "No hace falta",
+    "Porque un chequeo con un bug da resultados falsos con total seguridad",
+    "Por cobertura",
+    "Porque lo exige pytest"
+   ],
+   "correcta": 1,
+   "explicacion": "Fijar las decisiones de tolerancia en tests evita que alguien cambie su significado sin darse cuenta."
+  },
+  {
+   "pregunta": "Con la caché activa, cambiar una palabra del prompt...",
+   "opciones": [
+    "Invalida las entradas: se vuelven a pagar las llamadas",
+    "Devuelve las respuestas viejas",
+    "Borra la caché",
+    "No hace nada"
+   ],
+   "correcta": 0,
+   "explicacion": "La clave incluye modelo, schema, prompt y entrada: la caché nunca esconde un cambio."
+  },
+  {
+   "pregunta": "¿Qué esconde la caché?",
+   "opciones": [
+    "Los cambios de prompt",
+    "Los errores de red",
+    "Nada",
+    "La variación entre corridas: con caché, dos corridas son idénticas por construcción"
+   ],
+   "correcta": 3,
+   "explicacion": "Por eso el pull request usa caché y la corrida nocturna no."
+  },
+  {
+   "pregunta": "¿Por qué la línea base no se actualiza en cada corrida?",
+   "opciones": [
+    "Por costo",
+    "Porque es un archivo",
+    "Porque una degradación lenta nunca fallaría",
+    "Sí se actualiza siempre"
+   ],
+   "correcta": 2,
+   "explicacion": "Se actualiza a propósito, cuando se acepta un cambio que mejora el sistema."
+  },
+  {
+   "pregunta": "¿Qué casos usa la prueba de McNemar para comparar dos versiones?",
+   "opciones": [
+    "Todos",
+    "Solo los discordantes: arreglados y rotos",
+    "Solo los que fallan en las dos",
+    "Los críticos"
+   ],
+   "correcta": 1,
+   "explicacion": "Los casos en que las dos aciertan o las dos fallan no informan sobre la diferencia."
+  },
+  {
+   "pregunta": "Con 30 casos, 0 arreglados y 4 rotos dan p = 0.062. ¿Qué implica para el CI?",
+   "opciones": [
+    "Que no bloquea: la estadística solo atrapa degradaciones grandes; por eso los casos críticos van aparte",
+    "Que bloquea",
+    "Que hay que borrar casos",
+    "Nada"
+   ],
+   "correcta": 0,
+   "explicacion": "Un CI de evals con pocos casos es una red con agujeros grandes."
+  },
+  {
+   "pregunta": "Un caso crítico (la inyección) falla una vez. ¿Qué hace la regla?",
+   "opciones": [
+    "Lo promedia con los demás",
+    "Lo ignora si el resto mejora",
+    "Lo reintenta hasta que pase",
+    "Bloquea el cambio, sin estadística"
+   ],
+   "correcta": 3,
+   "explicacion": "Un sistema que obedece una inyección de vez en cuando no está bien «en promedio»."
+  }
+ ]
+}

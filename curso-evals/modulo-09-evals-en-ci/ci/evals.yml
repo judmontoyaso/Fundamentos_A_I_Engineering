@@ -1,0 +1,50 @@
+# Workflow de GitHub Actions para la suite de evals (Módulo 9 del curso de Evals).
+#
+# NO está activo: para activarlo, copia este archivo a .github/workflows/evals.yml en la raíz del repositorio
+# y crea el secreto OPENAI_API_KEY en Settings -> Secrets and variables -> Actions.
+#
+#   sin-llm  : en cada push y pull request. Sin llamadas al modelo: gratis y en segundos.
+#   con-llm  : en cada pull request y cada noche, después de sin-llm. Con la caché de llamadas guardada
+#              entre ejecuciones, un pull request solo paga las llamadas que cambiaron.
+#   nocturno : cada noche SIN caché, para medir la variación real entre corridas.
+name: evals
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 6 * * *"        # 06:00 UTC = 01:00 en Colombia
+  workflow_dispatch:
+
+jobs:
+  sin-llm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # Solo lo que importan los tests sin LLM: no hace falta instalar torch ni sentence-transformers.
+      - run: pip install instructor "pydantic>=2" openai python-dotenv numpy pytest
+      - run: pytest curso-evals/modulo-09-evals-en-ci/tests -m "not llm" -q
+
+  con-llm:
+    needs: sin-llm
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      MODELO: gpt-6-luna
+      EVALS_CACHE: ${{ github.event_name == 'schedule' && '0' || '1' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install instructor "pydantic>=2" openai python-dotenv numpy pytest
+      - uses: actions/cache@v4
+        with:
+          path: curso-evals/salida/cache_llm.db
+          key: evals-cache-${{ hashFiles('curso-evals/comun/**', 'curso-evals/modulo-09-evals-en-ci/tests/**') }}
+          restore-keys: evals-cache-
+      - run: pytest curso-evals/modulo-09-evals-en-ci/tests -q

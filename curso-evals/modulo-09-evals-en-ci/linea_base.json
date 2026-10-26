@@ -1,0 +1,11 @@
+{
+ "modelo": "gpt-6-luna",
+ "version": "v1",
+ "fecha": "2026-10-26",
+ "exactitud": {
+  "nombre": 1.0,
+  "correo": 1.0,
+  "anios": 1.0,
+  "skills": 1.0
+ }
+}

@@ -1,0 +1,11 @@
+# Dependencias de los laboratorios del curso de Evals (las mismas del backend de la app y de AI Engineering).
+instructor
+pydantic>=2
+openai
+python-dotenv
+numpy
+qdrant-client>=1.10
+sentence-transformers
+langgraph
+# Módulo 9: la suite de evals
+pytest

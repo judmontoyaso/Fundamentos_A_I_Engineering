@@ -62,8 +62,8 @@ PROMPTS_EXTRACTOR = {
 
 
 def extraer(texto: str, version: str = "v1", modelo: str | None = None) -> FichaCV:
-    return tz.llm_trazado(FichaCV, PROMPTS_EXTRACTOR[version], c.como_cv(texto), nombre="extractor",
-                          version_prompt=f"extractor-{version}", modelo=modelo)
+    return llm_cache(FichaCV, PROMPTS_EXTRACTOR[version], c.como_cv(texto), nombre="extractor",
+                     version_prompt=f"extractor-{version}", modelo=modelo)
 
 
 # ---------------- Comparaciones deterministas ----------------
@@ -170,3 +170,34 @@ def kappa(a: list[bool], b: list[bool]) -> float:
     pa, pb = sum(a) / n, sum(b) / n
     pe = pa * pb + (1 - pa) * (1 - pb)
     return 1.0 if pe == 1 else (po - pe) / (1 - pe)
+
+
+# ---------------- Caché de llamadas al LLM (Módulo 9) ----------------
+CACHE_DB = SALIDA / "cache_llm.db"
+CACHE = {"activa": os.getenv("EVALS_CACHE") == "1", "aciertos": 0, "fallos": 0}
+
+
+def llm_cache(response_model, system: str, user: str, nombre: str = "llm", version_prompt: str | None = None,
+              modelo: str | None = None):
+    """Como tz.llm_trazado, pero si CACHE["activa"], devuelve la respuesta guardada para la MISMA llamada
+    (modelo, schema, prompt y entrada). Cambiar cualquiera de esas cosas invalida la entrada: la caché
+    nunca esconde un cambio de prompt. Lo que sí esconde es la variación entre corridas."""
+    import hashlib
+    import sqlite3
+    if not CACHE["activa"]:
+        return tz.llm_trazado(response_model, system, user, nombre, version_prompt, modelo=modelo)
+    clave = hashlib.sha256(json.dumps([modelo or tz.MODELO, response_model.__name__,
+                                       json.dumps(response_model.model_json_schema(), sort_keys=True),
+                                       system, user]).encode()).hexdigest()
+    SALIDA.mkdir(exist_ok=True)
+    with sqlite3.connect(CACHE_DB) as con:
+        con.execute("CREATE TABLE IF NOT EXISTS cache (clave TEXT PRIMARY KEY, valor TEXT)")
+        fila = con.execute("SELECT valor FROM cache WHERE clave=?", (clave,)).fetchone()
+    if fila:
+        CACHE["aciertos"] += 1
+        return response_model.model_validate_json(fila[0])
+    CACHE["fallos"] += 1
+    obj = tz.llm_trazado(response_model, system, user, nombre, version_prompt, modelo=modelo)
+    with sqlite3.connect(CACHE_DB) as con:
+        con.execute("INSERT OR REPLACE INTO cache VALUES (?, ?)", (clave, obj.model_dump_json()))
+    return obj
