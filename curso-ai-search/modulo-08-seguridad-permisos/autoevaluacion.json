@@ -1,0 +1,114 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "Buscas 10 resultados y después quitas los que el reclutador no puede ver. ¿Qué pasó en el laboratorio?",
+   "opciones": [
+    "Nada: la página sigue igual",
+    "La página quedó con 6 resultados en promedio y el nDCG bajó",
+    "Aparecieron CVs prohibidos",
+    "El nDCG subió por encima del pre-filtro"
+   ],
+   "correcta": 1,
+   "explicacion": "Post-filtrar deja páginas cortas; con permisos estrechos, quedan 2 de 10."
+  },
+  {
+   "pregunta": "¿Por qué una partición por cliente es más segura que un filtro?",
+   "opciones": [
+    "Porque es más rápida",
+    "Porque usa menos memoria",
+    "Porque un error en el filtro no puede devolver lo que no está en la partición",
+    "No lo es"
+   ],
+   "correcta": 2,
+   "explicacion": "Lo que no está en el índice no se puede devolver, haya o no un error de lógica."
+  },
+  {
+   "pregunta": "Con la regla de permisos en el prompt, gpt-6-luna no filtró nada en 27 respuestas. ¿Qué se concluye?",
+   "opciones": [
+    "Que la regla en el prompt es suficiente",
+    "Que gpt-6-luna es inmune a inyecciones",
+    "Que se puede usar cualquier modelo",
+    "Que la tasa puede ser de hasta ~11% (regla de tres), y que la seguridad dependería del modelo"
+   ],
+   "correcta": 3,
+   "explicacion": "El modelo barato, con el mismo prompt, filtró en 13 a 20 de 27 respuestas."
+  },
+  {
+   "pregunta": "Aunque el modelo no mencione a un candidato prohibido, ¿qué ya pasó si su CV iba en el contexto?",
+   "opciones": [
+    "Nada",
+    "Su CV se envió al proveedor del LLM y quedó en las trazas",
+    "Se borró",
+    "Se cambió su permiso"
+   ],
+   "correcta": 1,
+   "explicacion": "Un permiso aplicado después de enviar el dato llega tarde."
+  },
+  {
+   "pregunta": "Con el filtro en el código, nano acertó 19 listas de 27; con la regla en el prompt, 7. ¿Qué muestra?",
+   "opciones": [
+    "Que hacer de portero además de responder también empeora la respuesta",
+    "Que nano es mejor sin filtro",
+    "Que el filtro empeora la calidad",
+    "Nada relevante"
+   ],
+   "correcta": 0,
+   "explicacion": "Menos tareas en el prompt, y contexto solo con lo que importa."
+  },
+  {
+   "pregunta": "Un candidato retira su autorización a las 9 de la mañana y el índice se reconstruye de noche. ¿Cuál es el arreglo barato?",
+   "opciones": [
+    "Reconstruir cada hora",
+    "Pedir al LLM que no lo mencione",
+    "Una lista de borrados (lápidas) que se filtra al buscar desde el momento del pedido",
+    "Esperar a la noche"
+   ],
+   "correcta": 2,
+   "explicacion": "Con lápidas, en el laboratorio las páginas que mostraban a un borrado pasaron de 1.2% a 0%."
+  },
+  {
+   "pregunta": "¿Qué decide, en el índice incremental, si un CV se vuelve a embeber?",
+   "opciones": [
+    "La fecha",
+    "La huella: el hash del texto indexado (y la versión del modelo)",
+    "El tamaño del CV",
+    "Un LLM"
+   ],
+   "correcta": 1,
+   "explicacion": "50 embeddings contra 2.174 de la reconstrucción nocturna, y siempre igual a la verdad."
+  },
+  {
+   "pregunta": "¿Qué pasa si cambias de embedder y la huella no incluye la versión del modelo?",
+   "opciones": [
+    "Se recalculan todos",
+    "Da un error",
+    "Nada, los vectores son compatibles",
+    "No se recalcula nada y el índice mezcla vectores de dos espacios, fallando en silencio"
+   ],
+   "correcta": 3,
+   "explicacion": "Los textos no cambiaron, así que la huella tampoco: hay que versionar el modelo."
+  },
+  {
+   "pregunta": "En el inventario de la persona borrada, ¿dónde estaba la copia más grande?",
+   "opciones": [
+    "En el índice",
+    "En las trazas: el trazador enmascaraba correos y teléfonos, pero no nombres",
+    "En el PDF",
+    "En la base SQL"
+   ],
+   "correcta": 1,
+   "explicacion": "Observabilidad y privacidad se negocian: identificadores en vez de texto, o retención corta."
+  },
+  {
+   "pregunta": "¿Por qué el borrado se hace por identificador y no buscando el nombre?",
+   "opciones": [
+    "Porque es más rápido",
+    "Porque los nombres se repiten",
+    "Porque hay copias donde el nombre no se encuentra buscando texto, como un PDF escaneado",
+    "Por ley"
+   ],
+   "correcta": 2,
+   "explicacion": "Su PDF escaneado solo aparecía por el id del archivo; cada almacén tiene que guardar el id."
+  }
+ ]
+}
