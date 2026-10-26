@@ -1,0 +1,4512 @@
+[
+ {
+  "id": 1,
+  "texto": "Ana Gómez es ingeniero de datos en Bucaramanga, con experiencia en SaludPlus desde 2023 hasta la actualidad. Trabaja con Python, Databricks y Kafka. Tiene nivel nativo de inglés y no acepta trabajo remoto.",
+  "hechos": {
+   "nombre": "Ana Gómez",
+   "rol": "ingeniero de datos",
+   "skills": [
+    "python",
+    "databricks",
+    "kafka"
+   ],
+   "anios": 3,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "SaludPlus",
+     "cargo": "ingeniero de datos",
+     "inicio": 2023,
+     "fin": null
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": false,
+   "ingles": "nativo",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 2,
+  "texto": "- **Carlos Vélez** — Científico de datos\n- **Ubicación:** Barranquilla. No acepta trabajo remoto.\n- **Tecnologías y conocimientos:** Python, scikit-learn, estadística, PyTorch y MLflow.\n- **Experiencia:**\n  - Científico de datos en Initech (2024–actualidad).\n  - Científico de datos en EduNet (2020–2024).\n  - Científico de datos en SoftContable (2018–2020).\n  - Científico de datos en EduNet (2017–2018).\n- **Inglés:** básico",
+  "hechos": {
+   "nombre": "Carlos Vélez",
+   "rol": "científico de datos",
+   "skills": [
+    "python",
+    "scikit-learn",
+    "estadística",
+    "pytorch",
+    "mlflow"
+   ],
+   "anios": 9,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "Initech",
+     "cargo": "científico de datos",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "EduNet",
+     "cargo": "científico de datos",
+     "inicio": 2020,
+     "fin": 2024
+    },
+    {
+     "empresa": "SoftContable",
+     "cargo": "científico de datos",
+     "inicio": 2018,
+     "fin": 2020
+    },
+    {
+     "empresa": "EduNet",
+     "cargo": "científico de datos",
+     "inicio": 2017,
+     "fin": 2018
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": "básico",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 3,
+  "texto": "Laura Duarte\nAnalista de datos | Bucaramanga\n\nHabilidades: SQL, Power BI, Excel y Tableau.\nInglés: nativo. No acepta trabajo remoto.\n\nExperiencia\nEmpresa | Cargo | Periodo\nInitech | Analista de datos | 2022–actualidad\nRetailCo | Analista de datos | 2018–2022\nNorthwind | Analista de datos | 2014–2018",
+  "hechos": {
+   "nombre": "Laura Duarte",
+   "rol": "analista de datos",
+   "skills": [
+    "sql",
+    "power bi",
+    "excel",
+    "tableau"
+   ],
+   "anios": 12,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "Initech",
+     "cargo": "analista de datos",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "RetailCo",
+     "cargo": "analista de datos",
+     "inicio": 2018,
+     "fin": 2022
+    },
+    {
+     "empresa": "Northwind",
+     "cargo": "analista de datos",
+     "inicio": 2014,
+     "fin": 2018
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": false,
+   "ingles": "nativo",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 4,
+  "texto": "Andrés Ruiz is a backend developer based in Cali and is not open to remote work. He works at EduNet as a backend developer (2021–present), and previously worked at NubeSur as a backend developer (2019–2021 and 2017–2019). His technologies are Java, Spring, PostgreSQL, and Docker. English: C1.",
+  "hechos": {
+   "nombre": "Andrés Ruiz",
+   "rol": "desarrollador backend",
+   "skills": [
+    "java",
+    "spring",
+    "postgresql",
+    "docker"
+   ],
+   "anios": 9,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "EduNet",
+     "cargo": "desarrollador backend",
+     "inicio": 2021,
+     "fin": null
+    },
+    {
+     "empresa": "NubeSur",
+     "cargo": "desarrollador backend",
+     "inicio": 2019,
+     "fin": 2021
+    },
+    {
+     "empresa": "NubeSur",
+     "cargo": "desarrollador backend",
+     "inicio": 2017,
+     "fin": 2019
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": false,
+   "ingles": "C1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "inglés"
+  }
+ },
+ {
+  "id": 5,
+  "texto": "- **Sofía Salas** — Desarrolladora Python\n- **Experiencia:**\n  - EduNet — Desarrolladora Python, 2023–actualidad\n  - AgroTech — Desarrolladora Python, 2021–2023\n  - AgroTech — Desarrolladora Python, 2019–2021\n  - SoftContable — Desarrolladora Python, 2014–2019\n  - SoftContable — Desarrolladora Python, 2012–2014\n- **Tecnologías:** Python, Django, FastAPI, Docker y Celery\n- **Ubicación:** Bogotá\n- **Trabajo remoto:** No\n- **Inglés:** B2",
+  "hechos": {
+   "nombre": "Sofía Salas",
+   "rol": "desarrollador python",
+   "skills": [
+    "python",
+    "django",
+    "fastapi",
+    "docker",
+    "celery"
+   ],
+   "anios": 14,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "EduNet",
+     "cargo": "desarrollador python",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "AgroTech",
+     "cargo": "desarrollador python",
+     "inicio": 2021,
+     "fin": 2023
+    },
+    {
+     "empresa": "AgroTech",
+     "cargo": "desarrollador python",
+     "inicio": 2019,
+     "fin": 2021
+    },
+    {
+     "empresa": "SoftContable",
+     "cargo": "desarrollador python",
+     "inicio": 2014,
+     "fin": 2019
+    },
+    {
+     "empresa": "SoftContable",
+     "cargo": "desarrollador python",
+     "inicio": 2012,
+     "fin": 2014
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": "B2",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 6,
+  "texto": "Diego Ramos — Desarrollador frontend\nCali | Acepta trabajo remoto | Inglés básico\nTecnologías: JavaScript, React, CSS, Vue, Angular\n\nEmpresa | Cargo | Periodo\nSaludPlus | líder de desarrollador frontend | 2021–actualidad\nNubeSur | desarrollador frontend | 2018–2021",
+  "hechos": {
+   "nombre": "Diego Ramos",
+   "rol": "desarrollador frontend",
+   "skills": [
+    "javascript",
+    "react",
+    "css",
+    "vue",
+    "angular"
+   ],
+   "anios": 8,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "SaludPlus",
+     "cargo": "líder de desarrollador frontend",
+     "inicio": 2021,
+     "fin": null
+    },
+    {
+     "empresa": "NubeSur",
+     "cargo": "desarrollador frontend",
+     "inicio": 2018,
+     "fin": 2021
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": true,
+   "ingles": "básico",
+   "certificacion": null,
+   "lidera": true,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 7,
+  "texto": "Valentina Martínez es ingeniera DevOps en Barranquilla, con experiencia en AgroTech desde 2023 hasta la actualidad. Maneja Kubernetes, Docker, Linux, AWS y Jenkins. No acepta trabajo remoto. Tiene nivel de inglés B2.",
+  "hechos": {
+   "nombre": "Valentina Martínez",
+   "rol": "ingeniero devops",
+   "skills": [
+    "kubernetes",
+    "docker",
+    "linux",
+    "aws",
+    "jenkins"
+   ],
+   "anios": 3,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "AgroTech",
+     "cargo": "ingeniero devops",
+     "inicio": 2023,
+     "fin": null
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": "B2",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 8,
+  "texto": "- **Camilo Herrera** — Arquitecto cloud\n- **Ubicación:** Barranquilla; no acepta trabajo remoto.\n- **Tecnologías:** AWS, GCP y Kubernetes.\n- **Experiencia:**\n  - SoftContable — Arquitecto cloud (2024–actualidad)\n  - SoftContable — Arquitecto cloud (2020–2024)\n  - NubeSur — Arquitecto cloud (2017–2020)\n  - Initech — Arquitecto cloud (2012–2017)\n- **Inglés:** básico",
+  "hechos": {
+   "nombre": "Camilo Herrera",
+   "rol": "arquitecto cloud",
+   "skills": [
+    "aws",
+    "gcp",
+    "kubernetes"
+   ],
+   "anios": 14,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "SoftContable",
+     "cargo": "arquitecto cloud",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "SoftContable",
+     "cargo": "arquitecto cloud",
+     "inicio": 2020,
+     "fin": 2024
+    },
+    {
+     "empresa": "NubeSur",
+     "cargo": "arquitecto cloud",
+     "inicio": 2017,
+     "fin": 2020
+    },
+    {
+     "empresa": "Initech",
+     "cargo": "arquitecto cloud",
+     "inicio": 2012,
+     "fin": 2017
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": "básico",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 9,
+  "texto": "# Paula Giraldo\n**QA Automation** | Bogotá | Acepta trabajo remoto\n\nRecién egresada.\n\n**Tecnologías:** Selenium, Cypress, Playwright\n**Inglés:** C1\n\n**Experiencia laboral**\n| Empresa | Años |\n|---|---|",
+  "hechos": {
+   "nombre": "Paula Giraldo",
+   "rol": "qa automation",
+   "skills": [
+    "selenium",
+    "cypress",
+    "playwright"
+   ],
+   "anios": 0,
+   "nivel": "junior",
+   "trabajos": [],
+   "ciudad": "Bogotá",
+   "remoto": true,
+   "ingles": "C1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 10,
+  "texto": "Mateo Rojas es desarrollador móvil en Bucaramanga. Actualmente trabaja en SaludPlus, donde se desempeña como desarrollador móvil desde 2025. Maneja Kotlin y Flutter, tiene inglés nativo y no acepta trabajo remoto.",
+  "hechos": {
+   "nombre": "Mateo Rojas",
+   "rol": "desarrollador móvil",
+   "skills": [
+    "kotlin",
+    "flutter"
+   ],
+   "anios": 1,
+   "nivel": "junior",
+   "trabajos": [
+    {
+     "empresa": "SaludPlus",
+     "cargo": "desarrollador móvil",
+     "inicio": 2025,
+     "fin": null
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": false,
+   "ingles": "nativo",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 11,
+  "texto": "- **Natalia Pardo** — Security Analyst\n- **Location:** Medellín\n- **Experience:** Security Analyst at AgroTech (2021–Present)\n- **Skills:** ISO 27001, SIEM, Pentesting\n- **English:** B2\n- **Remote work:** Not available",
+  "hechos": {
+   "nombre": "Natalia Pardo",
+   "rol": "analista de seguridad",
+   "skills": [
+    "iso 27001",
+    "siem",
+    "pentesting"
+   ],
+   "anios": 5,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "AgroTech",
+     "cargo": "analista de seguridad",
+     "inicio": 2021,
+     "fin": null
+    }
+   ],
+   "ciudad": "Medellín",
+   "remoto": false,
+   "ingles": "B2",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "inglés"
+  }
+ },
+ {
+  "id": 12,
+  "texto": "Felipe Peña — Desarrollador .NET\nCiudad: Bucaramanga | Modalidad: no acepta trabajo remoto\nTecnologías: C#, .NET, Azure | Inglés: B2\nCertificación: Microsoft Azure Developer\n\nCargo | Empresa | Periodo\nDesarrollador .NET | Northwind | 2023–actualidad\nDesarrollador .NET | Insight Labs | 2019–2023\nDesarrollador .NET | NubeSur | 2016–2019",
+  "hechos": {
+   "nombre": "Felipe Peña",
+   "rol": "desarrollador .net",
+   "skills": [
+    "c#",
+    ".net",
+    "azure"
+   ],
+   "anios": 10,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "Northwind",
+     "cargo": "desarrollador .net",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "Insight Labs",
+     "cargo": "desarrollador .net",
+     "inicio": 2019,
+     "fin": 2023
+    },
+    {
+     "empresa": "NubeSur",
+     "cargo": "desarrollador .net",
+     "inicio": 2016,
+     "fin": 2019
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": false,
+   "ingles": "B2",
+   "certificacion": "Microsoft Azure Developer",
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 13,
+  "texto": "Isabel Castro es ingeniero de datos en Cali. Trabaja en SaludPlus desde 2022 hasta la actualidad y trabajó en Globex de 2021 a 2022, en ambos casos como ingeniero de datos. Maneja Python, Kafka y Databricks. No acepta trabajo remoto y tiene inglés B2.",
+  "hechos": {
+   "nombre": "Isabel Castro",
+   "rol": "ingeniero de datos",
+   "skills": [
+    "python",
+    "kafka",
+    "databricks"
+   ],
+   "anios": 5,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "SaludPlus",
+     "cargo": "ingeniero de datos",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "Globex",
+     "cargo": "ingeniero de datos",
+     "inicio": 2021,
+     "fin": 2022
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": false,
+   "ingles": "B2",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 14,
+  "texto": "- **Tomás León** — Científico de datos\n- **Ubicación:** Bogotá. No acepta trabajo remoto.\n- **Experiencia:**\n  - Científico de datos en Northwind (2023–actualidad)\n  - Científico de datos en NubeSur (2020–2023)\n  - Científico de datos en SoftContable (2017–2020)\n- **Tecnologías:** Python, estadística, MLflow.\n- **Certificación:** TensorFlow Developer.",
+  "hechos": {
+   "nombre": "Tomás León",
+   "rol": "científico de datos",
+   "skills": [
+    "python",
+    "estadística",
+    "mlflow"
+   ],
+   "anios": 9,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "Northwind",
+     "cargo": "científico de datos",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "NubeSur",
+     "cargo": "científico de datos",
+     "inicio": 2020,
+     "fin": 2023
+    },
+    {
+     "empresa": "SoftContable",
+     "cargo": "científico de datos",
+     "inicio": 2017,
+     "fin": 2020
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": null,
+   "certificacion": "TensorFlow Developer",
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 15,
+  "texto": "# Daniela Lozano\n**Analista de datos** | Medellín | Acepta trabajo remoto\n\nTecnologías: SQL, Python. Inglés básico.\n\n| Empresa | Cargo | Periodo |\n|---|---|---|\n| SoftContable | Analista de datos | 2024–actualidad |\n| SoftContable | Analista de datos | 2021–2024 |\n| Northwind | Analista de datos | 2019–2021 |\n| SaludPlus | Analista de datos | 2018–2019 |",
+  "hechos": {
+   "nombre": "Daniela Lozano",
+   "rol": "analista de datos",
+   "skills": [
+    "sql",
+    "python"
+   ],
+   "anios": 8,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "SoftContable",
+     "cargo": "analista de datos",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "SoftContable",
+     "cargo": "analista de datos",
+     "inicio": 2021,
+     "fin": 2024
+    },
+    {
+     "empresa": "Northwind",
+     "cargo": "analista de datos",
+     "inicio": 2019,
+     "fin": 2021
+    },
+    {
+     "empresa": "SaludPlus",
+     "cargo": "analista de datos",
+     "inicio": 2018,
+     "fin": 2019
+    }
+   ],
+   "ciudad": "Medellín",
+   "remoto": true,
+   "ingles": "básico",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 16,
+  "texto": "Julián Mejía es desarrollador backend en Barranquilla. Trabaja en Banco Andino desde 2023 y anteriormente trabajó en RetailCo entre 2022 y 2023, también como desarrollador backend. Tiene experiencia con Java, Spring, microservicios, PostgreSQL y Docker. No acepta trabajo remoto y cuenta con nivel de inglés B2.",
+  "hechos": {
+   "nombre": "Julián Mejía",
+   "rol": "desarrollador backend",
+   "skills": [
+    "java",
+    "spring",
+    "microservicios",
+    "postgresql",
+    "docker"
+   ],
+   "anios": 4,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Banco Andino",
+     "cargo": "desarrollador backend",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "RetailCo",
+     "cargo": "desarrollador backend",
+     "inicio": 2022,
+     "fin": 2023
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": "B2",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 17,
+  "texto": "- **Mariana Torres** — Desarrolladora Python\n- **Experiencia:** Desarrolladora Python en EduNet (2025–actualidad).\n- **Tecnologías:** Python, Celery y PostgreSQL.\n- **Ubicación:** Bogotá. No acepta trabajo remoto.\n- **Inglés:** Básico.",
+  "hechos": {
+   "nombre": "Mariana Torres",
+   "rol": "desarrollador python",
+   "skills": [
+    "python",
+    "celery",
+    "postgresql"
+   ],
+   "anios": 1,
+   "nivel": "junior",
+   "trabajos": [
+    {
+     "empresa": "EduNet",
+     "cargo": "desarrollador python",
+     "inicio": 2025,
+     "fin": null
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": "básico",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 18,
+  "texto": "Santiago Arango\nFrontend Developer | Bucaramanga\n\nSkills: JavaScript, Vue, Angular\nRemote work: Not available\nEnglish: Basic\n\nExperience\nCompany | Role | Years\nGlobex | Frontend Developer | 2023–Present\nEduNet | Frontend Developer | 2019–2023\nBanco Andino | Frontend Developer | 2018–2019",
+  "hechos": {
+   "nombre": "Santiago Arango",
+   "rol": "desarrollador frontend",
+   "skills": [
+    "javascript",
+    "vue",
+    "angular"
+   ],
+   "anios": 8,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "Globex",
+     "cargo": "desarrollador frontend",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "EduNet",
+     "cargo": "desarrollador frontend",
+     "inicio": 2019,
+     "fin": 2023
+    },
+    {
+     "empresa": "Banco Andino",
+     "cargo": "desarrollador frontend",
+     "inicio": 2018,
+     "fin": 2019
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": false,
+   "ingles": "básico",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "inglés"
+  }
+ },
+ {
+  "id": 19,
+  "texto": "Lucía Ortiz es ingeniero DevOps en TransLogística desde 2022 hasta la actualidad. Trabaja con Kubernetes, Docker, Linux, Jenkins y Ansible. Vive en Bucaramanga, acepta trabajo remoto, tiene inglés nivel B1 y cuenta con la certificación CKA (Kubernetes).",
+  "hechos": {
+   "nombre": "Lucía Ortiz",
+   "rol": "ingeniero devops",
+   "skills": [
+    "kubernetes",
+    "docker",
+    "linux",
+    "jenkins",
+    "ansible"
+   ],
+   "anios": 4,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "TransLogística",
+     "cargo": "ingeniero devops",
+     "inicio": 2022,
+     "fin": null
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": true,
+   "ingles": "B1",
+   "certificacion": "CKA (Kubernetes)",
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 20,
+  "texto": "- **Esteban Cruz** — Arquitecto cloud\n- **Ubicación:** Bucaramanga; no acepta trabajo remoto.\n- **Tecnologías:** AWS, Terraform y Azure.\n- **Experiencia:**\n  - Arquitecto cloud en SaludPlus (2024–actualidad).\n  - Arquitecto cloud en AgroTech (2020–2024).\n  - Arquitecto cloud en TransLogística (2017–2020).\n  - Arquitecto cloud en Insight Labs (2016–2017).\n- **Inglés:** B1.",
+  "hechos": {
+   "nombre": "Esteban Cruz",
+   "rol": "arquitecto cloud",
+   "skills": [
+    "aws",
+    "terraform",
+    "azure"
+   ],
+   "anios": 10,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "SaludPlus",
+     "cargo": "arquitecto cloud",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "AgroTech",
+     "cargo": "arquitecto cloud",
+     "inicio": 2020,
+     "fin": 2024
+    },
+    {
+     "empresa": "TransLogística",
+     "cargo": "arquitecto cloud",
+     "inicio": 2017,
+     "fin": 2020
+    },
+    {
+     "empresa": "Insight Labs",
+     "cargo": "arquitecto cloud",
+     "inicio": 2016,
+     "fin": 2017
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": false,
+   "ingles": "B1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 21,
+  "texto": "Ana Ruiz — QA Automation\nRecién egresada.\nTecnologías: Selenium, Playwright y Java.\nCiudad: Barranquilla. No acepta trabajo remoto.\nInglés: B1.\n\nPuesto | Empresa | Años\n— | — | —",
+  "hechos": {
+   "nombre": "Ana Ruiz",
+   "rol": "qa automation",
+   "skills": [
+    "selenium",
+    "playwright",
+    "java"
+   ],
+   "anios": 0,
+   "nivel": "junior",
+   "trabajos": [],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": "B1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 22,
+  "texto": "Carlos Salas es desarrollador móvil en Bucaramanga, con experiencia en RetailCo desde 2024 hasta la actualidad e Initech entre 2023 y 2024. Trabaja con Kotlin y Flutter. No acepta trabajo remoto y tiene inglés B1.",
+  "hechos": {
+   "nombre": "Carlos Salas",
+   "rol": "desarrollador móvil",
+   "skills": [
+    "kotlin",
+    "flutter"
+   ],
+   "anios": 3,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "RetailCo",
+     "cargo": "desarrollador móvil",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "Initech",
+     "cargo": "desarrollador móvil",
+     "inicio": 2023,
+     "fin": 2024
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": false,
+   "ingles": "B1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 23,
+  "texto": "- **Laura Ramos** — Analista de seguridad\n- **Experiencia:** Analista de seguridad en Manufacturas del Valle (2023–actualidad) y NubeSur (2021–2023).\n- **Tecnologías:** ISO 27001, SIEM, firewall, pentesting y NIST.\n- **Ubicación:** Bogotá. No acepta trabajo remoto.\n- **Inglés:** C1.",
+  "hechos": {
+   "nombre": "Laura Ramos",
+   "rol": "analista de seguridad",
+   "skills": [
+    "iso 27001",
+    "siem",
+    "firewall",
+    "pentesting",
+    "nist"
+   ],
+   "anios": 5,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Manufacturas del Valle",
+     "cargo": "analista de seguridad",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "NubeSur",
+     "cargo": "analista de seguridad",
+     "inicio": 2021,
+     "fin": 2023
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": "C1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 24,
+  "texto": "# Andrés Martínez\n**Desarrollador .NET** · Barranquilla\n\nRecién egresado, con conocimientos en C#, .NET, Azure y SQL Server. Inglés B1. No acepta trabajo remoto.\n\n| Empresa | Años |\n|---|---|\n| Sin experiencia laboral | — |",
+  "hechos": {
+   "nombre": "Andrés Martínez",
+   "rol": "desarrollador .net",
+   "skills": [
+    "c#",
+    ".net",
+    "azure",
+    "sql server"
+   ],
+   "anios": 0,
+   "nivel": "junior",
+   "trabajos": [],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": "B1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 25,
+  "texto": "Sofía Herrera is a data engineer based in Bogotá, open to remote work. She currently works as a Data Engineer at Insight Labs, where she has been since 2024. From 2021 to 2024, she worked as a Data Engineer at DataSur. Her technologies include Python, Spark, Airflow, Kafka, Snowflake, and dbt.",
+  "hechos": {
+   "nombre": "Sofía Herrera",
+   "rol": "ingeniero de datos",
+   "skills": [
+    "python",
+    "spark",
+    "airflow",
+    "kafka",
+    "snowflake",
+    "dbt"
+   ],
+   "anios": 5,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Insight Labs",
+     "cargo": "ingeniero de datos",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "DataSur",
+     "cargo": "ingeniero de datos",
+     "inicio": 2021,
+     "fin": 2024
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": true,
+   "ingles": null,
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "inglés"
+  }
+ },
+ {
+  "id": 26,
+  "texto": "- **Diego Giraldo** — Científico de datos\n- Recién egresado\n- **Tecnologías y conocimientos:** Python, MLflow, estadística y TensorFlow\n- **Ciudad:** Barranquilla\n- **Trabajo remoto:** No\n- **Inglés:** B1",
+  "hechos": {
+   "nombre": "Diego Giraldo",
+   "rol": "científico de datos",
+   "skills": [
+    "python",
+    "mlflow",
+    "estadística",
+    "tensorflow"
+   ],
+   "anios": 0,
+   "nivel": "junior",
+   "trabajos": [],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": "B1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 27,
+  "texto": "# Valentina Rojas\n**Analista de datos** | Medellín | Acepta trabajo remoto\n\n**Tecnologías:** SQL, Power BI, Excel\n**Inglés:** B1\n\n| Empresa | Cargo | Años |\n|---|---|---|\n| SaludPlus | Analista de datos | 2023–actualidad |\n| Northwind | Analista de datos | 2020–2023 |\n| TransLogística | Analista de datos | 2018–2020 |\n| RetailCo | Analista de datos | 2016–2018 |",
+  "hechos": {
+   "nombre": "Valentina Rojas",
+   "rol": "analista de datos",
+   "skills": [
+    "sql",
+    "power bi",
+    "excel"
+   ],
+   "anios": 10,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "SaludPlus",
+     "cargo": "analista de datos",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "Northwind",
+     "cargo": "analista de datos",
+     "inicio": 2020,
+     "fin": 2023
+    },
+    {
+     "empresa": "TransLogística",
+     "cargo": "analista de datos",
+     "inicio": 2018,
+     "fin": 2020
+    },
+    {
+     "empresa": "RetailCo",
+     "cargo": "analista de datos",
+     "inicio": 2016,
+     "fin": 2018
+    }
+   ],
+   "ciudad": "Medellín",
+   "remoto": true,
+   "ingles": "B1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 28,
+  "texto": "Camilo Pardo es desarrollador backend en Cali y acepta trabajo remoto. Actualmente trabaja en EduNet desde 2024. Anteriormente trabajó en Insight Labs (2021–2024), TransLogística (2019–2021) y Banco Andino (2016–2019), siempre como desarrollador backend. Maneja Java, Spring, Kafka y PostgreSQL.",
+  "hechos": {
+   "nombre": "Camilo Pardo",
+   "rol": "desarrollador backend",
+   "skills": [
+    "java",
+    "spring",
+    "kafka",
+    "postgresql"
+   ],
+   "anios": 10,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "EduNet",
+     "cargo": "desarrollador backend",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "Insight Labs",
+     "cargo": "desarrollador backend",
+     "inicio": 2021,
+     "fin": 2024
+    },
+    {
+     "empresa": "TransLogística",
+     "cargo": "desarrollador backend",
+     "inicio": 2019,
+     "fin": 2021
+    },
+    {
+     "empresa": "Banco Andino",
+     "cargo": "desarrollador backend",
+     "inicio": 2016,
+     "fin": 2019
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": true,
+   "ingles": null,
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 29,
+  "texto": "- **Paula Peña** — desarrollador python\n- **Ubicación:** Cali. No acepta trabajo remoto.\n- **Tecnologías:** Python, FastAPI, Celery.\n- **Experiencia:**\n  - Líder de desarrollador python en AgroTech (2023–actualidad).\n  - Desarrollador python en AgroTech (2018–2023).\n  - Desarrollador python en SaludPlus (2016–2018).\n- **Inglés:** básico.",
+  "hechos": {
+   "nombre": "Paula Peña",
+   "rol": "desarrollador python",
+   "skills": [
+    "python",
+    "fastapi",
+    "celery"
+   ],
+   "anios": 10,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "AgroTech",
+     "cargo": "líder de desarrollador python",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "AgroTech",
+     "cargo": "desarrollador python",
+     "inicio": 2018,
+     "fin": 2023
+    },
+    {
+     "empresa": "SaludPlus",
+     "cargo": "desarrollador python",
+     "inicio": 2016,
+     "fin": 2018
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": false,
+   "ingles": "básico",
+   "certificacion": null,
+   "lidera": true,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 30,
+  "texto": "Mateo Castro — Desarrollador frontend\nBucaramanga. No acepta trabajo remoto.\nTecnologías: JavaScript, React, CSS, Vue y Angular.\n\nEmpresa | Cargo | Años\nDataSur | Desarrollador frontend | 2022–actualidad\nTransLogística | Desarrollador frontend | 2019–2022\nNorthwind | Desarrollador frontend | 2014–2019\nGlobex | Desarrollador frontend | 2012–2014",
+  "hechos": {
+   "nombre": "Mateo Castro",
+   "rol": "desarrollador frontend",
+   "skills": [
+    "javascript",
+    "react",
+    "css",
+    "vue",
+    "angular"
+   ],
+   "anios": 14,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "DataSur",
+     "cargo": "desarrollador frontend",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "TransLogística",
+     "cargo": "desarrollador frontend",
+     "inicio": 2019,
+     "fin": 2022
+    },
+    {
+     "empresa": "Northwind",
+     "cargo": "desarrollador frontend",
+     "inicio": 2014,
+     "fin": 2019
+    },
+    {
+     "empresa": "Globex",
+     "cargo": "desarrollador frontend",
+     "inicio": 2012,
+     "fin": 2014
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": false,
+   "ingles": null,
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 31,
+  "texto": "Natalia León es ingeniera DevOps en Barranquilla, con experiencia en Northwind como líder de ingeniero DevOps desde 2022 hasta la actualidad. Anteriormente trabajó como ingeniera DevOps en Globex (2020–2022), EduNet (2017–2020) y Manufacturas del Valle (2014–2017). Maneja Kubernetes, Ansible y AWS. No acepta trabajo remoto y tiene nivel C1 de inglés.",
+  "hechos": {
+   "nombre": "Natalia León",
+   "rol": "ingeniero devops",
+   "skills": [
+    "kubernetes",
+    "ansible",
+    "aws"
+   ],
+   "anios": 12,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "Northwind",
+     "cargo": "líder de ingeniero devops",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "Globex",
+     "cargo": "ingeniero devops",
+     "inicio": 2020,
+     "fin": 2022
+    },
+    {
+     "empresa": "EduNet",
+     "cargo": "ingeniero devops",
+     "inicio": 2017,
+     "fin": 2020
+    },
+    {
+     "empresa": "Manufacturas del Valle",
+     "cargo": "ingeniero devops",
+     "inicio": 2014,
+     "fin": 2017
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": "C1",
+   "certificacion": null,
+   "lidera": true,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 32,
+  "texto": "- Felipe Lozano — Cloud Architect\n- Based in Cali; not available for remote work.\n- Experience:\n  - Cloud Architect, Banco Andino (2021–Present)\n  - Cloud Architect, RetailCo (2017–2021)\n  - Cloud Architect, AgroTech (2015–2017)\n  - Cloud Architect, Northwind (2014–2015)\n- Technologies: AWS, Azure, Kubernetes, GCP\n- English: B1\n- Certification: AWS Solutions Architect",
+  "hechos": {
+   "nombre": "Felipe Lozano",
+   "rol": "arquitecto cloud",
+   "skills": [
+    "aws",
+    "azure",
+    "kubernetes",
+    "gcp"
+   ],
+   "anios": 12,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "Banco Andino",
+     "cargo": "arquitecto cloud",
+     "inicio": 2021,
+     "fin": null
+    },
+    {
+     "empresa": "RetailCo",
+     "cargo": "arquitecto cloud",
+     "inicio": 2017,
+     "fin": 2021
+    },
+    {
+     "empresa": "AgroTech",
+     "cargo": "arquitecto cloud",
+     "inicio": 2015,
+     "fin": 2017
+    },
+    {
+     "empresa": "Northwind",
+     "cargo": "arquitecto cloud",
+     "inicio": 2014,
+     "fin": 2015
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": false,
+   "ingles": "B1",
+   "certificacion": "AWS Solutions Architect",
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "inglés"
+  }
+ },
+ {
+  "id": 33,
+  "texto": "# Isabel Mejía\n\n**QA Automation** | Bucaramanga | Acepta trabajo remoto\n\nTecnologías: Selenium, Cypress, JMeter\n\n| Cargo | Empresa | Años |\n|---|---|---|\n| QA Automation | EduNet | 2024–actualidad |\n| QA Automation | NubeSur | 2019–2024 |\n| QA Automation | SaludPlus | 2016–2019 |\n\nInglés: C1",
+  "hechos": {
+   "nombre": "Isabel Mejía",
+   "rol": "qa automation",
+   "skills": [
+    "selenium",
+    "cypress",
+    "jmeter"
+   ],
+   "anios": 10,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "EduNet",
+     "cargo": "qa automation",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "NubeSur",
+     "cargo": "qa automation",
+     "inicio": 2019,
+     "fin": 2024
+    },
+    {
+     "empresa": "SaludPlus",
+     "cargo": "qa automation",
+     "inicio": 2016,
+     "fin": 2019
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": true,
+   "ingles": "C1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 34,
+  "texto": "Tomás Torres es desarrollador móvil recién egresado, con conocimientos de Kotlin, Swift y Flutter. Vive en Bogotá y no acepta trabajo remoto. Su nivel de inglés es nativo.",
+  "hechos": {
+   "nombre": "Tomás Torres",
+   "rol": "desarrollador móvil",
+   "skills": [
+    "kotlin",
+    "swift",
+    "flutter"
+   ],
+   "anios": 0,
+   "nivel": "junior",
+   "trabajos": [],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": "nativo",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 35,
+  "texto": "• Daniela Arango — Analista de seguridad\n• Ubicación: Bucaramanga. Acepta trabajo remoto.\n• Experiencia:\n  • Analista de seguridad, Insight Labs (2023–actualidad).\n  • Analista de seguridad, Manufacturas del Valle (2022–2023).\n• Tecnologías: ISO 27001, pentesting y NIST.",
+  "hechos": {
+   "nombre": "Daniela Arango",
+   "rol": "analista de seguridad",
+   "skills": [
+    "iso 27001",
+    "pentesting",
+    "nist"
+   ],
+   "anios": 4,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Insight Labs",
+     "cargo": "analista de seguridad",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "Manufacturas del Valle",
+     "cargo": "analista de seguridad",
+     "inicio": 2022,
+     "fin": 2023
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": true,
+   "ingles": null,
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 36,
+  "texto": "# Julián Ortiz\n\n**Desarrollador .NET** · Barranquilla · No acepta trabajo remoto\n\nTecnologías: C#, .NET, SQL Server\n\n| Cargo | Empresa | Años |\n|---|---|---|\n| Líder de desarrollador .NET | Manufacturas del Valle | 2022–actualidad |\n| Desarrollador .NET | TransLogística | 2020–2022 |",
+  "hechos": {
+   "nombre": "Julián Ortiz",
+   "rol": "desarrollador .net",
+   "skills": [
+    "c#",
+    ".net",
+    "sql server"
+   ],
+   "anios": 6,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Manufacturas del Valle",
+     "cargo": "líder de desarrollador .net",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "TransLogística",
+     "cargo": "desarrollador .net",
+     "inicio": 2020,
+     "fin": 2022
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": null,
+   "certificacion": null,
+   "lidera": true,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 37,
+  "texto": "Mariana Cruz es ingeniera de datos en Bogotá. Trabaja como ingeniera de datos en SaludPlus desde 2025, donde utiliza Python, Spark, AWS y Snowflake. No acepta trabajo remoto. Tiene nivel de inglés B1.",
+  "hechos": {
+   "nombre": "Mariana Cruz",
+   "rol": "ingeniero de datos",
+   "skills": [
+    "python",
+    "spark",
+    "aws",
+    "snowflake"
+   ],
+   "anios": 1,
+   "nivel": "junior",
+   "trabajos": [
+    {
+     "empresa": "SaludPlus",
+     "cargo": "ingeniero de datos",
+     "inicio": 2025,
+     "fin": null
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": "B1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 38,
+  "texto": "- **Santiago Gómez** — Científico de datos\n- **Experiencia:** Científico de datos en Insight Labs (2021–actualidad).\n- **Tecnologías:** Python, scikit-learn, SQL y TensorFlow.\n- **Ubicación:** Cali. No acepta trabajo remoto.\n- **Inglés:** Nativo.",
+  "hechos": {
+   "nombre": "Santiago Gómez",
+   "rol": "científico de datos",
+   "skills": [
+    "python",
+    "scikit-learn",
+    "sql",
+    "tensorflow"
+   ],
+   "anios": 5,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Insight Labs",
+     "cargo": "científico de datos",
+     "inicio": 2021,
+     "fin": null
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": false,
+   "ingles": "nativo",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 39,
+  "texto": "Lucía Vélez\nData Analyst | Cali\n\nSkills: SQL, Power BI, Excel, Tableau\nEnglish: B1\nRemote work: Not available\nCertification: None\n\n| Company | Role | Years |\n|---|---|---|\n| DataSur | Data Analyst | 2023–Present |",
+  "hechos": {
+   "nombre": "Lucía Vélez",
+   "rol": "analista de datos",
+   "skills": [
+    "sql",
+    "power bi",
+    "excel",
+    "tableau"
+   ],
+   "anios": 3,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "DataSur",
+     "cargo": "analista de datos",
+     "inicio": 2023,
+     "fin": null
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": false,
+   "ingles": "B1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "inglés"
+  }
+ },
+ {
+  "id": 40,
+  "texto": "Esteban Duarte es desarrollador backend en Cali. Trabaja en NubeSur desde 2023; anteriormente fue desarrollador backend en Banco Andino entre 2019 y 2023. Maneja Java, Spring y Docker. Acepta trabajo remoto y tiene nivel de inglés B2.",
+  "hechos": {
+   "nombre": "Esteban Duarte",
+   "rol": "desarrollador backend",
+   "skills": [
+    "java",
+    "spring",
+    "docker"
+   ],
+   "anios": 7,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "NubeSur",
+     "cargo": "desarrollador backend",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "Banco Andino",
+     "cargo": "desarrollador backend",
+     "inicio": 2019,
+     "fin": 2023
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": true,
+   "ingles": "B2",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 41,
+  "texto": "- **Ana Martínez** — Desarrollador Python\n- **Experiencia:** Desarrollador Python en RetailCo (2024–actualidad).\n- **Tecnologías:** Python, Django y Docker.\n- **Ubicación:** Cali. No acepta trabajo remoto.\n- **Inglés:** Nativo.",
+  "hechos": {
+   "nombre": "Ana Martínez",
+   "rol": "desarrollador python",
+   "skills": [
+    "python",
+    "django",
+    "docker"
+   ],
+   "anios": 2,
+   "nivel": "junior",
+   "trabajos": [
+    {
+     "empresa": "RetailCo",
+     "cargo": "desarrollador python",
+     "inicio": 2024,
+     "fin": null
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": false,
+   "ingles": "nativo",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 42,
+  "texto": "Carlos Herrera — Desarrollador frontend\n\nUbicación: Bucaramanga | Trabajo remoto: No\nTecnologías: JavaScript, Vue, CSS, Angular\nInglés: B2\n\nEmpresa | Cargo | Periodo\nTransLogística | Desarrollador frontend | 2024–actualidad\nTransLogística | Desarrollador frontend | 2021–2024",
+  "hechos": {
+   "nombre": "Carlos Herrera",
+   "rol": "desarrollador frontend",
+   "skills": [
+    "javascript",
+    "vue",
+    "css",
+    "angular"
+   ],
+   "anios": 5,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "TransLogística",
+     "cargo": "desarrollador frontend",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "TransLogística",
+     "cargo": "desarrollador frontend",
+     "inicio": 2021,
+     "fin": 2024
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": false,
+   "ingles": "B2",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 43,
+  "texto": "Laura Giraldo es ingeniero DevOps en Barranquilla, con experiencia en Globex (2023-actualidad), Insight Labs (2019-2023), Northwind (2015-2019) y Manufacturas del Valle (2014-2015). Cuenta con conocimientos de Kubernetes, Docker y AWS. No acepta trabajo remoto y tiene nivel de inglés B2.",
+  "hechos": {
+   "nombre": "Laura Giraldo",
+   "rol": "ingeniero devops",
+   "skills": [
+    "kubernetes",
+    "docker",
+    "aws"
+   ],
+   "anios": 12,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "Globex",
+     "cargo": "ingeniero devops",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "Insight Labs",
+     "cargo": "ingeniero devops",
+     "inicio": 2019,
+     "fin": 2023
+    },
+    {
+     "empresa": "Northwind",
+     "cargo": "ingeniero devops",
+     "inicio": 2015,
+     "fin": 2019
+    },
+    {
+     "empresa": "Manufacturas del Valle",
+     "cargo": "ingeniero devops",
+     "inicio": 2014,
+     "fin": 2015
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": "B2",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 44,
+  "texto": "- **Andrés Rojas** — Arquitecto cloud\n- **Ubicación:** Cali\n- **Experiencia:**\n  - Arquitecto cloud, TransLogística (2023–actualidad)\n  - Arquitecto cloud, TransLogística (2021–2023)\n  - Arquitecto cloud, Banco Andino (2017–2021)\n  - Arquitecto cloud, SaludPlus (2015–2017)\n  - Arquitecto cloud, SaludPlus (2012–2015)\n- **Tecnologías:** AWS, Terraform, Azure, Kubernetes\n- **Trabajo remoto:** No\n- **Inglés:** B1\n- **Certificación:** AWS Solutions Architect",
+  "hechos": {
+   "nombre": "Andrés Rojas",
+   "rol": "arquitecto cloud",
+   "skills": [
+    "aws",
+    "terraform",
+    "azure",
+    "kubernetes"
+   ],
+   "anios": 14,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "TransLogística",
+     "cargo": "arquitecto cloud",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "TransLogística",
+     "cargo": "arquitecto cloud",
+     "inicio": 2021,
+     "fin": 2023
+    },
+    {
+     "empresa": "Banco Andino",
+     "cargo": "arquitecto cloud",
+     "inicio": 2017,
+     "fin": 2021
+    },
+    {
+     "empresa": "SaludPlus",
+     "cargo": "arquitecto cloud",
+     "inicio": 2015,
+     "fin": 2017
+    },
+    {
+     "empresa": "SaludPlus",
+     "cargo": "arquitecto cloud",
+     "inicio": 2012,
+     "fin": 2015
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": false,
+   "ingles": "B1",
+   "certificacion": "AWS Solutions Architect",
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 45,
+  "texto": "Sofía Pardo — QA Automation\nCali | Acepta trabajo remoto | Inglés: B2\n\nExperiencia\nEmpresa | Cargo | Periodo\nSoftContable | QA Automation | 2023–actualidad\nManufacturas del Valle | QA Automation | 2021–2023\n\nTecnologías: Selenium, Java, JMeter y Playwright",
+  "hechos": {
+   "nombre": "Sofía Pardo",
+   "rol": "qa automation",
+   "skills": [
+    "selenium",
+    "java",
+    "jmeter",
+    "playwright"
+   ],
+   "anios": 5,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "SoftContable",
+     "cargo": "qa automation",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "Manufacturas del Valle",
+     "cargo": "qa automation",
+     "inicio": 2021,
+     "fin": 2023
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": true,
+   "ingles": "B2",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 46,
+  "texto": "Diego Peña is a mobile developer based in Medellín. He has worked as a mobile developer at Globex since 2022, using Kotlin and Flutter. He is not available for remote work and has C1-level English.",
+  "hechos": {
+   "nombre": "Diego Peña",
+   "rol": "desarrollador móvil",
+   "skills": [
+    "kotlin",
+    "flutter"
+   ],
+   "anios": 4,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Globex",
+     "cargo": "desarrollador móvil",
+     "inicio": 2022,
+     "fin": null
+    }
+   ],
+   "ciudad": "Medellín",
+   "remoto": false,
+   "ingles": "C1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "inglés"
+  }
+ },
+ {
+  "id": 47,
+  "texto": "- **Valentina Castro** — Analista de seguridad\n- **Experiencia:**\n  - Analista de seguridad, Manufacturas del Valle (2022–actualidad)\n  - Analista de seguridad, RetailCo (2021–2022)\n- **Tecnologías:** ISO 27001, SIEM, firewall, NIST y pentesting\n- **Ciudad:** Cali\n- **Trabajo remoto:** No",
+  "hechos": {
+   "nombre": "Valentina Castro",
+   "rol": "analista de seguridad",
+   "skills": [
+    "iso 27001",
+    "siem",
+    "firewall",
+    "nist",
+    "pentesting"
+   ],
+   "anios": 5,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Manufacturas del Valle",
+     "cargo": "analista de seguridad",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "RetailCo",
+     "cargo": "analista de seguridad",
+     "inicio": 2021,
+     "fin": 2022
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": false,
+   "ingles": null,
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 48,
+  "texto": "Camilo León — Desarrollador .NET\nUbicación: Bogotá | Trabajo remoto: no\nTecnologías: C#, Azure\n\nEmpresa | Cargo | Periodo\nRetailCo | Líder de desarrollador .NET | 2022–actualidad\nDataSur | Desarrollador .NET | 2017–2022\nRetailCo | Desarrollador .NET | 2013–2017\nRetailCo | Desarrollador .NET | 2012–2013",
+  "hechos": {
+   "nombre": "Camilo León",
+   "rol": "desarrollador .net",
+   "skills": [
+    "c#",
+    "azure"
+   ],
+   "anios": 14,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "RetailCo",
+     "cargo": "líder de desarrollador .net",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "DataSur",
+     "cargo": "desarrollador .net",
+     "inicio": 2017,
+     "fin": 2022
+    },
+    {
+     "empresa": "RetailCo",
+     "cargo": "desarrollador .net",
+     "inicio": 2013,
+     "fin": 2017
+    },
+    {
+     "empresa": "RetailCo",
+     "cargo": "desarrollador .net",
+     "inicio": 2012,
+     "fin": 2013
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": null,
+   "certificacion": null,
+   "lidera": true,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 49,
+  "texto": "Paula Lozano es ingeniero de datos en Medellín y acepta trabajo remoto. Trabaja en SoftContable como ingeniero de datos desde 2022 hasta la actualidad. Anteriormente, trabajó en TransLogística como ingeniero de datos de 2018 a 2022. Cuenta con experiencia en Python, Spark, Airflow, Databricks y Kafka, y tiene inglés C1.",
+  "hechos": {
+   "nombre": "Paula Lozano",
+   "rol": "ingeniero de datos",
+   "skills": [
+    "python",
+    "spark",
+    "airflow",
+    "databricks",
+    "kafka"
+   ],
+   "anios": 8,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "SoftContable",
+     "cargo": "ingeniero de datos",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "TransLogística",
+     "cargo": "ingeniero de datos",
+     "inicio": 2018,
+     "fin": 2022
+    }
+   ],
+   "ciudad": "Medellín",
+   "remoto": true,
+   "ingles": "C1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 50,
+  "texto": "• Mateo Mejía — científico de datos.\n• Experiencia: científico de datos en Globex, desde 2025 hasta la actualidad.\n• Tecnologías: Python, estadística y MLflow.\n• Ubicación: Barranquilla. Acepta trabajo remoto.\n• Inglés: B2.",
+  "hechos": {
+   "nombre": "Mateo Mejía",
+   "rol": "científico de datos",
+   "skills": [
+    "python",
+    "estadística",
+    "mlflow"
+   ],
+   "anios": 1,
+   "nivel": "junior",
+   "trabajos": [
+    {
+     "empresa": "Globex",
+     "cargo": "científico de datos",
+     "inicio": 2025,
+     "fin": null
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": true,
+   "ingles": "B2",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 51,
+  "texto": "Natalia Torres\nAnalista de datos | Barranquilla\n\nTecnologías: SQL, Tableau, Excel y Python.\nInglés: nativo. No acepta trabajo remoto.\n\nExperiencia:\nEmpresa | Cargo | Periodo\nBanco Andino | Analista de datos | 2024–actualidad",
+  "hechos": {
+   "nombre": "Natalia Torres",
+   "rol": "analista de datos",
+   "skills": [
+    "sql",
+    "tableau",
+    "excel",
+    "python"
+   ],
+   "anios": 2,
+   "nivel": "junior",
+   "trabajos": [
+    {
+     "empresa": "Banco Andino",
+     "cargo": "analista de datos",
+     "inicio": 2024,
+     "fin": null
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": "nativo",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 52,
+  "texto": "Felipe Arango es desarrollador backend en Bogotá. Desde 2024 trabaja como desarrollador backend en SaludPlus. Maneja Java, Docker, Kafka y PostgreSQL. Acepta trabajo remoto y tiene nivel de inglés B1.",
+  "hechos": {
+   "nombre": "Felipe Arango",
+   "rol": "desarrollador backend",
+   "skills": [
+    "java",
+    "docker",
+    "kafka",
+    "postgresql"
+   ],
+   "anios": 2,
+   "nivel": "junior",
+   "trabajos": [
+    {
+     "empresa": "SaludPlus",
+     "cargo": "desarrollador backend",
+     "inicio": 2024,
+     "fin": null
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": true,
+   "ingles": "B1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 53,
+  "texto": "- Isabel Ortiz — Python Developer\n- Experience:\n  - Lead Python Developer, Northwind (2022–Present)\n  - Python Developer, Northwind (2018–2022)\n- Technologies: Python, Docker\n- Location: Bogotá\n- Remote work: Not available\n- English: Native",
+  "hechos": {
+   "nombre": "Isabel Ortiz",
+   "rol": "desarrollador python",
+   "skills": [
+    "python",
+    "docker"
+   ],
+   "anios": 8,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "Northwind",
+     "cargo": "líder de desarrollador python",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "Northwind",
+     "cargo": "desarrollador python",
+     "inicio": 2018,
+     "fin": 2022
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": "nativo",
+   "certificacion": null,
+   "lidera": true,
+   "estilo": "lista",
+   "idioma": "inglés"
+  }
+ },
+ {
+  "id": 54,
+  "texto": "Tomás Cruz — Desarrollador frontend\nMedellín · No acepta trabajo remoto\nTecnologías: JavaScript, React, TypeScript, Angular y CSS.\n\nEmpresa | Cargo | Periodo\nInsight Labs | Desarrollador frontend | 2022–actualidad\nSoftContable | Desarrollador frontend | 2020–2022\nNorthwind | Desarrollador frontend | 2018–2020",
+  "hechos": {
+   "nombre": "Tomás Cruz",
+   "rol": "desarrollador frontend",
+   "skills": [
+    "javascript",
+    "react",
+    "typescript",
+    "angular",
+    "css"
+   ],
+   "anios": 8,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "Insight Labs",
+     "cargo": "desarrollador frontend",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "SoftContable",
+     "cargo": "desarrollador frontend",
+     "inicio": 2020,
+     "fin": 2022
+    },
+    {
+     "empresa": "Northwind",
+     "cargo": "desarrollador frontend",
+     "inicio": 2018,
+     "fin": 2020
+    }
+   ],
+   "ciudad": "Medellín",
+   "remoto": false,
+   "ingles": null,
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 55,
+  "texto": "Daniela Gómez es ingeniero DevOps con experiencia en Banco Andino (2022–actualidad), Northwind (2020–2022) y EduNet (2017–2020). Maneja Kubernetes y Ansible. Vive en Barranquilla y no acepta trabajo remoto. Tiene nivel básico de inglés.",
+  "hechos": {
+   "nombre": "Daniela Gómez",
+   "rol": "ingeniero devops",
+   "skills": [
+    "kubernetes",
+    "ansible"
+   ],
+   "anios": 9,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "Banco Andino",
+     "cargo": "ingeniero devops",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "Northwind",
+     "cargo": "ingeniero devops",
+     "inicio": 2020,
+     "fin": 2022
+    },
+    {
+     "empresa": "EduNet",
+     "cargo": "ingeniero devops",
+     "inicio": 2017,
+     "fin": 2020
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": "básico",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 56,
+  "texto": "- **Julián Vélez** — Arquitecto cloud\n- **Ubicación:** Cali. No acepta trabajo remoto.\n- **Experiencia:**\n  - Arquitecto cloud en DataSur (2021–actualidad).\n  - Arquitecto cloud en Northwind (2017–2021).\n  - Arquitecto cloud en AgroTech (2016–2017).\n- **Tecnologías:** AWS, Azure.\n- **Inglés:** B1.",
+  "hechos": {
+   "nombre": "Julián Vélez",
+   "rol": "arquitecto cloud",
+   "skills": [
+    "aws",
+    "azure"
+   ],
+   "anios": 10,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "DataSur",
+     "cargo": "arquitecto cloud",
+     "inicio": 2021,
+     "fin": null
+    },
+    {
+     "empresa": "Northwind",
+     "cargo": "arquitecto cloud",
+     "inicio": 2017,
+     "fin": 2021
+    },
+    {
+     "empresa": "AgroTech",
+     "cargo": "arquitecto cloud",
+     "inicio": 2016,
+     "fin": 2017
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": false,
+   "ingles": "B1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 57,
+  "texto": "# Mariana Duarte\n**QA Automation**\n\nBogotá · No acepta trabajo remoto · Inglés nativo\n\n**Tecnologías:** Selenium, Cypress, JMeter, Playwright, Java\n\n| Empresa | Cargo | Periodo |\n|---|---|---|\n| Initech | QA Automation | 2023–actualidad |",
+  "hechos": {
+   "nombre": "Mariana Duarte",
+   "rol": "qa automation",
+   "skills": [
+    "selenium",
+    "cypress",
+    "jmeter",
+    "playwright",
+    "java"
+   ],
+   "anios": 3,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Initech",
+     "cargo": "qa automation",
+     "inicio": 2023,
+     "fin": null
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": "nativo",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 58,
+  "texto": "Santiago Ruiz es desarrollador móvil en Barranquilla, con experiencia en DataSur desde 2023. Trabaja con Kotlin y Flutter, acepta trabajo remoto y tiene un nivel básico de inglés.",
+  "hechos": {
+   "nombre": "Santiago Ruiz",
+   "rol": "desarrollador móvil",
+   "skills": [
+    "kotlin",
+    "flutter"
+   ],
+   "anios": 3,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "DataSur",
+     "cargo": "desarrollador móvil",
+     "inicio": 2023,
+     "fin": null
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": true,
+   "ingles": "básico",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 59,
+  "texto": "- **Lucía Salas** — Analista de seguridad\n- **Ubicación:** Barranquilla\n- **Experiencia:**\n  - Analista de seguridad en SoftContable (2024–actualidad)\n  - Analista de seguridad en RetailCo (2020–2024)\n- **Tecnologías:** ISO 27001, SIEM, firewall, NIST\n- **Modalidad:** No acepta trabajo remoto.",
+  "hechos": {
+   "nombre": "Lucía Salas",
+   "rol": "analista de seguridad",
+   "skills": [
+    "iso 27001",
+    "siem",
+    "firewall",
+    "nist"
+   ],
+   "anios": 6,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "SoftContable",
+     "cargo": "analista de seguridad",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "RetailCo",
+     "cargo": "analista de seguridad",
+     "inicio": 2020,
+     "fin": 2024
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": null,
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 60,
+  "texto": "# Esteban Ramos\n**.NET Developer** | Barranquilla | Not open to remote work | English: C1\n\n**Technologies:** C#, Azure, SQL Server\n\n| Company | Position | Years |\n|---|---|---|\n| AgroTech | Lead .NET Developer | 2024–Present |\n| SaludPlus | .NET Developer | 2020–2024 |\n| TransLogística | .NET Developer | 2017–2020 |",
+  "hechos": {
+   "nombre": "Esteban Ramos",
+   "rol": "desarrollador .net",
+   "skills": [
+    "c#",
+    "azure",
+    "sql server"
+   ],
+   "anios": 9,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "AgroTech",
+     "cargo": "líder de desarrollador .net",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "SaludPlus",
+     "cargo": "desarrollador .net",
+     "inicio": 2020,
+     "fin": 2024
+    },
+    {
+     "empresa": "TransLogística",
+     "cargo": "desarrollador .net",
+     "inicio": 2017,
+     "fin": 2020
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": "C1",
+   "certificacion": null,
+   "lidera": true,
+   "estilo": "tabla",
+   "idioma": "inglés"
+  }
+ },
+ {
+  "id": 61,
+  "texto": "Ana Rojas es ingeniero de datos en Bucaramanga. Trabaja en Initech desde 2025 hasta la actualidad. Maneja Python, Snowflake y Kafka. No acepta trabajo remoto. Su nivel de inglés es C1.",
+  "hechos": {
+   "nombre": "Ana Rojas",
+   "rol": "ingeniero de datos",
+   "skills": [
+    "python",
+    "snowflake",
+    "kafka"
+   ],
+   "anios": 1,
+   "nivel": "junior",
+   "trabajos": [
+    {
+     "empresa": "Initech",
+     "cargo": "ingeniero de datos",
+     "inicio": 2025,
+     "fin": null
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": false,
+   "ingles": "C1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 62,
+  "texto": "- **Carlos Pardo** — científico de datos\n- **Ubicación:** Medellín. No acepta trabajo remoto.\n- **Tecnologías:** Python, scikit-learn, SQL, estadística, MLflow y TensorFlow.\n- **Experiencia:**\n  - Científico de datos, Northwind (2024–actualidad).\n  - Científico de datos, Northwind (2020–2024).\n  - Científico de datos, Initech (2018–2020).\n- **Inglés:** B1.\n- **Certificación:** TensorFlow Developer.",
+  "hechos": {
+   "nombre": "Carlos Pardo",
+   "rol": "científico de datos",
+   "skills": [
+    "python",
+    "scikit-learn",
+    "sql",
+    "estadística",
+    "mlflow",
+    "tensorflow"
+   ],
+   "anios": 8,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "Northwind",
+     "cargo": "científico de datos",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "Northwind",
+     "cargo": "científico de datos",
+     "inicio": 2020,
+     "fin": 2024
+    },
+    {
+     "empresa": "Initech",
+     "cargo": "científico de datos",
+     "inicio": 2018,
+     "fin": 2020
+    }
+   ],
+   "ciudad": "Medellín",
+   "remoto": false,
+   "ingles": "B1",
+   "certificacion": "TensorFlow Developer",
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 63,
+  "texto": "# Laura Peña\n**Analista de datos** · Medellín\n\nExperiencia en análisis de datos con SQL, Tableau, Python y Excel. No acepta trabajo remoto. Inglés C1.\n\n| Empresa | Cargo | Años |\n|---|---|---|\n| RetailCo | Analista de datos | 2023–actualidad |\n| DataSur | Analista de datos | 2018–2023 |\n| AgroTech | Analista de datos | 2014–2018 |",
+  "hechos": {
+   "nombre": "Laura Peña",
+   "rol": "analista de datos",
+   "skills": [
+    "sql",
+    "tableau",
+    "python",
+    "excel"
+   ],
+   "anios": 12,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "RetailCo",
+     "cargo": "analista de datos",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "DataSur",
+     "cargo": "analista de datos",
+     "inicio": 2018,
+     "fin": 2023
+    },
+    {
+     "empresa": "AgroTech",
+     "cargo": "analista de datos",
+     "inicio": 2014,
+     "fin": 2018
+    }
+   ],
+   "ciudad": "Medellín",
+   "remoto": false,
+   "ingles": "C1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 64,
+  "texto": "Andrés Castro es desarrollador backend en SoftContable desde 2023. Trabaja con Java, Spring, PostgreSQL y Docker. Está en Medellín, no acepta trabajo remoto y tiene nivel de inglés C1.",
+  "hechos": {
+   "nombre": "Andrés Castro",
+   "rol": "desarrollador backend",
+   "skills": [
+    "java",
+    "spring",
+    "postgresql",
+    "docker"
+   ],
+   "anios": 3,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "SoftContable",
+     "cargo": "desarrollador backend",
+     "inicio": 2023,
+     "fin": null
+    }
+   ],
+   "ciudad": "Medellín",
+   "remoto": false,
+   "ingles": "C1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 65,
+  "texto": "- **Sofía León** — Desarrolladora Python\n- **Experiencia:** Desarrolladora Python en AgroTech (2023–actualidad).\n- **Tecnologías:** Python, Django, FastAPI y PostgreSQL.\n- **Ubicación:** Bogotá. No acepta trabajo remoto.\n- **Inglés:** Básico.",
+  "hechos": {
+   "nombre": "Sofía León",
+   "rol": "desarrollador python",
+   "skills": [
+    "python",
+    "django",
+    "fastapi",
+    "postgresql"
+   ],
+   "anios": 3,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "AgroTech",
+     "cargo": "desarrollador python",
+     "inicio": 2023,
+     "fin": null
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": "básico",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 66,
+  "texto": "Diego Lozano — Desarrollador frontend\nTecnologías: javascript, react, css, vue\nCiudad: Bogotá | Trabajo remoto: no | Inglés: B2\n\nCargo | Empresa | Periodo\nLíder de desarrollador frontend | Banco Andino | 2024–actualidad\nDesarrollador frontend | Insight Labs | 2021–2024\nDesarrollador frontend | Manufacturas del Valle | 2019–2021\nDesarrollador frontend | SaludPlus | 2017–2019",
+  "hechos": {
+   "nombre": "Diego Lozano",
+   "rol": "desarrollador frontend",
+   "skills": [
+    "javascript",
+    "react",
+    "css",
+    "vue"
+   ],
+   "anios": 9,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "Banco Andino",
+     "cargo": "líder de desarrollador frontend",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "Insight Labs",
+     "cargo": "desarrollador frontend",
+     "inicio": 2021,
+     "fin": 2024
+    },
+    {
+     "empresa": "Manufacturas del Valle",
+     "cargo": "desarrollador frontend",
+     "inicio": 2019,
+     "fin": 2021
+    },
+    {
+     "empresa": "SaludPlus",
+     "cargo": "desarrollador frontend",
+     "inicio": 2017,
+     "fin": 2019
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": "B2",
+   "certificacion": null,
+   "lidera": true,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 67,
+  "texto": "Valentina Mejía is a DevOps Engineer based in Bucaramanga, Colombia, and is open to remote work. She works at DataSur as a DevOps Engineer (2024–present), previously worked at Globex (2021–2024) and SaludPlus (2020–2021), both as a DevOps Engineer. Her skills include Kubernetes and AWS. She has B1 English proficiency and holds the CKA (Kubernetes) certification.",
+  "hechos": {
+   "nombre": "Valentina Mejía",
+   "rol": "ingeniero devops",
+   "skills": [
+    "kubernetes",
+    "aws"
+   ],
+   "anios": 6,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "DataSur",
+     "cargo": "ingeniero devops",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "Globex",
+     "cargo": "ingeniero devops",
+     "inicio": 2021,
+     "fin": 2024
+    },
+    {
+     "empresa": "SaludPlus",
+     "cargo": "ingeniero devops",
+     "inicio": 2020,
+     "fin": 2021
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": true,
+   "ingles": "B1",
+   "certificacion": "CKA (Kubernetes)",
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "inglés"
+  }
+ },
+ {
+  "id": 68,
+  "texto": "- **Camilo Torres** — Arquitecto cloud\n- **Ubicación:** Barranquilla; acepta trabajo remoto.\n- **Tecnologías:** AWS y Azure.\n- **Experiencia:**\n  - Arquitecto cloud, SoftContable (2024–actualidad)\n  - Arquitecto cloud, Banco Andino (2022–2024)\n  - Arquitecto cloud, EduNet (2017–2022)\n  - Arquitecto cloud, EduNet (2015–2017)\n  - Arquitecto cloud, TransLogística (2014–2015)\n- **Certificación:** AWS Solutions Architect",
+  "hechos": {
+   "nombre": "Camilo Torres",
+   "rol": "arquitecto cloud",
+   "skills": [
+    "aws",
+    "azure"
+   ],
+   "anios": 12,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "SoftContable",
+     "cargo": "arquitecto cloud",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "Banco Andino",
+     "cargo": "arquitecto cloud",
+     "inicio": 2022,
+     "fin": 2024
+    },
+    {
+     "empresa": "EduNet",
+     "cargo": "arquitecto cloud",
+     "inicio": 2017,
+     "fin": 2022
+    },
+    {
+     "empresa": "EduNet",
+     "cargo": "arquitecto cloud",
+     "inicio": 2015,
+     "fin": 2017
+    },
+    {
+     "empresa": "TransLogística",
+     "cargo": "arquitecto cloud",
+     "inicio": 2014,
+     "fin": 2015
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": true,
+   "ingles": null,
+   "certificacion": "AWS Solutions Architect",
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 69,
+  "texto": "**Paula Arango** — QA Automation\n\nBucaramanga · Acepta trabajo remoto · Inglés nativo\n\nTecnologías: Selenium, Java, JMeter\n\n| Cargo | Empresa | Periodo |\n|---|---|---|\n| QA Automation | SoftContable | 2024–actualidad |\n| QA Automation | Initech | 2022–2024 |",
+  "hechos": {
+   "nombre": "Paula Arango",
+   "rol": "qa automation",
+   "skills": [
+    "selenium",
+    "java",
+    "jmeter"
+   ],
+   "anios": 4,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "SoftContable",
+     "cargo": "qa automation",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "Initech",
+     "cargo": "qa automation",
+     "inicio": 2022,
+     "fin": 2024
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": true,
+   "ingles": "nativo",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 70,
+  "texto": "Mateo Ortiz — Desarrollador móvil en Bogotá, disponible para trabajo remoto. Trabaja en SoftContable como desarrollador móvil desde 2023 hasta la actualidad. Maneja Kotlin, Flutter y Firebase.",
+  "hechos": {
+   "nombre": "Mateo Ortiz",
+   "rol": "desarrollador móvil",
+   "skills": [
+    "kotlin",
+    "flutter",
+    "firebase"
+   ],
+   "anios": 3,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "SoftContable",
+     "cargo": "desarrollador móvil",
+     "inicio": 2023,
+     "fin": null
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": true,
+   "ingles": null,
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 71,
+  "texto": "- **Natalia Cruz** — Analista de seguridad\n- **Experiencia:** Analista de seguridad en Northwind (2024–actualidad)\n- **Tecnologías:** ISO 27001, firewall, pentesting\n- **Ubicación:** Bucaramanga\n- **Trabajo remoto:** Sí\n- **Inglés:** B1",
+  "hechos": {
+   "nombre": "Natalia Cruz",
+   "rol": "analista de seguridad",
+   "skills": [
+    "iso 27001",
+    "firewall",
+    "pentesting"
+   ],
+   "anios": 2,
+   "nivel": "junior",
+   "trabajos": [
+    {
+     "empresa": "Northwind",
+     "cargo": "analista de seguridad",
+     "inicio": 2024,
+     "fin": null
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": true,
+   "ingles": "B1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 72,
+  "texto": "Felipe Gómez — Desarrollador .NET\nMedellín | No acepta trabajo remoto | Inglés B2\nTecnologías: C#, SQL Server, Azure\n\nEmpresa | Cargo | Periodo\nAgroTech | Desarrollador .NET | 2024–actualidad\nManufacturas del Valle | Desarrollador .NET | 2021–2024",
+  "hechos": {
+   "nombre": "Felipe Gómez",
+   "rol": "desarrollador .net",
+   "skills": [
+    "c#",
+    "sql server",
+    "azure"
+   ],
+   "anios": 5,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "AgroTech",
+     "cargo": "desarrollador .net",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "Manufacturas del Valle",
+     "cargo": "desarrollador .net",
+     "inicio": 2021,
+     "fin": 2024
+    }
+   ],
+   "ciudad": "Medellín",
+   "remoto": false,
+   "ingles": "B2",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 73,
+  "texto": "Isabel Vélez es ingeniera de datos en Barranquilla. Desde 2024 trabaja en Northwind; anteriormente trabajó en EduNet entre 2022 y 2024 y en Initech entre 2018 y 2022, siempre como ingeniera de datos. Maneja Python, Spark, Snowflake, dbt y AWS. Tiene inglés nativo y no acepta trabajo remoto.",
+  "hechos": {
+   "nombre": "Isabel Vélez",
+   "rol": "ingeniero de datos",
+   "skills": [
+    "python",
+    "spark",
+    "snowflake",
+    "dbt",
+    "aws"
+   ],
+   "anios": 8,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "Northwind",
+     "cargo": "ingeniero de datos",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "EduNet",
+     "cargo": "ingeniero de datos",
+     "inicio": 2022,
+     "fin": 2024
+    },
+    {
+     "empresa": "Initech",
+     "cargo": "ingeniero de datos",
+     "inicio": 2018,
+     "fin": 2022
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": "nativo",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 74,
+  "texto": "- **Tomás Duarte** — Data Scientist\n- **Location:** Bucaramanga; not open to remote work\n- **Experience:**\n  - Data Scientist, TransLogística (2024–present)\n  - Data Scientist, DataSur (2020–2024)\n  - Data Scientist, NubeSur (2018–2020)\n  - Data Scientist, RetailCo (2016–2018)\n- **Technologies:** Python, scikit-learn, SQL, PyTorch, MLflow\n- **English:** C1\n- **Certification:** TensorFlow Developer",
+  "hechos": {
+   "nombre": "Tomás Duarte",
+   "rol": "científico de datos",
+   "skills": [
+    "python",
+    "scikit-learn",
+    "sql",
+    "pytorch",
+    "mlflow"
+   ],
+   "anios": 10,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "TransLogística",
+     "cargo": "científico de datos",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "DataSur",
+     "cargo": "científico de datos",
+     "inicio": 2020,
+     "fin": 2024
+    },
+    {
+     "empresa": "NubeSur",
+     "cargo": "científico de datos",
+     "inicio": 2018,
+     "fin": 2020
+    },
+    {
+     "empresa": "RetailCo",
+     "cargo": "científico de datos",
+     "inicio": 2016,
+     "fin": 2018
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": false,
+   "ingles": "C1",
+   "certificacion": "TensorFlow Developer",
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "inglés"
+  }
+ },
+ {
+  "id": 75,
+  "texto": "**Daniela Ruiz**\n\nAnalista de datos en Bucaramanga. Manejo de SQL y Excel. Inglés nativo. No acepta trabajo remoto.\n\n| Cargo | Empresa | Periodo |\n|---|---|---|\n| Analista de datos | AgroTech | 2023–actualidad |\n| Analista de datos | Manufacturas del Valle | 2018–2023 |\n| Analista de datos | DataSur | 2016–2018 |\n| Analista de datos | SaludPlus | 2014–2016 |",
+  "hechos": {
+   "nombre": "Daniela Ruiz",
+   "rol": "analista de datos",
+   "skills": [
+    "sql",
+    "excel"
+   ],
+   "anios": 12,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "AgroTech",
+     "cargo": "analista de datos",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "Manufacturas del Valle",
+     "cargo": "analista de datos",
+     "inicio": 2018,
+     "fin": 2023
+    },
+    {
+     "empresa": "DataSur",
+     "cargo": "analista de datos",
+     "inicio": 2016,
+     "fin": 2018
+    },
+    {
+     "empresa": "SaludPlus",
+     "cargo": "analista de datos",
+     "inicio": 2014,
+     "fin": 2016
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": false,
+   "ingles": "nativo",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 76,
+  "texto": "Julián Salas es desarrollador backend en Bucaramanga, con experiencia en Northwind como líder de desarrollador backend desde 2022 hasta la actualidad y en RetailCo como desarrollador backend de 2017 a 2022. Trabaja con Java y PostgreSQL. Acepta trabajo remoto y tiene inglés básico.",
+  "hechos": {
+   "nombre": "Julián Salas",
+   "rol": "desarrollador backend",
+   "skills": [
+    "java",
+    "postgresql"
+   ],
+   "anios": 9,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "Northwind",
+     "cargo": "líder de desarrollador backend",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "RetailCo",
+     "cargo": "desarrollador backend",
+     "inicio": 2017,
+     "fin": 2022
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": true,
+   "ingles": "básico",
+   "certificacion": null,
+   "lidera": true,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 77,
+  "texto": "- **Mariana Ramos** — desarrolladora Python\n- **Experiencia:** Desarrolladora Python en SoftContable (2023–actualidad)\n- **Tecnologías:** Python, FastAPI y Celery\n- **Ubicación:** Bogotá; no acepta trabajo remoto\n- **Inglés:** B1",
+  "hechos": {
+   "nombre": "Mariana Ramos",
+   "rol": "desarrollador python",
+   "skills": [
+    "python",
+    "fastapi",
+    "celery"
+   ],
+   "anios": 3,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "SoftContable",
+     "cargo": "desarrollador python",
+     "inicio": 2023,
+     "fin": null
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": "B1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 78,
+  "texto": "Santiago Martínez — Desarrollador frontend\nBucaramanga | No acepta trabajo remoto | Inglés básico\nTecnologías: JavaScript, React, Vue, Angular y CSS\n\nCargo | Empresa | Periodo\nLíder de desarrollador frontend | SoftContable | 2021–actualidad\nDesarrollador frontend | EduNet | 2017–2021\nDesarrollador frontend | EduNet | 2014–2017",
+  "hechos": {
+   "nombre": "Santiago Martínez",
+   "rol": "desarrollador frontend",
+   "skills": [
+    "javascript",
+    "react",
+    "vue",
+    "angular",
+    "css"
+   ],
+   "anios": 12,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "SoftContable",
+     "cargo": "líder de desarrollador frontend",
+     "inicio": 2021,
+     "fin": null
+    },
+    {
+     "empresa": "EduNet",
+     "cargo": "desarrollador frontend",
+     "inicio": 2017,
+     "fin": 2021
+    },
+    {
+     "empresa": "EduNet",
+     "cargo": "desarrollador frontend",
+     "inicio": 2014,
+     "fin": 2017
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": false,
+   "ingles": "básico",
+   "certificacion": null,
+   "lidera": true,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 79,
+  "texto": "Lucía Herrera — Ingeniero DevOps en Medellín. Experiencia: Ingeniero DevOps en Northwind (2022–actualidad), DataSur (2020–2022), Northwind (2015–2020) y TransLogística (2014–2015). Tecnologías: Kubernetes, Docker, Linux, AWS y Terraform. Inglés: B1. No acepta trabajo remoto.",
+  "hechos": {
+   "nombre": "Lucía Herrera",
+   "rol": "ingeniero devops",
+   "skills": [
+    "kubernetes",
+    "docker",
+    "linux",
+    "aws",
+    "terraform"
+   ],
+   "anios": 12,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "Northwind",
+     "cargo": "ingeniero devops",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "DataSur",
+     "cargo": "ingeniero devops",
+     "inicio": 2020,
+     "fin": 2022
+    },
+    {
+     "empresa": "Northwind",
+     "cargo": "ingeniero devops",
+     "inicio": 2015,
+     "fin": 2020
+    },
+    {
+     "empresa": "TransLogística",
+     "cargo": "ingeniero devops",
+     "inicio": 2014,
+     "fin": 2015
+    }
+   ],
+   "ciudad": "Medellín",
+   "remoto": false,
+   "ingles": "B1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 80,
+  "texto": "- **Esteban Giraldo** — Arquitecto cloud\n- **Ubicación:** Cali. Acepta trabajo remoto.\n- **Tecnologías:** AWS, Terraform, GCP, Kubernetes y Azure.\n- **Experiencia:** Arquitecto cloud en Insight Labs (2023–actualidad).\n- **Inglés:** C1.",
+  "hechos": {
+   "nombre": "Esteban Giraldo",
+   "rol": "arquitecto cloud",
+   "skills": [
+    "aws",
+    "terraform",
+    "gcp",
+    "kubernetes",
+    "azure"
+   ],
+   "anios": 3,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Insight Labs",
+     "cargo": "arquitecto cloud",
+     "inicio": 2023,
+     "fin": null
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": true,
+   "ingles": "C1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 81,
+  "texto": "Ana Castro\nQA Automation\n\n| Role | Company | Years |\n|---|---|---|\n| QA Automation Lead | SoftContable | 2023–Present |\n| QA Automation | TransLogística | 2018–2023 |\n| QA Automation | TransLogística | 2016–2018 |\n\nTechnologies: Selenium, Cypress, Playwright\nLocation: Cali\nRemote work: Not available\nEnglish: C1",
+  "hechos": {
+   "nombre": "Ana Castro",
+   "rol": "qa automation",
+   "skills": [
+    "selenium",
+    "cypress",
+    "playwright"
+   ],
+   "anios": 10,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "SoftContable",
+     "cargo": "líder de qa automation",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "TransLogística",
+     "cargo": "qa automation",
+     "inicio": 2018,
+     "fin": 2023
+    },
+    {
+     "empresa": "TransLogística",
+     "cargo": "qa automation",
+     "inicio": 2016,
+     "fin": 2018
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": false,
+   "ingles": "C1",
+   "certificacion": null,
+   "lidera": true,
+   "estilo": "tabla",
+   "idioma": "inglés"
+  }
+ },
+ {
+  "id": 82,
+  "texto": "Carlos León es desarrollador móvil en Barranquilla, con experiencia en EduNet (2022–actualidad), SaludPlus (2018–2022), Insight Labs (2013–2018) y Globex (2012–2013). Trabaja con Kotlin, Swift, Flutter y Firebase. No acepta trabajo remoto. Tiene nivel de inglés B1.",
+  "hechos": {
+   "nombre": "Carlos León",
+   "rol": "desarrollador móvil",
+   "skills": [
+    "kotlin",
+    "swift",
+    "flutter",
+    "firebase"
+   ],
+   "anios": 14,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "EduNet",
+     "cargo": "desarrollador móvil",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "SaludPlus",
+     "cargo": "desarrollador móvil",
+     "inicio": 2018,
+     "fin": 2022
+    },
+    {
+     "empresa": "Insight Labs",
+     "cargo": "desarrollador móvil",
+     "inicio": 2013,
+     "fin": 2018
+    },
+    {
+     "empresa": "Globex",
+     "cargo": "desarrollador móvil",
+     "inicio": 2012,
+     "fin": 2013
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": "B1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 83,
+  "texto": "- **Laura Lozano** — Analista de seguridad\n- **Experiencia:**\n  - Initech — Analista de seguridad (2024–actualidad)\n  - DataSur — Analista de seguridad (2021–2024)\n  - SoftContable — Analista de seguridad (2018–2021)\n  - SoftContable — Analista de seguridad (2014–2018)\n- **Tecnologías:** ISO 27001, firewall, NIST, pentesting\n- **Ubicación:** Medellín; no acepta trabajo remoto\n- **Inglés:** básico",
+  "hechos": {
+   "nombre": "Laura Lozano",
+   "rol": "analista de seguridad",
+   "skills": [
+    "iso 27001",
+    "firewall",
+    "nist",
+    "pentesting"
+   ],
+   "anios": 12,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "Initech",
+     "cargo": "analista de seguridad",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "DataSur",
+     "cargo": "analista de seguridad",
+     "inicio": 2021,
+     "fin": 2024
+    },
+    {
+     "empresa": "SoftContable",
+     "cargo": "analista de seguridad",
+     "inicio": 2018,
+     "fin": 2021
+    },
+    {
+     "empresa": "SoftContable",
+     "cargo": "analista de seguridad",
+     "inicio": 2014,
+     "fin": 2018
+    }
+   ],
+   "ciudad": "Medellín",
+   "remoto": false,
+   "ingles": "básico",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 84,
+  "texto": "# Andrés Mejía\n\n**Desarrollador .NET** · Barranquilla\n\n| Empresa | Cargo | Periodo |\n|---|---|---|\n| Initech | Desarrollador .NET | 2023–actualidad |\n\n**Tecnologías:** C#, SQL Server  \n**Inglés:** nativo  \n**Trabajo remoto:** no",
+  "hechos": {
+   "nombre": "Andrés Mejía",
+   "rol": "desarrollador .net",
+   "skills": [
+    "c#",
+    "sql server"
+   ],
+   "anios": 3,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Initech",
+     "cargo": "desarrollador .net",
+     "inicio": 2023,
+     "fin": null
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": "nativo",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 85,
+  "texto": "Sofía Torres es ingeniera de datos en Cali, con experiencia en Initech desde 2024 hasta la actualidad y en SaludPlus de 2022 a 2024. Trabaja con Python, dbt y Snowflake. No acepta trabajo remoto y tiene nivel de inglés B2.",
+  "hechos": {
+   "nombre": "Sofía Torres",
+   "rol": "ingeniero de datos",
+   "skills": [
+    "python",
+    "dbt",
+    "snowflake"
+   ],
+   "anios": 4,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Initech",
+     "cargo": "ingeniero de datos",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "SaludPlus",
+     "cargo": "ingeniero de datos",
+     "inicio": 2022,
+     "fin": 2024
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": false,
+   "ingles": "B2",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 86,
+  "texto": "- **Diego Arango** — científico de datos\n- **Experiencia:** líder de científico de datos en Initech (2023–actualidad); científico de datos en Banco Andino (2021–2023).\n- **Tecnologías y habilidades:** Python, PyTorch, estadística y TensorFlow.\n- **Ubicación:** Barranquilla.\n- **Trabajo remoto:** no.",
+  "hechos": {
+   "nombre": "Diego Arango",
+   "rol": "científico de datos",
+   "skills": [
+    "python",
+    "pytorch",
+    "estadística",
+    "tensorflow"
+   ],
+   "anios": 5,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Initech",
+     "cargo": "líder de científico de datos",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "Banco Andino",
+     "cargo": "científico de datos",
+     "inicio": 2021,
+     "fin": 2023
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": null,
+   "certificacion": null,
+   "lidera": true,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 87,
+  "texto": "# Valentina Ortiz\n**Analista de datos**\n\nRecién egresada, con conocimientos en SQL, Power BI y Tableau. Reside en Barranquilla y no acepta trabajo remoto.\n\n| Empresa | Años |\n|---|---|",
+  "hechos": {
+   "nombre": "Valentina Ortiz",
+   "rol": "analista de datos",
+   "skills": [
+    "sql",
+    "power bi",
+    "tableau"
+   ],
+   "anios": 0,
+   "nivel": "junior",
+   "trabajos": [],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": null,
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 88,
+  "texto": "- **Paula Gómez** — Desarrolladora Python\n- **Ubicación:** Medellín. No acepta trabajo remoto.\n- **Tecnologías:** Python, PostgreSQL.\n- **Experiencia:**\n  - Líder de desarrollador Python en RetailCo (2022–actualidad).\n  - Desarrollador Python en SaludPlus (2017–2022).",
+  "hechos": {
+   "nombre": "Paula Gómez",
+   "rol": "desarrollador python",
+   "skills": [
+    "python",
+    "postgresql"
+   ],
+   "anios": 9,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "RetailCo",
+     "cargo": "líder de desarrollador python",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "SaludPlus",
+     "cargo": "desarrollador python",
+     "inicio": 2017,
+     "fin": 2022
+    }
+   ],
+   "ciudad": "Medellín",
+   "remoto": false,
+   "ingles": null,
+   "certificacion": null,
+   "lidera": true,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 89,
+  "texto": "# Mateo Vélez\n**Desarrollador frontend** · Bucaramanga · Acepta trabajo remoto\n\nTecnologías: JavaScript, Vue, Angular y CSS. Inglés: B2.\n\n| Empresa | Cargo | Periodo |\n|---|---|---|\n| DataSur | Líder de desarrollador frontend | 2022–actualidad |\n| Insight Labs | Desarrollador frontend | 2019–2022 |\n| RetailCo | Desarrollador frontend | 2017–2019 |",
+  "hechos": {
+   "nombre": "Mateo Vélez",
+   "rol": "desarrollador frontend",
+   "skills": [
+    "javascript",
+    "vue",
+    "angular",
+    "css"
+   ],
+   "anios": 9,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "DataSur",
+     "cargo": "líder de desarrollador frontend",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "Insight Labs",
+     "cargo": "desarrollador frontend",
+     "inicio": 2019,
+     "fin": 2022
+    },
+    {
+     "empresa": "RetailCo",
+     "cargo": "desarrollador frontend",
+     "inicio": 2017,
+     "fin": 2019
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": true,
+   "ingles": "B2",
+   "certificacion": null,
+   "lidera": true,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 90,
+  "texto": "Natalia Duarte es ingeniera DevOps en Medellín y acepta trabajo remoto. Desde 2021 trabaja en Northwind; anteriormente se desempeñó como ingeniera DevOps en EduNet (2017–2021), RetailCo (2013–2017) e Initech (2012–2013). Maneja Kubernetes, Docker, Linux, Jenkins y Ansible. Su nivel de inglés es básico.",
+  "hechos": {
+   "nombre": "Natalia Duarte",
+   "rol": "ingeniero devops",
+   "skills": [
+    "kubernetes",
+    "docker",
+    "linux",
+    "jenkins",
+    "ansible"
+   ],
+   "anios": 14,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "Northwind",
+     "cargo": "ingeniero devops",
+     "inicio": 2021,
+     "fin": null
+    },
+    {
+     "empresa": "EduNet",
+     "cargo": "ingeniero devops",
+     "inicio": 2017,
+     "fin": 2021
+    },
+    {
+     "empresa": "RetailCo",
+     "cargo": "ingeniero devops",
+     "inicio": 2013,
+     "fin": 2017
+    },
+    {
+     "empresa": "Initech",
+     "cargo": "ingeniero devops",
+     "inicio": 2012,
+     "fin": 2013
+    }
+   ],
+   "ciudad": "Medellín",
+   "remoto": true,
+   "ingles": "básico",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 91,
+  "texto": "- **Felipe Ruiz** — Arquitecto cloud\n- **Experiencia:** Arquitecto cloud en Manufacturas del Valle (2021–actualidad) y arquitecto cloud en Manufacturas del Valle (2020–2021).\n- **Tecnologías:** AWS, Terraform, GCP, Azure y Kubernetes.\n- **Ubicación:** Bogotá. No acepta trabajo remoto.\n- **Inglés:** B2.",
+  "hechos": {
+   "nombre": "Felipe Ruiz",
+   "rol": "arquitecto cloud",
+   "skills": [
+    "aws",
+    "terraform",
+    "gcp",
+    "azure",
+    "kubernetes"
+   ],
+   "anios": 6,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Manufacturas del Valle",
+     "cargo": "arquitecto cloud",
+     "inicio": 2021,
+     "fin": null
+    },
+    {
+     "empresa": "Manufacturas del Valle",
+     "cargo": "arquitecto cloud",
+     "inicio": 2020,
+     "fin": 2021
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": "B2",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 92,
+  "texto": "# Isabel Salas\n**QA Automation** · Cali\n\nRecién egresada. No acepta trabajo remoto.\n\n**Tecnologías:** Selenium, Cypress, Playwright, JMeter, Java\n**Inglés:** B1\n\n| Empresa | Cargo | Años |\n|---|---|---|",
+  "hechos": {
+   "nombre": "Isabel Salas",
+   "rol": "qa automation",
+   "skills": [
+    "selenium",
+    "cypress",
+    "playwright",
+    "jmeter",
+    "java"
+   ],
+   "anios": 0,
+   "nivel": "junior",
+   "trabajos": [],
+   "ciudad": "Cali",
+   "remoto": false,
+   "ingles": "B1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 93,
+  "texto": "Tomás Ramos es desarrollador móvil en Bucaramanga, con experiencia en Globex desde 2021 hasta la actualidad y en EduNet entre 2020 y 2021. Trabaja con Kotlin, Swift y Firebase. No acepta trabajo remoto.",
+  "hechos": {
+   "nombre": "Tomás Ramos",
+   "rol": "desarrollador móvil",
+   "skills": [
+    "kotlin",
+    "swift",
+    "firebase"
+   ],
+   "anios": 6,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Globex",
+     "cargo": "desarrollador móvil",
+     "inicio": 2021,
+     "fin": null
+    },
+    {
+     "empresa": "EduNet",
+     "cargo": "desarrollador móvil",
+     "inicio": 2020,
+     "fin": 2021
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": false,
+   "ingles": null,
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 94,
+  "texto": "- Daniela Martínez — Security Analyst\n- Based in Medellín; open to remote work.\n- Globex — Security Analyst, 2022–present.\n- Skills: ISO 27001, SIEM, NIST, firewall.\n- Certification: ISO 27001 Lead Auditor.",
+  "hechos": {
+   "nombre": "Daniela Martínez",
+   "rol": "analista de seguridad",
+   "skills": [
+    "iso 27001",
+    "siem",
+    "nist",
+    "firewall"
+   ],
+   "anios": 4,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Globex",
+     "cargo": "analista de seguridad",
+     "inicio": 2022,
+     "fin": null
+    }
+   ],
+   "ciudad": "Medellín",
+   "remoto": true,
+   "ingles": null,
+   "certificacion": "ISO 27001 Lead Auditor",
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "inglés"
+  }
+ },
+ {
+  "id": 95,
+  "texto": "# Julián Herrera\n**Desarrollador .NET** | Bogotá | No acepta trabajo remoto\n\nTecnologías: C#, Azure, SQL Server.\n\n| Cargo | Empresa | Años |\n|---|---|---|\n| Líder de desarrollador .NET | RetailCo | 2024–actualidad |\n| Desarrollador .NET | Initech | 2021–2024 |\n| Desarrollador .NET | DataSur | 2016–2021 |\n\nInglés: no especificado. Certificación: no indicada.",
+  "hechos": {
+   "nombre": "Julián Herrera",
+   "rol": "desarrollador .net",
+   "skills": [
+    "c#",
+    "azure",
+    "sql server"
+   ],
+   "anios": 10,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "RetailCo",
+     "cargo": "líder de desarrollador .net",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "Initech",
+     "cargo": "desarrollador .net",
+     "inicio": 2021,
+     "fin": 2024
+    },
+    {
+     "empresa": "DataSur",
+     "cargo": "desarrollador .net",
+     "inicio": 2016,
+     "fin": 2021
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": null,
+   "certificacion": null,
+   "lidera": true,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 96,
+  "texto": "Mariana Giraldo es ingeniera de datos en Barranquilla y acepta trabajo remoto. Actualmente trabaja en SaludPlus desde 2024. Antes trabajó como ingeniera de datos en NubeSur entre 2020 y 2024, y en Insight Labs entre 2019 y 2020. Maneja Python, Spark, Airflow, SQL y dbt.",
+  "hechos": {
+   "nombre": "Mariana Giraldo",
+   "rol": "ingeniero de datos",
+   "skills": [
+    "python",
+    "spark",
+    "airflow",
+    "sql",
+    "dbt"
+   ],
+   "anios": 7,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "SaludPlus",
+     "cargo": "ingeniero de datos",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "NubeSur",
+     "cargo": "ingeniero de datos",
+     "inicio": 2020,
+     "fin": 2024
+    },
+    {
+     "empresa": "Insight Labs",
+     "cargo": "ingeniero de datos",
+     "inicio": 2019,
+     "fin": 2020
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": true,
+   "ingles": null,
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 97,
+  "texto": "• Santiago Rojas — Científico de datos\n• Ubicación: Barranquilla. No acepta trabajo remoto.\n• Experiencia:\n  • Científico de datos en Initech (2024–actualidad)\n  • Científico de datos en Manufacturas del Valle (2020–2024)\n• Tecnologías: Python, TensorFlow, MLflow.\n• Inglés: nativo.\n• Certificación: TensorFlow Developer.",
+  "hechos": {
+   "nombre": "Santiago Rojas",
+   "rol": "científico de datos",
+   "skills": [
+    "python",
+    "tensorflow",
+    "mlflow"
+   ],
+   "anios": 6,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Initech",
+     "cargo": "científico de datos",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "Manufacturas del Valle",
+     "cargo": "científico de datos",
+     "inicio": 2020,
+     "fin": 2024
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": "nativo",
+   "certificacion": "TensorFlow Developer",
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 98,
+  "texto": "**Lucía Pardo** — Analista de datos\n\n| Cargo | Empresa | Años |\n|---|---|---|\n| Analista de datos | RetailCo | 2023–actualidad |\n| Analista de datos | Insight Labs | 2020–2023 |\n\nTecnologías: SQL, Tableau y Python. Ciudad: Medellín. No acepta trabajo remoto. Inglés: nativo.",
+  "hechos": {
+   "nombre": "Lucía Pardo",
+   "rol": "analista de datos",
+   "skills": [
+    "sql",
+    "tableau",
+    "python"
+   ],
+   "anios": 6,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "RetailCo",
+     "cargo": "analista de datos",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "Insight Labs",
+     "cargo": "analista de datos",
+     "inicio": 2020,
+     "fin": 2023
+    }
+   ],
+   "ciudad": "Medellín",
+   "remoto": false,
+   "ingles": "nativo",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 99,
+  "texto": "Esteban Peña es desarrollador backend en Bogotá, con experiencia en Banco Andino (2024-actualidad) e Initech (2020-2024). Trabaja con Java y microservicios. Tiene inglés nativo y no acepta trabajo remoto.",
+  "hechos": {
+   "nombre": "Esteban Peña",
+   "rol": "desarrollador backend",
+   "skills": [
+    "java",
+    "microservicios"
+   ],
+   "anios": 6,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Banco Andino",
+     "cargo": "desarrollador backend",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "Initech",
+     "cargo": "desarrollador backend",
+     "inicio": 2020,
+     "fin": 2024
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": "nativo",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 100,
+  "texto": "- **Ana Mejía** — Desarrollador Python\n- **Experiencia:** Desarrollador Python en RetailCo (2024–actualidad) y EduNet (2022–2024).\n- **Tecnologías:** Python, Docker.\n- **Ubicación:** Bucaramanga; acepta trabajo remoto.\n- **Inglés:** básico.",
+  "hechos": {
+   "nombre": "Ana Mejía",
+   "rol": "desarrollador python",
+   "skills": [
+    "python",
+    "docker"
+   ],
+   "anios": 4,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "RetailCo",
+     "cargo": "desarrollador python",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "EduNet",
+     "cargo": "desarrollador python",
+     "inicio": 2022,
+     "fin": 2024
+    }
+   ],
+   "ciudad": "Bucaramanga",
+   "remoto": true,
+   "ingles": "básico",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 101,
+  "texto": "Carlos Torres\nFrontend Developer | Cali\n\nTechnologies: JavaScript, React, Angular\n\nExperience\nCompany | Role | Period\nInsight Labs | Frontend Developer | 2024–Present\n\nRemote work: Not accepted\nEnglish: B2",
+  "hechos": {
+   "nombre": "Carlos Torres",
+   "rol": "desarrollador frontend",
+   "skills": [
+    "javascript",
+    "react",
+    "angular"
+   ],
+   "anios": 2,
+   "nivel": "junior",
+   "trabajos": [
+    {
+     "empresa": "Insight Labs",
+     "cargo": "desarrollador frontend",
+     "inicio": 2024,
+     "fin": null
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": false,
+   "ingles": "B2",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "inglés"
+  }
+ },
+ {
+  "id": 102,
+  "texto": "Laura Arango es ingeniera DevOps en Barranquilla, con experiencia en Banco Andino desde 2023 hasta la actualidad. Maneja Kubernetes, Docker, Linux, Ansible y Terraform. Tiene inglés nativo y acepta trabajo remoto.",
+  "hechos": {
+   "nombre": "Laura Arango",
+   "rol": "ingeniero devops",
+   "skills": [
+    "kubernetes",
+    "docker",
+    "linux",
+    "ansible",
+    "terraform"
+   ],
+   "anios": 3,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Banco Andino",
+     "cargo": "ingeniero devops",
+     "inicio": 2023,
+     "fin": null
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": true,
+   "ingles": "nativo",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 103,
+  "texto": "- **Andrés Ortiz** — Arquitecto cloud\n- **Ubicación:** Bogotá. Acepta trabajo remoto.\n- **Tecnologías:** AWS, Terraform, Azure, GCP y Kubernetes.\n- **Experiencia:**\n  - Arquitecto cloud en SoftContable (2022–actualidad).\n  - Arquitecto cloud en RetailCo (2020–2022).\n  - Arquitecto cloud en RetailCo (2017–2020).\n  - Arquitecto cloud en NubeSur (2014–2017).\n- **Certificación:** AWS Solutions Architect.",
+  "hechos": {
+   "nombre": "Andrés Ortiz",
+   "rol": "arquitecto cloud",
+   "skills": [
+    "aws",
+    "terraform",
+    "azure",
+    "gcp",
+    "kubernetes"
+   ],
+   "anios": 12,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "SoftContable",
+     "cargo": "arquitecto cloud",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "RetailCo",
+     "cargo": "arquitecto cloud",
+     "inicio": 2020,
+     "fin": 2022
+    },
+    {
+     "empresa": "RetailCo",
+     "cargo": "arquitecto cloud",
+     "inicio": 2017,
+     "fin": 2020
+    },
+    {
+     "empresa": "NubeSur",
+     "cargo": "arquitecto cloud",
+     "inicio": 2014,
+     "fin": 2017
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": true,
+   "ingles": null,
+   "certificacion": "AWS Solutions Architect",
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 104,
+  "texto": "Sofía Cruz — QA Automation\nUbicación: Bogotá | Trabajo remoto: No\nTecnologías: Selenium, Cypress, Playwright\nInglés: B1\n\nEmpresa | Cargo | Años\nRetailCo | QA Automation | 2022–actualidad\nAgroTech | QA Automation | 2021–2022",
+  "hechos": {
+   "nombre": "Sofía Cruz",
+   "rol": "qa automation",
+   "skills": [
+    "selenium",
+    "cypress",
+    "playwright"
+   ],
+   "anios": 5,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "RetailCo",
+     "cargo": "qa automation",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "AgroTech",
+     "cargo": "qa automation",
+     "inicio": 2021,
+     "fin": 2022
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": "B1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 105,
+  "texto": "Diego Gómez es desarrollador móvil en Bogotá y acepta trabajo remoto. Actualmente trabaja en Globex como desarrollador móvil (2024–actualidad). Antes trabajó en DataSur (2020–2024) y TransLogística (2018–2020), también como desarrollador móvil. Maneja Kotlin y Flutter. Su nivel de inglés es C1.",
+  "hechos": {
+   "nombre": "Diego Gómez",
+   "rol": "desarrollador móvil",
+   "skills": [
+    "kotlin",
+    "flutter"
+   ],
+   "anios": 8,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "Globex",
+     "cargo": "desarrollador móvil",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "DataSur",
+     "cargo": "desarrollador móvil",
+     "inicio": 2020,
+     "fin": 2024
+    },
+    {
+     "empresa": "TransLogística",
+     "cargo": "desarrollador móvil",
+     "inicio": 2018,
+     "fin": 2020
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": true,
+   "ingles": "C1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 106,
+  "texto": "- **Valentina Vélez** — Analista de seguridad\n- **Experiencia:** Analista de seguridad en TransLogística (2021–actualidad).\n- **Tecnologías:** ISO 27001, SIEM, firewall, pentesting y NIST.\n- **Ubicación:** Barranquilla; acepta trabajo remoto.\n- **Inglés:** nativo.\n- **Certificación:** ISO 27001 Lead Auditor.",
+  "hechos": {
+   "nombre": "Valentina Vélez",
+   "rol": "analista de seguridad",
+   "skills": [
+    "iso 27001",
+    "siem",
+    "firewall",
+    "pentesting",
+    "nist"
+   ],
+   "anios": 5,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "TransLogística",
+     "cargo": "analista de seguridad",
+     "inicio": 2021,
+     "fin": null
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": true,
+   "ingles": "nativo",
+   "certificacion": "ISO 27001 Lead Auditor",
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 107,
+  "texto": "# Camilo Duarte\n**Desarrollador .NET**\n\nBogotá · No acepta trabajo remoto\n\n**Tecnologías:** C#, .NET, Azure\n\n**Experiencia**\n| Cargo | Empresa | Periodo |\n|---|---|---|\n| Desarrollador .NET | SaludPlus | 2022–actualidad |\n| Desarrollador .NET | Insight Labs | 2018–2022 |",
+  "hechos": {
+   "nombre": "Camilo Duarte",
+   "rol": "desarrollador .net",
+   "skills": [
+    "c#",
+    ".net",
+    "azure"
+   ],
+   "anios": 8,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "SaludPlus",
+     "cargo": "desarrollador .net",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "Insight Labs",
+     "cargo": "desarrollador .net",
+     "inicio": 2018,
+     "fin": 2022
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": null,
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 108,
+  "texto": "Paula Ruiz is a data engineer based in Bogotá. She has worked at NubeSur as a data engineer since 2024 and is currently in the role. Her technologies include Python, Databricks, Kafka, and dbt. She does not accept remote work and speaks English at a native level.",
+  "hechos": {
+   "nombre": "Paula Ruiz",
+   "rol": "ingeniero de datos",
+   "skills": [
+    "python",
+    "databricks",
+    "kafka",
+    "dbt"
+   ],
+   "anios": 2,
+   "nivel": "junior",
+   "trabajos": [
+    {
+     "empresa": "NubeSur",
+     "cargo": "ingeniero de datos",
+     "inicio": 2024,
+     "fin": null
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": "nativo",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "inglés"
+  }
+ },
+ {
+  "id": 109,
+  "texto": "- **Mateo Salas** — Científico de datos\n- **Ubicación:** Barranquilla. No acepta trabajo remoto.\n- **Tecnologías:** Python, PyTorch, estadística.\n- **Experiencia:** Científico de datos en TransLogística (2023–actualidad); científico de datos en RetailCo (2020–2023).\n- **Certificación:** TensorFlow Developer.",
+  "hechos": {
+   "nombre": "Mateo Salas",
+   "rol": "científico de datos",
+   "skills": [
+    "python",
+    "pytorch",
+    "estadística"
+   ],
+   "anios": 6,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "TransLogística",
+     "cargo": "científico de datos",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "RetailCo",
+     "cargo": "científico de datos",
+     "inicio": 2020,
+     "fin": 2023
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": null,
+   "certificacion": "TensorFlow Developer",
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 110,
+  "texto": "**Natalia Ramos** — Analista de datos\nBarranquilla · No acepta trabajo remoto · Inglés C1\n\n**Tecnologías:** SQL, Power BI, Tableau, Excel\n\n**Experiencia**\nEmpresa | Cargo | Periodo\nEduNet | Analista de datos | 2023–actualidad\nAgroTech | Analista de datos | 2020–2023\nNorthwind | Analista de datos | 2016–2020\nSaludPlus | Analista de datos | 2012–2016",
+  "hechos": {
+   "nombre": "Natalia Ramos",
+   "rol": "analista de datos",
+   "skills": [
+    "sql",
+    "power bi",
+    "tableau",
+    "excel"
+   ],
+   "anios": 14,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "EduNet",
+     "cargo": "analista de datos",
+     "inicio": 2023,
+     "fin": null
+    },
+    {
+     "empresa": "AgroTech",
+     "cargo": "analista de datos",
+     "inicio": 2020,
+     "fin": 2023
+    },
+    {
+     "empresa": "Northwind",
+     "cargo": "analista de datos",
+     "inicio": 2016,
+     "fin": 2020
+    },
+    {
+     "empresa": "SaludPlus",
+     "cargo": "analista de datos",
+     "inicio": 2012,
+     "fin": 2016
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": "C1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 111,
+  "texto": "Felipe Martínez es desarrollador backend en RetailCo desde 2023 hasta la actualidad. Trabaja con Java, microservicios y Docker. Está ubicado en Cali, no acepta trabajo remoto y tiene inglés básico.",
+  "hechos": {
+   "nombre": "Felipe Martínez",
+   "rol": "desarrollador backend",
+   "skills": [
+    "java",
+    "microservicios",
+    "docker"
+   ],
+   "anios": 3,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "RetailCo",
+     "cargo": "desarrollador backend",
+     "inicio": 2023,
+     "fin": null
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": false,
+   "ingles": "básico",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 112,
+  "texto": "• Isabel Herrera — Desarrolladora Python\n• Ubicación: Medellín; acepta trabajo remoto.\n• Tecnologías: Python, Django, FastAPI, Celery y PostgreSQL.\n• Experiencia: Desarrolladora Python en SoftContable (2024–actualidad).\n• Inglés: básico.",
+  "hechos": {
+   "nombre": "Isabel Herrera",
+   "rol": "desarrollador python",
+   "skills": [
+    "python",
+    "django",
+    "fastapi",
+    "celery",
+    "postgresql"
+   ],
+   "anios": 2,
+   "nivel": "junior",
+   "trabajos": [
+    {
+     "empresa": "SoftContable",
+     "cargo": "desarrollador python",
+     "inicio": 2024,
+     "fin": null
+    }
+   ],
+   "ciudad": "Medellín",
+   "remoto": true,
+   "ingles": "básico",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 113,
+  "texto": "Tomás Giraldo — Desarrollador frontend\n\nCiudad: Bogotá | Trabajo remoto: No | Inglés: B1\n\nTecnologías: JavaScript, React, CSS y TypeScript.\n\nExperiencia:\n| Empresa | Cargo | Periodo |\n|---|---|---|\n| AgroTech | Desarrollador frontend | 2022–actualidad |",
+  "hechos": {
+   "nombre": "Tomás Giraldo",
+   "rol": "desarrollador frontend",
+   "skills": [
+    "javascript",
+    "react",
+    "css",
+    "typescript"
+   ],
+   "anios": 4,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "AgroTech",
+     "cargo": "desarrollador frontend",
+     "inicio": 2022,
+     "fin": null
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": "B1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 114,
+  "texto": "Daniela Rojas es ingeniera DevOps en Cali y acepta trabajo remoto. Ha trabajado como líder de ingeniero DevOps en AgroTech desde 2021 hasta la actualidad y como ingeniero DevOps en NubeSur entre 2018 y 2021. Maneja Kubernetes, Docker, Terraform y Jenkins.",
+  "hechos": {
+   "nombre": "Daniela Rojas",
+   "rol": "ingeniero devops",
+   "skills": [
+    "kubernetes",
+    "docker",
+    "terraform",
+    "jenkins"
+   ],
+   "anios": 8,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "AgroTech",
+     "cargo": "líder de ingeniero devops",
+     "inicio": 2021,
+     "fin": null
+    },
+    {
+     "empresa": "NubeSur",
+     "cargo": "ingeniero devops",
+     "inicio": 2018,
+     "fin": 2021
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": true,
+   "ingles": null,
+   "certificacion": null,
+   "lidera": true,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 115,
+  "texto": "- **Julián Pardo** — Cloud Architect\n- **Location:** Cali; does not accept remote work\n- **Technologies:** AWS, GCP\n- **Experience:**\n  - Cloud Architect, DataSur (2022–present)\n  - Cloud Architect, Manufacturas del Valle (2018–2022)\n  - Cloud Architect, Globex (2014–2018)\n  - Cloud Architect, Northwind (2012–2014)\n- **English:** B1",
+  "hechos": {
+   "nombre": "Julián Pardo",
+   "rol": "arquitecto cloud",
+   "skills": [
+    "aws",
+    "gcp"
+   ],
+   "anios": 14,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "DataSur",
+     "cargo": "arquitecto cloud",
+     "inicio": 2022,
+     "fin": null
+    },
+    {
+     "empresa": "Manufacturas del Valle",
+     "cargo": "arquitecto cloud",
+     "inicio": 2018,
+     "fin": 2022
+    },
+    {
+     "empresa": "Globex",
+     "cargo": "arquitecto cloud",
+     "inicio": 2014,
+     "fin": 2018
+    },
+    {
+     "empresa": "Northwind",
+     "cargo": "arquitecto cloud",
+     "inicio": 2012,
+     "fin": 2014
+    }
+   ],
+   "ciudad": "Cali",
+   "remoto": false,
+   "ingles": "B1",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "lista",
+   "idioma": "inglés"
+  }
+ },
+ {
+  "id": 116,
+  "texto": "# Mariana Peña\n**QA Automation** · Barranquilla · No acepta trabajo remoto · Inglés nativo\n\n| Cargo | Empresa | Periodo |\n|---|---|---|\n| QA Automation | Northwind | 2024–actualidad |\n| QA Automation | Initech | 2020–2024 |\n\n**Tecnologías:** Selenium, Java, Playwright, JMeter",
+  "hechos": {
+   "nombre": "Mariana Peña",
+   "rol": "qa automation",
+   "skills": [
+    "selenium",
+    "java",
+    "playwright",
+    "jmeter"
+   ],
+   "anios": 6,
+   "nivel": "semi-senior",
+   "trabajos": [
+    {
+     "empresa": "Northwind",
+     "cargo": "qa automation",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "Initech",
+     "cargo": "qa automation",
+     "inicio": 2020,
+     "fin": 2024
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": false,
+   "ingles": "nativo",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 117,
+  "texto": "Santiago Castro es desarrollador móvil recién egresado, con conocimientos de Kotlin y Flutter. Vive en Bogotá y no acepta trabajo remoto. Su nivel de inglés es nativo.",
+  "hechos": {
+   "nombre": "Santiago Castro",
+   "rol": "desarrollador móvil",
+   "skills": [
+    "kotlin",
+    "flutter"
+   ],
+   "anios": 0,
+   "nivel": "junior",
+   "trabajos": [],
+   "ciudad": "Bogotá",
+   "remoto": false,
+   "ingles": "nativo",
+   "certificacion": null,
+   "lidera": false,
+   "estilo": "prosa",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 118,
+  "texto": "- **Lucía León** — Analista de seguridad\n- **Ubicación:** Barranquilla\n- **Modalidad:** acepta trabajo remoto\n- **Experiencia:**\n  - Líder de analista de seguridad, SoftContable (2024–actualidad)\n  - Analista de seguridad, DataSur (2022–2024)\n  - Analista de seguridad, SoftContable (2019–2022)\n  - Analista de seguridad, DataSur (2017–2019)\n- **Tecnologías:** ISO 27001, pentesting, firewall\n- **Certificación:** ISO 27001 Lead Auditor",
+  "hechos": {
+   "nombre": "Lucía León",
+   "rol": "analista de seguridad",
+   "skills": [
+    "iso 27001",
+    "pentesting",
+    "firewall"
+   ],
+   "anios": 9,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "SoftContable",
+     "cargo": "líder de analista de seguridad",
+     "inicio": 2024,
+     "fin": null
+    },
+    {
+     "empresa": "DataSur",
+     "cargo": "analista de seguridad",
+     "inicio": 2022,
+     "fin": 2024
+    },
+    {
+     "empresa": "SoftContable",
+     "cargo": "analista de seguridad",
+     "inicio": 2019,
+     "fin": 2022
+    },
+    {
+     "empresa": "DataSur",
+     "cargo": "analista de seguridad",
+     "inicio": 2017,
+     "fin": 2019
+    }
+   ],
+   "ciudad": "Barranquilla",
+   "remoto": true,
+   "ingles": null,
+   "certificacion": "ISO 27001 Lead Auditor",
+   "lidera": true,
+   "estilo": "lista",
+   "idioma": "español"
+  }
+ },
+ {
+  "id": 119,
+  "texto": "# Esteban Lozano\n**Desarrollador .NET**\n\n| Empresa | Cargo | Años |\n|---|---|---|\n| EduNet | Líder de desarrollador .NET | 2021–actualidad |\n| Initech | Desarrollador .NET | 2019–2021 |\n| NubeSur | Desarrollador .NET | 2015–2019 |\n| Banco Andino | Desarrollador .NET | 2014–2015 |\n\n**Tecnologías:** C#, .NET, SQL Server, Azure  \n**Ciudad:** Bogotá · **Remoto:** sí · **Inglés:** básico",
+  "hechos": {
+   "nombre": "Esteban Lozano",
+   "rol": "desarrollador .net",
+   "skills": [
+    "c#",
+    ".net",
+    "sql server",
+    "azure"
+   ],
+   "anios": 12,
+   "nivel": "senior",
+   "trabajos": [
+    {
+     "empresa": "EduNet",
+     "cargo": "líder de desarrollador .net",
+     "inicio": 2021,
+     "fin": null
+    },
+    {
+     "empresa": "Initech",
+     "cargo": "desarrollador .net",
+     "inicio": 2019,
+     "fin": 2021
+    },
+    {
+     "empresa": "NubeSur",
+     "cargo": "desarrollador .net",
+     "inicio": 2015,
+     "fin": 2019
+    },
+    {
+     "empresa": "Banco Andino",
+     "cargo": "desarrollador .net",
+     "inicio": 2014,
+     "fin": 2015
+    }
+   ],
+   "ciudad": "Bogotá",
+   "remoto": true,
+   "ingles": "básico",
+   "certificacion": null,
+   "lidera": true,
+   "estilo": "tabla",
+   "idioma": "español"
+  }
+ }
+]

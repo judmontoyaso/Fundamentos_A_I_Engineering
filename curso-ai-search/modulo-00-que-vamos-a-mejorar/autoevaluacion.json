@@ -1,0 +1,59 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Por qué el corpus pasa de 10 a 119 CVs?",
+   "opciones": [
+    "Para que sea más lento",
+    "Porque con 10 casi cualquier búsqueda acierta; con 119 de roles parecidos hay que distinguir de verdad",
+    "Por estética",
+    "Para entrenar un modelo"
+   ],
+   "correcta": 1,
+   "explicacion": "En el Módulo 2 de AI Engineering, cinco modelos de embeddings empataron con 10 CVs."
+  },
+  {
+   "pregunta": "¿De dónde sale la relevancia de cada CV para cada consulta?",
+   "opciones": [
+    "De una función sobre los hechos del CV",
+    "De una persona que lee",
+    "De un juez LLM",
+    "De los clics"
+   ],
+   "correcta": 0,
+   "explicacion": "Así se pueden medir métricas graduadas sin leer 119 CVs por consulta, y recalcular si cambian las reglas."
+  },
+  {
+   "pregunta": "¿Qué implica que el nivel no esté escrito en los CVs?",
+   "opciones": [
+    "Nada",
+    "Que no se puede buscar por nivel",
+    "Que hay que reescribir los CVs",
+    "Que una consulta «senior» exige inferir el nivel de los años: es un problema de entender la consulta"
+   ],
+   "correcta": 3,
+   "explicacion": "El parecido de textos no ve «senior» en un CV que solo dice fechas."
+  },
+  {
+   "pregunta": "¿Cuál es el costo de la relevancia calculada?",
+   "opciones": [
+    "Ninguno",
+    "Es cara",
+    "Es tan buena como sus reglas, que son decisiones discutibles",
+    "Es lenta"
+   ],
+   "correcta": 2,
+   "explicacion": "Por eso las reglas están escritas: se pueden discutir y cambiar."
+  },
+  {
+   "pregunta": "¿Qué forma tiene cada módulo del curso?",
+   "opciones": [
+    "Teoría y examen",
+    "Pregunta, medición, técnica, nueva medición y decisión de quedarse o quitarla",
+    "Solo código",
+    "Un catálogo de técnicas"
+   ],
+   "correcta": 1,
+   "explicacion": "Una técnica que no mueve los números se quita."
+  }
+ ]
+}
