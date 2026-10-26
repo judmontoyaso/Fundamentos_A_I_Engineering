@@ -36,7 +36,7 @@ escriben": con paráfrasis, abreviaturas, erratas, requisitos numéricos, exclus
 | 4 | [Un retrieval que traiga el documento correcto](modulo-04-retrieval/README.md) | ¿Rerankers, embeddings afinados o late interaction? |
 | 5 | [Context engineering y long context](modulo-05-contexto/README.md) | ¿Qué va al contexto, y cuándo conviene meterlo todo? |
 | 6 | [Cuándo un grafo o SQL le ganan a los vectores](modulo-06-sql-y-grafos/README.md) | ¿Qué consultas no son de similitud? |
-| 7 | Lo que enseñan los clics | ¿Cómo aprender a ordenar de lo que hacen los usuarios? |
+| 7 | [Lo que enseñan los clics](modulo-07-clics-ltr/README.md) | ¿Cómo aprender a ordenar de lo que hacen los usuarios? |
 | 8 | Seguridad y permisos | ¿Quién puede ver qué, en un índice que cambia todos los días? |
 | 9 | Que no se caiga y que no salga carísimo | ¿Costo, latencia y confiabilidad, medidos? |
 | 10 | Proyecto final | Un sistema medido antes y después |

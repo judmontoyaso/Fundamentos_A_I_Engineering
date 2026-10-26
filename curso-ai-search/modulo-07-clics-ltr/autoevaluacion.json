@@ -1,0 +1,114 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Qué dice un clic, según el modelo basado en la posición?",
+   "opciones": [
+    "Que el resultado es relevante",
+    "Que el resultado se miró y atrajo: θ_k × γ(relevancia)",
+    "Que el usuario contrató al candidato",
+    "Nada útil"
+   ],
+   "correcta": 1,
+   "explicacion": "Mezcla cuánto se mira la posición (θ) con cuánto atrae el resultado (γ)."
+  },
+  {
+   "pregunta": "El LTR entrenado con la tasa de clics cruda le dio su mayor peso a…",
+   "opciones": [
+    "La fracción de requisitos",
+    "BM25",
+    "La posición en producción",
+    "El rol"
+   ],
+   "correcta": 2,
+   "explicacion": "Aprendió el sesgo: lo bueno es lo que ya estaba arriba."
+  },
+  {
+   "pregunta": "¿Qué hace IPS con cada clic?",
+   "opciones": [
+    "Lo divide por θ_k, la probabilidad de mirar esa posición",
+    "Lo multiplica por la posición",
+    "Lo descarta si está abajo",
+    "Lo cuenta dos veces si está arriba"
+   ],
+   "correcta": 0,
+   "explicacion": "En esperanza deja la atracción γ, sin la parte del lugar. El precio es varianza."
+  },
+  {
+   "pregunta": "¿Cómo se estimó θ sin conocer la relevancia?",
+   "opciones": [
+    "Preguntando a los reclutadores",
+    "Con la tasa de clic por posición de los logs normales",
+    "Con un LLM",
+    "Intercambiando el resultado 1 con el k en la mitad de las sesiones"
+   ],
+   "correcta": 3,
+   "explicacion": "Los dos CVs pasan el mismo tiempo en cada posición, así que la razón de clics es θ_k/θ_1."
+  },
+  {
+   "pregunta": "¿Por qué la tasa de clic por posición de los logs normales NO sirve como θ?",
+   "opciones": [
+    "Porque es demasiado ruidosa",
+    "Porque mezcla θ con la relevancia: arriba también están los mejores",
+    "Porque cambia cada día",
+    "Sí sirve"
+   ],
+   "correcta": 1,
+   "explicacion": "Por eso hay que intervenir: el intercambio deja la relevancia igual en las dos posiciones."
+  },
+  {
+   "pregunta": "Con 5, 60 y 300 sesiones por consulta, IPS dio 0.873, 0.875 y 0.881. ¿Qué limita al modelo?",
+   "opciones": [
+    "La cantidad de clics",
+    "El modelo lineal",
+    "Qué datos hay: solo de los 10 CVs que producción mostró",
+    "La θ"
+   ],
+   "correcta": 2,
+   "explicacion": "Más clics de lo mismo no compran información de lo que nunca se mostró."
+  },
+  {
+   "pregunta": "¿Qué sesgo NO corrige IPS?",
+   "opciones": [
+    "El de posición",
+    "El de selección: los CVs que nunca se mostraron (θ = 0)",
+    "Ninguno",
+    "El de los clics en lo irrelevante"
+   ],
+   "correcta": 1,
+   "explicacion": "El 39% de los CVs muy relevantes nunca apareció en el top 10. No hay clic que dividir."
+  },
+  {
+   "pregunta": "El oráculo entrenado solo con los CVs mostrados le dio peso negativo a la similitud densa. ¿Por qué?",
+   "opciones": [
+    "Por un error del código",
+    "Porque la similitud densa no sirve",
+    "Porque entre los mostrados, los que llegaron solo por parecerse, sin cumplir requisitos, son los irrelevantes",
+    "Por la normalización"
+   ],
+   "correcta": 2,
+   "explicacion": "Una regla que vale entre los mostrados y no entre los 119: eso es el sesgo de selección."
+  },
+  {
+   "pregunta": "Recortar la propensión con max(θ, 0.2) subió IPS de 0.875 a 0.899. ¿Qué se intercambió?",
+   "opciones": [
+    "Un poco de sesgo por mucha menos varianza",
+    "Velocidad por calidad",
+    "Nada, es gratis",
+    "Relevancia por posición"
+   ],
+   "correcta": 0,
+   "explicacion": "Con τ muy alto la θ se vuelve plana y el modelo tiende al ingenuo. τ se elige con validación."
+  },
+  {
+   "pregunta": "¿Contra qué hay que evaluar un ranker entrenado con clics?",
+   "opciones": [
+    "Solo contra más clics",
+    "Contra la tasa de clics de la semana siguiente",
+    "No hace falta evaluarlo",
+    "También contra el conjunto etiquetado, que cubre CVs que nadie mostró"
+   ],
+   "correcta": 3,
+   "explicacion": "Evaluado solo con clics, la selección es invisible y el ranker puede mejorar en su medida y empeorar en la tuya."
+  }
+ ]
+}
