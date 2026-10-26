@@ -44,9 +44,8 @@ extraer de cada uno, la mitad difíciles a propósito.
 | 9 | [Del notebook al CI](modulo-09-evals-en-ci/README.md) | ¿Cómo hago que cada cambio pase por los evals sin que nadie se acuerde? |
 | 10 | [Evals y guardrails en producción](modulo-10-produccion/README.md) | ¿Qué mido cuando ya no tengo la respuesta correcta? |
 | 11 | [Mejorar el sistema con los evals](modulo-11-mejorar/README.md) | ¿Cómo uso los evals para mejorar sin sobreajustarme a ellos? |
-| 12 | Proyecto final | Evaluar desde cero un sistema que no construiste |
+| 12 | [Proyecto final](modulo-12-proyecto-final/README.md) | Evaluar desde cero un sistema que no construiste |
 
-Los módulos se publican a medida que se escriben y se prueban.
 
 ---
 

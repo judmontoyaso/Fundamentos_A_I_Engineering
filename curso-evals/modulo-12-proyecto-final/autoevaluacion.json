@@ -1,0 +1,59 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "Al evaluar un sistema ajeno, ¿por qué no leer su código al principio?",
+   "opciones": [
+    "Porque te haría buscar solo los fallos que ves en el código",
+    "Porque es largo",
+    "Porque está prohibido",
+    "Da igual"
+   ],
+   "correcta": 0,
+   "explicacion": "Primero se leen salidas; el código se lee para atribuir el origen de cada fallo."
+  },
+  {
+   "pregunta": "Un fallo de la modalidad aparece en todas las ofertas híbridas, en todas las corridas. ¿Qué sospechas primero?",
+   "opciones": [
+    "Ruido del modelo",
+    "La red",
+    "El set",
+    "Algo determinista: una regla en el código o en el prompt"
+   ],
+   "correcta": 3,
+   "explicacion": "Un fallo 100 % sistemático y ligado a un valor suele ser código. Se confirma midiendo la salida del modelo antes del posprocesado."
+  },
+  {
+   "pregunta": "El salario de una oferta sale 12 billones. ¿Qué tipo de chequeo lo atrapa en producción?",
+   "opciones": [
+    "Un juez",
+    "Ninguno",
+    "Uno sin referencia: un salario así es imposible",
+    "Una persona"
+   ],
+   "correcta": 2,
+   "explicacion": "No hace falta la etiqueta para saber que un valor es imposible."
+  },
+  {
+   "pregunta": "¿Cómo confirmas que un fallo nace en el código y no en el modelo?",
+   "opciones": [
+    "Preguntándole al modelo",
+    "Midiendo la salida del modelo antes del posprocesado",
+    "Cambiando de modelo",
+    "Por intuición"
+   ],
+   "correcta": 1,
+   "explicacion": "En la oferta 8, el modelo extraía el salario y el código lo sobrescribía con None."
+  },
+  {
+   "pregunta": "¿Qué debe decir el informe además de los fallos?",
+   "opciones": [
+    "Qué no midió el eval y qué no sabes todavía",
+    "Solo la recomendación",
+    "El código completo",
+    "El precio del modelo"
+   ],
+   "correcta": 0,
+   "explicacion": "La honestidad sobre los límites es parte de la evidencia."
+  }
+ ]
+}
