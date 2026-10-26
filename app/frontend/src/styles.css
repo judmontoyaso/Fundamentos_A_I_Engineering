@@ -139,6 +139,27 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .q-exp.bad { border-left-color: var(--err); }
 .q-score { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; }
 
+/* ---------- Anotación ---------- */
+.anotar kbd { font: .75rem "IBM Plex Mono", monospace; border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 5px; padding: 0 .35em; background: var(--surface); }
+.an-guia { margin: .6rem 0 1rem; padding: .2rem 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; font-size: .9rem; }
+.an-barra { display: grid; grid-template-columns: auto auto 1fr; gap: .8rem; align-items: center; font-size: .74rem; color: var(--muted); margin: 1rem 0 .6rem; }
+.an-item { padding: 1.1rem 1.2rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; display: grid; gap: .8rem; }
+.an-campo { display: grid; gap: .25rem; }
+.an-campo p { margin: 0; overflow-wrap: anywhere; }
+.an-etq { font: 500 .66rem "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.an-salida { padding: .6rem .8rem; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 9px 9px 0; }
+.an-preg { margin: 0; font-weight: 600; }
+.an-item textarea { font: inherit; font-size: .9rem; color: var(--fg); background: var(--bg); border: 1px solid var(--border); border-radius: 9px; padding: .5rem .7rem; resize: vertical; }
+.an-botones { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+.an-nav { margin-left: auto; display: flex; gap: .4rem; }
+.an-pasa.sel { background: var(--ok); border-color: var(--ok); color: #fff; }
+.an-nopasa.sel { background: var(--err); border-color: var(--err); color: #fff; }
+.an-mapa { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: 1rem; }
+.an-punto { width: 2rem; height: 2rem; border-radius: 7px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font: .72rem "IBM Plex Mono", monospace; cursor: pointer; }
+.an-punto.ok { background: color-mix(in srgb, var(--ok) 18%, transparent); border-color: var(--ok); color: var(--fg); }
+.an-punto.no { background: color-mix(in srgb, var(--err) 16%, transparent); border-color: var(--err); color: var(--fg); }
+.an-punto.act { outline: 2px solid var(--accent); outline-offset: 1px; }
+
 /* ---------- Asistente en vivo ---------- */
 .asis-meta { font-size: .74rem; color: var(--muted); margin: -.2rem 0 1rem; }
 .asis-form { display: grid; gap: .8rem; padding: 1.1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }

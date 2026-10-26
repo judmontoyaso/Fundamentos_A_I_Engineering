@@ -5,6 +5,7 @@ Guarda:
   - progress: qué notebooks marcaste como leídos.
   - cell_edits: el código que editaste en una celda (para no perderlo).
   - runs: historial de ejecuciones (opcional, útil para depurar).
+  - annotations: etiquetas que pusiste en una tarea de anotación (curso de Evals, Módulo 4).
 """
 from __future__ import annotations
 import os
@@ -42,6 +43,15 @@ def init() -> None:
             source   TEXT NOT NULL,
             updated_at TEXT DEFAULT (datetime('now')),
             PRIMARY KEY (nb_id, cell_idx)
+        );
+        CREATE TABLE IF NOT EXISTS annotations (
+            nb_id    TEXT NOT NULL,
+            item_id  TEXT NOT NULL,
+            anotador TEXT NOT NULL,
+            label    INTEGER NOT NULL,
+            nota     TEXT NOT NULL DEFAULT '',
+            updated_at TEXT DEFAULT (datetime('now')),
+            PRIMARY KEY (nb_id, item_id, anotador)
         );
         CREATE TABLE IF NOT EXISTS runs (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -98,4 +108,30 @@ def log_run(nb_id: str, cell_idx: int, ok: bool) -> None:
     c = _conn()
     c.execute("INSERT INTO runs (nb_id, cell_idx, ok) VALUES (?, ?, ?)",
               (nb_id, cell_idx, 1 if ok else 0))
+    c.commit()
+
+
+# ---- anotaciones ----
+def get_annotations(nb_id: str, anotador: str) -> dict[str, dict]:
+    rows = _conn().execute(
+        "SELECT item_id, label, nota FROM annotations WHERE nb_id=? AND anotador=?", (nb_id, anotador)
+    ).fetchall()
+    return {r["item_id"]: {"label": bool(r["label"]), "nota": r["nota"]} for r in rows}
+
+
+def save_annotation(nb_id: str, item_id: str, anotador: str, label: bool, nota: str) -> None:
+    c = _conn()
+    c.execute(
+        "INSERT INTO annotations (nb_id, item_id, anotador, label, nota, updated_at) "
+        "VALUES (?, ?, ?, ?, ?, datetime('now')) "
+        "ON CONFLICT(nb_id, item_id, anotador) DO UPDATE SET label=excluded.label, nota=excluded.nota, "
+        "updated_at=datetime('now')",
+        (nb_id, item_id, anotador, 1 if label else 0, nota),
+    )
+    c.commit()
+
+
+def clear_annotation(nb_id: str, item_id: str, anotador: str) -> None:
+    c = _conn()
+    c.execute("DELETE FROM annotations WHERE nb_id=? AND item_id=? AND anotador=?", (nb_id, item_id, anotador))
     c.commit()

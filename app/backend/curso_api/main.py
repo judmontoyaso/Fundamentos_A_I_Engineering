@@ -71,6 +71,12 @@ class ProgressReq(BaseModel):
     done: bool
 
 
+class AnotacionReq(BaseModel):
+    item_id: str
+    label: bool | None = None      # None = borrar la etiqueta
+    nota: str = ""
+
+
 class ConsultaReq(BaseModel):
     usuario: str
     pedido: str
@@ -147,6 +153,27 @@ def quiz(nb_id: str):
     if q is None:
         raise HTTPException(404, "autoevaluación no encontrada")
     return q
+
+
+# ---------- Anotación (curso de Evals, Módulo 4) ----------
+# Un solo anotador local, "yo": la app es de uso personal. Los laboratorios leen estas etiquetas de la base.
+@app.get("/api/anotacion/{nb_id}")
+def anotacion_get(nb_id: str):
+    a = content.anotacion(nb_id)
+    if a is None:
+        raise HTTPException(404, "tarea de anotación no encontrada")
+    return {**a, "etiquetas": db.get_annotations(nb_id, "yo")}
+
+
+@app.post("/api/anotacion/{nb_id}")
+def anotacion_post(nb_id: str, req: AnotacionReq):
+    if content.anotacion(nb_id) is None:
+        raise HTTPException(404, "tarea de anotación no encontrada")
+    if req.label is None:
+        db.clear_annotation(nb_id, req.item_id, "yo")
+    else:
+        db.save_annotation(nb_id, req.item_id, "yo", req.label, req.nota.strip()[:500])
+    return {"ok": True}
 
 
 # ---------- Asistente del Módulo 9 ----------

@@ -50,6 +50,7 @@ def modules() -> list[dict]:
       type "md"   -> archivo Markdown (fragmentos NO ejecutables)
       type "lab"  -> carpeta code/ (scripts completos, SÍ ejecutables)
       type "quiz" -> autoevaluacion.json del módulo (preguntas con corrección y explicación)
+      type "anotar" -> anotacion.json del módulo: una tarea de etiquetado con su guía
       type "app"  -> el asistente del Módulo 9 funcionando (no cuenta para el progreso)
     Las rutas de "file" y "dir" son relativas a COURSE_ROOT."""
     grupos = []
@@ -71,6 +72,9 @@ def modules() -> list[dict]:
             if any((carpeta / "code").glob("*.py")):
                 items.append({"id": f"{pre}m{n}-lab", "title": "Laboratorio (código ejecutable)", "type": "lab",
                               "dir": f"{ruta}/code"})
+            if (carpeta / "anotacion.json").exists():
+                items.append({"id": f"{pre}m{n}-anotar", "title": "Anotar (tu turno)", "type": "anotar",
+                              "file": f"{ruta}/anotacion.json"})
             if (carpeta / "autoevaluacion.json").exists():
                 items.append({"id": f"{pre}m{n}-quiz", "title": "Autoevaluación", "type": "quiz",
                               "file": f"{ruta}/autoevaluacion.json"})
@@ -183,6 +187,16 @@ def quiz(nb_id: str) -> dict | None:
         return None
     datos = json.loads((COURSE_ROOT / item["file"]).read_text(encoding="utf-8"))
     return {"id": nb_id, "title": item["title"], "preguntas": datos["preguntas"]}
+
+
+def anotacion(nb_id: str) -> dict | None:
+    """Tarea de anotación: título, guía (Markdown) e ítems a etiquetar con sí / no."""
+    item = _item(nb_id)
+    if not item or item["type"] != "anotar":
+        return None
+    datos = json.loads((COURSE_ROOT / item["file"]).read_text(encoding="utf-8"))
+    return {"id": nb_id, "title": datos["titulo"], "pregunta": datos["pregunta"], "guia": datos["guia"],
+            "items": datos["items"]}
 
 
 def exists(nb_id: str) -> bool:

@@ -1,6 +1,7 @@
 // Composición de la app: navegación, barra superior y el notebook activo.
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { api, API_URL } from "./api";
+import { Anotar } from "./components/Anotar";
 import { Asistente } from "./components/Asistente";
 import { Notebook } from "./components/Notebook";
 import { Quiz } from "./components/Quiz";
@@ -137,6 +138,9 @@ export default function App() {
           <div className="reader">
             {current && currentType === "app" ? (
               <Asistente />
+            ) : current && currentType === "anotar" ? (
+              <Anotar key={current} id={current} flat={flat} done={Boolean(progress[current])}
+                      onCompleted={markPassed} onNavigate={go} />
             ) : current && currentType === "quiz" ? (
               <Quiz key={current} id={current} flat={flat} done={Boolean(progress[current])}
                     onPassed={markPassed} onNavigate={go} />

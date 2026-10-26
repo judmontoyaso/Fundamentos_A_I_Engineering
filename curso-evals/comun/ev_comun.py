@@ -142,3 +142,31 @@ def pipeline(texto: str, modelo: str | None = None, version: str = "v1") -> dict
                                 version_prompt=f"perfil-{version}", modelo=modelo)
     return {"ficha": ficha.model_dump(), "nivel": nivel.nivel, "razon_nivel": nivel.razonamiento,
             "perfil": perfil.perfil}
+
+
+# ---------------- Anotaciones de la app (Módulo 4) ----------------
+DB_APP = RAIZ / "app" / "backend" / "data" / "curso.db"
+
+
+def anotaciones(nb_id: str, anotador: str = "yo") -> dict[str, dict]:
+    """Las etiquetas que pusiste en la página "Anotar" de la app: item_id -> {"label": bool, "nota": str}."""
+    import sqlite3
+    if not DB_APP.exists():
+        return {}
+    with sqlite3.connect(DB_APP) as con:
+        try:
+            filas = con.execute("SELECT item_id, label, nota FROM annotations WHERE nb_id=? AND anotador=?",
+                                (nb_id, anotador)).fetchall()
+        except sqlite3.OperationalError:            # la API aún no creó la tabla
+            return {}
+    return {i: {"label": bool(l), "nota": n} for i, l, n in filas}
+
+
+def kappa(a: list[bool], b: list[bool]) -> float:
+    """Kappa de Cohen para dos anotadores con etiquetas sí/no: acuerdo observado corregido por el que
+    se esperaría por azar dadas las proporciones de cada uno."""
+    n = len(a)
+    po = sum(x == y for x, y in zip(a, b)) / n
+    pa, pb = sum(a) / n, sum(b) / n
+    pe = pa * pb + (1 - pa) * (1 - pb)
+    return 1.0 if pe == 1 else (po - pe) / (1 - pe)

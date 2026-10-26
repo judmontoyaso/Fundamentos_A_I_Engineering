@@ -1,0 +1,81 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Por qué preferir una pregunta binaria (pasa / no pasa) a una escala del 1 al 5?",
+   "opciones": [
+    "Porque es más rápida de programar",
+    "Porque los LLM no entienden escalas",
+    "No hay diferencia",
+    "Porque es más fácil de acordar: ¿qué separa un 3 de un 4?"
+   ],
+   "correcta": 3,
+   "explicacion": "Las escalas reparten la incertidumbre en más categorías y bajan el acuerdo. Si necesitas matices, usa varias preguntas binarias."
+  },
+  {
+   "pregunta": "Dos anotadores coinciden en el 90 % de 100 perfiles; cada uno marcó 5 «no pasa» y no coinciden en ninguno. ¿Kappa?",
+   "opciones": [
+    "Alto, 0.9",
+    "1",
+    "Cercano a 0 o negativo",
+    "No se puede calcular"
+   ],
+   "correcta": 2,
+   "explicacion": "Con fallos raros el acuerdo alto sale gratis. El kappa descuenta el acuerdo por azar: aquí fue −0.05."
+  },
+  {
+   "pregunta": "Con la guía vaga, un anotador LLM dio kappa 0.56 y luego 0.26 con el mismo set. ¿Qué indica?",
+   "opciones": [
+    "Que el set cambió",
+    "Que sin criterio escrito el juicio varía de una vez a otra",
+    "Que el kappa está mal calculado",
+    "Que el LLM está roto"
+   ],
+   "correcta": 1,
+   "explicacion": "Igual que dos personas sin guía. Una guía escrita es lo que hace repetible el juicio."
+  },
+  {
+   "pregunta": "La guía completa prohibía «cualidades que el CV no dice» y el LLM rechazó 25 de 30 perfiles por «especialista» o «dominio». ¿Qué se aprende?",
+   "opciones": [
+    "Que la guía admitía dos lecturas: había una frontera sin decidir",
+    "Que el LLM es malo anotando",
+    "Que hay que quitar la guía",
+    "Que el autor se equivocó en todo"
+   ],
+   "correcta": 0,
+   "explicacion": "El desacuerdo destapó una ambigüedad. La solución es decidir la frontera y escribirla."
+  },
+  {
+   "pregunta": "¿Cómo se resuelve un desacuerdo entre anotadores?",
+   "opciones": [
+    "Votando",
+    "Dando la razón al más experto",
+    "Eliminando el caso",
+    "Decidiendo la frontera que lo causó, escribiéndola en la guía y volviendo a medir"
+   ],
+   "correcta": 3,
+   "explicacion": "Cada desacuerdo es una regla que falta. A veces la decisión obliga a cambiar las etiquetas de quien escribió la guía."
+  },
+  {
+   "pregunta": "En el laboratorio, ¿qué hicieron los cuatro ejemplos resueltos (guía v4) frente a la aclaración (v3)?",
+   "opciones": [
+    "Subieron mucho el kappa",
+    "Lo bajaron a cero",
+    "Nada medible: la diferencia quedó dentro de lo que varía entre corridas",
+    "No se midió"
+   ],
+   "correcta": 2,
+   "explicacion": "Fue un resultado contrario a lo que suele recomendarse. Por eso cada cambio de guía se mide con repeticiones."
+  },
+  {
+   "pregunta": "¿Por qué un anotador LLM no sustituye a la segunda persona?",
+   "opciones": [
+    "Porque es caro",
+    "Porque no puede decidir qué criterio es el razonable para el usuario; solo aplica el texto",
+    "Porque no entiende español",
+    "Sí la sustituye"
+   ],
+   "correcta": 1,
+   "explicacion": "Sirve de lupa para encontrar ambigüedades. El criterio de referencia lo fijan personas; el Módulo 5 calibra al LLM contra ellas."
+  }
+ ]
+}

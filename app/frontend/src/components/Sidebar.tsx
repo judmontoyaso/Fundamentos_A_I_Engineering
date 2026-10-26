@@ -46,6 +46,7 @@ export function Sidebar({ nav, courses, course, onCourse, current, progress, ope
                 <span>{it.title}</span>
                 {it.type === "lab" && <span className="kind">▶</span>}
                 {it.type === "quiz" && <span className="kind">?</span>}
+                {it.type === "anotar" && <span className="kind">✎</span>}
                 {it.type === "app" && <span className="kind live">● en vivo</span>}
               </button>
             ))}

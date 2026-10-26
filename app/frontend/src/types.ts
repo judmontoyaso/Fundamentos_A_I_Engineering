@@ -1,6 +1,6 @@
 // Contratos de la API (espejo de backend/curso_api).
 
-export type NavItem = { id: string; title: string; type: "md" | "lab" | "quiz" | "app" };
+export type NavItem = { id: string; title: string; type: "md" | "lab" | "quiz" | "app" | "anotar" };
 export type NavGroup = { course: string; group: string; items: NavItem[] };
 export type Course = { id: string; title: string };
 
@@ -54,3 +54,13 @@ export type Consulta = {
 };
 
 export type Recuerdo = { id: string; texto: string };
+
+export type ItemAnotacion = { id: string; cv: string; salida: string };
+export type TareaAnotacion = {
+  id: string;
+  title: string;
+  pregunta: string;
+  guia: string;
+  items: ItemAnotacion[];
+  etiquetas: Record<string, { label: boolean; nota: string }>;
+};
