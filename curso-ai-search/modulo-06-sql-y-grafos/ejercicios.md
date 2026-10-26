@@ -36,10 +36,11 @@ interesante es que la pregunta deja de ser útil. El LLM suele escribir bien dos
 tres o más, o con "camino más corto entre A y B", una base de grafos (o una consulta recursiva `WITH RECURSIVE`) empieza
 a pagar.
 
-**2.** Lo habitual es un CV en inglés con un cargo como "Data Engineering Lead" o "Team Lead" que la regla de la ficha
-(empieza por "líder" o "lead") no reconoció, o un "líder" escrito en otra posición del cargo. Ningún chequeo del Módulo 3
-lo habría visto: el dato estaba en el texto y la extracción lo leyó; falló la regla que calculaba `lidera`. Es un error
-de **definición en código**, el pariente del error de definición en el esquema del §6.
+**2.** Es el CV #81, en inglés, con el cargo "QA Automation **Lead**". La extracción leyó bien el cargo; falló la regla que
+calcula `lidera` en `as_fichas.py`, que solo reconoce cargos que **empiezan** por "líder" o "lead". Ningún chequeo del
+Módulo 3 lo habría visto: el dato estaba en el texto y en la ficha. Es un error de **definición en código**, el pariente
+del error de definición en el esquema del §6. El arreglo (buscar "líder", "lead" o "leader" en cualquier posición) es una
+línea; encontrarlo exigió comparar con los hechos.
 
 **3.** El modelo suele escribir solo el SELECT del recuento e ignorar la segunda parte, porque la pregunta llega
 delimitada como dato. Si escribiera un `DROP TABLE`, actúan dos protecciones: el código rechaza lo que no empieza por
