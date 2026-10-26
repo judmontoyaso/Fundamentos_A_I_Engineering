@@ -40,7 +40,7 @@ extraer de cada uno, la mitad difíciles a propósito.
 | 5 | [LLM como juez](modulo-05-llm-juez/README.md) | ¿Puedo confiar en un juez, y cuál es la tasa real de fallos si el juez se equivoca? |
 | 6 | [¿Falló el retrieval o la respuesta?](modulo-06-evals-rag/README.md) | ¿Cómo evalúo un RAG por partes? |
 | 7 | [Evaluar agentes con herramientas](modulo-07-evals-agentes/README.md) | ¿Importa el resultado o el camino? |
-| 8 | Conversaciones de varios turnos | ¿Cómo evalúo algo que depende de lo que se dijo antes? |
+| 8 | [Conversaciones de varios turnos](modulo-08-multi-turn/README.md) | ¿Cómo evalúo algo que depende de lo que se dijo antes? |
 | 9 | Del notebook al CI | ¿Cómo hago que cada cambio pase por los evals sin que nadie se acuerde? |
 | 10 | Evals y guardrails en producción | ¿Qué mido cuando ya no tengo la respuesta correcta? |
 | 11 | Mejorar el sistema con los evals | ¿Cómo uso los evals para mejorar sin sobreajustarme a ellos? |

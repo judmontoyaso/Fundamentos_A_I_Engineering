@@ -136,6 +136,11 @@ mostrar**. Son la lección principal del módulo:
    invención: el requisito venía **en el pedido de este turno**, que todavía no estaba en la memoria, y el arreglo 2
    solo había añadido los recuerdos. Ahora las fuentes de la verificación incluyen también el pedido actual. Es el
    mismo error dos veces: **la verificación tiene que ver todo lo que el sistema tuvo derecho a usar**.
+7. **Lo que no se extrae no existe.** El curso de Evals (Módulo 8) preguntó "¿y tiene alguna certificación?" sobre
+   Diego, y en dos de tres ejecuciones el sistema respondió que su CV no mencionaba ninguna. El CV dice "Certificado AWS
+   Solutions Architect". El esquema `CVExtraido` no tenía campo de certificaciones, así que el dato solo llegaba al
+   índice si el extractor lo metía de paso en una descripción. Arreglo: el campo `certificaciones`, que también se
+   escribe en el texto indexado. La evaluación de punta a punta siguió igual (9/9).
 
 Dos de estos fallos se vieron **solo gracias a la traza** (el 3 y el diagnóstico del 2). Sin observabilidad
 habrías visto "a veces no recomienda a la mejor" y "a veces tarda mucho", sin saber por qué.

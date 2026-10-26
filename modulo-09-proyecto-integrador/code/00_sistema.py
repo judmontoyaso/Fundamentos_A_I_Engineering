@@ -102,6 +102,9 @@ class CVExtraido(BaseModel):
     areas: list[Literal["datos", "ingenieria", "producto", "seguridad", "calidad", "cloud"]]
     skills: list[str] = Field(description="tecnologías y herramientas, en minúscula")
     idiomas: list[str] = Field(default_factory=list, description="idiomas con su nivel, p. ej. 'inglés C1'")
+    # Sin este campo, una certificación solo sobrevivía a la ingesta si el extractor la metía de paso en una
+    # descripción: el curso de Evals (Módulo 8) encontró "el CV de Diego no menciona certificaciones".
+    certificaciones: list[str] = Field(default_factory=list, description="certificaciones que el CV menciona")
     experiencia: list[Experiencia]
 
 
@@ -117,7 +120,8 @@ def _norm(t: str) -> str:
 
 def _texto_cv(cv: CVExtraido) -> str:
     lineas = [f"{cv.nombre}. Nivel {cv.nivel}. Áreas: {', '.join(cv.areas)}. Skills: {', '.join(cv.skills)}. "
-              f"Idiomas: {', '.join(cv.idiomas) or 'no indicados'}."]
+              f"Idiomas: {', '.join(cv.idiomas) or 'no indicados'}. "
+              f"Certificaciones: {', '.join(cv.certificaciones) or 'ninguna indicada'}."]
     for e in cv.experiencia:
         lineas.append(f"- {e.cargo}{' en ' + e.empresa if e.empresa else ''} "
                       f"({e.anio_inicio or '?'}-{e.anio_fin or 'hoy'}): {e.descripcion}")
