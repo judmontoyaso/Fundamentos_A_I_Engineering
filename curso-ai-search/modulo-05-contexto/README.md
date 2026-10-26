@@ -115,7 +115,7 @@ dónde estaba.
 
 **No hubo efecto "lost in the middle"**: el centro salió incluso mejor que los extremos (con estos tamaños, las
 diferencias son ruido). Lo que sí hubo es una pérdida **pareja**: alrededor de 1 de cada 8 candidatos esperados no
-apareció, estuviera donde estuviera, y solo 11 de 20 listas salieron exactas. El problema de este modelo con este
+apareció, estuviera donde estuviera, y solo 11 de 20 listas salieron exactas (6 de 20 en otra corrida, desde la app). El problema de este modelo con este
 contexto es la **exhaustividad**, no la posición.
 
 Es la razón de medir los efectos famosos en tu sistema: el efecto existe en otros modelos y otras tareas, y aquí no

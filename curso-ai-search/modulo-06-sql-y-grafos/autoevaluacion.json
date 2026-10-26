@@ -1,0 +1,70 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Qué tipo de pregunta NO es de similitud?",
+   "opciones": [
+    "«Alguien que sepa Kubernetes»",
+    "«Ingeniero de datos senior»",
+    "«¿Cuántos candidatos son junior?»",
+    "«Mobile developer»"
+   ],
+   "correcta": 2,
+   "explicacion": "Contar exige recorrer todo el conjunto: se consulta, no se busca."
+  },
+  {
+   "pregunta": "¿Por qué hubo que extraer la empresa de cada trabajo?",
+   "opciones": [
+    "Por estética",
+    "Porque el índice no la guardaba y las preguntas de relaciones la necesitan",
+    "Para el embedder",
+    "Para el reranker"
+   ],
+   "correcta": 1,
+   "explicacion": "Lo que hay que extraer depende de las preguntas que vas a responder."
+  },
+  {
+   "pregunta": "¿Cuál de estas NO es una protección de texto a SQL en el laboratorio?",
+   "opciones": [
+    "Pedirle al modelo que sea cuidadoso",
+    "El LLM solo ve el esquema",
+    "La conexión es de solo lectura",
+    "Solo se ejecuta SELECT"
+   ],
+   "correcta": 0,
+   "explicacion": "Las protecciones están en el código, no en el prompt."
+  },
+  {
+   "pregunta": "La primera versión contó cargos con «líder» en vez de usar la columna lidera. ¿Qué la arregló?",
+   "opciones": [
+    "Un modelo más grande",
+    "Más ejemplos",
+    "Nada",
+    "Documentar el esquema: qué significa cada columna y las definiciones del negocio"
+   ],
+   "correcta": 3,
+   "explicacion": "Un esquema sin documentar es una guía de anotación ambigua."
+  },
+  {
+   "pregunta": "SQL v2 devuelve 17 líderes y los hechos dicen 18, con la consulta correcta. ¿Qué pasó?",
+   "opciones": [
+    "El SQL falló",
+    "Azar",
+    "Un error de los datos del índice: SQL es exacto sobre los datos y los errores pasan intactos",
+    "El enrutador"
+   ],
+   "correcta": 2,
+   "explicacion": "Evalúa la consulta y los datos por separado."
+  },
+  {
+   "pregunta": "El enrutador mandó «dbt» a consultar. ¿Es grave?",
+   "opciones": [
+    "Muy grave",
+    "Casi inofensivo: la lista exacta de quienes saben dbt es justo el conjunto relevante",
+    "Rompe el sistema",
+    "No se puede saber"
+   ],
+   "correcta": 1,
+   "explicacion": "Un enrutador se evalúa por lo que cambia en la respuesta."
+  }
+ ]
+}
