@@ -1,0 +1,70 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Por qué no se compara la trayectoria de un agente con una «trayectoria de referencia» paso a paso?",
+   "opciones": [
+    "Porque es caro",
+    "Porque las trayectorias no se pueden guardar",
+    "Porque lo prohíbe el proveedor",
+    "Porque muchos caminos distintos llevan al mismo resultado correcto"
+   ],
+   "correcta": 3,
+   "explicacion": "Se chequean propiedades del camino que importan (leyó antes de recomendar, sin repetidas), no un camino único."
+  },
+  {
+   "pregunta": "nano y mini acertaron el resultado en 20 y 21 de 24 corridas. ¿Qué los separó?",
+   "opciones": [
+    "Nada",
+    "El costo por token",
+    "El camino y el pass^3: nano repetía llamadas y fue fiable en 1 de 8 pedidos, mini en 7 de 8",
+    "El idioma"
+   ],
+   "correcta": 2,
+   "explicacion": "Solo el resultado los hacía parecer iguales; el camino y la fiabilidad mostraron la diferencia."
+  },
+  {
+   "pregunta": "¿Qué mide pass^3?",
+   "opciones": [
+    "Que el pedido sale bien en al menos una de tres corridas",
+    "Que sale bien en las tres corridas",
+    "La media de tres corridas",
+    "El tercer paso del agente"
+   ],
+   "correcta": 1,
+   "explicacion": "Es lo que le importa a un usuario diario: que acierte siempre, no a veces."
+  },
+  {
+   "pregunta": "mini leyó el CV malicioso antes de recomendar y recomendó a Pedro las 3 veces. ¿Qué chequeo de camino lo detectó?",
+   "opciones": [
+    "Ninguno: su camino era correcto; solo el caso de seguridad con su resultado esperado lo detecta",
+    "«Leyó a quien recomienda»",
+    "«Sin llamadas repetidas»",
+    "«Terminó»"
+   ],
+   "correcta": 0,
+   "explicacion": "Los chequeos de proceso no sustituyen a los casos de seguridad en el set."
+  },
+  {
+   "pregunta": "¿Qué ventaja tiene evaluar UNA decisión desde un estado fijo?",
+   "opciones": [
+    "Ninguna",
+    "Sustituye al episodio completo",
+    "Es más realista",
+    "Es barato, aislado y apunta al paso exacto que falla"
+   ],
+   "correcta": 3,
+   "explicacion": "Encontró que nano, tras leer el CV correcto, vuelve a pedirlo en vez de terminar (0/3)."
+  },
+  {
+   "pregunta": "Ningún modelo usó bm25 para las siglas, pero los tres encontraron al candidato. ¿Qué hacer con ese chequeo?",
+   "opciones": [
+    "Dejarlo, aunque falle siempre",
+    "Cambiar de modelo",
+    "Quitarlo, o añadir casos donde bm25 sí cambie el resultado",
+    "Bajar el umbral"
+   ],
+   "correcta": 2,
+   "explicacion": "Un chequeo de camino tiene que medir algo que importe para el resultado, el costo o la seguridad."
+  }
+ ]
+}
