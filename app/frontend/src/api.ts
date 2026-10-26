@@ -1,6 +1,6 @@
 // Cliente HTTP de la API del curso. Toda la comunicación con el backend pasa por aquí.
 import type {
-  Consulta, EstadoAsistente, NavGroup, Notebook, Progress, Quiz, Recuerdo, RunResult,
+  Consulta, Course, EstadoAsistente, NavGroup, Notebook, Progress, Quiz, Recuerdo, RunResult,
 } from "./types";
 
 export const API_URL = (import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000").replace(/\/$/, "");
@@ -22,7 +22,7 @@ function post<T>(path: string, body?: unknown): Promise<T> {
 }
 
 export const api = {
-  modules: () => request<{ nav: NavGroup[]; progress: Progress }>("/modules"),
+  modules: () => request<{ courses: Course[]; nav: NavGroup[]; progress: Progress }>("/modules"),
   notebook: (id: string) => request<Notebook>(`/notebook/${encodeURIComponent(id)}`),
   run: (sessionId: string, code: string, file?: string) =>
     post<RunResult>("/run", { session_id: sessionId, code, file }),

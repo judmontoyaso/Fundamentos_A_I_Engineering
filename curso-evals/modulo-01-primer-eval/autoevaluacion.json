@@ -1,0 +1,70 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "Dos versiones del extractor tienen la misma exactitud global. ¿Qué puede estar escondiendo ese empate?",
+   "opciones": [
+    "Nada: son equivalentes",
+    "Casos arreglados y casos rotos que se compensan",
+    "Que el modelo cambió",
+    "Un error de redondeo"
+   ],
+   "correcta": 1,
+   "explicacion": "Con gpt-5.4-nano, v2 arregló dos casos y rompió uno, y la cifra global casi no se movió. Por eso se compara caso por caso."
+  },
+  {
+   "pregunta": "El extractor devuelve «net» donde se esperaba «.net». ¿Cuándo relajarías el chequeo para aceptarlo?",
+   "opciones": [
+    "Solo si lo obtenido es igual de útil que lo esperado para el producto",
+    "Siempre, para que el informe se vea mejor",
+    "Nunca relajar un chequeo",
+    "Cuando falle más de una vez"
+   ],
+   "correcta": 0,
+   "explicacion": "Para un buscador de CVs, «net» es ambiguo (¿.NET?, ¿redes?): es peor dato, así que se mantuvo como fallo."
+  },
+  {
+   "pregunta": "gpt-4o-mini cuenta 8 años en vez de 11 porque excluye el trabajo de mesero. ¿Qué revela?",
+   "opciones": [
+    "Que el modelo es malo",
+    "Que la etiqueta es incorrecta seguro",
+    "Un fallo de red",
+    "Una regla de las etiquetas que nunca llegó al prompt"
+   ],
+   "correcta": 3,
+   "explicacion": "El modelo aplicó una interpretación razonable. Muchos fallos son especificaciones que solo existían en tu cabeza y en las etiquetas."
+  },
+  {
+   "pregunta": "Con el prompt v2, el caso de rangos solapados en gpt-5.4-nano pasó de 7 siempre a 7, 6, 10 y 12. ¿Qué enseña?",
+   "opciones": [
+    "Que la regla estaba mal escrita",
+    "Que hay que usar temperatura 0",
+    "Que más instrucciones pueden desestabilizar a un modelo pequeño, y solo se ve repitiendo",
+    "Que el caso es inválido"
+   ],
+   "correcta": 2,
+   "explicacion": "Cada instrucción tiene un costo. Sin repeticiones, la rotura habría pasado por un mal resultado aislado."
+  },
+  {
+   "pregunta": "60 extracciones sin ningún fallo. Con 95 % de confianza, ¿qué puedes afirmar de la tasa de error?",
+   "opciones": [
+    "Que es 0 %",
+    "Que está por debajo de ~5 % (3/60) en casos como estos",
+    "Que está por debajo de 1 %",
+    "Nada"
+   ],
+   "correcta": 1,
+   "explicacion": "La regla del tres: 0 fallos en n intentos acota la tasa por debajo de 3/n. Para bajar de 1 % harían falta unos 300 casos sin fallos."
+  },
+  {
+   "pregunta": "Un caso salió mal con v1 en una pasada y bien en la otra, y bien en las dos con v2. ¿Cómo lo clasificas?",
+   "opciones": [
+    "Inestable: con tan pocas pasadas no se distingue la mejora de la suerte",
+    "Arreglado",
+    "Roto",
+    "Siempre bien"
+   ],
+   "correcta": 0,
+   "explicacion": "«Arreglado» exige que fallara siempre antes y acierte siempre después. Si ya acertaba a veces, hacen falta más pasadas."
+  }
+ ]
+}

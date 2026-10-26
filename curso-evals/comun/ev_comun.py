@@ -1,0 +1,103 @@
+"""
+ev_comun.py — lo que comparten los laboratorios del curso de Evals.
+
+Los sistemas que evaluamos son los del curso de AI Engineering (carpetas modulo-* de la raíz):
+  extractor : texto de un CV -> FichaCV (Módulo 1). Es el más fácil de verificar: cada campo tiene
+              una respuesta correcta que el código puede comprobar.
+  rag       : pregunta -> respuesta citando CVs (Módulos 3 y 4). Hay que separar recuperación y respuesta.
+  agente    : pedido -> búsqueda con herramientas y recomendación (Módulo 5). Hay que evaluar el camino.
+
+Todas las llamadas pasan por el trazador del Módulo 7: cada eval deja trazas con tokens y latencia.
+"""
+from __future__ import annotations
+import json
+import os
+import pathlib
+import sys
+import unicodedata
+from datetime import date
+from importlib import import_module
+
+from pydantic import BaseModel, Field
+
+COMUN = pathlib.Path(__file__).resolve().parent
+CURSO = COMUN.parent
+RAIZ = CURSO.parent                                   # carpeta del curso de AI Engineering
+for sub in ("modulo-05-workflows-agentes", "modulo-07-observabilidad", "modulo-04-bm25-hibrida-rrf"):
+    if str(RAIZ / sub / "code") not in sys.path:
+        sys.path.append(str(RAIZ / sub / "code"))
+if str(COMUN) not in sys.path:
+    sys.path.append(str(COMUN))
+
+c = import_module("00_comun")          # llm(), INSTRUCCION_CV, como_cv, buscador del Módulo 4
+tz = import_module("00_trazador")      # trazas, llm_trazado, en_paralelo
+
+HOY = date.today()
+
+
+# ---------------- Sistema 1 · el extractor ----------------
+class FichaCV(BaseModel):
+    nombre: str
+    correo: str | None = Field(default=None, description="null si no aparece")
+    anios_experiencia: int = Field(ge=0, le=60, description="años de experiencia profesional total")
+    skills: list[str] = Field(description="tecnologías y herramientas, en minúscula")
+
+
+# El candidato a sistema barato del curso. Cambia por el que tenga tu cuenta: los modelos se retiran
+# (gpt-4.1-nano respondía el 22 de octubre de 2026 y el 26 ya daba 404).
+MODELO_BARATO = os.getenv("MODELO_BARATO", "gpt-5.4-nano")
+
+PROMPTS_EXTRACTOR = {
+    # v1 es el prompt "razonable" con el que se arranca. No está saboteado: es lo que casi todos escriben.
+    "v1": f"Extrae los datos del CV. {c.INSTRUCCION_CV} No inventes.",
+    # v2 sale de leer los fallos de v1 (Módulo 1 §6): la fecha de hoy y las reglas de conteo, que eran
+    # las reglas de las etiquetas (ev_datos.py) y nunca se le habían dicho al modelo.
+    "v2": (f"Extrae los datos del CV. {c.INSTRUCCION_CV} No inventes. Hoy es {HOY:%Y-%m-%d}.\n"
+           "anios_experiencia: suma todo trabajo, aunque no sea del área; los periodos que se solapan cuentan "
+           "una sola vez; 'hasta hoy' o 'actual' cuenta hasta hoy; prácticas y estudios no cuentan; los meses "
+           "se redondean hacia abajo.\n"
+           "skills: cada tecnología o herramienta tal como aparece, en minúscula y conservando su puntuación "
+           "(por ejemplo '.net', 'c#'), aunque el CV esté en mayúsculas."),
+}
+
+
+def extraer(texto: str, version: str = "v1", modelo: str | None = None) -> FichaCV:
+    return tz.llm_trazado(FichaCV, PROMPTS_EXTRACTOR[version], c.como_cv(texto), nombre="extractor",
+                          version_prompt=f"extractor-{version}", modelo=modelo)
+
+
+# ---------------- Comparaciones deterministas ----------------
+def norm(t) -> str:
+    t = unicodedata.normalize("NFKD", str(t)).encode("ascii", "ignore").decode()
+    return " ".join(t.lower().split())
+
+
+def comparar_ficha(ficha: FichaCV, esperado: dict) -> dict[str, bool]:
+    """Un booleano por campo. Las skills esperadas deben aparecer dentro de alguna extraída
+    ("python" vale dentro de "python 3.12"); no se castiga extraer skills de más."""
+    skills = [norm(s) for s in ficha.skills]
+    correo_ok = (ficha.correo or None) == esperado["correo"] or bool(
+        ficha.correo and esperado["correo"] and norm(ficha.correo) == norm(esperado["correo"]))
+    return {
+        "nombre": norm(ficha.nombre) == norm(esperado["nombre"]),
+        "correo": correo_ok,
+        "anios": ficha.anios_experiencia == esperado["anios"],
+        "skills": all(any(norm(e) in s for s in skills) for e in esperado["skills"]),
+    }
+
+
+# ---------------- Resultados versionados ----------------
+SALIDA = CURSO / "salida"
+
+
+def guardar_jsonl(nombre: str, filas: list[dict]) -> pathlib.Path:
+    SALIDA.mkdir(exist_ok=True)
+    ruta = SALIDA / nombre
+    ruta.write_text("\n".join(json.dumps(f, ensure_ascii=False, default=str) for f in filas) + "\n",
+                    encoding="utf-8")
+    return ruta
+
+
+def leer_jsonl(nombre: str) -> list[dict]:
+    ruta = SALIDA / nombre
+    return [json.loads(l) for l in ruta.read_text(encoding="utf-8").splitlines() if l.strip()]

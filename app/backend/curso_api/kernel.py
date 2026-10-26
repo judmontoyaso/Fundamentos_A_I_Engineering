@@ -53,7 +53,8 @@ def _olvidar_modulos_del_curso() -> None:
     raiz = str(COURSE_ROOT.resolve()).lower()
     for nombre, mod in list(sys.modules.items()):
         archivo = getattr(mod, "__file__", None) or ""
-        if archivo.lower().startswith(raiz) and "modulo-" in archivo.lower():
+        a = archivo.lower().replace("\\", "/")
+        if a.startswith(raiz.replace("\\", "/")) and ("modulo-" in a or "/comun/" in a):
             sys.modules.pop(nombre, None)
 
 

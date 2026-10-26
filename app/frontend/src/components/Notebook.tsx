@@ -41,7 +41,8 @@ export function Notebook({ id, flat, done, onToggleDone, onNavigate }: Props) {
         cell.type === "code" ? (
           <CodeCell key={`${id}:${cell.idx}:${version}`} cell={cell} nbId={id} onReload={reload} />
         ) : (
-          <MarkdownCell key={`${id}:${cell.idx}`} source={cell.source} onNavigate={onNavigate} />
+          <MarkdownCell key={`${id}:${cell.idx}`} source={cell.source} prefix={id.replace(/(m\d+-[a-z]+|inicio)$/, "")}
+                        onNavigate={onNavigate} />
         ),
       )}
       <div className="foot">

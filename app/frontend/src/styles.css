@@ -46,6 +46,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .brand .logo { width: 34px; height: 34px; border-radius: 9px; background: var(--accent); color: #fff; display: grid; place-items: center; font: 700 .9rem "IBM Plex Mono", monospace; flex: none; }
 .brand h1 { margin: 0; font-size: .98rem; font-weight: 600; }
 .brand p { margin: 1px 0 0; font-size: .72rem; color: var(--muted); }
+.course-pick { display: grid; gap: .25rem; padding: .7rem 1.1rem; border-bottom: 1px solid var(--border); font: 500 .66rem "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.course-pick select { font: inherit; font-family: "IBM Plex Sans", system-ui, sans-serif; font-size: .86rem; letter-spacing: 0; text-transform: none; color: var(--fg); background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: .4rem .5rem; width: 100%; }
 .nav { overflow-y: auto; padding: .6rem; flex: 1; min-height: 0; }
 .nav-group { margin-top: .9rem; }
 .nav-group:first-child { margin-top: .2rem; }

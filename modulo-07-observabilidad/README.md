@@ -270,6 +270,10 @@ set del juez:
 | `gpt-4.1-mini` | 95 % | 100 % / 0 | ~1.2 s | 0 % |
 | `gpt-4.1-nano` | 92 % | 100 % / 0 | ~1 s | 0 % |
 
+> Medido el 22 de octubre de 2026. El 26, `gpt-4.1-nano` ya devolvía *404: deprecated*: el laboratorio lo
+> marca "no disponible" y sigue con los demás. Cambia `MODELOS` por los que tenga tu cuenta (por ejemplo
+> `gpt-5.4-nano`) y fija versiones con fecha: los alias y los modelos se retiran.
+
 La cifra global engaña; **lo que importa es en qué falla cada uno**:
 
 - `gpt-4.1-mini` falló en "desde 2018 hasta hoy" (no sabe la fecha actual) y perdió una habilidad con versión

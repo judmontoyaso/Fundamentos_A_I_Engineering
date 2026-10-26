@@ -122,12 +122,13 @@ def _uso(u) -> dict:
 
 
 def llm_trazado(response_model, system: str, user: str, nombre: str = "llm",
-                version_prompt: str | None = None, max_retries: int = 2):
-    with span(nombre, tipo="llm", version_prompt=version_prompt, modelo_pedido=MODELO,
+                version_prompt: str | None = None, max_retries: int = 2, modelo: str | None = None):
+    modelo = modelo or MODELO          # se puede pedir otro modelo en una llamada sin tocar el global
+    with span(nombre, tipo="llm", version_prompt=version_prompt, modelo_pedido=modelo,
               entrada=enmascarar(user)) as s:
         try:
             obj, comp = _cliente().chat.completions.create_with_completion(
-                model=MODELO, response_model=response_model, max_retries=max_retries,
+                model=modelo, response_model=response_model, max_retries=max_retries,
                 messages=[{"role": "system", "content": system}, {"role": "user", "content": user}])
         except InstructorRetryException as e:
             # Un fallo también se paga: registra los intentos y los tokens de TODOS ellos.

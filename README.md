@@ -85,6 +85,15 @@ OPENROUTER_API_KEY=...
 | 8 | [**Memoria y guardrails**](modulo-08-memoria-guardrails/README.md) | Memoria conversacional y defensas de entrada/salida | Endurecer el buscador |
 | 9 | [**Proyecto integrador**](modulo-09-proyecto-integrador/README.md) | Todo junto, de punta a punta | El buscador completo |
 
+### Cursos que siguen a este
+
+| Curso | Qué responde | Estado |
+|---|---|---|
+| [**Evals para AI Engineers**](curso-evals/README.md) | ¿Cómo sé, con evidencia, si un cambio mejoró o empeoró el sistema? | En escritura, módulo a módulo |
+| **AI search: medir y mejorar** | ¿Qué está fallando en el RAG, y qué cambio lo arregla? | Pendiente (después de Evals) |
+
+En la app, el selector **Curso** (arriba a la izquierda) cambia entre ellos.
+
 ---
 
 ## Filosofía (lee esto antes del Módulo 1)

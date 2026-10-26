@@ -1,15 +1,18 @@
 // Navegación por módulos con el estado de cada notebook.
-import type { NavGroup, Progress } from "../types";
+import type { Course, NavGroup, Progress } from "../types";
 
 type Props = {
   nav: NavGroup[];
+  courses: Course[];
+  course: string | undefined;
+  onCourse: (id: string) => void;
   current: string | null;
   progress: Progress;
   open: boolean;
   onSelect: (id: string) => void;
 };
 
-export function Sidebar({ nav, current, progress, open, onSelect }: Props) {
+export function Sidebar({ nav, courses, course, onCourse, current, progress, open, onSelect }: Props) {
   return (
     <aside className={"sidebar" + (open ? " open" : "")}>
       <div className="brand">
@@ -19,6 +22,14 @@ export function Sidebar({ nav, current, progress, open, onSelect }: Props) {
           <p>Notebook interactivo</p>
         </div>
       </div>
+      {courses.length > 1 && (
+        <label className="course-pick">
+          <span>Curso</span>
+          <select value={course} onChange={(e) => onCourse(e.target.value)}>
+            {courses.map((c) => <option key={c.id} value={c.id}>{c.title}</option>)}
+          </select>
+        </label>
+      )}
       <nav className="nav">
         {nav.map((g) => (
           <div className="nav-group" key={g.group}>

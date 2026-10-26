@@ -6,7 +6,7 @@ import { Notebook } from "./components/Notebook";
 import { Quiz } from "./components/Quiz";
 import { Sidebar } from "./components/Sidebar";
 import { Toaster, toast } from "./toast";
-import type { NavGroup, Progress } from "./types";
+import type { Course, NavGroup, Progress } from "./types";
 
 type Theme = "system" | "light" | "dark";
 const THEMES: Theme[] = ["system", "light", "dark"];
@@ -22,6 +22,7 @@ function lsSet(key: string, value: string) {
 
 export default function App() {
   const [nav, setNav] = useState<NavGroup[]>([]);
+  const [courses, setCourses] = useState<Course[]>([]);
   const [progress, setProgress] = useState<Progress>({});
   const [current, setCurrent] = useState<string | null>(null);
   const [apiDown, setApiDown] = useState(false);
@@ -32,7 +33,13 @@ export default function App() {
   });
 
   const items = useMemo(() => nav.flatMap((g) => g.items), [nav]);
-  const flat = useMemo(() => items.filter((it) => it.type !== "app"), [items]);   // lo que cuenta para el progreso
+  // El curso activo es el del notebook abierto; la navegación y el progreso son de ese curso.
+  const course = nav.find((g) => g.items.some((it) => it.id === current))?.course ?? courses[0]?.id;
+  const courseNav = useMemo(() => nav.filter((g) => g.course === course), [nav, course]);
+  const flat = useMemo(
+    () => courseNav.flatMap((g) => g.items).filter((it) => it.type !== "app"),   // lo que cuenta para el progreso
+    [courseNav],
+  );
   const currentType = items.find((it) => it.id === current)?.type;
 
   const markPassed = useCallback(() => {
@@ -52,6 +59,7 @@ export default function App() {
     api.modules()
       .then((d) => {
         setNav(d.nav);
+        setCourses(d.courses ?? []);
         setProgress(d.progress ?? {});
         const ids = d.nav.flatMap((g) => g.items.map((it) => it.id));
         const last = lsGet(LS_LAST);
@@ -63,8 +71,17 @@ export default function App() {
   function go(id: string) {
     setCurrent(id);
     lsSet(LS_LAST, id);
+    const c = nav.find((g) => g.items.some((it) => it.id === id))?.course;
+    if (c) lsSet(`${LS_LAST}:${c}`, id);
     setSideOpen(false);
     document.querySelector(".scroll")?.scrollTo({ top: 0 });
+  }
+
+  function switchCourse(id: string) {
+    const last = lsGet(`${LS_LAST}:${id}`);
+    const ids = nav.filter((g) => g.course === id).flatMap((g) => g.items.map((it) => it.id));
+    const target = last && ids.includes(last) ? last : ids[0];
+    if (target) go(target);
   }
 
   function toggleDone(id: string) {
@@ -97,14 +114,15 @@ export default function App() {
   return (
     <div className="app">
       <div className={"scrim" + (sideOpen ? " show" : "")} onClick={() => setSideOpen(false)} />
-      <Sidebar nav={nav} current={current} progress={progress} open={sideOpen} onSelect={go} />
+      <Sidebar nav={courseNav} courses={courses} course={course} onCourse={switchCourse}
+               current={current} progress={progress} open={sideOpen} onSelect={go} />
 
       <main className="main">
         <header className="topbar">
           <button className="menu-btn" onClick={() => setSideOpen(!sideOpen)} aria-label="Menú">☰</button>
           <div className="progress-wrap">
             <div className="progress-top">
-              <span>Progreso del curso</span>
+              <span>Progreso · {courses.find((c) => c.id === course)?.title ?? "curso"}</span>
               <span className="mono"><b>{pct}%</b> · {done}/{flat.length}</span>
             </div>
             <div className="bar"><span style={{ width: `${pct}%` }} /></div>

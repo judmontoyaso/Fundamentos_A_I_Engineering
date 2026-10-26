@@ -31,33 +31,52 @@ def _titulo(readme: Path, numero: int) -> str:
     return f"Módulo {numero}"
 
 
+def cursos() -> list[dict]:
+    """El curso de AI Engineering vive en la raíz (carpetas modulo-*); cada carpeta curso-*/ con README.md
+    es otro curso con la misma estructura. Los ids del primero no llevan prefijo, para conservar el progreso."""
+    lista = [{"id": "ai-engineering", "dir": COURSE_ROOT, "prefijo": "",
+              "titulo": _titulo(COURSE_ROOT / "README.md", 0)}]
+    for carpeta in sorted(COURSE_ROOT.glob("curso-*")):
+        if (carpeta / "README.md").exists():
+            slug = carpeta.name.removeprefix("curso-")
+            lista.append({"id": slug, "dir": carpeta, "prefijo": f"{slug}-",
+                          "titulo": _titulo(carpeta / "README.md", 0)})
+    return lista
+
+
 def modules() -> list[dict]:
-    """Navegación descubierta en disco: cada carpeta modulo-NN-* con README.md es un módulo.
+    """Navegación descubierta en disco: en cada curso, cada carpeta modulo-NN-* con README.md es un módulo.
     Se recalcula en cada llamada, así que un módulo nuevo aparece sin reiniciar la API.
       type "md"   -> archivo Markdown (fragmentos NO ejecutables)
       type "lab"  -> carpeta code/ (scripts completos, SÍ ejecutables)
       type "quiz" -> autoevaluacion.json del módulo (preguntas con corrección y explicación)
-      type "app"  -> el asistente del Módulo 9 funcionando (no cuenta para el progreso)"""
-    grupos = [{"group": "Inicio", "items": [
-        {"id": "inicio", "title": "Presentación del curso", "type": "md", "file": "README.md"}]}]
-    for carpeta in sorted(COURSE_ROOT.glob("modulo-*")):
-        m = _MODULO_DIR.match(carpeta.name)
-        if not m or not (carpeta / "README.md").exists():
-            continue
-        n = int(m.group(1))
-        items = [{"id": f"m{n}-manual", "title": "Manual", "type": "md", "file": f"{carpeta.name}/README.md"}]
-        if (carpeta / "ejercicios.md").exists():
-            items.append({"id": f"m{n}-ejercicios", "title": "Ejercicios", "type": "md",
-                          "file": f"{carpeta.name}/ejercicios.md"})
-        if any((carpeta / "code").glob("*.py")):
-            items.append({"id": f"m{n}-lab", "title": "Laboratorio (código ejecutable)", "type": "lab",
-                          "dir": f"{carpeta.name}/code"})
-        if (carpeta / "autoevaluacion.json").exists():
-            items.append({"id": f"m{n}-quiz", "title": "Autoevaluación", "type": "quiz",
-                          "file": f"{carpeta.name}/autoevaluacion.json"})
-        if n == 9 and (carpeta / "code" / "00_sistema.py").exists():
-            items.append({"id": "asistente", "title": "Asistente de selección (en vivo)", "type": "app"})
-        grupos.append({"group": _titulo(carpeta / "README.md", n), "items": items})
+      type "app"  -> el asistente del Módulo 9 funcionando (no cuenta para el progreso)
+    Las rutas de "file" y "dir" son relativas a COURSE_ROOT."""
+    grupos = []
+    for curso in cursos():
+        base, pre = curso["dir"], curso["prefijo"]
+        rel = "" if base == COURSE_ROOT else f"{base.name}/"
+        grupos.append({"course": curso["id"], "group": "Inicio", "items": [
+            {"id": f"{pre}inicio", "title": "Presentación del curso", "type": "md", "file": f"{rel}README.md"}]})
+        for carpeta in sorted(base.glob("modulo-*")):
+            m = _MODULO_DIR.match(carpeta.name)
+            if not m or not (carpeta / "README.md").exists():
+                continue
+            n = int(m.group(1))
+            ruta = f"{rel}{carpeta.name}"
+            items = [{"id": f"{pre}m{n}-manual", "title": "Manual", "type": "md", "file": f"{ruta}/README.md"}]
+            if (carpeta / "ejercicios.md").exists():
+                items.append({"id": f"{pre}m{n}-ejercicios", "title": "Ejercicios", "type": "md",
+                              "file": f"{ruta}/ejercicios.md"})
+            if any((carpeta / "code").glob("*.py")):
+                items.append({"id": f"{pre}m{n}-lab", "title": "Laboratorio (código ejecutable)", "type": "lab",
+                              "dir": f"{ruta}/code"})
+            if (carpeta / "autoevaluacion.json").exists():
+                items.append({"id": f"{pre}m{n}-quiz", "title": "Autoevaluación", "type": "quiz",
+                              "file": f"{ruta}/autoevaluacion.json"})
+            if not pre and n == 9 and (carpeta / "code" / "00_sistema.py").exists():
+                items.append({"id": "asistente", "title": "Asistente de selección (en vivo)", "type": "app"})
+            grupos.append({"course": curso["id"], "group": _titulo(carpeta / "README.md", n), "items": items})
     return grupos
 
 
@@ -70,7 +89,7 @@ _FENCE = re.compile(r"```([^\n`]*)\n(.*?)```", re.DOTALL)
 
 def nav_tree() -> list[dict]:
     return [
-        {"group": g["group"],
+        {"course": g["course"], "group": g["group"],
          "items": [{"id": it["id"], "title": it["title"], "type": it["type"]} for it in g["items"]]}
         for g in modules()
     ]

@@ -1,7 +1,8 @@
 // Contratos de la API (espejo de backend/curso_api).
 
 export type NavItem = { id: string; title: string; type: "md" | "lab" | "quiz" | "app" };
-export type NavGroup = { group: string; items: NavItem[] };
+export type NavGroup = { course: string; group: string; items: NavItem[] };
+export type Course = { id: string; title: string };
 
 export type Cell = {
   idx: number;

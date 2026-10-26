@@ -5,17 +5,21 @@ import { toast } from "../toast";
 
 marked.setOptions({ gfm: true, breaks: false });
 
-// Links relativos del repo -> id de notebook de la app.
-function linkToNotebook(href: string): string | null {
+// Links relativos del repo -> id de notebook de la app. `prefix` es el del curso que se está leyendo
+// ("" para AI Engineering, "evals-" para curso-evals...). Un link a "curso-x/..." va a ese curso, y uno que
+// sube dos niveles ("../../modulo-07-...") desde otro curso va al de AI Engineering, que vive en la raíz.
+function linkToNotebook(href: string, prefix: string): string | null {
   const low = href.toLowerCase();
-  const m = low.match(/modulo-0(\d)/);
+  const m = low.match(/modulo-(\d+)/);
   if (!m) return null;
-  return `m${m[1]}-${low.includes("ejercicios") ? "ejercicios" : "manual"}`;
+  const curso = low.match(/curso-([a-z0-9-]+?)\//);
+  const pre = curso ? `${curso[1]}-` : prefix && low.startsWith("../../") ? "" : prefix;
+  return `${pre}m${Number(m[1])}-${low.includes("ejercicios") ? "ejercicios" : "manual"}`;
 }
 
-type Props = { source: string; onNavigate: (id: string) => void };
+type Props = { source: string; prefix?: string; onNavigate: (id: string) => void };
 
-export function MarkdownCell({ source, onNavigate }: Props) {
+export function MarkdownCell({ source, prefix = "", onNavigate }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const htmlStr = useMemo(() => marked.parse(source, { async: false }) as string, [source]);
 
@@ -44,7 +48,7 @@ export function MarkdownCell({ source, onNavigate }: Props) {
       a.rel = "noopener";
     } else {
       e.preventDefault();
-      const id = linkToNotebook(href);
+      const id = linkToNotebook(href, prefix);
       if (id) onNavigate(id);
       else toast(`Ese archivo vive en tu carpeta del proyecto: ${href}`);
     }

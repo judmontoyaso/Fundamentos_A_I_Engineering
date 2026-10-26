@@ -89,7 +89,8 @@ def health():
 
 @app.get("/api/modules")
 def modules():
-    return {"nav": content.nav_tree(), "progress": db.get_progress()}
+    return {"courses": [{"id": c["id"], "title": c["titulo"]} for c in content.cursos()],
+            "nav": content.nav_tree(), "progress": db.get_progress()}
 
 
 @app.get("/api/notebook/{nb_id}")
