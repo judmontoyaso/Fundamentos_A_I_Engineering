@@ -35,7 +35,7 @@ extraer de cada uno, la mitad difíciles a propósito.
 | 0 | [Qué vamos a evaluar](modulo-00-que-vamos-a-evaluar/README.md) | ¿Qué sistemas, con qué datos, y por qué no basta con probarlos a mano? |
 | 1 | [El primer eval en una tarde](modulo-01-primer-eval/README.md) | ¿Puedo pasar el extractor a un modelo barato sin perder calidad? |
 | 2 | [Error analysis](modulo-02-error-analysis/README.md) | ¿Dónde falla el sistema, y qué fallo arreglo primero? |
-| 3 | Datos sintéticos | ¿Cómo consigo casos difíciles sin tener usuarios, y sin engañarme? |
+| 3 | [Datos sintéticos](modulo-03-datos-sinteticos/README.md) | ¿Cómo consigo casos difíciles sin tener usuarios, y sin engañarme? |
 | 4 | Las personas que etiquetan | ¿Mis etiquetas son correctas? ¿Dos personas etiquetarían igual? |
 | 5 | LLM como juez | ¿Puedo confiar en un juez, y cuál es la tasa real de fallos si el juez se equivoca? |
 | 6 | ¿Falló el retrieval o la respuesta? | ¿Cómo evalúo un RAG por partes? |

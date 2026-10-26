@@ -1,0 +1,81 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Cuál es la idea central de «generar desde los hechos»?",
+   "opciones": [
+    "El LLM escribe el CV y su etiqueta",
+    "Se copian CVs reales",
+    "El código fija los hechos y calcula la etiqueta; el LLM solo redacta el texto",
+    "El LLM juzga cada CV"
+   ],
+   "correcta": 2,
+   "explicacion": "Así la etiqueta es correcta por construcción y la dificultad la controlas tú, no el gusto del generador."
+  },
+  {
+   "pregunta": "Se pidió al generador que añadiera una inyección en 18 CVs. ¿Qué pasó?",
+   "opciones": [
+    "Las escribió todas",
+    "No escribió ninguna, y no avisó",
+    "Escribió la mitad",
+    "Dio un error"
+   ],
+   "correcta": 1,
+   "explicacion": "Sin validación, el set habría tenido 18 «casos de inyección» sin inyección. Lo adversarial se inserta con plantillas en código."
+  },
+  {
+   "pregunta": "¿Por qué se muestrean tuplas que cubren cada VALOR en vez de todas las combinaciones?",
+   "opciones": [
+    "Porque todas son 432: primero se busca qué valores rompen el sistema y luego se exploran sus interacciones",
+    "Porque las combinaciones no existen",
+    "Porque es más aleatorio",
+    "Para que el LLM no se canse"
+   ],
+   "correcta": 0,
+   "explicacion": "Cubrir cada valor con pocas tuplas encuentra los puntos débiles; las interacciones se estudian alrededor de lo que falló."
+  },
+  {
+   "pregunta": "Los sintéticos tuvieron similitud media 0.52 y los escritos a mano 0.44. ¿Qué significa?",
+   "opciones": [
+    "Que los sintéticos son mejores",
+    "Que el embedder falla",
+    "Nada",
+    "Que se parecen más entre sí: complementan a los reales, no los sustituyen"
+   ],
+   "correcta": 3,
+   "explicacion": "Un generador escribe con su propio estilo. Por eso los sintéticos encuentran tipos de fallo, y los reales dan frecuencias."
+  },
+  {
+   "pregunta": "gpt-6-luna sacó 35/35 en CVs que él mismo escribió. ¿Por qué desconfiar?",
+   "opciones": [
+    "No hay por qué",
+    "Porque 35 es poco",
+    "Un modelo tiende a entender bien el texto que él mismo genera; hace falta otro generador o CVs reales",
+    "Porque usó portugués"
+   ],
+   "correcta": 2,
+   "explicacion": "Evaluar a un modelo con datos que él produjo infla sus resultados."
+  },
+  {
+   "pregunta": "Con nano, la exactitud global de v1 y v2 fue igual (24/35). ¿Qué escondía?",
+   "opciones": [
+    "Nada",
+    "v2 arregló «hasta hoy» y empeoró los rangos solapados: se compensaban",
+    "Un error de redondeo",
+    "Que el set es pequeño"
+   ],
+   "correcta": 1,
+   "explicacion": "Es la misma lección del Módulo 1, con más evidencia: mira los fallos por valor de dimensión, no solo el total."
+  },
+  {
+   "pregunta": "Un 69 % de CVs perfectos en el set sintético, ¿es la tasa que verás en producción?",
+   "opciones": [
+    "No: es la tasa en una mezcla de entradas elegida por ti, con la mitad adversariales",
+    "Sí",
+    "Será mayor seguro",
+    "Será menor seguro"
+   ],
+   "correcta": 0,
+   "explicacion": "Los sintéticos sirven para encontrar fallos; la frecuencia real depende de qué entradas llegan, y eso solo lo dicen los datos reales."
+  }
+ ]
+}
