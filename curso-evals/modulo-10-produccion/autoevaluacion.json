@@ -1,0 +1,81 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Qué compara un chequeo «sin referencia»?",
+   "opciones": [
+    "La salida con la propia entrada",
+    "La salida con la etiqueta",
+    "Dos modelos",
+    "La salida con una regla del proveedor"
+   ],
+   "correcta": 0,
+   "explicacion": "En producción no hay etiqueta: se comprueba si la salida es imposible o sospechosa dada la entrada."
+  },
+  {
+   "pregunta": "Los chequeos vieron 9 de 11 errores sin falsas alarmas. ¿Por qué tanto?",
+   "opciones": [
+    "Porque son muy listos",
+    "Por suerte",
+    "Porque usan un juez",
+    "Porque el error típico (sumar rangos solapados) violaba una invariante: más años de los que caben en las fechas"
+   ],
+   "correcta": 3,
+   "explicacion": "La cobertura depende del tipo de error: alta si los errores son imposibles, casi nula si son plausibles."
+  },
+  {
+   "pregunta": "¿Qué errores no puede ver ningún chequeo sin referencia?",
+   "opciones": [
+    "Los imposibles",
+    "Los de formato",
+    "Los plausibles, como 12 años en vez de 13",
+    "Los de correo inventado"
+   ],
+   "correcta": 2,
+   "explicacion": "Por eso siguen haciendo falta evals con etiquetas sobre muestras, aunque haya monitoreo."
+  },
+  {
+   "pregunta": "El día 3 hubo 6 alertas de 25, con una tasa previa del 6 %. ¿Cómo decides si alertar?",
+   "opciones": [
+    "Siempre que suba",
+    "Calculando qué tan raro es por azar: P(≥6 | 6 %) = 0.003, así que está justificada",
+    "Nunca: es ruido",
+    "Esperando un mes"
+   ],
+   "correcta": 1,
+   "explicacion": "Alerta sobre tasas con su incertidumbre, no sobre conteos crudos."
+  },
+  {
+   "pregunta": "¿Qué hace la cascada barato → caro?",
+   "opciones": [
+    "Usa el barato y repite con el grande solo si salta un chequeo",
+    "Usa siempre el modelo grande",
+    "Promedia dos modelos",
+    "Elige el modelo al azar"
+   ],
+   "correcta": 0,
+   "explicacion": "Bajó de 7-9 errores a 2-3 pagando el grande en menos del 10 % de los casos."
+  },
+  {
+   "pregunta": "¿Qué errores no puede arreglar la cascada?",
+   "opciones": [
+    "Ninguno",
+    "Los de inyección",
+    "Los del modelo grande",
+    "Los que el chequeo no ve: los plausibles"
+   ],
+   "correcta": 3,
+   "explicacion": "Un guardrail solo actúa sobre lo que detecta."
+  },
+  {
+   "pregunta": "¿Por qué vigilar la mezcla de entradas además de los errores?",
+   "opciones": [
+    "Es lo mismo",
+    "Porque es obligatorio",
+    "Porque el drift se ve antes en las entradas (idioma, formato) que en los errores",
+    "No sirve"
+   ],
+   "correcta": 2,
+   "explicacion": "Un aumento de CVs en portugués es una alerta útil aunque todavía no haya fallos."
+  }
+ ]
+}
