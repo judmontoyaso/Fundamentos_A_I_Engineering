@@ -1,0 +1,70 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Qué hace el parser con «desarrollador backend que no use Java»?",
+   "opciones": [
+    "Busca «Java»",
+    "Saca la negación del texto y la convierte en una skill excluida",
+    "La ignora",
+    "Devuelve un error"
+   ],
+   "correcta": 1,
+   "explicacion": "La negación hacía daño en el texto; como filtro, se aplica con código."
+  },
+  {
+   "pregunta": "¿Por qué los filtros suaves superan a los duros?",
+   "opciones": [
+    "Un filtro duro convierte cualquier error de taxonomía o del índice en un candidato perdido; el suave lo deja más abajo",
+    "Por azar",
+    "Porque son más rápidos",
+    "No los superan"
+   ],
+   "correcta": 0,
+   "explicacion": "En «backend en Medellín», el filtro duro eliminó a los desarrolladores Python y .NET."
+  },
+  {
+   "pregunta": "Solo reescribir la consulta ganó en 13 y perdió en 16. ¿Por qué?",
+   "opciones": [
+    "Porque la reescritura es mala",
+    "Por la latencia",
+    "Por el embedder",
+    "Porque quitar palabras como «senior» quita la señal sin poner un filtro en su lugar"
+   ],
+   "correcta": 3,
+   "explicacion": "Reescribir y filtrar van juntos."
+  },
+  {
+   "pregunta": "¿Qué mostró comparar parsers de distintos modelos?",
+   "opciones": [
+    "Que hace falta el más caro",
+    "Que el barato falla",
+    "Que el barato rinde igual (0.90) con un tercio de la latencia",
+    "Que no hay diferencia de latencia"
+   ],
+   "correcta": 2,
+   "explicacion": "Entender una consulta corta es una tarea fácil."
+  },
+  {
+   "pregunta": "El parser cuesta ~1 s por consulta frente a ~15 ms de la búsqueda. ¿Qué haces?",
+   "opciones": [
+    "Nada",
+    "Cachear consultas repetidas, atajos sin LLM para lo trivial, mostrar primero y refinar después",
+    "Quitar el parser",
+    "Usar el modelo más caro"
+   ],
+   "correcta": 1,
+   "explicacion": "Un LLM para lo difícil, código para lo trivial."
+  },
+  {
+   "pregunta": "Con el parser, ¿qué routing sigue haciendo falta?",
+   "opciones": [
+    "Entre buscar y contar: preguntas que piden una cuenta o un máximo, no un ranking",
+    "Entre BM25 y densa",
+    "Ninguno",
+    "Entre idiomas"
+   ],
+   "correcta": 0,
+   "explicacion": "La reescritura y los filtros resuelven lo que pedía enrutar modos; las agregaciones son otra cosa (Módulo 6)."
+  }
+ ]
+}

@@ -1,0 +1,3443 @@
+{
+ "1": {
+  "rol": "ingeniero de datos",
+  "skills": [
+   "python",
+   "databricks",
+   "kafka"
+  ],
+  "trabajos": [
+   {
+    "cargo": "ingeniero de datos",
+    "inicio": 2023,
+    "fin": null
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": false,
+  "ingles": "nativo",
+  "certificaciones": [],
+  "anios": 3,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "2": {
+  "rol": "científico de datos",
+  "skills": [
+   "python",
+   "scikit-learn",
+   "estadística",
+   "pytorch",
+   "mlflow"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Científico de datos en Initech",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "Científico de datos en EduNet",
+    "inicio": 2020,
+    "fin": 2024
+   },
+   {
+    "cargo": "Científico de datos en SoftContable",
+    "inicio": 2018,
+    "fin": 2020
+   },
+   {
+    "cargo": "Científico de datos en EduNet",
+    "inicio": 2017,
+    "fin": 2018
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": "básico",
+  "certificaciones": [],
+  "anios": 9,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "3": {
+  "rol": "analista de datos",
+  "skills": [
+   "sql",
+   "power bi",
+   "excel",
+   "tableau"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2018,
+    "fin": 2022
+   },
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2014,
+    "fin": 2018
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": false,
+  "ingles": "nativo",
+  "certificaciones": [],
+  "anios": 12,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "4": {
+  "rol": "desarrollador backend",
+  "skills": [
+   "java",
+   "spring",
+   "postgresql",
+   "docker"
+  ],
+  "trabajos": [
+   {
+    "cargo": "backend developer",
+    "inicio": 2021,
+    "fin": null
+   },
+   {
+    "cargo": "backend developer",
+    "inicio": 2019,
+    "fin": 2021
+   },
+   {
+    "cargo": "backend developer",
+    "inicio": 2017,
+    "fin": 2019
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": false,
+  "ingles": "C1",
+  "certificaciones": [],
+  "anios": 9,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "5": {
+  "rol": "desarrollador python",
+  "skills": [
+   "python",
+   "django",
+   "fastapi",
+   "docker",
+   "celery"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Desarrolladora Python",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "Desarrolladora Python",
+    "inicio": 2021,
+    "fin": 2023
+   },
+   {
+    "cargo": "Desarrolladora Python",
+    "inicio": 2019,
+    "fin": 2021
+   },
+   {
+    "cargo": "Desarrolladora Python",
+    "inicio": 2014,
+    "fin": 2019
+   },
+   {
+    "cargo": "Desarrolladora Python",
+    "inicio": 2012,
+    "fin": 2014
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": "B2",
+  "certificaciones": [],
+  "anios": 14,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "6": {
+  "rol": "desarrollador frontend",
+  "skills": [
+   "javascript",
+   "react",
+   "css",
+   "vue",
+   "angular"
+  ],
+  "trabajos": [
+   {
+    "cargo": "líder de desarrollador frontend",
+    "inicio": 2021,
+    "fin": null
+   },
+   {
+    "cargo": "desarrollador frontend",
+    "inicio": 2018,
+    "fin": 2021
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": true,
+  "ingles": "básico",
+  "certificaciones": [],
+  "anios": 8,
+  "nivel": "senior",
+  "lidera": true
+ },
+ "7": {
+  "rol": "ingeniero devops",
+  "skills": [
+   "kubernetes",
+   "docker",
+   "linux",
+   "aws",
+   "jenkins"
+  ],
+  "trabajos": [
+   {
+    "cargo": "ingeniera DevOps",
+    "inicio": 2023,
+    "fin": null
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": "B2",
+  "certificaciones": [],
+  "anios": 3,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "8": {
+  "rol": "arquitecto cloud",
+  "skills": [
+   "aws",
+   "gcp",
+   "kubernetes"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Arquitecto cloud",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "Arquitecto cloud",
+    "inicio": 2020,
+    "fin": 2024
+   },
+   {
+    "cargo": "Arquitecto cloud",
+    "inicio": 2017,
+    "fin": 2020
+   },
+   {
+    "cargo": "Arquitecto cloud",
+    "inicio": 2012,
+    "fin": 2017
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": "básico",
+  "certificaciones": [],
+  "anios": 14,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "9": {
+  "rol": "qa automation",
+  "skills": [
+   "selenium",
+   "cypress",
+   "playwright"
+  ],
+  "trabajos": [],
+  "ciudad": "Bogotá",
+  "remoto": true,
+  "ingles": "C1",
+  "certificaciones": [],
+  "anios": 0,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "10": {
+  "rol": "desarrollador móvil",
+  "skills": [
+   "kotlin",
+   "flutter"
+  ],
+  "trabajos": [
+   {
+    "cargo": "desarrollador móvil",
+    "inicio": 2025,
+    "fin": null
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": false,
+  "ingles": "nativo",
+  "certificaciones": [],
+  "anios": 1,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "11": {
+  "rol": "analista de seguridad",
+  "skills": [
+   "iso 27001",
+   "siem",
+   "pentesting"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Security Analyst",
+    "inicio": 2021,
+    "fin": null
+   }
+  ],
+  "ciudad": "Medellín",
+  "remoto": false,
+  "ingles": "B2",
+  "certificaciones": [],
+  "anios": 5,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "12": {
+  "rol": "desarrollador .net",
+  "skills": [
+   "c#",
+   ".net",
+   "azure"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Desarrollador .NET",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "Desarrollador .NET",
+    "inicio": 2019,
+    "fin": 2023
+   },
+   {
+    "cargo": "Desarrollador .NET",
+    "inicio": 2016,
+    "fin": 2019
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": false,
+  "ingles": "B2",
+  "certificaciones": [
+   "Microsoft Azure Developer"
+  ],
+  "anios": 10,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "13": {
+  "rol": "ingeniero de datos",
+  "skills": [
+   "python",
+   "kafka",
+   "databricks"
+  ],
+  "trabajos": [
+   {
+    "cargo": "ingeniero de datos",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "ingeniero de datos",
+    "inicio": 2021,
+    "fin": 2022
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": false,
+  "ingles": "B2",
+  "certificaciones": [],
+  "anios": 5,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "14": {
+  "rol": "científico de datos",
+  "skills": [
+   "python",
+   "estadística",
+   "mlflow"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Científico de datos en Northwind",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "Científico de datos en NubeSur",
+    "inicio": 2020,
+    "fin": 2023
+   },
+   {
+    "cargo": "Científico de datos en SoftContable",
+    "inicio": 2017,
+    "fin": 2020
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": null,
+  "certificaciones": [
+   "TensorFlow Developer"
+  ],
+  "anios": 9,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "15": {
+  "rol": "analista de datos",
+  "skills": [
+   "sql",
+   "python"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2021,
+    "fin": 2024
+   },
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2019,
+    "fin": 2021
+   },
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2018,
+    "fin": 2019
+   }
+  ],
+  "ciudad": "Medellín",
+  "remoto": true,
+  "ingles": "básico",
+  "certificaciones": [],
+  "anios": 8,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "16": {
+  "rol": "desarrollador backend",
+  "skills": [
+   "java",
+   "spring",
+   "microservicios",
+   "postgresql",
+   "docker"
+  ],
+  "trabajos": [
+   {
+    "cargo": "desarrollador backend",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "desarrollador backend",
+    "inicio": 2022,
+    "fin": 2023
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": "B2",
+  "certificaciones": [],
+  "anios": 4,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "17": {
+  "rol": "desarrollador python",
+  "skills": [
+   "python",
+   "celery",
+   "postgresql"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Desarrolladora Python",
+    "inicio": 2025,
+    "fin": null
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": "básico",
+  "certificaciones": [],
+  "anios": 1,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "18": {
+  "rol": "desarrollador frontend",
+  "skills": [
+   "javascript",
+   "vue",
+   "angular"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Frontend Developer",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "Frontend Developer",
+    "inicio": 2019,
+    "fin": 2023
+   },
+   {
+    "cargo": "Frontend Developer",
+    "inicio": 2018,
+    "fin": 2019
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": false,
+  "ingles": "básico",
+  "certificaciones": [],
+  "anios": 8,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "19": {
+  "rol": "ingeniero devops",
+  "skills": [
+   "kubernetes",
+   "docker",
+   "linux",
+   "jenkins",
+   "ansible"
+  ],
+  "trabajos": [
+   {
+    "cargo": "ingeniero DevOps",
+    "inicio": 2022,
+    "fin": null
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": true,
+  "ingles": "B1",
+  "certificaciones": [
+   "CKA (Kubernetes)"
+  ],
+  "anios": 4,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "20": {
+  "rol": "arquitecto cloud",
+  "skills": [
+   "aws",
+   "terraform",
+   "azure"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Arquitecto cloud en SaludPlus",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "Arquitecto cloud en AgroTech",
+    "inicio": 2020,
+    "fin": 2024
+   },
+   {
+    "cargo": "Arquitecto cloud en TransLogística",
+    "inicio": 2017,
+    "fin": 2020
+   },
+   {
+    "cargo": "Arquitecto cloud en Insight Labs",
+    "inicio": 2016,
+    "fin": 2017
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": false,
+  "ingles": "B1",
+  "certificaciones": [],
+  "anios": 10,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "21": {
+  "rol": "qa automation",
+  "skills": [
+   "selenium",
+   "playwright",
+   "java"
+  ],
+  "trabajos": [],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": "B1",
+  "certificaciones": [],
+  "anios": 0,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "22": {
+  "rol": "desarrollador móvil",
+  "skills": [
+   "kotlin",
+   "flutter"
+  ],
+  "trabajos": [
+   {
+    "cargo": "desarrollador móvil",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "desarrollador móvil",
+    "inicio": 2023,
+    "fin": 2024
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": false,
+  "ingles": "B1",
+  "certificaciones": [],
+  "anios": 3,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "23": {
+  "rol": "analista de seguridad",
+  "skills": [
+   "iso 27001",
+   "siem",
+   "firewall",
+   "pentesting",
+   "nist"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Analista de seguridad en Manufacturas del Valle",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "Analista de seguridad en NubeSur",
+    "inicio": 2021,
+    "fin": 2023
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": "C1",
+  "certificaciones": [],
+  "anios": 5,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "24": {
+  "rol": "desarrollador .net",
+  "skills": [
+   "c#",
+   ".net",
+   "azure",
+   "sql server"
+  ],
+  "trabajos": [],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": "B1",
+  "certificaciones": [],
+  "anios": 0,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "25": {
+  "rol": "ingeniero de datos",
+  "skills": [
+   "python",
+   "spark",
+   "airflow",
+   "kafka",
+   "snowflake",
+   "dbt"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Data Engineer",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "Data Engineer",
+    "inicio": 2021,
+    "fin": 2024
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": true,
+  "ingles": null,
+  "certificaciones": [],
+  "anios": 5,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "26": {
+  "rol": "científico de datos",
+  "skills": [
+   "python",
+   "mlflow",
+   "estadística",
+   "tensorflow"
+  ],
+  "trabajos": [],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": "B1",
+  "certificaciones": [],
+  "anios": 0,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "27": {
+  "rol": "analista de datos",
+  "skills": [
+   "sql",
+   "power bi",
+   "excel"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2020,
+    "fin": 2023
+   },
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2018,
+    "fin": 2020
+   },
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2016,
+    "fin": 2018
+   }
+  ],
+  "ciudad": "Medellín",
+  "remoto": true,
+  "ingles": "B1",
+  "certificaciones": [],
+  "anios": 10,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "28": {
+  "rol": "desarrollador backend",
+  "skills": [
+   "java",
+   "spring",
+   "kafka",
+   "postgresql"
+  ],
+  "trabajos": [
+   {
+    "cargo": "desarrollador backend",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "desarrollador backend",
+    "inicio": 2021,
+    "fin": 2024
+   },
+   {
+    "cargo": "desarrollador backend",
+    "inicio": 2019,
+    "fin": 2021
+   },
+   {
+    "cargo": "desarrollador backend",
+    "inicio": 2016,
+    "fin": 2019
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": true,
+  "ingles": null,
+  "certificaciones": [],
+  "anios": 10,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "29": {
+  "rol": "desarrollador python",
+  "skills": [
+   "python",
+   "fastapi",
+   "celery"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Líder de desarrollador python en AgroTech",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "Desarrollador python en AgroTech",
+    "inicio": 2018,
+    "fin": 2023
+   },
+   {
+    "cargo": "Desarrollador python en SaludPlus",
+    "inicio": 2016,
+    "fin": 2018
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": false,
+  "ingles": "básico",
+  "certificaciones": [],
+  "anios": 10,
+  "nivel": "senior",
+  "lidera": true
+ },
+ "30": {
+  "rol": "desarrollador frontend",
+  "skills": [
+   "javascript",
+   "react",
+   "css",
+   "vue",
+   "angular"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Desarrollador frontend",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "Desarrollador frontend",
+    "inicio": 2019,
+    "fin": 2022
+   },
+   {
+    "cargo": "Desarrollador frontend",
+    "inicio": 2014,
+    "fin": 2019
+   },
+   {
+    "cargo": "Desarrollador frontend",
+    "inicio": 2012,
+    "fin": 2014
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": false,
+  "ingles": null,
+  "certificaciones": [],
+  "anios": 14,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "31": {
+  "rol": "ingeniero devops",
+  "skills": [
+   "kubernetes",
+   "ansible",
+   "aws"
+  ],
+  "trabajos": [
+   {
+    "cargo": "líder de ingeniero DevOps",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "ingeniera DevOps",
+    "inicio": 2020,
+    "fin": 2022
+   },
+   {
+    "cargo": "ingeniera DevOps",
+    "inicio": 2017,
+    "fin": 2020
+   },
+   {
+    "cargo": "ingeniera DevOps",
+    "inicio": 2014,
+    "fin": 2017
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": "C1",
+  "certificaciones": [],
+  "anios": 12,
+  "nivel": "senior",
+  "lidera": true
+ },
+ "32": {
+  "rol": "arquitecto cloud",
+  "skills": [
+   "aws",
+   "azure",
+   "kubernetes",
+   "gcp"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Cloud Architect",
+    "inicio": 2021,
+    "fin": null
+   },
+   {
+    "cargo": "Cloud Architect",
+    "inicio": 2017,
+    "fin": 2021
+   },
+   {
+    "cargo": "Cloud Architect",
+    "inicio": 2015,
+    "fin": 2017
+   },
+   {
+    "cargo": "Cloud Architect",
+    "inicio": 2014,
+    "fin": 2015
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": false,
+  "ingles": "B1",
+  "certificaciones": [
+   "AWS Solutions Architect"
+  ],
+  "anios": 12,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "33": {
+  "rol": "qa automation",
+  "skills": [
+   "selenium",
+   "cypress",
+   "jmeter"
+  ],
+  "trabajos": [
+   {
+    "cargo": "QA Automation",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "QA Automation",
+    "inicio": 2019,
+    "fin": 2024
+   },
+   {
+    "cargo": "QA Automation",
+    "inicio": 2016,
+    "fin": 2019
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": true,
+  "ingles": "C1",
+  "certificaciones": [],
+  "anios": 10,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "34": {
+  "rol": "desarrollador móvil",
+  "skills": [
+   "kotlin",
+   "swift",
+   "flutter"
+  ],
+  "trabajos": [],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": "nativo",
+  "certificaciones": [],
+  "anios": 0,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "35": {
+  "rol": "analista de seguridad",
+  "skills": [
+   "iso 27001",
+   "pentesting",
+   "nist"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Analista de seguridad",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "Analista de seguridad",
+    "inicio": 2022,
+    "fin": 2023
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": true,
+  "ingles": null,
+  "certificaciones": [],
+  "anios": 4,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "36": {
+  "rol": "desarrollador .net",
+  "skills": [
+   "c#",
+   ".net",
+   "sql server"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Líder de desarrollador .NET",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "Desarrollador .NET",
+    "inicio": 2020,
+    "fin": 2022
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": null,
+  "certificaciones": [],
+  "anios": 6,
+  "nivel": "semi-senior",
+  "lidera": true
+ },
+ "37": {
+  "rol": "ingeniero de datos",
+  "skills": [
+   "python",
+   "spark",
+   "aws",
+   "snowflake"
+  ],
+  "trabajos": [
+   {
+    "cargo": "ingeniera de datos",
+    "inicio": 2025,
+    "fin": null
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": "B1",
+  "certificaciones": [],
+  "anios": 1,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "38": {
+  "rol": "científico de datos",
+  "skills": [
+   "python",
+   "scikit-learn",
+   "sql",
+   "tensorflow"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Científico de datos en Insight Labs",
+    "inicio": 2021,
+    "fin": null
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": false,
+  "ingles": "nativo",
+  "certificaciones": [],
+  "anios": 5,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "39": {
+  "rol": "analista de datos",
+  "skills": [
+   "sql",
+   "power bi",
+   "excel",
+   "tableau"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Data Analyst",
+    "inicio": 2023,
+    "fin": null
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": false,
+  "ingles": "B1",
+  "certificaciones": [],
+  "anios": 3,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "40": {
+  "rol": "desarrollador backend",
+  "skills": [
+   "java",
+   "spring",
+   "docker"
+  ],
+  "trabajos": [
+   {
+    "cargo": "desarrollador backend",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "desarrollador backend",
+    "inicio": 2019,
+    "fin": 2023
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": true,
+  "ingles": "B2",
+  "certificaciones": [],
+  "anios": 7,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "41": {
+  "rol": "desarrollador python",
+  "skills": [
+   "python",
+   "django",
+   "docker"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Desarrollador Python en RetailCo",
+    "inicio": 2024,
+    "fin": null
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": false,
+  "ingles": "nativo",
+  "certificaciones": [],
+  "anios": 2,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "42": {
+  "rol": "desarrollador frontend",
+  "skills": [
+   "javascript",
+   "vue",
+   "css",
+   "angular"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Desarrollador frontend",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "Desarrollador frontend",
+    "inicio": 2021,
+    "fin": 2024
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": false,
+  "ingles": "B2",
+  "certificaciones": [],
+  "anios": 5,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "43": {
+  "rol": "ingeniero devops",
+  "skills": [
+   "kubernetes",
+   "docker",
+   "aws"
+  ],
+  "trabajos": [
+   {
+    "cargo": "ingeniero DevOps",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "ingeniero DevOps",
+    "inicio": 2019,
+    "fin": 2023
+   },
+   {
+    "cargo": "ingeniero DevOps",
+    "inicio": 2015,
+    "fin": 2019
+   },
+   {
+    "cargo": "ingeniero DevOps",
+    "inicio": 2014,
+    "fin": 2015
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": "B2",
+  "certificaciones": [],
+  "anios": 12,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "44": {
+  "rol": "arquitecto cloud",
+  "skills": [
+   "aws",
+   "terraform",
+   "azure",
+   "kubernetes"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Arquitecto cloud",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "Arquitecto cloud",
+    "inicio": 2021,
+    "fin": 2023
+   },
+   {
+    "cargo": "Arquitecto cloud",
+    "inicio": 2017,
+    "fin": 2021
+   },
+   {
+    "cargo": "Arquitecto cloud",
+    "inicio": 2015,
+    "fin": 2017
+   },
+   {
+    "cargo": "Arquitecto cloud",
+    "inicio": 2012,
+    "fin": 2015
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": false,
+  "ingles": "B1",
+  "certificaciones": [
+   "AWS Solutions Architect"
+  ],
+  "anios": 14,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "45": {
+  "rol": "qa automation",
+  "skills": [
+   "selenium",
+   "java",
+   "jmeter",
+   "playwright"
+  ],
+  "trabajos": [
+   {
+    "cargo": "QA Automation",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "QA Automation",
+    "inicio": 2021,
+    "fin": 2023
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": true,
+  "ingles": "B2",
+  "certificaciones": [],
+  "anios": 5,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "46": {
+  "rol": "desarrollador móvil",
+  "skills": [
+   "kotlin",
+   "flutter"
+  ],
+  "trabajos": [
+   {
+    "cargo": "mobile developer",
+    "inicio": 2022,
+    "fin": null
+   }
+  ],
+  "ciudad": "Medellín",
+  "remoto": false,
+  "ingles": "C1",
+  "certificaciones": [],
+  "anios": 4,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "47": {
+  "rol": "analista de seguridad",
+  "skills": [
+   "iso 27001",
+   "siem",
+   "firewall",
+   "nist",
+   "pentesting"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Analista de seguridad",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "Analista de seguridad",
+    "inicio": 2021,
+    "fin": 2022
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": false,
+  "ingles": null,
+  "certificaciones": [],
+  "anios": 5,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "48": {
+  "rol": "desarrollador .net",
+  "skills": [
+   "c#",
+   "azure"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Líder de desarrollador .NET",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "Desarrollador .NET",
+    "inicio": 2017,
+    "fin": 2022
+   },
+   {
+    "cargo": "Desarrollador .NET",
+    "inicio": 2013,
+    "fin": 2017
+   },
+   {
+    "cargo": "Desarrollador .NET",
+    "inicio": 2012,
+    "fin": 2013
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": null,
+  "certificaciones": [],
+  "anios": 14,
+  "nivel": "senior",
+  "lidera": true
+ },
+ "49": {
+  "rol": "ingeniero de datos",
+  "skills": [
+   "python",
+   "spark",
+   "airflow",
+   "databricks",
+   "kafka"
+  ],
+  "trabajos": [
+   {
+    "cargo": "ingeniero de datos",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "ingeniero de datos",
+    "inicio": 2018,
+    "fin": 2022
+   }
+  ],
+  "ciudad": "Medellín",
+  "remoto": true,
+  "ingles": "C1",
+  "certificaciones": [],
+  "anios": 8,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "50": {
+  "rol": "científico de datos",
+  "skills": [
+   "python",
+   "estadística",
+   "mlflow"
+  ],
+  "trabajos": [
+   {
+    "cargo": "científico de datos en Globex",
+    "inicio": 2025,
+    "fin": null
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": true,
+  "ingles": "B2",
+  "certificaciones": [],
+  "anios": 1,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "51": {
+  "rol": "analista de datos",
+  "skills": [
+   "sql",
+   "tableau",
+   "excel",
+   "python"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2024,
+    "fin": null
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": "nativo",
+  "certificaciones": [],
+  "anios": 2,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "52": {
+  "rol": "desarrollador backend",
+  "skills": [
+   "java",
+   "docker",
+   "kafka",
+   "postgresql"
+  ],
+  "trabajos": [
+   {
+    "cargo": "desarrollador backend",
+    "inicio": 2024,
+    "fin": null
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": true,
+  "ingles": "B1",
+  "certificaciones": [],
+  "anios": 2,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "53": {
+  "rol": "desarrollador python",
+  "skills": [
+   "python",
+   "docker"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Lead Python Developer",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "Python Developer",
+    "inicio": 2018,
+    "fin": 2022
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": "nativo",
+  "certificaciones": [],
+  "anios": 8,
+  "nivel": "senior",
+  "lidera": true
+ },
+ "54": {
+  "rol": "desarrollador frontend",
+  "skills": [
+   "javascript",
+   "react",
+   "typescript",
+   "angular",
+   "css"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Desarrollador frontend",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "Desarrollador frontend",
+    "inicio": 2020,
+    "fin": 2022
+   },
+   {
+    "cargo": "Desarrollador frontend",
+    "inicio": 2018,
+    "fin": 2020
+   }
+  ],
+  "ciudad": "Medellín",
+  "remoto": false,
+  "ingles": null,
+  "certificaciones": [],
+  "anios": 8,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "55": {
+  "rol": "ingeniero devops",
+  "skills": [
+   "kubernetes",
+   "ansible"
+  ],
+  "trabajos": [
+   {
+    "cargo": "ingeniero DevOps",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "ingeniero DevOps",
+    "inicio": 2020,
+    "fin": 2022
+   },
+   {
+    "cargo": "ingeniero DevOps",
+    "inicio": 2017,
+    "fin": 2020
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": "básico",
+  "certificaciones": [],
+  "anios": 9,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "56": {
+  "rol": "arquitecto cloud",
+  "skills": [
+   "aws",
+   "azure"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Arquitecto cloud en DataSur",
+    "inicio": 2021,
+    "fin": null
+   },
+   {
+    "cargo": "Arquitecto cloud en Northwind",
+    "inicio": 2017,
+    "fin": 2021
+   },
+   {
+    "cargo": "Arquitecto cloud en AgroTech",
+    "inicio": 2016,
+    "fin": 2017
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": false,
+  "ingles": "B1",
+  "certificaciones": [],
+  "anios": 10,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "57": {
+  "rol": "qa automation",
+  "skills": [
+   "selenium",
+   "cypress",
+   "jmeter",
+   "playwright",
+   "java"
+  ],
+  "trabajos": [
+   {
+    "cargo": "QA Automation",
+    "inicio": 2023,
+    "fin": null
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": "nativo",
+  "certificaciones": [],
+  "anios": 3,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "58": {
+  "rol": "desarrollador móvil",
+  "skills": [
+   "kotlin",
+   "flutter"
+  ],
+  "trabajos": [
+   {
+    "cargo": "desarrollador móvil",
+    "inicio": 2023,
+    "fin": null
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": true,
+  "ingles": "básico",
+  "certificaciones": [],
+  "anios": 3,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "59": {
+  "rol": "analista de seguridad",
+  "skills": [
+   "iso 27001",
+   "siem",
+   "firewall",
+   "nist"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Analista de seguridad en SoftContable",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "Analista de seguridad en RetailCo",
+    "inicio": 2020,
+    "fin": 2024
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": null,
+  "certificaciones": [],
+  "anios": 6,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "60": {
+  "rol": "desarrollador .net",
+  "skills": [
+   "c#",
+   "azure",
+   "sql server"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Lead .NET Developer",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": ".NET Developer",
+    "inicio": 2020,
+    "fin": 2024
+   },
+   {
+    "cargo": ".NET Developer",
+    "inicio": 2017,
+    "fin": 2020
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": "C1",
+  "certificaciones": [],
+  "anios": 9,
+  "nivel": "senior",
+  "lidera": true
+ },
+ "61": {
+  "rol": "ingeniero de datos",
+  "skills": [
+   "python",
+   "snowflake",
+   "kafka"
+  ],
+  "trabajos": [
+   {
+    "cargo": "ingeniero de datos",
+    "inicio": 2025,
+    "fin": null
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": false,
+  "ingles": "C1",
+  "certificaciones": [],
+  "anios": 1,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "62": {
+  "rol": "científico de datos",
+  "skills": [
+   "python",
+   "scikit-learn",
+   "sql",
+   "estadística",
+   "mlflow",
+   "tensorflow"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Científico de datos, Northwind",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "Científico de datos, Northwind",
+    "inicio": 2020,
+    "fin": 2024
+   },
+   {
+    "cargo": "Científico de datos, Initech",
+    "inicio": 2018,
+    "fin": 2020
+   }
+  ],
+  "ciudad": "Medellín",
+  "remoto": false,
+  "ingles": "B1",
+  "certificaciones": [
+   "TensorFlow Developer"
+  ],
+  "anios": 8,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "63": {
+  "rol": "analista de datos",
+  "skills": [
+   "sql",
+   "tableau",
+   "python",
+   "excel"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2018,
+    "fin": 2023
+   },
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2014,
+    "fin": 2018
+   }
+  ],
+  "ciudad": "Medellín",
+  "remoto": false,
+  "ingles": "C1",
+  "certificaciones": [],
+  "anios": 12,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "64": {
+  "rol": "desarrollador backend",
+  "skills": [
+   "java",
+   "spring",
+   "postgresql",
+   "docker"
+  ],
+  "trabajos": [
+   {
+    "cargo": "desarrollador backend",
+    "inicio": 2023,
+    "fin": null
+   }
+  ],
+  "ciudad": "Medellín",
+  "remoto": false,
+  "ingles": "C1",
+  "certificaciones": [],
+  "anios": 3,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "65": {
+  "rol": "desarrollador python",
+  "skills": [
+   "python",
+   "django",
+   "fastapi",
+   "postgresql"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Desarrolladora Python en AgroTech",
+    "inicio": 2023,
+    "fin": null
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": "básico",
+  "certificaciones": [],
+  "anios": 3,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "66": {
+  "rol": "desarrollador frontend",
+  "skills": [
+   "javascript",
+   "react",
+   "css",
+   "vue"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Líder de desarrollador frontend",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "Desarrollador frontend",
+    "inicio": 2021,
+    "fin": 2024
+   },
+   {
+    "cargo": "Desarrollador frontend",
+    "inicio": 2019,
+    "fin": 2021
+   },
+   {
+    "cargo": "Desarrollador frontend",
+    "inicio": 2017,
+    "fin": 2019
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": "B2",
+  "certificaciones": [],
+  "anios": 9,
+  "nivel": "senior",
+  "lidera": true
+ },
+ "67": {
+  "rol": "ingeniero devops",
+  "skills": [
+   "kubernetes",
+   "aws"
+  ],
+  "trabajos": [
+   {
+    "cargo": "DevOps Engineer",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "DevOps Engineer",
+    "inicio": 2021,
+    "fin": 2024
+   },
+   {
+    "cargo": "DevOps Engineer",
+    "inicio": 2020,
+    "fin": 2021
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": true,
+  "ingles": "B1",
+  "certificaciones": [
+   "CKA (Kubernetes)"
+  ],
+  "anios": 6,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "68": {
+  "rol": "arquitecto cloud",
+  "skills": [
+   "aws",
+   "azure"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Arquitecto cloud",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "Arquitecto cloud",
+    "inicio": 2022,
+    "fin": 2024
+   },
+   {
+    "cargo": "Arquitecto cloud",
+    "inicio": 2017,
+    "fin": 2022
+   },
+   {
+    "cargo": "Arquitecto cloud",
+    "inicio": 2015,
+    "fin": 2017
+   },
+   {
+    "cargo": "Arquitecto cloud",
+    "inicio": 2014,
+    "fin": 2015
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": true,
+  "ingles": null,
+  "certificaciones": [
+   "AWS Solutions Architect"
+  ],
+  "anios": 12,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "69": {
+  "rol": "qa automation",
+  "skills": [
+   "selenium",
+   "java",
+   "jmeter"
+  ],
+  "trabajos": [
+   {
+    "cargo": "QA Automation",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "QA Automation",
+    "inicio": 2022,
+    "fin": 2024
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": true,
+  "ingles": "nativo",
+  "certificaciones": [],
+  "anios": 4,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "70": {
+  "rol": "desarrollador móvil",
+  "skills": [
+   "kotlin",
+   "flutter",
+   "firebase"
+  ],
+  "trabajos": [
+   {
+    "cargo": "desarrollador móvil",
+    "inicio": 2023,
+    "fin": null
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": true,
+  "ingles": null,
+  "certificaciones": [],
+  "anios": 3,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "71": {
+  "rol": "analista de seguridad",
+  "skills": [
+   "iso 27001",
+   "firewall",
+   "pentesting"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Analista de seguridad en Northwind",
+    "inicio": 2024,
+    "fin": null
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": true,
+  "ingles": "B1",
+  "certificaciones": [],
+  "anios": 2,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "72": {
+  "rol": "desarrollador .net",
+  "skills": [
+   "c#",
+   "sql server",
+   "azure"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Desarrollador .NET",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "Desarrollador .NET",
+    "inicio": 2021,
+    "fin": 2024
+   }
+  ],
+  "ciudad": "Medellín",
+  "remoto": false,
+  "ingles": "B2",
+  "certificaciones": [],
+  "anios": 5,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "73": {
+  "rol": "ingeniero de datos",
+  "skills": [
+   "python",
+   "spark",
+   "snowflake",
+   "dbt",
+   "aws"
+  ],
+  "trabajos": [
+   {
+    "cargo": "ingeniera de datos",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "ingeniera de datos",
+    "inicio": 2022,
+    "fin": 2024
+   },
+   {
+    "cargo": "ingeniera de datos",
+    "inicio": 2018,
+    "fin": 2022
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": "nativo",
+  "certificaciones": [],
+  "anios": 8,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "74": {
+  "rol": "científico de datos",
+  "skills": [
+   "python",
+   "scikit-learn",
+   "sql",
+   "pytorch",
+   "mlflow"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Data Scientist",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "Data Scientist",
+    "inicio": 2020,
+    "fin": 2024
+   },
+   {
+    "cargo": "Data Scientist",
+    "inicio": 2018,
+    "fin": 2020
+   },
+   {
+    "cargo": "Data Scientist",
+    "inicio": 2016,
+    "fin": 2018
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": false,
+  "ingles": "C1",
+  "certificaciones": [
+   "TensorFlow Developer"
+  ],
+  "anios": 10,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "75": {
+  "rol": "analista de datos",
+  "skills": [
+   "sql",
+   "excel"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2018,
+    "fin": 2023
+   },
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2016,
+    "fin": 2018
+   },
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2014,
+    "fin": 2016
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": false,
+  "ingles": "nativo",
+  "certificaciones": [],
+  "anios": 12,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "76": {
+  "rol": "desarrollador backend",
+  "skills": [
+   "java",
+   "postgresql"
+  ],
+  "trabajos": [
+   {
+    "cargo": "líder de desarrollador backend",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "desarrollador backend",
+    "inicio": 2017,
+    "fin": 2022
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": true,
+  "ingles": "básico",
+  "certificaciones": [],
+  "anios": 9,
+  "nivel": "senior",
+  "lidera": true
+ },
+ "77": {
+  "rol": "desarrollador python",
+  "skills": [
+   "python",
+   "fastapi",
+   "celery"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Desarrolladora Python",
+    "inicio": 2023,
+    "fin": null
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": "B1",
+  "certificaciones": [],
+  "anios": 3,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "78": {
+  "rol": "desarrollador frontend",
+  "skills": [
+   "javascript",
+   "react",
+   "vue",
+   "angular",
+   "css"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Líder de desarrollador frontend",
+    "inicio": 2021,
+    "fin": null
+   },
+   {
+    "cargo": "Desarrollador frontend",
+    "inicio": 2017,
+    "fin": 2021
+   },
+   {
+    "cargo": "Desarrollador frontend",
+    "inicio": 2014,
+    "fin": 2017
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": false,
+  "ingles": "básico",
+  "certificaciones": [],
+  "anios": 12,
+  "nivel": "senior",
+  "lidera": true
+ },
+ "79": {
+  "rol": "ingeniero devops",
+  "skills": [
+   "kubernetes",
+   "docker",
+   "linux",
+   "aws",
+   "terraform"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Ingeniero DevOps",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "Ingeniero DevOps",
+    "inicio": 2020,
+    "fin": 2022
+   },
+   {
+    "cargo": "Ingeniero DevOps",
+    "inicio": 2015,
+    "fin": 2020
+   },
+   {
+    "cargo": "Ingeniero DevOps",
+    "inicio": 2014,
+    "fin": 2015
+   }
+  ],
+  "ciudad": "Medellín",
+  "remoto": false,
+  "ingles": "B1",
+  "certificaciones": [],
+  "anios": 12,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "80": {
+  "rol": "arquitecto cloud",
+  "skills": [
+   "aws",
+   "terraform",
+   "gcp",
+   "kubernetes",
+   "azure"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Arquitecto cloud",
+    "inicio": 2023,
+    "fin": null
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": true,
+  "ingles": "C1",
+  "certificaciones": [],
+  "anios": 3,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "81": {
+  "rol": "qa automation",
+  "skills": [
+   "selenium",
+   "cypress",
+   "playwright"
+  ],
+  "trabajos": [
+   {
+    "cargo": "QA Automation Lead",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "QA Automation",
+    "inicio": 2018,
+    "fin": 2023
+   },
+   {
+    "cargo": "QA Automation",
+    "inicio": 2016,
+    "fin": 2018
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": false,
+  "ingles": "C1",
+  "certificaciones": [],
+  "anios": 10,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "82": {
+  "rol": "desarrollador móvil",
+  "skills": [
+   "kotlin",
+   "swift",
+   "flutter",
+   "firebase"
+  ],
+  "trabajos": [
+   {
+    "cargo": "desarrollador móvil",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "desarrollador móvil",
+    "inicio": 2018,
+    "fin": 2022
+   },
+   {
+    "cargo": "desarrollador móvil",
+    "inicio": 2013,
+    "fin": 2018
+   },
+   {
+    "cargo": "desarrollador móvil",
+    "inicio": 2012,
+    "fin": 2013
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": "B1",
+  "certificaciones": [],
+  "anios": 14,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "83": {
+  "rol": "analista de seguridad",
+  "skills": [
+   "iso 27001",
+   "firewall",
+   "nist",
+   "pentesting"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Analista de seguridad",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "Analista de seguridad",
+    "inicio": 2021,
+    "fin": 2024
+   },
+   {
+    "cargo": "Analista de seguridad",
+    "inicio": 2018,
+    "fin": 2021
+   },
+   {
+    "cargo": "Analista de seguridad",
+    "inicio": 2014,
+    "fin": 2018
+   }
+  ],
+  "ciudad": "Medellín",
+  "remoto": false,
+  "ingles": "básico",
+  "certificaciones": [],
+  "anios": 12,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "84": {
+  "rol": "desarrollador .net",
+  "skills": [
+   "c#",
+   "sql server"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Desarrollador .NET",
+    "inicio": 2023,
+    "fin": null
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": "nativo",
+  "certificaciones": [],
+  "anios": 3,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "85": {
+  "rol": "ingeniero de datos",
+  "skills": [
+   "python",
+   "dbt",
+   "snowflake"
+  ],
+  "trabajos": [
+   {
+    "cargo": "ingeniera de datos",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "ingeniera de datos",
+    "inicio": 2022,
+    "fin": 2024
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": false,
+  "ingles": "B2",
+  "certificaciones": [],
+  "anios": 4,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "86": {
+  "rol": "científico de datos",
+  "skills": [
+   "python",
+   "pytorch",
+   "estadística",
+   "tensorflow"
+  ],
+  "trabajos": [
+   {
+    "cargo": "líder de científico de datos",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "científico de datos",
+    "inicio": 2021,
+    "fin": 2023
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": null,
+  "certificaciones": [],
+  "anios": 5,
+  "nivel": "semi-senior",
+  "lidera": true
+ },
+ "87": {
+  "rol": "analista de datos",
+  "skills": [
+   "sql",
+   "power bi",
+   "tableau"
+  ],
+  "trabajos": [],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": null,
+  "certificaciones": [],
+  "anios": 0,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "88": {
+  "rol": "desarrollador python",
+  "skills": [
+   "python",
+   "postgresql"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Líder de desarrollador Python en RetailCo",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "Desarrollador Python en SaludPlus",
+    "inicio": 2017,
+    "fin": 2022
+   }
+  ],
+  "ciudad": "Medellín",
+  "remoto": false,
+  "ingles": null,
+  "certificaciones": [],
+  "anios": 9,
+  "nivel": "senior",
+  "lidera": true
+ },
+ "89": {
+  "rol": "desarrollador frontend",
+  "skills": [
+   "javascript",
+   "vue",
+   "angular",
+   "css"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Líder de desarrollador frontend",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "Desarrollador frontend",
+    "inicio": 2019,
+    "fin": 2022
+   },
+   {
+    "cargo": "Desarrollador frontend",
+    "inicio": 2017,
+    "fin": 2019
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": true,
+  "ingles": "B2",
+  "certificaciones": [],
+  "anios": 9,
+  "nivel": "senior",
+  "lidera": true
+ },
+ "90": {
+  "rol": "ingeniero devops",
+  "skills": [
+   "kubernetes",
+   "docker",
+   "linux",
+   "jenkins",
+   "ansible"
+  ],
+  "trabajos": [
+   {
+    "cargo": "ingeniera DevOps",
+    "inicio": 2021,
+    "fin": null
+   },
+   {
+    "cargo": "ingeniera DevOps",
+    "inicio": 2017,
+    "fin": 2021
+   },
+   {
+    "cargo": "ingeniera DevOps",
+    "inicio": 2013,
+    "fin": 2017
+   },
+   {
+    "cargo": "ingeniera DevOps",
+    "inicio": 2012,
+    "fin": 2013
+   }
+  ],
+  "ciudad": "Medellín",
+  "remoto": true,
+  "ingles": "básico",
+  "certificaciones": [],
+  "anios": 14,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "91": {
+  "rol": "arquitecto cloud",
+  "skills": [
+   "aws",
+   "terraform",
+   "gcp",
+   "azure",
+   "kubernetes"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Arquitecto cloud",
+    "inicio": 2021,
+    "fin": null
+   },
+   {
+    "cargo": "arquitecto cloud",
+    "inicio": 2020,
+    "fin": 2021
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": "B2",
+  "certificaciones": [],
+  "anios": 6,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "92": {
+  "rol": "qa automation",
+  "skills": [
+   "selenium",
+   "cypress",
+   "playwright",
+   "jmeter",
+   "java"
+  ],
+  "trabajos": [],
+  "ciudad": "Cali",
+  "remoto": false,
+  "ingles": "B1",
+  "certificaciones": [],
+  "anios": 0,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "93": {
+  "rol": "desarrollador móvil",
+  "skills": [
+   "kotlin",
+   "swift",
+   "firebase"
+  ],
+  "trabajos": [
+   {
+    "cargo": "desarrollador móvil",
+    "inicio": 2021,
+    "fin": null
+   },
+   {
+    "cargo": "desarrollador móvil",
+    "inicio": 2020,
+    "fin": 2021
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": false,
+  "ingles": null,
+  "certificaciones": [],
+  "anios": 6,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "94": {
+  "rol": "analista de seguridad",
+  "skills": [
+   "iso 27001",
+   "siem",
+   "nist",
+   "firewall"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Security Analyst",
+    "inicio": 2022,
+    "fin": null
+   }
+  ],
+  "ciudad": "Medellín",
+  "remoto": true,
+  "ingles": null,
+  "certificaciones": [
+   "ISO 27001 Lead Auditor"
+  ],
+  "anios": 4,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "95": {
+  "rol": "desarrollador .net",
+  "skills": [
+   "c#",
+   "azure",
+   "sql server"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Líder de desarrollador .NET",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "Desarrollador .NET",
+    "inicio": 2021,
+    "fin": 2024
+   },
+   {
+    "cargo": "Desarrollador .NET",
+    "inicio": 2016,
+    "fin": 2021
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": null,
+  "certificaciones": [],
+  "anios": 10,
+  "nivel": "senior",
+  "lidera": true
+ },
+ "96": {
+  "rol": "ingeniero de datos",
+  "skills": [
+   "python",
+   "spark",
+   "airflow",
+   "sql",
+   "dbt"
+  ],
+  "trabajos": [
+   {
+    "cargo": "ingeniera de datos",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "ingeniera de datos",
+    "inicio": 2020,
+    "fin": 2024
+   },
+   {
+    "cargo": "ingeniera de datos",
+    "inicio": 2019,
+    "fin": 2020
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": true,
+  "ingles": null,
+  "certificaciones": [],
+  "anios": 7,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "97": {
+  "rol": "científico de datos",
+  "skills": [
+   "python",
+   "tensorflow",
+   "mlflow"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Científico de datos",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "Científico de datos",
+    "inicio": 2020,
+    "fin": 2024
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": "nativo",
+  "certificaciones": [
+   "TensorFlow Developer"
+  ],
+  "anios": 6,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "98": {
+  "rol": "analista de datos",
+  "skills": [
+   "sql",
+   "tableau",
+   "python"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2020,
+    "fin": 2023
+   }
+  ],
+  "ciudad": "Medellín",
+  "remoto": false,
+  "ingles": "nativo",
+  "certificaciones": [],
+  "anios": 6,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "99": {
+  "rol": "desarrollador backend",
+  "skills": [
+   "java",
+   "microservicios"
+  ],
+  "trabajos": [
+   {
+    "cargo": "desarrollador backend",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "desarrollador backend",
+    "inicio": 2020,
+    "fin": 2024
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": "nativo",
+  "certificaciones": [],
+  "anios": 6,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "100": {
+  "rol": "desarrollador python",
+  "skills": [
+   "python",
+   "docker"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Desarrollador Python en RetailCo",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "EduNet",
+    "inicio": 2022,
+    "fin": 2024
+   }
+  ],
+  "ciudad": "Bucaramanga",
+  "remoto": true,
+  "ingles": "básico",
+  "certificaciones": [],
+  "anios": 4,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "101": {
+  "rol": "desarrollador frontend",
+  "skills": [
+   "javascript",
+   "react",
+   "angular"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Frontend Developer",
+    "inicio": 2024,
+    "fin": null
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": false,
+  "ingles": "B2",
+  "certificaciones": [],
+  "anios": 2,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "102": {
+  "rol": "ingeniero devops",
+  "skills": [
+   "kubernetes",
+   "docker",
+   "linux",
+   "ansible",
+   "terraform"
+  ],
+  "trabajos": [
+   {
+    "cargo": "ingeniera DevOps",
+    "inicio": 2023,
+    "fin": null
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": true,
+  "ingles": "nativo",
+  "certificaciones": [],
+  "anios": 3,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "103": {
+  "rol": "arquitecto cloud",
+  "skills": [
+   "aws",
+   "terraform",
+   "azure",
+   "gcp",
+   "kubernetes"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Arquitecto cloud en SoftContable",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "Arquitecto cloud en RetailCo",
+    "inicio": 2020,
+    "fin": 2022
+   },
+   {
+    "cargo": "Arquitecto cloud en RetailCo",
+    "inicio": 2017,
+    "fin": 2020
+   },
+   {
+    "cargo": "Arquitecto cloud en NubeSur",
+    "inicio": 2014,
+    "fin": 2017
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": true,
+  "ingles": null,
+  "certificaciones": [
+   "AWS Solutions Architect"
+  ],
+  "anios": 12,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "104": {
+  "rol": "qa automation",
+  "skills": [
+   "selenium",
+   "cypress",
+   "playwright"
+  ],
+  "trabajos": [
+   {
+    "cargo": "QA Automation",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "QA Automation",
+    "inicio": 2021,
+    "fin": 2022
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": "B1",
+  "certificaciones": [],
+  "anios": 5,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "105": {
+  "rol": "desarrollador móvil",
+  "skills": [
+   "kotlin",
+   "flutter"
+  ],
+  "trabajos": [
+   {
+    "cargo": "desarrollador móvil",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "desarrollador móvil",
+    "inicio": 2020,
+    "fin": 2024
+   },
+   {
+    "cargo": "desarrollador móvil",
+    "inicio": 2018,
+    "fin": 2020
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": true,
+  "ingles": "C1",
+  "certificaciones": [],
+  "anios": 8,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "106": {
+  "rol": "analista de seguridad",
+  "skills": [
+   "iso 27001",
+   "siem",
+   "firewall",
+   "pentesting",
+   "nist"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Analista de seguridad en TransLogística",
+    "inicio": 2021,
+    "fin": null
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": true,
+  "ingles": "nativo",
+  "certificaciones": [
+   "ISO 27001 Lead Auditor"
+  ],
+  "anios": 5,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "107": {
+  "rol": "desarrollador .net",
+  "skills": [
+   "c#",
+   ".net",
+   "azure"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Desarrollador .NET",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "Desarrollador .NET",
+    "inicio": 2018,
+    "fin": 2022
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": null,
+  "certificaciones": [],
+  "anios": 8,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "108": {
+  "rol": "ingeniero de datos",
+  "skills": [
+   "python",
+   "databricks",
+   "kafka",
+   "dbt"
+  ],
+  "trabajos": [
+   {
+    "cargo": "data engineer",
+    "inicio": 2024,
+    "fin": null
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": "nativo",
+  "certificaciones": [],
+  "anios": 2,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "109": {
+  "rol": "científico de datos",
+  "skills": [
+   "python",
+   "pytorch",
+   "estadística"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Científico de datos",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "científico de datos",
+    "inicio": 2020,
+    "fin": 2023
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": null,
+  "certificaciones": [
+   "TensorFlow Developer"
+  ],
+  "anios": 6,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "110": {
+  "rol": "analista de datos",
+  "skills": [
+   "sql",
+   "power bi",
+   "tableau",
+   "excel"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2023,
+    "fin": null
+   },
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2020,
+    "fin": 2023
+   },
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2016,
+    "fin": 2020
+   },
+   {
+    "cargo": "Analista de datos",
+    "inicio": 2012,
+    "fin": 2016
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": "C1",
+  "certificaciones": [],
+  "anios": 14,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "111": {
+  "rol": "desarrollador backend",
+  "skills": [
+   "java",
+   "microservicios",
+   "docker"
+  ],
+  "trabajos": [
+   {
+    "cargo": "desarrollador backend",
+    "inicio": 2023,
+    "fin": null
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": false,
+  "ingles": "básico",
+  "certificaciones": [],
+  "anios": 3,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "112": {
+  "rol": "desarrollador python",
+  "skills": [
+   "python",
+   "django",
+   "fastapi",
+   "celery",
+   "postgresql"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Desarrolladora Python",
+    "inicio": 2024,
+    "fin": null
+   }
+  ],
+  "ciudad": "Medellín",
+  "remoto": true,
+  "ingles": "básico",
+  "certificaciones": [],
+  "anios": 2,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "113": {
+  "rol": "desarrollador frontend",
+  "skills": [
+   "javascript",
+   "react",
+   "css",
+   "typescript"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Desarrollador frontend",
+    "inicio": 2022,
+    "fin": null
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": "B1",
+  "certificaciones": [],
+  "anios": 4,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "114": {
+  "rol": "ingeniero devops",
+  "skills": [
+   "kubernetes",
+   "docker",
+   "terraform",
+   "jenkins"
+  ],
+  "trabajos": [
+   {
+    "cargo": "líder de ingeniero DevOps",
+    "inicio": 2021,
+    "fin": null
+   },
+   {
+    "cargo": "ingeniero DevOps",
+    "inicio": 2018,
+    "fin": 2021
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": true,
+  "ingles": null,
+  "certificaciones": [],
+  "anios": 8,
+  "nivel": "senior",
+  "lidera": true
+ },
+ "115": {
+  "rol": "arquitecto cloud",
+  "skills": [
+   "aws",
+   "gcp"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Cloud Architect",
+    "inicio": 2022,
+    "fin": null
+   },
+   {
+    "cargo": "Cloud Architect",
+    "inicio": 2018,
+    "fin": 2022
+   },
+   {
+    "cargo": "Cloud Architect",
+    "inicio": 2014,
+    "fin": 2018
+   },
+   {
+    "cargo": "Cloud Architect",
+    "inicio": 2012,
+    "fin": 2014
+   }
+  ],
+  "ciudad": "Cali",
+  "remoto": false,
+  "ingles": "B1",
+  "certificaciones": [],
+  "anios": 14,
+  "nivel": "senior",
+  "lidera": false
+ },
+ "116": {
+  "rol": "qa automation",
+  "skills": [
+   "selenium",
+   "java",
+   "playwright",
+   "jmeter"
+  ],
+  "trabajos": [
+   {
+    "cargo": "QA Automation",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "QA Automation",
+    "inicio": 2020,
+    "fin": 2024
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": false,
+  "ingles": "nativo",
+  "certificaciones": [],
+  "anios": 6,
+  "nivel": "semi-senior",
+  "lidera": false
+ },
+ "117": {
+  "rol": "desarrollador móvil",
+  "skills": [
+   "kotlin",
+   "flutter"
+  ],
+  "trabajos": [],
+  "ciudad": "Bogotá",
+  "remoto": false,
+  "ingles": "nativo",
+  "certificaciones": [],
+  "anios": 0,
+  "nivel": "junior",
+  "lidera": false
+ },
+ "118": {
+  "rol": "analista de seguridad",
+  "skills": [
+   "iso 27001",
+   "pentesting",
+   "firewall"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Líder de analista de seguridad",
+    "inicio": 2024,
+    "fin": null
+   },
+   {
+    "cargo": "Analista de seguridad",
+    "inicio": 2022,
+    "fin": 2024
+   },
+   {
+    "cargo": "Analista de seguridad",
+    "inicio": 2019,
+    "fin": 2022
+   },
+   {
+    "cargo": "Analista de seguridad",
+    "inicio": 2017,
+    "fin": 2019
+   }
+  ],
+  "ciudad": "Barranquilla",
+  "remoto": true,
+  "ingles": null,
+  "certificaciones": [
+   "ISO 27001 Lead Auditor"
+  ],
+  "anios": 9,
+  "nivel": "senior",
+  "lidera": true
+ },
+ "119": {
+  "rol": "desarrollador .net",
+  "skills": [
+   "c#",
+   ".net",
+   "sql server",
+   "azure"
+  ],
+  "trabajos": [
+   {
+    "cargo": "Líder de desarrollador .NET",
+    "inicio": 2021,
+    "fin": null
+   },
+   {
+    "cargo": "Desarrollador .NET",
+    "inicio": 2019,
+    "fin": 2021
+   },
+   {
+    "cargo": "Desarrollador .NET",
+    "inicio": 2015,
+    "fin": 2019
+   },
+   {
+    "cargo": "Desarrollador .NET",
+    "inicio": 2014,
+    "fin": 2015
+   }
+  ],
+  "ciudad": "Bogotá",
+  "remoto": true,
+  "ingles": "básico",
+  "certificaciones": [],
+  "anios": 12,
+  "nivel": "senior",
+  "lidera": true
+ }
+}
