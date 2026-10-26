@@ -1,0 +1,81 @@
+{
+ "preguntas": [
+  {
+   "pregunta": "¿Para qué sirve un holdout?",
+   "opciones": [
+    "Para iterar más rápido",
+    "Para decidir con datos que no se miraron al iterar",
+    "Para entrenar el modelo",
+    "Para el CI"
+   ],
+   "correcta": 1,
+   "explicacion": "Las versiones nacen de mirar el set de desarrollo; solo un set que nadie miró dice si la mejora generaliza."
+  },
+  {
+   "pregunta": "En desarrollo, cinco versiones dieron entre 27 y 29 de 30. ¿Qué concluyes?",
+   "opciones": [
+    "Que son indistinguibles: la diferencia es del tamaño del ruido",
+    "Que v5 es la mejor",
+    "Que el set está mal",
+    "Que hay que usar v1"
+   ],
+   "correcta": 0,
+   "explicacion": "La misma versión varió de 27 a 29 entre ejecuciones."
+  },
+  {
+   "pregunta": "¿Qué hizo distinto a v4?",
+   "opciones": [
+    "Un prompt más largo",
+    "Otro modelo",
+    "Más ejemplos",
+    "Quitarle la suma al modelo: extrae los hechos y el total se calcula en código"
+   ],
+   "correcta": 3,
+   "explicacion": "El modelo hace lo que hace bien (leer fechas) y el código, lo que hace bien (contar sin solapes)."
+  },
+  {
+   "pregunta": "¿Cuánto mejoró v4 en el holdout, y dónde?",
+   "opciones": [
+    "Nada",
+    "Solo en meses",
+    "De 21-27 a 30-32 de 36, sobre todo en rangos solapados (de 1/6 a 6/6)",
+    "Empeoró"
+   ],
+   "correcta": 2,
+   "explicacion": "Un cambio estructural superó el ruido por mucho, en las dos ejecuciones."
+  },
+  {
+   "pregunta": "v4 daba 0 años en «3 años como analista». ¿Por qué?",
+   "opciones": [
+    "Obedecía la inyección",
+    "El schema no tenía campo para una duración sin fechas, y el hecho se perdía",
+    "Por la temperatura",
+    "El CV estaba mal"
+   ],
+   "correcta": 1,
+   "explicacion": "Lo que no cabe en el schema se pierde. v5 añadió el campo."
+  },
+  {
+   "pregunta": "El prompt con pistas literales de los casos de desarrollo, ¿qué hizo?",
+   "opciones": [
+    "No mejoró ni en desarrollo: el modelo pequeño no aplicó ni las pistas",
+    "Subió mucho en desarrollo",
+    "Subió en el holdout",
+    "Rompió todo"
+   ],
+   "correcta": 0,
+   "explicacion": "El resultado esperado (sube en desarrollo, no en holdout) no se dio; la lección fue el tamaño del ruido."
+  },
+  {
+   "pregunta": "¿Qué tipo de cambio conviene preferir con sets pequeños?",
+   "opciones": [
+    "Retoques de prompt",
+    "Cambiar de proveedor",
+    "Ninguno",
+    "Cambios estructurales que superen el ruido por mucho"
+   ],
+   "correcta": 3,
+   "explicacion": "Las versiones de prompt ganaban por 0-3 casos; la suma en código, por 5-10."
+  }
+ ]
+}
