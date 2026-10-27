@@ -91,6 +91,22 @@
   .brand h1 { margin: 0; font-size: .98rem; font-weight: 600; letter-spacing: -.01em; }
   .brand p { margin: 1px 0 0; font-size: .72rem; color: var(--muted); }
 
+  .course-pick {
+    display: grid; gap: .3rem;
+    padding: .75rem 1.1rem .85rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .course-pick span {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+  }
+  .course-pick select {
+    font: inherit; font-size: .88rem; color: var(--fg);
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px;
+    padding: .45rem .55rem; width: 100%; cursor: pointer;
+  }
+  .course-pick select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
   .nav { overflow-y: auto; padding: .6rem .6rem 1.5rem; flex: 1; min-height: 0; }
   .nav-group { margin-top: .9rem; }
   .nav-group:first-child { margin-top: .2rem; }
@@ -268,12 +284,16 @@
   <div class="scrim" id="scrim"></div>
   <aside class="sidebar" id="sidebar">
     <div class="brand">
-      <div class="logo mono">AIE</div>
+      <div class="logo mono" id="brandLogo">AIE</div>
       <div>
-        <h1>AI Engineering</h1>
-        <p>Curso profundo · edición personal</p>
+        <h1 id="brandName">AI Engineering</h1>
+        <p id="brandSub">Curso profundo · edición personal</p>
       </div>
     </div>
+    <label class="course-pick" for="cursoSel">
+      <span>Curso</span>
+      <select id="cursoSel"></select>
+    </label>
     <nav class="nav" id="nav"></nav>
   </aside>
 
@@ -304,64 +324,166 @@
 (function () {
   "use strict";
 
-  // ---- Estructura de navegación: cada "lección" apunta a un .md publicado al lado ----
-  var NAV = [
-    { group: "Inicio", items: [
-      { id: "inicio", label: "Presentación del curso", file: "content/inicio.md" }
+  // ---- Los tres cursos: cada lección apunta a un .md publicado al lado (file) y recuerda su ruta en el repo
+  //      (src), que es contra lo que se resuelven los links relativos del Markdown ----
+  var CURSOS = [
+    { id: "aie", logo: "AIE", nombre: "AI Engineering", sub: "Curso profundo · edición personal", nav: [
+      { group: "Inicio", items: [
+        { id: "inicio", label: "Presentación del curso", file: "content/inicio.md", src: "README.md" }
+      ]},
+      { group: "Módulo 1 · Datos estructurados con LLMs", items: [
+        { id: "m1-manual", label: "Manual", file: "content/m1-manual.md", src: "modulo-01-datos-estructurados/README.md" },
+        { id: "m1-ejercicios", label: "Ejercicios", file: "content/m1-ejercicios.md", src: "modulo-01-datos-estructurados/ejercicios.md" }
+      ]},
+      { group: "Módulo 2 · Embeddings y búsqueda semántica", items: [
+        { id: "m2-manual", label: "Manual", file: "content/m2-manual.md", src: "modulo-02-embeddings-busqueda-semantica/README.md" },
+        { id: "m2-ejercicios", label: "Ejercicios", file: "content/m2-ejercicios.md", src: "modulo-02-embeddings-busqueda-semantica/ejercicios.md" }
+      ]},
+      { group: "Módulo 3 · Chunking, metadata e introducción a RAG", items: [
+        { id: "m3-manual", label: "Manual", file: "content/m3-manual.md", src: "modulo-03-chunking-metadata-rag/README.md" },
+        { id: "m3-ejercicios", label: "Ejercicios", file: "content/m3-ejercicios.md", src: "modulo-03-chunking-metadata-rag/ejercicios.md" }
+      ]},
+      { group: "Módulo 4 · BM25, búsqueda híbrida y Reciprocal Rank Fusion", items: [
+        { id: "m4-manual", label: "Manual", file: "content/m4-manual.md", src: "modulo-04-bm25-hibrida-rrf/README.md" },
+        { id: "m4-ejercicios", label: "Ejercicios", file: "content/m4-ejercicios.md", src: "modulo-04-bm25-hibrida-rrf/ejercicios.md" }
+      ]},
+      { group: "Módulo 5 · Workflows y agentes", items: [
+        { id: "m5-manual", label: "Manual", file: "content/m5-manual.md", src: "modulo-05-workflows-agentes/README.md" },
+        { id: "m5-ejercicios", label: "Ejercicios", file: "content/m5-ejercicios.md", src: "modulo-05-workflows-agentes/ejercicios.md" }
+      ]},
+      { group: "Módulo 6 · LangGraph", items: [
+        { id: "m6-manual", label: "Manual", file: "content/m6-manual.md", src: "modulo-06-langgraph/README.md" },
+        { id: "m6-ejercicios", label: "Ejercicios", file: "content/m6-ejercicios.md", src: "modulo-06-langgraph/ejercicios.md" }
+      ]},
+      { group: "Módulo 7 · Observabilidad", items: [
+        { id: "m7-manual", label: "Manual", file: "content/m7-manual.md", src: "modulo-07-observabilidad/README.md" },
+        { id: "m7-ejercicios", label: "Ejercicios", file: "content/m7-ejercicios.md", src: "modulo-07-observabilidad/ejercicios.md" }
+      ]},
+      { group: "Módulo 8 · Memoria y guardrails", items: [
+        { id: "m8-manual", label: "Manual", file: "content/m8-manual.md", src: "modulo-08-memoria-guardrails/README.md" },
+        { id: "m8-ejercicios", label: "Ejercicios", file: "content/m8-ejercicios.md", src: "modulo-08-memoria-guardrails/ejercicios.md" }
+      ]},
+      { group: "Módulo 9 · Proyecto integrador", items: [
+        { id: "m9-manual", label: "Manual", file: "content/m9-manual.md", src: "modulo-09-proyecto-integrador/README.md" },
+        { id: "m9-ejercicios", label: "Ejercicios", file: "content/m9-ejercicios.md", src: "modulo-09-proyecto-integrador/ejercicios.md" }
+      ]}
     ]},
-    { group: "Módulo 1 · Datos estructurados", items: [
-      { id: "m1-manual", label: "Manual", file: "content/m1-manual.md" },
-      { id: "m1-ejercicios", label: "Ejercicios", file: "content/m1-ejercicios.md" }
+    { id: "evals", logo: "EV", nombre: "Evals para AI Engineers", sub: "Medir con evidencia", nav: [
+      { group: "Inicio", items: [
+        { id: "evals-inicio", label: "Presentación del curso", file: "content/evals/inicio.md", src: "curso-evals/README.md" }
+      ]},
+      { group: "Módulo 0 · Qué vamos a evaluar", items: [
+        { id: "evals-m0-manual", label: "Manual", file: "content/evals/m0-manual.md", src: "curso-evals/modulo-00-que-vamos-a-evaluar/README.md" }
+      ]},
+      { group: "Módulo 1 · El primer eval en una tarde", items: [
+        { id: "evals-m1-manual", label: "Manual", file: "content/evals/m1-manual.md", src: "curso-evals/modulo-01-primer-eval/README.md" },
+        { id: "evals-m1-ejercicios", label: "Ejercicios", file: "content/evals/m1-ejercicios.md", src: "curso-evals/modulo-01-primer-eval/ejercicios.md" }
+      ]},
+      { group: "Módulo 2 · Error analysis sobre un pipeline de extracción", items: [
+        { id: "evals-m2-manual", label: "Manual", file: "content/evals/m2-manual.md", src: "curso-evals/modulo-02-error-analysis/README.md" },
+        { id: "evals-m2-ejercicios", label: "Ejercicios", file: "content/evals/m2-ejercicios.md", src: "curso-evals/modulo-02-error-analysis/ejercicios.md" }
+      ]},
+      { group: "Módulo 3 · Datos sintéticos para arrancar sin usuarios", items: [
+        { id: "evals-m3-manual", label: "Manual", file: "content/evals/m3-manual.md", src: "curso-evals/modulo-03-datos-sinteticos/README.md" },
+        { id: "evals-m3-ejercicios", label: "Ejercicios", file: "content/evals/m3-ejercicios.md", src: "curso-evals/modulo-03-datos-sinteticos/ejercicios.md" }
+      ]},
+      { group: "Módulo 4 · Las personas que etiquetan, y cómo se ponen de acuerdo", items: [
+        { id: "evals-m4-manual", label: "Manual", file: "content/evals/m4-manual.md", src: "curso-evals/modulo-04-anotacion/README.md" },
+        { id: "evals-m4-ejercicios", label: "Ejercicios", file: "content/evals/m4-ejercicios.md", src: "curso-evals/modulo-04-anotacion/ejercicios.md" }
+      ]},
+      { group: "Módulo 5 · LLM como juez, y cómo saber si el juez acierta", items: [
+        { id: "evals-m5-manual", label: "Manual", file: "content/evals/m5-manual.md", src: "curso-evals/modulo-05-llm-juez/README.md" },
+        { id: "evals-m5-ejercicios", label: "Ejercicios", file: "content/evals/m5-ejercicios.md", src: "curso-evals/modulo-05-llm-juez/ejercicios.md" }
+      ]},
+      { group: "Módulo 6 · ¿Falló el retrieval o falló la respuesta?", items: [
+        { id: "evals-m6-manual", label: "Manual", file: "content/evals/m6-manual.md", src: "curso-evals/modulo-06-evals-rag/README.md" },
+        { id: "evals-m6-ejercicios", label: "Ejercicios", file: "content/evals/m6-ejercicios.md", src: "curso-evals/modulo-06-evals-rag/ejercicios.md" }
+      ]},
+      { group: "Módulo 7 · Evaluar agentes con herramientas", items: [
+        { id: "evals-m7-manual", label: "Manual", file: "content/evals/m7-manual.md", src: "curso-evals/modulo-07-evals-agentes/README.md" },
+        { id: "evals-m7-ejercicios", label: "Ejercicios", file: "content/evals/m7-ejercicios.md", src: "curso-evals/modulo-07-evals-agentes/ejercicios.md" }
+      ]},
+      { group: "Módulo 8 · Evals de conversaciones de varios turnos", items: [
+        { id: "evals-m8-manual", label: "Manual", file: "content/evals/m8-manual.md", src: "curso-evals/modulo-08-multi-turn/README.md" },
+        { id: "evals-m8-ejercicios", label: "Ejercicios", file: "content/evals/m8-ejercicios.md", src: "curso-evals/modulo-08-multi-turn/ejercicios.md" }
+      ]},
+      { group: "Módulo 9 · Del notebook al CI", items: [
+        { id: "evals-m9-manual", label: "Manual", file: "content/evals/m9-manual.md", src: "curso-evals/modulo-09-evals-en-ci/README.md" },
+        { id: "evals-m9-ejercicios", label: "Ejercicios", file: "content/evals/m9-ejercicios.md", src: "curso-evals/modulo-09-evals-en-ci/ejercicios.md" }
+      ]},
+      { group: "Módulo 10 · Evals y guardrails en producción", items: [
+        { id: "evals-m10-manual", label: "Manual", file: "content/evals/m10-manual.md", src: "curso-evals/modulo-10-produccion/README.md" },
+        { id: "evals-m10-ejercicios", label: "Ejercicios", file: "content/evals/m10-ejercicios.md", src: "curso-evals/modulo-10-produccion/ejercicios.md" }
+      ]},
+      { group: "Módulo 11 · Mejorar el sistema con lo que dicen los evals", items: [
+        { id: "evals-m11-manual", label: "Manual", file: "content/evals/m11-manual.md", src: "curso-evals/modulo-11-mejorar/README.md" },
+        { id: "evals-m11-ejercicios", label: "Ejercicios", file: "content/evals/m11-ejercicios.md", src: "curso-evals/modulo-11-mejorar/ejercicios.md" }
+      ]},
+      { group: "Módulo 12 · Proyecto final", items: [
+        { id: "evals-m12-manual", label: "Manual", file: "content/evals/m12-manual.md", src: "curso-evals/modulo-12-proyecto-final/README.md" },
+        { id: "evals-m12-ejercicios", label: "Ejercicios", file: "content/evals/m12-ejercicios.md", src: "curso-evals/modulo-12-proyecto-final/ejercicios.md" }
+      ]}
     ]},
-    { group: "Módulo 2 · Embeddings y búsqueda", items: [
-      { id: "m2-manual", label: "Manual", file: "content/m2-manual.md" },
-      { id: "m2-ejercicios", label: "Ejercicios", file: "content/m2-ejercicios.md" }
-    ]},
-    { group: "Módulo 3 · Chunking, metadata y RAG", items: [
-      { id: "m3-manual", label: "Manual", file: "content/m3-manual.md" },
-      { id: "m3-ejercicios", label: "Ejercicios", file: "content/m3-ejercicios.md" }
-    ]},
-    { group: "Módulo 4 · BM25, híbrida y RRF", items: [
-      { id: "m4-manual", label: "Manual", file: "content/m4-manual.md" },
-      { id: "m4-ejercicios", label: "Ejercicios", file: "content/m4-ejercicios.md" }
-    ]},
-    { group: "Módulo 5 · Workflows y agentes", items: [
-      { id: "m5-manual", label: "Manual", file: "content/m5-manual.md" },
-      { id: "m5-ejercicios", label: "Ejercicios", file: "content/m5-ejercicios.md" }
-    ]},
-    { group: "Módulo 6 · LangGraph", items: [
-      { id: "m6-manual", label: "Manual", file: "content/m6-manual.md" },
-      { id: "m6-ejercicios", label: "Ejercicios", file: "content/m6-ejercicios.md" }
-    ]},
-    { group: "Módulo 7 · Observabilidad", items: [
-      { id: "m7-manual", label: "Manual", file: "content/m7-manual.md" },
-      { id: "m7-ejercicios", label: "Ejercicios", file: "content/m7-ejercicios.md" }
-    ]},
-    { group: "Módulo 8 · Memoria y guardrails", items: [
-      { id: "m8-manual", label: "Manual", file: "content/m8-manual.md" },
-      { id: "m8-ejercicios", label: "Ejercicios", file: "content/m8-ejercicios.md" }
-    ]},
-    { group: "Módulo 9 · Proyecto integrador", items: [
-      { id: "m9-manual", label: "Manual", file: "content/m9-manual.md" },
-      { id: "m9-ejercicios", label: "Ejercicios", file: "content/m9-ejercicios.md" }
+    { id: "search", logo: "AS", nombre: "AI search: medir y mejorar", sub: "Del demo al buscador medido", nav: [
+      { group: "Inicio", items: [
+        { id: "search-inicio", label: "Presentación del curso", file: "content/search/inicio.md", src: "curso-ai-search/README.md" }
+      ]},
+      { group: "Módulo 0 · Qué vamos a mejorar, y con qué datos", items: [
+        { id: "search-m0-manual", label: "Manual", file: "content/search/m0-manual.md", src: "curso-ai-search/modulo-00-que-vamos-a-mejorar/README.md" }
+      ]},
+      { group: "Módulo 1 · Antes de modificar algo, hay que medir", items: [
+        { id: "search-m1-manual", label: "Manual", file: "content/search/m1-manual.md", src: "curso-ai-search/modulo-01-medir-antes/README.md" },
+        { id: "search-m1-ejercicios", label: "Ejercicios", file: "content/search/m1-ejercicios.md", src: "curso-ai-search/modulo-01-medir-antes/ejercicios.md" }
+      ]},
+      { group: "Módulo 2 · Query understanding y routing: qué busca de verdad el usuario", items: [
+        { id: "search-m2-manual", label: "Manual", file: "content/search/m2-manual.md", src: "curso-ai-search/modulo-02-query-understanding/README.md" },
+        { id: "search-m2-ejercicios", label: "Ejercicios", file: "content/search/m2-ejercicios.md", src: "curso-ai-search/modulo-02-query-understanding/ejercicios.md" }
+      ]},
+      { group: "Módulo 3 · El parsing le pone techo a todo el RAG", items: [
+        { id: "search-m3-manual", label: "Manual", file: "content/search/m3-manual.md", src: "curso-ai-search/modulo-03-parsing/README.md" },
+        { id: "search-m3-ejercicios", label: "Ejercicios", file: "content/search/m3-ejercicios.md", src: "curso-ai-search/modulo-03-parsing/ejercicios.md" }
+      ]},
+      { group: "Módulo 4 · Un retrieval que traiga el documento correcto", items: [
+        { id: "search-m4-manual", label: "Manual", file: "content/search/m4-manual.md", src: "curso-ai-search/modulo-04-retrieval/README.md" },
+        { id: "search-m4-ejercicios", label: "Ejercicios", file: "content/search/m4-ejercicios.md", src: "curso-ai-search/modulo-04-retrieval/ejercicios.md" }
+      ]},
+      { group: "Módulo 5 · Context engineering y long context", items: [
+        { id: "search-m5-manual", label: "Manual", file: "content/search/m5-manual.md", src: "curso-ai-search/modulo-05-contexto/README.md" },
+        { id: "search-m5-ejercicios", label: "Ejercicios", file: "content/search/m5-ejercicios.md", src: "curso-ai-search/modulo-05-contexto/ejercicios.md" }
+      ]},
+      { group: "Módulo 6 · Cuándo un grafo o SQL le ganan a los vectores", items: [
+        { id: "search-m6-manual", label: "Manual", file: "content/search/m6-manual.md", src: "curso-ai-search/modulo-06-sql-y-grafos/README.md" },
+        { id: "search-m6-ejercicios", label: "Ejercicios", file: "content/search/m6-ejercicios.md", src: "curso-ai-search/modulo-06-sql-y-grafos/ejercicios.md" }
+      ]},
+      { group: "Módulo 7 · Lo que enseñan los clics, y learning to rank", items: [
+        { id: "search-m7-manual", label: "Manual", file: "content/search/m7-manual.md", src: "curso-ai-search/modulo-07-clics-ltr/README.md" },
+        { id: "search-m7-ejercicios", label: "Ejercicios", file: "content/search/m7-ejercicios.md", src: "curso-ai-search/modulo-07-clics-ltr/ejercicios.md" }
+      ]},
+      { group: "Módulo 8 · Seguridad y permisos en un índice que cambia todos los días", items: [
+        { id: "search-m8-manual", label: "Manual", file: "content/search/m8-manual.md", src: "curso-ai-search/modulo-08-seguridad-permisos/README.md" },
+        { id: "search-m8-ejercicios", label: "Ejercicios", file: "content/search/m8-ejercicios.md", src: "curso-ai-search/modulo-08-seguridad-permisos/ejercicios.md" }
+      ]},
+      { group: "Módulo 9 · Que no se caiga y que no salga carísimo", items: [
+        { id: "search-m9-manual", label: "Manual", file: "content/search/m9-manual.md", src: "curso-ai-search/modulo-09-costo-latencia/README.md" },
+        { id: "search-m9-ejercicios", label: "Ejercicios", file: "content/search/m9-ejercicios.md", src: "curso-ai-search/modulo-09-costo-latencia/ejercicios.md" }
+      ]},
+      { group: "Módulo 10 · Proyecto final", items: [
+        { id: "search-m10-manual", label: "Manual", file: "content/search/m10-manual.md", src: "curso-ai-search/modulo-10-proyecto-final/README.md" },
+        { id: "search-m10-ejercicios", label: "Ejercicios", file: "content/search/m10-ejercicios.md", src: "curso-ai-search/modulo-10-proyecto-final/ejercicios.md" }
+      ]}
     ]}
   ];
 
-  // Mapa de links relativos (en el Markdown) -> id de lección, para que la navegación interna funcione.
-  var LINKMAP = [
-    { match: "modulo-01", needEx: "ejercicios", id: "m1-ejercicios", elseId: "m1-manual" },
-    { match: "modulo-02", needEx: "ejercicios", id: "m2-ejercicios", elseId: "m2-manual" },
-    { match: "modulo-03", needEx: "ejercicios", id: "m3-ejercicios", elseId: "m3-manual" },
-    { match: "modulo-04", needEx: "ejercicios", id: "m4-ejercicios", elseId: "m4-manual" },
-    { match: "modulo-05", needEx: "ejercicios", id: "m5-ejercicios", elseId: "m5-manual" },
-    { match: "modulo-06", needEx: "ejercicios", id: "m6-ejercicios", elseId: "m6-manual" },
-    { match: "modulo-07", needEx: "ejercicios", id: "m7-ejercicios", elseId: "m7-manual" },
-    { match: "modulo-08", needEx: "ejercicios", id: "m8-ejercicios", elseId: "m8-manual" },
-    { match: "modulo-09", needEx: "ejercicios", id: "m9-ejercicios", elseId: "m9-manual" }
-  ];
-
-  var FLAT = [];
-  NAV.forEach(function (g) { if (!g.locked) g.items.forEach(function (it) { FLAT.push(it); }); });
+  var ALL = [], POR_SRC = {};
+  CURSOS.forEach(function (c) {
+    c.flat = [];
+    c.nav.forEach(function (g) { g.items.forEach(function (it) {
+      it.curso = c.id; c.flat.push(it); ALL.push(it); POR_SRC[it.src.toLowerCase()] = it;
+    }); });
+  });
+  function cursoDe(id) { return CURSOS.filter(function (c) { return c.id === id; })[0] || CURSOS[0]; }
+  var cursoActual = CURSOS[0].id;
+  function FLAT() { return cursoDe(cursoActual).flat; }
 
   var LS_PROG = "rea_curso_progreso", LS_THEME = "rea_curso_tema", LS_LAST = "rea_curso_ultima";
 
@@ -397,9 +519,26 @@
     }
   });
 
+  var cursoSel = document.getElementById("cursoSel");
+  CURSOS.forEach(function (c) {
+    var o = document.createElement("option");
+    o.value = c.id; o.textContent = c.nombre;
+    cursoSel.appendChild(o);
+  });
+  cursoSel.addEventListener("change", function () {
+    var c = cursoDe(cursoSel.value);
+    var ultima = lsGet(LS_LAST + "_" + c.id, c.flat[0].id);
+    go(c.flat.some(function (it) { return it.id === ultima; }) ? ultima : c.flat[0].id);
+  });
+
   function buildNav() {
+    var c = cursoDe(cursoActual);
+    cursoSel.value = c.id;
+    document.getElementById("brandLogo").textContent = c.logo;
+    document.getElementById("brandName").textContent = c.nombre;
+    document.getElementById("brandSub").textContent = c.sub;
     navEl.innerHTML = "";
-    NAV.forEach(function (g) {
+    c.nav.forEach(function (g) {
       var grp = document.createElement("div");
       grp.className = "nav-group";
       var gl = document.createElement("span");
@@ -431,8 +570,8 @@
   }
 
   function updateProgress() {
-    var total = FLAT.length;
-    var done = FLAT.filter(function (it) { return isDone(it.id); }).length;
+    var total = FLAT().length;
+    var done = FLAT().filter(function (it) { return isDone(it.id); }).length;
     var pct = total ? Math.round(done / total * 100) : 0;
     document.getElementById("progBar").style.width = pct + "%";
     document.getElementById("progLabel").textContent = pct + "% · " + done + "/" + total;
@@ -490,24 +629,32 @@
         return;
       }
       if (/^https?:\/\//.test(href)) { a.target = "_blank"; a.rel = "noopener"; return; }
-      // link relativo del repo
+      // link relativo del repo: se resuelve contra la ruta del .md actual
       e.preventDefault();
-      var low = href.toLowerCase();
-      for (var i = 0; i < LINKMAP.length; i++) {
-        if (low.indexOf(LINKMAP[i].match) !== -1) {
-          go(low.indexOf(LINKMAP[i].needEx) !== -1 ? LINKMAP[i].id : LINKMAP[i].elseId);
-          return;
-        }
-      }
-      toast("Ese archivo vive en tu carpeta del proyecto (" + href + ")");
+      var destino = resolver(current, href.split("#")[0]);
+      var item = POR_SRC[destino.toLowerCase()] || POR_SRC[(destino.replace(/\/$/, "") + "/README.md").toLowerCase()];
+      if (item) { go(item.id); return; }
+      toast("Ese archivo vive en tu carpeta del proyecto (" + (destino || href) + ")");
     });
   }
 
+  function resolver(desdeId, href) {
+    var desde = ALL.filter(function (it) { return it.id === desdeId; })[0];
+    var partes = desde ? desde.src.split("/").slice(0, -1) : [];
+    href.split("/").forEach(function (p) {
+      if (p === "..") partes.pop();
+      else if (p && p !== ".") partes.push(p);
+    });
+    return partes.join("/") + (/\/$/.test(href) ? "/" : "");
+  }
+
   function go(id) {
-    var item = FLAT.filter(function (it) { return it.id === id; })[0];
+    var item = ALL.filter(function (it) { return it.id === id; })[0];
     if (!item) return;
     current = id;
     lsSet(LS_LAST, id);
+    lsSet(LS_LAST + "_" + item.curso, id);
+    if (item.curso !== cursoActual) { cursoActual = item.curso; buildNav(); updateProgress(); }
     refreshNavState();
     scroll.scrollTop = 0;
     reader.innerHTML = '<p class="loading">Cargando…</p>';
@@ -525,8 +672,8 @@
   }
 
   function appendFooter(id) {
-    var idx = FLAT.map(function (it) { return it.id; }).indexOf(id);
-    var prev = FLAT[idx - 1], next = FLAT[idx + 1];
+    var idx = FLAT().map(function (it) { return it.id; }).indexOf(id);
+    var prev = FLAT()[idx - 1], next = FLAT()[idx + 1];
     var foot = document.createElement("div");
     foot.className = "lesson-foot";
 
@@ -583,11 +730,12 @@
   }
 
   // ---- init ----
+  var last = lsGet(LS_LAST, "inicio");
+  if (!ALL.some(function (it) { return it.id === last; })) last = "inicio";
+  cursoActual = ALL.filter(function (it) { return it.id === last; })[0].curso;
   buildNav();
   updateProgress();
   interceptLinks();
-  var last = lsGet(LS_LAST, "inicio");
-  if (!FLAT.some(function (it) { return it.id === last; })) last = "inicio";
   go(last);
 })();
 </script>
