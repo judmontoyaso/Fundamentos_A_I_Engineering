@@ -11,7 +11,7 @@
 
 1. [Por qué un documento entero no se recupera bien](#1-por-que-chunking)
 2. [Qué es un chunk y el trade-off del tamaño](#2-que-es-un-chunk)
-3. [Las cuatro familias de chunking](#3-familias)
+3. [Las cinco familias de chunking](#3-familias)
 4. [Overlap: por qué los chunks se solapan](#4-overlap)
 5. [Cómo elegir tu estrategia](#5-elegir)
 6. [Metadata: indexing y filtering en cada fase](#6-metadata)
@@ -66,9 +66,9 @@ tema se entienda solo.*
 ---
 
 <a name="3-familias"></a>
-## 3. Las cuatro familias de chunking
+## 3. Las cinco familias de chunking
 
-Casi todo lo que verás cae en una de estas cuatro familias, de la más simple a la más sofisticada.
+Casi todo lo que verás cae en una de estas cinco familias, de la más simple a la más sofisticada.
 
 **1. Tamaño fijo (fixed-size).** Cortas cada N caracteres o tokens, a ciegas. Simple y rápido, pero **corta a mitad
 de frase o de idea**. Útil como línea base. Mejora mucho con *overlap* (§4).
@@ -96,10 +96,61 @@ distintas, y **esa variación era del mismo tamaño que el efecto**. Por eso el 
 compara rangos, no números sueltos. La técnica está bien documentada en colecciones grandes; en una de 10 documentos
 y 8 consultas, lo honesto es decir "no concluyente" hasta tener más datos.
 
+**5. Decidido por un LLM (LLM-based chunking).** Le pasas el documento a un modelo y le pides que marque dónde
+cortar y por qué. A diferencia del semántico —que mide una caída de similitud entre frases y no sabe de qué habla el
+texto—, el LLM entiende el documento: cierra la sección "Experiencia" donde termina de verdad, no donde el coseno
+baja. Y como ya está leyendo, **sale gratis pedirle la metadata en la misma llamada**: que devuelva cada chunk con su
+sección, su rango de fechas y las tecnologías que menciona, en un `response_model` de Pydantic como los del Módulo 1.
+Esa metadata es justo la que vas a filtrar en §6, y es la diferencia entre generarla en una pasada o en dos.
+
+El precio es el que te imaginas: pagas una llamada por documento, y una llamada *larga*, porque el documento entero
+viaja en el prompt. Partir 10 CVs así cuesta centavos; partir 100.000 documentos es un presupuesto. Las dos reglas
+que lo hacen viable:
+
+- **Úsalo donde el corte es difícil y caro de equivocar**: contratos, historias clínicas, documentos sin estructura
+  donde un corte malo arruina la respuesta. Para un CV con encabezados claros, el recursivo estructural (familia 2)
+  acierta igual por cero pesos.
+- **Es un paso de indexación, no de consulta.** Se paga una vez por documento, no una vez por búsqueda, y el
+  resultado se cachea como cualquier otra extracción (Módulo 1 §13). Si reindexas sin que el documento cambie, no
+  deberías volver a pagar.
+
 > Mención aparte: **late chunking.** En vez de embedear cada chunk por separado, embedeas el documento largo de una
 > vez con un modelo de contexto largo y *luego* promedias por chunk, de modo que cada vector "recuerda" el documento
 > entero. Es una técnica reciente que combina lo mejor de chunks pequeños y contexto global. No la necesitas para
 > empezar, pero conviene saber que existe.
+
+### Indexar pequeño y devolver grande: chunking jerárquico
+
+Las cinco familias responden a "¿dónde corto?". El chunking jerárquico responde a otra pregunta, y es la que de
+verdad duele: **lo que se busca bien no es lo que se lee bien.**
+
+Un chunk pequeño gana la búsqueda, porque su vector apunta a una sola idea y no promedia nada. Pero cuando ese chunk
+llega al LLM, llega mutilado: "lideró la migración a Kubernetes" sin decir en qué empresa ni en qué años. El chunk
+grande tiene el contexto, pero su vector mezcla cinco temas y la búsqueda lo encuentra peor. Elegir un tamaño es
+elegir cuál de los dos problemas prefieres.
+
+La salida es no elegir: **indexas el chunk pequeño y devuelves el grande.** Guardas en cada chunk de qué documento y
+de qué sección viene (la metadata de §6), buscas con los pequeños, y antes de armar el prompt reemplazas cada
+resultado por la unidad mayor a la que pertenece.
+
+Dos formas, según cuánto quieras devolver:
+
+- **Traer los vecinos.** Devuelves el chunk ganador más los k anteriores y posteriores del mismo documento. Barato y
+  suele bastar: le devuelve al fragmento su frase anterior y su frase siguiente. Necesitas guardar el orden del chunk
+  dentro del documento, un entero en el payload.
+- **Traer la unidad completa.** Devuelves la sección entera —o el documento— a la que pertenece el chunk. Da el
+  contexto más limpio y es lo natural cuando partiste por estructura: el chunk vive en "Experiencia", devuelves
+  "Experiencia". Cuesta más tokens de contexto, así que vigila §9.
+
+Lo mismo sirve en el corte: **sección con fallback por oraciones.** Partes por sección; si una sección se pasa del
+tamaño máximo, *esa* la vuelves a partir por oraciones, y los pedazos siguen apuntando a su sección madre. Así ningún
+chunk se pasa de largo y ninguno pierde de dónde salió.
+
+> Dos cosas que muerden aquí. La primera: si varios chunks del top-k pertenecen a la misma sección, al expandir
+> **mandas la misma sección repetida** al prompt; hay que deduplicar por id de la unidad mayor antes de armarlo. La
+> segunda: lo que mides cambia. `recall@5` sobre los chunks pequeños ya no te dice cuánto contexto llegó al modelo,
+> porque esos cinco pueden expandirse a dos secciones o a cinco. Mide el recall sobre la **unidad que devuelves**, no
+> sobre la que indexas.
 
 ---
 
@@ -134,9 +185,15 @@ No adivines: decide por el **tipo de documento** y confirma con el eval (§11).
 | CVs, formularios, contratos (secciones claras) | Estructural por secciones |
 | Mezcla temas sin formato | Semántico |
 | Código fuente | Document-aware por funciones/clases |
+| Sin estructura y un corte malo sale caro (contratos, historias clínicas) | LLM-based, con la metadata en la misma llamada |
+| El chunk que gana la búsqueda llega sin contexto al prompt | Cualquiera de las anteriores **+ jerárquico** (indexa pequeño, devuelve grande) |
 
 Para el proyecto (CVs), empieza **estructural por secciones** (Experiencia, Educación, Skills), con un chunk por
 entrada de experiencia. Es lo que mejor casa con las preguntas que recibirás.
+
+Las dos últimas filas no son alternativas a las otras cinco, son otra cosa: el LLM-based compra calidad de corte con
+dinero, y el jerárquico no cambia dónde cortas sino **qué devuelves**. Puedes montar el jerárquico encima de la
+estrategia que ya tengas sin tocar los cortes.
 
 ---
 
@@ -316,7 +373,9 @@ candidato que puso "AWS" y la consulta dice "Amazon Web Services"), y lo arregla
 ## Resumen del módulo (lo que no puedes olvidar)
 
 - Un documento entero en un vector **promedia** y **trunca**; por eso se parte en **chunks** y se recupera por pasajes.
-- Cuatro familias: **fijo, recursivo/estructural, semántico, document-aware**; elige por tipo de documento y **mide**.
+- Cinco familias: **fijo, recursivo/estructural, semántico, document-aware, decidido por un LLM**; elige por tipo
+  de documento y **mide**.
+- **Indexa pequeño, devuelve grande** (jerárquico): el chunk que gana la búsqueda no es el que el modelo necesita leer.
 - El **overlap** salva las ideas que caen en la frontera entre chunks.
 - La **metadata** filtra antes, reordena durante y **cita** después: es lo que hace útil la búsqueda.
 - **RAG = recuperar + aumentar + generar**: responder con tus datos, barato, fresco y **verificable**.

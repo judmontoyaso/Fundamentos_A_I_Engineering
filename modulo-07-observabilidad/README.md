@@ -258,6 +258,44 @@ Reglas prácticas:
 - Fija la versión del modelo que evalúas (no un alias que cambia solo) y anótala en el resultado.
 - Guarda los resultados de cada versión: el histórico es lo que te deja ver si algo se degrada con el tiempo.
 
+### El prompt tiene versión, y la traza dice cuál
+
+La prueba de regresión compara dos versiones. Para eso hace falta algo previo y que casi nunca está: que el prompt
+**tenga versión**, y que cada traza diga con cuál se generó.
+
+Sin eso, la pregunta más común de la operación no tiene respuesta. Un usuario reporta una respuesta mala de hace
+tres días; abres la traza; ves la entrada, la salida y el costo. ¿Con qué prompt salió? El que estaba desplegado
+entonces, que no es el que tienes ahora. Y como el prompt vivía dentro de un f-string, no hay forma de recuperarlo
+salvo buscando en el historial de git por fecha de despliegue y rezando que el despliegue y el commit coincidan.
+
+Lo mínimo es registrar un identificador en cada span de generación:
+
+```python
+PROMPT_EVALUACION = Prompt(
+    nombre="evaluar_candidato",
+    version="v4",                 # sube a mano cuando cambias el texto
+    plantilla="Eres un reclutador técnico...",
+)
+
+with trazador.span("evaluar", prompt=PROMPT_EVALUACION.nombre,
+                   prompt_version=PROMPT_EVALUACION.version) as span:
+    ...
+```
+
+Con esos dos atributos puedes hacer tres cosas que antes no:
+
+- **Filtrar por versión.** "Enséñame las trazas con feedback negativo de `evaluar_candidato@v4`" responde si el
+  problema es del prompt nuevo o venía de antes.
+- **Comparar en producción.** Las tasas de acierto por versión, sobre tráfico real, dicen más que tu dataset de 20
+  casos (§7).
+- **Volver atrás con criterio.** Si v4 empeoró, sabes exactamente qué texto restaurar.
+
+Las herramientas de §12 lo ofrecen como *prompt management*: el texto vive en la herramienta, el código pide
+`get_prompt("evaluar_candidato")`, y la versión queda ligada a la traza sola. Tiene una ventaja real —cambiar un
+prompt deja de requerir despliegue— y un costo que conviene pensar: el prompt deja de estar en tu repositorio, así
+que deja de pasar por revisión de código y por tu CI. Si lo haces, que el cambio de prompt pase por la prueba de
+regresión de arriba antes de publicarse; si no, acabas de cambiar producción sin revisión.
+
 ### Cambiar de modelo es un cambio como cualquier otro
 
 La misma disciplina sirve para la pregunta del Módulo 1, "¿qué modelo uso?".
@@ -298,6 +336,38 @@ La cifra global engaña; **lo que importa es en qué falla cada uno**:
 - **Alertas** sobre las métricas de §5: p95 de latencia, tasa de error, costo diario, llamadas por pedido. Una alerta
   que suena todos los días se ignora; empieza con pocas y con umbrales holgados.
 
+### La deriva: cuando nada cambió y empeoró igual
+
+Todo lo anterior supone que los cambios los haces tú. Hay una clase de degradación que no: el sistema empeora sin que
+nadie haya tocado una línea. Se le llama **deriva** (*drift*), y viene por tres puertas distintas.
+
+**El modelo se movió.** Si apuntas a un alias (`gpt-4o`, `claude-sonnet-latest`), el proveedor puede cambiar qué hay
+detrás. Tu prompt estaba afinado contra el comportamiento viejo. Por eso §10 insiste en fijar la versión: un alias es
+un cambio de dependencia que nadie aprobó, y lo peor es que la fecha del cambio no sale en tu historial de git, sale
+en el changelog del proveedor.
+
+**Los datos se movieron.** Llegan CVs de roles que no existían cuando escribiste el prompt, o en un idioma que no
+habías visto. El sistema no está roto; está respondiendo a preguntas distintas de las que mediste.
+
+**La gente se movió.** Tus usuarios aprendieron a usarlo y ahora preguntan otra cosa. Es deriva de verdad aunque sea
+buena noticia.
+
+Detectarla no necesita nada nuevo, solo mirar lo que ya guardas **a lo largo del tiempo** en vez de una traza a la
+vez:
+
+- Un **conjunto fijo de casos** (el dataset de §7) que corre en una tarea programada —semanal basta— contra
+  producción. Si la tasa de acierto baja sin que hubiera despliegue, la causa es externa. Es la señal más barata y la
+  más clara, porque la entrada es constante por construcción.
+- La **distribución de las métricas de §5**, no su valor de hoy: tokens de entrada por pedido, longitud de las
+  respuestas, llamadas por pedido. Un salto en tokens de entrada suele ser cambio en los datos; uno en longitud de
+  salida, cambio en el modelo.
+- Las **tasas de feedback negativo por semana**, partidas por tipo de consulta. Una deriva que afecta solo a un
+  segmento se diluye en el promedio global.
+
+> Fijar la versión del modelo no elimina la deriva, la **programa**: tarde o temprano esa versión se retira y te
+> toca migrar. La diferencia es que migras un martes con la prueba de regresión delante, y no un domingo porque
+> alguien se quejó.
+
 ---
 
 <a name="12-herramientas"></a>
@@ -310,6 +380,26 @@ herramienta dedicada. Las más usadas:
   Trazas, costos, datasets, evaluaciones y gestión de prompts.
 - **LangSmith:** de los creadores de LangChain y LangGraph, muy integrado con ellos. Servicio en la nube.
 - **Arize Phoenix:** de código abierto, fuerte en evaluación, basado en OpenTelemetry.
+- **Opik** (de Comet): de código abierto, también autoalojable. Lo distintivo es lo poco que pide para empezar: un
+  decorador `@track` sobre una función cualquiera ya produce un span con sus entradas, su salida y su duración, y las
+  funciones decoradas que se llaman entre sí anidan solas.
+
+  ```python
+  from opik import track
+
+  @track
+  def buscar(consulta: str) -> list[CV]: ...
+
+  @track
+  def evaluar(cv: CV) -> Veredicto: ...
+
+  @track                      # las dos de arriba cuelgan de esta en la traza
+  def responder(consulta: str) -> str: ...
+  ```
+
+  Es el camino más corto de "no tengo nada" a "tengo trazas" cuando el código no usa un framework: no hay que abrir
+  spans a mano como en `code/00_trazador.py`. Lo que ganas en facilidad lo pagas en control —decides menos qué entra
+  en cada span— y conviene revisar qué captura por defecto antes de ponerlo sobre funciones que reciben CVs (§3).
 - **OpenTelemetry:** el estándar abierto de trazas. Tiene convenciones específicas para IA generativa (nombres de
   atributos como `gen_ai.request.model` o `gen_ai.usage.input_tokens`). Si instrumentas con él, puedes cambiar de
   herramienta sin reescribir el código.

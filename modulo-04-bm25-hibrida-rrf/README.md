@@ -153,7 +153,9 @@ incomparables**:
 - El coseno vive en `[-1, 1]`, y en la práctica casi siempre entre 0.2 y 0.9.
 
 Sumados, BM25 aplasta al coseno. El arreglo habitual es **normalizar** (por ejemplo min-max, llevar cada lista a
-`[0, 1]`) y luego hacer una suma ponderada `α·léxica + (1−α)·semántica`. Funciona, pero es frágil:
+`[0, 1]`) y luego hacer una suma ponderada `α·léxica + (1−α)·semántica`. Esto tiene nombre propio —**Relative Score
+Fusion** (RSF), así se llama en Weaviate— y conviene sabérselo, porque es con lo que te vas a topar en la
+documentación de los motores. Funciona, pero es frágil:
 
 - Min-max **exagera diferencias diminutas**. Si los cosenos son 0.82, 0.80 y 0.79, tras normalizar quedan 1.0, 0.33 y
   0.0: una diferencia de 0.03 se convirtió en una de 1.0.
@@ -220,6 +222,25 @@ Implementación de cero y comparación con la suma normalizada en [`code/03_rrf.
 - **DBSF** (*Distribution-Based Score Fusion*), disponible en Qdrant como `Fusion.DBSF`: normaliza cada lista usando
   su media y desviación (en lugar de min-max), que es más robusto a valores atípicos, y luego suma. Es una fusión por
   puntaje bien hecha. Pruébala frente a RRF con tu evaluación; no hay un ganador universal.
+
+### Cuándo sí quieres volver a los puntajes
+
+RRF es el default porque tira a la basura la parte frágil —la escala— y se queda con la robusta —el orden—. Pero esa
+misma virtud es su límite: **para RRF, el primero gana lo mismo si arrasó o si ganó por un pelo.** Si en una consulta
+el mejor resultado saca coseno 0.91 y el segundo 0.44, el ranking dice "1, 2" y RRF no se entera de ese abismo.
+
+Hay tres casos donde esa información vale y conviene fusionar por puntaje (RSF o DBSF) en vez de por rango:
+
+- **Quieres un umbral.** "No muestres nada por debajo de X" o "si nada pasa de X, responde que no encontraste" solo
+  se puede escribir sobre un puntaje. Un rango siempre tiene un primer puesto, aunque todos los candidatos sean malos.
+- **Vas a mostrarle al usuario qué tan bueno es el resultado**, o a decidir con eso en el código (Módulo 5: una ruta
+  para "encontré algo claro" y otra para "esto está flojo").
+- **Las dos ramas son de calidad muy distinta y lo sabes.** Si tu BM25 es ruido salvo en siglas, el puntaje te deja
+  descontarlo con continuidad; el rango lo trata como un voto entero.
+
+Fuera de esos casos, empieza con RRF. Y si usas RSF, normaliza sobre un **top-k amplio** (el mismo para las dos
+ramas) y no sobre los 5 que vas a mostrar: min-max sobre pocos resultados es justo donde más exagera, como muestra el
+ejemplo de 0.82 / 0.80 / 0.79 de la §6.
 
 ---
 

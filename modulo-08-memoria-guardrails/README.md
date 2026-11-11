@@ -137,6 +137,51 @@ Las dos memorias tienen su lugar en LangGraph (Módulo 6):
 El laboratorio construye la memoria de largo plazo a mano para que veas cada operación. En un grafo real puedes
 usar el *store* de LangGraph, con las mismas cinco operaciones de §4 detrás.
 
+### Memoria procedimental: las instrucciones también se guardan
+
+La tabla de §2 despacha la memoria procedimental en una fila —"cómo hacer las cosas", vive en las instrucciones del
+sistema— y conviene detenerse, porque es la que más cambia la forma del código.
+
+Las otras dos memorias guardan **hechos**: qué dijo el usuario, qué pasó la semana pasada. La procedimental guarda
+**procedimientos**: cómo presentar un informe, qué revisar antes de descartar a alguien, qué preguntar cuando una
+vacante no trae rango salarial. Si eso vive en un f-string dentro del código, cada ajuste es un despliegue, y la
+persona que sabe cómo debería hacerse el trabajo —el reclutador— no puede tocarlo.
+
+La forma práctica es sacarlo a **archivos**, uno por procedimiento:
+
+```
+skills/
+  evaluar_candidato.md       # qué mirar, en qué orden, qué descarta de inmediato
+  redactar_informe.md        # formato, tono, qué nunca se afirma sin cita
+  preguntar_vacante.md       # qué falta preguntar cuando la vacante viene incompleta
+```
+
+El agente carga **el que corresponda a la tarea** —no todos, que es el error caro— y lo pone en su prompt. Lo que
+cambia con eso: editar un procedimiento es editar un `.md`, revisable en un *pull request* por alguien que no
+programa, y la prueba de regresión del Módulo 7 §10 aplica igual, porque un `skill` es un prompt con versión.
+
+El paso siguiente es dejar que **el agente escriba los suyos**: tras una corrección del usuario ("no me interesa el
+detalle de certificaciones, resume"), propone una línea nueva para `redactar_informe.md`. Suena bien y hay que
+tratarlo con cuidado: es un sistema que modifica sus propias instrucciones a partir de una conversación, es decir,
+exactamente la superficie que el §8 llama inyección. **Que proponga, que un humano apruebe**, y que el archivo viva
+en control de versiones para poder ver qué cambió y volver atrás.
+
+### Librerías y proveedores de memoria
+
+Montar las cinco operaciones de §4 a mano, como hace el laboratorio, es lo que te enseña dónde están las decisiones.
+Para producción hay piezas hechas:
+
+- **Mem0** — la más usada como capa de memoria suelta. Le pasas los mensajes y se encarga de extraer los hechos,
+  deduplicarlos y resolver contradicciones (el "actualizar" de §4, que es la operación que todos subestiman), con
+  almacenamiento vectorial detrás y una API de `add` / `search` por usuario.
+- **El *store* de LangGraph** — si ya estás en LangGraph, no añade dependencia y te deja el control del esquema.
+- **Zep, Letta** — servicios con su propio modelo de memoria; Letta (antes MemGPT) viene de la idea de que el agente
+  administre su propia ventana de contexto.
+
+Dos cosas antes de adoptar una: **decide tú qué se guarda**, porque la extracción automática de hechos sobre CVs
+guarda datos personales por defecto (§5), y **mira cómo olvida**, que es el requisito legal y la operación que casi
+ninguna documenta bien.
+
 ---
 
 ## Parte B · Guardrails
@@ -176,7 +221,21 @@ De lo más barato a lo más caro, y en ese orden:
    prompt". Atrapan lo burdo sin costo; lo sutil se les escapa, y producen falsos positivos (un CV de un experto en
    seguridad puede contener esas palabras legítimamente).
 3. **Datos personales (código):** detectar y enmascarar correos, teléfonos y documentos de identidad antes de
-   mandarlos a un proveedor externo o de guardarlos en trazas (Módulo 7 §3).
+   mandarlos a un proveedor externo o de guardarlos en trazas (Módulo 7 §3). Dos herramientas, y hacen falta las
+   dos:
+
+   - **Expresiones regulares** para lo que tiene forma fija: correos, teléfonos, cédulas, tarjetas, URLs. Son
+     instantáneas, deterministas y se prueban con una tabla de casos. Si el dato tiene patrón, esto es todo lo que
+     necesitas.
+   - **NER** (*reconocimiento de entidades nombradas*) para lo que no la tiene: **nombres de personas**, empresas y
+     ciudades. "Laura Restrepo" no encaja en ninguna regex sin encajar también medio diccionario. Un modelo de NER
+     —spaCy en español, o un modelo pequeño de Hugging Face— etiqueta esos tramos y te deja reemplazarlos por
+     `[PERSONA]`. Con CVs esto no es opcional: el nombre es el dato personal principal, y es justo el que la regex
+     no ve.
+
+   El costo es de milisegundos en CPU, no una llamada al LLM. Y como todo guardrail, tiene dos errores: el falso
+   positivo tacha "Python" porque lo leyó como organización, y el falso negativo deja pasar un nombre raro. Mídelo
+   como el §11 manda, sobre CVs tuyos y no sobre ejemplos de la documentación.
 4. **Clasificador con LLM:** una llamada con salida estructurada que decide si el pedido es legítimo, un intento de
    manipulación, algo fuera del alcance del asistente o un pedido discriminatorio. Es la capa más capaz y la única que
    cuesta una llamada por pedido.

@@ -138,6 +138,46 @@ Dos cosas a vigilar:
 Otros usos típicos: mandar las preguntas fáciles a un modelo barato y las difíciles a uno caro; separar consultas de
 soporte, ventas y reclamos.
 
+### Enrutar con embeddings, sin llamar al LLM
+
+Entre la heurística de una línea y la llamada al LLM hay un escalón intermedio que casi nadie usa y que suele ser el
+correcto: **enrutar con los embeddings del Módulo 2.**
+
+Escribes cinco o diez consultas de ejemplo por ruta, las embebes una sola vez al arrancar, y en tiempo de consulta
+embebes la entrada y la mandas a la ruta cuyo ejemplo más se le parezca.
+
+```python
+RUTAS = {
+    "exacta":    ["ISO 27001", "certificación PMP", "AWS Solutions Architect"],
+    "parafrasis": ["alguien que automatice despliegues", "gente que sepa de datos en tiempo real"],
+    "filtrada":  ["backend senior en Medellín", "analista con inglés C1"],
+}
+PROTOTIPOS = {r: embed(ejemplos) for r, ejemplos in RUTAS.items()}   # una vez, al arrancar
+
+def enrutar(consulta: str, umbral: float = 0.35) -> str | None:
+    v = embed([consulta])[0]
+    puntajes = {r: max(coseno(v, p) for p in ps) for r, ps in PROTOTIPOS.items()}
+    ruta, mejor = max(puntajes.items(), key=lambda kv: kv[1])
+    return ruta if mejor >= umbral else None      # None = no sé, usa el camino por defecto
+```
+
+Lo que compras frente al enrutador con LLM:
+
+- **Latencia de milisegundos y costo casi cero.** Un embedding de una consulta corta no se nota en la factura; una
+  llamada de clasificación sí, y se paga en *cada* búsqueda.
+- **Es determinista.** La misma consulta sale siempre por la misma ruta, así que un fallo de enrutamiento es
+  reproducible. Con un LLM a temperatura > 0 no lo es, y eso complica justo la depuración del Módulo 7.
+- **Agregar una ruta es agregar ejemplos**, no reescribir un prompt y volver a medir todo.
+
+Lo que no compras: **matices**. "Quiero a alguien parecido a Laura pero más junior" necesita comprensión, no
+parecido de superficie. La regla sigue siendo la de arriba: regla barata → embeddings → LLM, y subes un escalón solo
+cuando la medición lo pida.
+
+> El `None` del ejemplo no es un detalle: **un enrutador tiene que poder decir "no sé".** Si lo obligas a escoger
+> siempre entre tres rutas, las consultas raras caen en la ruta menos mala y fallan en silencio. Calibra ese umbral
+> contra tu set etiquetado mirando cuántas consultas quedan sin ruta: si son muchas, te faltan ejemplos o te falta
+> una ruta.
+
 ---
 
 <a name="6-paralelizacion"></a>
@@ -199,6 +239,46 @@ vacantes y lo compara con evaluar todo en **una sola llamada**:
 
 Conclusión: aquí el orquestador no acierta más; se justifica por lo que **añade**: criterios explícitos, puntajes por
 criterio y evidencia verificable, es decir, una decisión **auditable**. Si no necesitas auditar, una llamada basta.
+
+### Cada trabajador con su propio contexto
+
+Hay una segunda razón para partir en trabajadores, y no aparece en el diagrama: **el contexto.**
+
+Cuando una sola llamada revisa veinte CVs, los veinte entran al mismo prompt. El modelo tiene que sostener todo a la
+vez, lo de la mitad se pierde (el "lost in the middle" del Módulo 3 §9), y cada token que lees es un token que pagas
+y que empuja a los demás. Si además encadenas pasos, el historial crece y para el cuarto paso el prompt es un
+basurero de material crudo que ya no hace falta.
+
+Un **subagente** es un trabajador que corre en su **propia ventana limpia**: recibe solo el pedazo que le toca,
+trabaja, y devuelve **su conclusión, no su material**. El orquestador nunca ve los veinte CVs completos; ve veinte
+veredictos cortos.
+
+```python
+async def subagente(cv: CV, criterio: str) -> Veredicto:
+    # Ventana nueva: no hereda el historial del orquestador ni el de sus hermanos.
+    return await llm(Veredicto, PROMPT_TRABAJADOR, cv=cv, criterio=criterio)
+
+veredictos = await asyncio.gather(*(subagente(cv, c) for cv in cvs for c in plan.criterios))
+informe = llm(Informe, "Combina estos veredictos:", veredictos=veredictos)   # entra poco, y resumido
+```
+
+El cambio de cuentas es grande: el contexto del orquestador pasa de crecer con el **tamaño del material** a crecer
+con el **número de conclusiones**. Veinte CVs de 2.000 tokens son 40.000 tokens en una sola llamada; veinte
+veredictos de 80 tokens son 1.600.
+
+Las tres cosas que hay que cuidar:
+
+- **El contrato de salida es el diseño.** Lo único que sobrevive del subagente es su `response_model`. Si el
+  veredicto no trae la cita literal que lo respalda, el orquestador no puede auditar nada y tú perdiste la evidencia
+  (es justo lo que salvó al laboratorio de arriba).
+- **No se ven entre ellos.** Dos subagentes en paralelo no saben qué encontró el otro, así que esto sirve para
+  trabajo **independiente**. Si la subtarea B necesita lo que halló A, eso es encadenamiento (§4), no paralelismo.
+- **Cuestan más llamadas.** Veinte subagentes son veinte peticiones, con sus veinte latencias y sus límites de
+  tasa. Se paga en dinero y en rate limits lo que se ahorra en contexto; cuál gana depende del tamaño del material,
+  y se mide.
+
+> Esta es la idea que vuelve en el Módulo 8 como *memoria*: decidir **qué entra** en la ventana es la palanca, y un
+> subagente es la forma más simple de que algo no entre nunca.
 
 ---
 
