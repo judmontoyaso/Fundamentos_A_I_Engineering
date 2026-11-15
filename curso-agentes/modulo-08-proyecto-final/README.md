@@ -2,6 +2,8 @@
 
 En este módulo final unimos todas las piezas del curso en un único sistema listo para producción: **`AgentePreseleccionProd`**.
 
+![Módulo 8 · Arquitectura completa del agente de preselección técnica en producción](/infografias/agentes-m8-arquitectura-produccion.png)
+
 ## Arquitectura integrada
 
 1. **Presupuesto duro (`PresupuestoAgente`)**: rechaza cualquier ejecución que exceda 8 pasos, 12.000 tokens o \$0.05 USD.

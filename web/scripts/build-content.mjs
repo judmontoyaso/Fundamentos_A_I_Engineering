@@ -62,6 +62,13 @@ function crearMarked(prefijo) {
       table(header, body) {
         return `<div class="table-scroll"><table><thead>${header}</thead><tbody>${body}</tbody></table></div>\n`;
       },
+      image(href, title, text) {
+        if (!href) return "";
+        const src = href.startsWith("/") || /^https?:/.test(href) ? href : `/infografias/${path.basename(href)}`;
+        const alt = esc(text || title || "Infografía técnica");
+        const cap = text ? `<figcaption>${esc(text)}</figcaption>` : "";
+        return `<figure class="infografia"><img src="${esc(src)}" alt="${alt}" loading="lazy" />${cap}</figure>\n`;
+      },
       link(href, title, text) {
         if (!href) return text;
         if (href.startsWith("#")) return `<a href="${esc(href)}">${text}</a>`;

@@ -2,6 +2,8 @@
 
 La mayoría de los agentes que fallan en producción no fallan porque el modelo sea incapaz de razonar, sino porque **sus herramientas son un espejo crudo de endpoints internos o consultas SQL**. Una API pensada para un desarrollador humano asume que quien la llama leyó la documentación una vez y recuerda los códigos numéricos. Un LLM, en cambio, decide en cada turno a partir del nombre de la herramienta, las descripciones de los parámetros y las observaciones previas.
 
+![Módulo 1 · Comparación entre una API CRUD cruda y una herramienta Poka-Yoke diseñada para LLMs](/infografias/agentes-m1-herramientas-poka-yoke.png)
+
 ---
 
 ## Cinco reglas para diseñar herramientas para agentes

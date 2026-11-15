@@ -8,6 +8,8 @@ En una llamada simple a un LLM basta con evaluar la respuesta final. En un agent
    - **Tasa de llamadas inválidas**: proporción de invocaciones a herramientas que devolvieron error de esquema o de negocio.
    - **Cumplimiento de invariantes**: cero violaciones de enfriamiento, presupuesto o seguridad.
 
+![Módulo 7 · Evaluación de trayectorias de agentes y comparación entre pass@k y pass^k](/infografias/agentes-m7-evaluacion-pass-hat-k.png)
+
 ---
 
 ## La diferencia crítica entre `pass@k` y `pass^k`

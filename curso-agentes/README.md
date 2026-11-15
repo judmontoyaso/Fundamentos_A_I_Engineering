@@ -7,6 +7,8 @@ En el curso de **AI Engineering** construimos el buscador y un primer bucle de h
 
 Este curso responde una pregunta central: **¿cómo construyes un agente que sea confiable en producción cuando cada paso adicional multiplica el riesgo de error, el costo y la latencia?**
 
+![Arquitectura de un agente en producción: presupuesto, máquina de estados, herramientas poka-yoke, aprobación humana y evaluación pass^k](/infografias/agentes-arquitectura.png)
+
 ---
 
 ## El proyecto: de buscador pasivo a agente de preselección técnica

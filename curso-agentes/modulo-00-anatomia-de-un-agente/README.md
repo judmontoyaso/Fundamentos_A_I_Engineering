@@ -6,6 +6,8 @@ Un error frecuente en ingeniería de IA es convertir un problema que se resuelve
 2. **Varianza en costo y latencia**: un flujo fijo tarda siempre ~1.2 segundos; un agente en bucle puede tardar 1.5 segundos o 28 segundos si entra en una espiral de reintentos.
 3. **Superficie de efectos secundarios**: un agente con herramientas de escritura puede modificar registros equivocados si malinterpreta una observación intermedia.
 
+![Módulo 0 · La escalera de autonomía y el riesgo compuesto por paso](/infografias/agentes-m0-escalera-autonomia.png)
+
 ---
 
 ## La escalera de autonomía

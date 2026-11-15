@@ -4,6 +4,8 @@ Cuando construyes un solo agente pequeño, importar funciones de Python directam
 
 El **Model Context Protocol (MCP)** estandariza la frontera entre el **anfitrión del agente (cliente)** y los **servidores de capacidades** mediante JSON-RPC 2.0.
 
+![Módulo 4 · Arquitectura Model Context Protocol (MCP) con cliente anfitrión, JSON-RPC 2.0 y aislamiento de credenciales](/infografias/agentes-m4-protocolo-mcp.png)
+
 ---
 
 ## Las tres primitivas de MCP

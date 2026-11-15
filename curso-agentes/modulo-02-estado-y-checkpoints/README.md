@@ -2,6 +2,8 @@
 
 Un bucle `ReAct` clásico guarda todo su estado como una lista de mensajes de chat en memoria RAM. En cuanto una llamada HTTP expira en el paso 5, el contenedor se reinicia o el proceso espera la respuesta de un reclutador humano durante dos horas, **todo el trabajo previo se pierde**. Peor aún: si reintentas desde cero, el agente puede volver a ejecutar efectos secundarios que ya habían ocurrido en los pasos 1 a 4.
 
+![Módulo 2 · Máquina de estados, persistencia por checkpoint y claves de idempotencia](/infografias/agentes-m2-maquina-estados-checkpoints.png)
+
 ---
 
 ## Separar el estado del historial de mensajes

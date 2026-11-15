@@ -5,6 +5,8 @@ Un error común al diseñar sistemas multiagente es crear «roles» teatrales (*
 1. **Aislamiento de la ventana de contexto**: si necesitas auditar en profundidad 8 candidatos leyendo sus repositorios, proyectos y entrevistas pasadas (4.000 tokens por candidato), hacerlo en un solo hilo contamina la ventana con 32.000 tokens. En cambio, si lanzas un subagente por candidato con su propia ventana limpia, cada subagente consume 4.000 tokens y devuelve al orquestador un **dictamen estructurado de 150 tokens**.
 2. **Reducción de latencia por paralelismo (`map-reduce`)**: evaluar 8 candidatos en serie a 3 segundos por candidato tarda **24 segundos**; evaluarlos en paralelo con `asyncio.gather` o un pool acotado tarda **~3.2 segundos** (la latencia del más lento).
 
+![Módulo 5 · Patrón Orquestador y Subagentes en paralelo con ventanas de contexto limpias](/infografias/agentes-m5-subagentes-map-reduce.png)
+
 ---
 
 ## Reglas del patrón Orquestador → Trabajador

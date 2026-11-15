@@ -5,6 +5,8 @@ En un chat convencional el usuario escribe mensajes cortos. En un agente, **cada
 - Pagas los tokens de las observaciones del paso 1 en los pasos 2, 3, 4... hasta el 10 (crecimiento cuadrático en tokens facturados: $\sum_{i=1}^{N} T_i$).
 - El modelo sufre degradación en la mitad del contexto (*lost in the middle*) y empieza a confundir atributos de un candidato descartado en el paso 2 con el candidato final del paso 9.
 
+![Módulo 3 · Presupuesto de contexto, poda de observaciones (observation masking) y memoria episódica](/infografias/agentes-m3-poda-contexto-memoria.png)
+
 ---
 
 ## Tres técnicas de higiene de contexto
