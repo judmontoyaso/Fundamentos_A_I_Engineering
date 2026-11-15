@@ -118,6 +118,10 @@ function archivosDeCodigo(dir, rel = "", out = {}) {
 
 // ---------- descubrir cursos y módulos (misma convención que tenía el backend) ----------
 const dirAiEng = path.join(ROOT, "curso-ai-engineering");
+if (!exists(dirAiEng) && exists(path.join(OUT, "nav.js"))) {
+  console.log("contenido: usando src/content precompilado");
+  process.exit(0);
+}
 const cursos = [{ id: "ai-engineering", dir: dirAiEng, prefijo: "", titulo: titulo(path.join(dirAiEng, "README.md"), "AI Engineering") }];
 for (const d of fs.readdirSync(ROOT).filter((d) => d.startsWith("curso-") && d !== "curso-ai-engineering").sort()) {
   const dir = path.join(ROOT, d);

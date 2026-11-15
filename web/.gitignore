@@ -15,3 +15,5 @@ next-env.d.ts
 .auth0-mcp-state.json
 
 .auth0-mcp-writes.log
+
+.vercel

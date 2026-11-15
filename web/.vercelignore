@@ -1,0 +1,8 @@
+node_modules/
+.next/
+.env
+.env.*
+!.env.example
+.data/
+.auth0-mcp-state.json
+.auth0-mcp-writes.log
