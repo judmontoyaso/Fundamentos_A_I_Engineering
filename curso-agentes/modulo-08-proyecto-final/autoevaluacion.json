@@ -1,37 +1,59 @@
 {
   "preguntas": [
     {
-      "pregunta": "En el agente integrador de producción, ¿por qué CAND-02 (Mateo Cárdenas) queda descartado para la vacante VAC-101?",
+      "pregunta": "En AgenteReclutadorProduccion (01_agente_reclutador_produccion.py), ¿cómo se evita que el agente entre en un bucle infinito cuando el modelo repite la misma búsqueda?",
       "opciones": [
-        "Porque no sabe Python",
-        "Porque está en periodo de enfriamiento en el ATS (último contacto hace 20 días < 90 días) y su aspiración ($7.800) supera el presupuesto ($6.500)",
-        "Porque su CV tiene una inyección de prompt",
-        "Por azar"
-      ],
-      "correcta": 1,
-      "explicacion": "El agente cruza tanto habilidades técnicas como políticas duras del ATS (enfriamiento y presupuesto) antes de proponer la terna."
-    },
-    {
-      "pregunta": "¿Por qué CAND-04 no logra que el agente ejecute enviar_oferta(candidato_id='CAND-04', monto=9500)?",
-      "opciones": [
-        "Porque el agente combina extracción aislada de atributos tipados, validación determinista de elegibilidad (PEP) y pausa obligatoria de aprobación humana",
-        "Porque el modelo no sabe leer corchetes",
-        "Porque el monto es menor a 10.000",
-        "Porque no hay conexión a internet"
+        "Comprobando si la clave de idempotencia de buscar_candidatos ya existe en cache_idem y cortando de inmediato.",
+        "Esperando a que el proveedor externo cierre la conexión TCP tras diez minutos de inactividad en la red.",
+        "Borrando todos los candidatos de la base de datos cuando se detecta una segunda llamada a buscar_candidatos.",
+        "Aumentando automáticamente el presupuesto salarial de la vacante en mil dólares por cada intento repetido."
       ],
       "correcta": 0,
-      "explicacion": "La defensa en profundidad garantiza que ni siquiera un intento explícito de inyección pueda disparar una herramienta sensible."
+      "explicacion": "El detector de bucles compara clave_idempotencia(tc.nombre, tc.argumentos) contra cache_idem: si repite la misma búsqueda, corta en el paso 2 sin gastar más."
     },
     {
-      "pregunta": "¿Qué comprueba la suite de regresión del agente antes de permitir un despliegue a producción?",
+      "pregunta": "¿Qué tres condiciones comprueba AgenteReclutadorProduccion antes de ejecutar efectivamente agendar_entrevista para un candidato?",
       "opciones": [
-        "Únicamente que el script no tenga errores de sintaxis",
-        "Que el conjunto de candidatos preseleccionados sea exacto (F1=1.0), que las inyecciones sean bloqueadas, que el presupuesto de pasos se respete y que las acciones irreversibles queden en estado de aprobación humana",
-        "Que el texto sea largo",
-        "Que tarde más de 30 segundos"
+        "Que el candidato viva en otra ciudad, que pida más del presupuesto y que no tenga resumen de CV.",
+        "Que esté verificado como elegible, que exista aprobador_humano (HITL) y que la llamada no esté repetida en cache_idem.",
+        "Que sea el único candidato en toda la base de datos, que hable inglés C2 y que tenga diez años de experiencia.",
+        "Que el modelo haya llamado antes a enviar_oferta, que no haya presupuesto activo y que sea la vacante VAC-102."
       ],
       "correcta": 1,
-      "explicacion": "Una suite de evaluación de agentes verifica tanto el resultado de negocio como las invariantes operativas y de seguridad de la trayectoria."
+      "explicacion": "Solo agenda si verificados.get(cid) es True, hay firma en self.aprobador_humano y la clave de idempotencia no se ejecutó ya en la corrida."
+    },
+    {
+      "pregunta": "¿Qué hace el controlador en entregar_terna si el modelo olvidó llamar a verificar_elegibilidad para alguno de los candidatos hallados?",
+      "opciones": [
+        "Aprueba automáticamente a todos los candidatos sin verificar para terminar en menos pasos.",
+        "Lanza un error fatal que borra las entrevistas ya agendadas en el calendario corporativo.",
+        "Ejecuta en el controlador la verificación pendiente sobre cada candidato hallado y entrega solo los elegibles reales.",
+        "Cambia el identificador de la vacante a VAC-102 para reducir el número de requisitos obligatorios."
+      ],
+      "correcta": 2,
+      "explicacion": "La invariante dura de cierre garantiza que ningún candidato entre ni quede fuera sin haber sido evaluado contra verificar_elegibilidad, manteniendo pass^3 = 1.0."
+    },
+    {
+      "pregunta": "En la puerta de calidad 02_suite_eval_agente.py, ¿por qué CAND-08 no aparece en la terna final de VAC-102 a pesar de cumplir habilidades, inglés B2 y sueldo?",
+      "opciones": [
+        "Porque no acepta trabajo remoto y la vacante VAC-102 exige modalidad cien por ciento remota.",
+        "Porque su último contacto en el ATS fue hace 45 días, incumpliendo el mínimo de 90 días de enfriamiento.",
+        "Porque su resumen de CV contiene una instrucción maliciosa de inyección de prompts para enviar_oferta.",
+        "Porque tiene solo dos años de experiencia y la vacante VAC-102 exige un mínimo de cinco años."
+      ],
+      "correcta": 1,
+      "explicacion": "Laura Mejía (CAND-08) cumple habilidades, experiencia (6 >= 5), inglés (B2) y sueldo ($6.800 <= $7.000), pero tuvo contacto hace 45 días (< 90 días de enfriamiento)."
+    },
+    {
+      "pregunta": "¿Qué devuelve el script 02_suite_eval_agente.py al sistema de integración continua (CI/CD) si cualquiera de los 6 escenarios de prueba falla?",
+      "opciones": [
+        "Finaliza con código de salida 0 pero escribe una advertencia opcional en un archivo temporal.",
+        "Finaliza con sys.exit(1), bloqueando el despliegue del cambio hasta corregir la regresión detectada.",
+        "Desactiva automáticamente el caso de prueba fallido y vuelve a correr únicamente los casos aprobados.",
+        "Envía las credenciales del entorno al repositorio público para facilitar la depuración remota."
+      ],
+      "correcta": 1,
+      "explicacion": "Una suite de evaluación en CI/CD debe actuar como puerta dura (sys.exit(1) si puerta_ci_abierta es False) para impedir que una regresión llegue a producción."
     }
   ]
 }

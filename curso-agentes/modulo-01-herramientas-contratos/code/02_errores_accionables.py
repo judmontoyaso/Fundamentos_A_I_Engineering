@@ -1,4 +1,4 @@
-"""Envoltorio universal de errores accionables para herramientas de agentes."""
+"""Autocorrección en el bucle del agente: errores opacos vs errores accionables con sugerencias del catálogo."""
 from __future__ import annotations
 
 import json
@@ -6,50 +6,70 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from comun.ag_comun import VACANTES, CANDIDATOS
+from comun.ag_comun import PresupuestoAgente, ejecutar_herramienta_ats, herramientas_ats, imprimir, terna_correcta
+from comun.ag_modelo import crear_modelo
 
 
-def consultar_eligibilidad_ats(vacante_id: str, candidato_id: str) -> dict:
-    vacante_id = vacante_id.strip().upper()
-    candidato_id = candidato_id.strip().upper()
+def correr_con_errata(*, sugerir_en_error: bool) -> dict:
+    """Corre un modelo que comete una errata ('Evaluacion de LLM' sin tilde ni plural) en la primera búsqueda."""
+    modelo = crear_modelo(errata=True)
+    presupuesto = PresupuestoAgente(max_pasos=16)
+    esquemas = herramientas_ats()
+    mensajes: list[dict] = [
+        {"role": "system", "content": "Preselecciona candidatos elegibles para la vacante y cierra con entregar_terna."},
+        {"role": "user", "content": "Preselecciona la vacante VAC-101."},
+    ]
+    intentos_busqueda: list[dict] = []
+    terna: list[str] = []
 
-    if vacante_id not in VACANTES:
-        return {
-            "ok": False,
-            "codigo": "VACANTE_NO_EXISTE",
-            "mensaje": f"No existe la vacante '{vacante_id}'.",
-            "accion_sugerida": f"Usa uno de los IDs válidos: {list(VACANTES.keys())}",
-        }
-    if candidato_id not in CANDIDATOS:
-        return {
-            "ok": False,
-            "codigo": "CANDIDATO_NO_EXISTE",
-            "mensaje": f"No existe el candidato '{candidato_id}'.",
-            "accion_sugerida": f"Ejecuta primero buscar_candidatos o usa un ID válido: {list(CANDIDATOS.keys())}",
-        }
-
-    v = VACANTES[vacante_id]
-    c = CANDIDATOS[candidato_id]
-    motivos_bloqueo = []
-    if c["estado_ats"] == "enfriamiento" or c["ultimo_contacto_dias"] < 90:
-        motivos_bloqueo.append(
-            f"Periodo de enfriamiento activo: último contacto hace {c['ultimo_contacto_dias']} días (mínimo 90 días)."
+    while True:
+        presupuesto.abrir_paso()
+        r = modelo.responder(mensajes, esquemas)
+        presupuesto.registrar(r.tokens_entrada, r.tokens_salida)
+        if not r.llamadas:
+            break
+        mensajes.append(
+            {
+                "role": "assistant",
+                "content": r.texto,
+                "tool_calls": [
+                    {
+                        "id": tc.id,
+                        "type": "function",
+                        "function": {"name": tc.nombre, "arguments": json.dumps(tc.argumentos, ensure_ascii=False)},
+                    }
+                    for tc in r.llamadas
+                ],
+            }
         )
-    if c["aspiracion_usd"] > v["presupuesto_usd_mes"]:
-        motivos_bloqueo.append(
-            f"Aspiración salarial (${c['aspiracion_usd']}) supera presupuesto de la vacante (${v['presupuesto_usd_mes']})."
-        )
+        fin = False
+        for tc in r.llamadas:
+            res = ejecutar_herramienta_ats(tc.nombre, tc.argumentos, sugerir_en_error=sugerir_en_error)
+            if tc.nombre == "buscar_candidatos":
+                intentos_busqueda.append(
+                    {
+                        "habilidades_enviadas": tc.argumentos.get("habilidades"),
+                        "ok": res.get("ok"),
+                        "sugerencias_devueltas": res.get("sugerencias"),
+                        "encontrados": res.get("total", 0),
+                    }
+                )
+            mensajes.append({"role": "tool", "tool_call_id": tc.id, "content": json.dumps(res, ensure_ascii=False)})
+            if tc.nombre == "entregar_terna":
+                terna = sorted(res.get("candidatos") or [])
+                fin = True
+        if fin:
+            break
 
     return {
-        "ok": True,
-        "elegible": len(motivos_bloqueo) == 0,
-        "vacante": v["titulo"],
-        "candidato": c["nombre"],
-        "motivos_bloqueo": motivos_bloqueo,
+        "modo_error": "accionable_con_sugerencias" if sugerir_en_error else "opaco_sin_pistas",
+        "intentos_busqueda": intentos_busqueda,
+        "pasos_totales": presupuesto.pasos,
+        "terna_entregada": terna,
+        "exito": terna == terna_correcta("VAC-101"),
     }
 
 
 if __name__ == "__main__":
-    print("Error guiado:", json.dumps(consultar_eligibilidad_ats("VAC-999", "CAND-01"), indent=2, ensure_ascii=False))
-    print("Enfriamiento:", json.dumps(consultar_eligibilidad_ats("VAC-101", "CAND-02"), indent=2, ensure_ascii=False))
-    print("Elegible:", json.dumps(consultar_eligibilidad_ats("VAC-101", "CAND-01"), indent=2, ensure_ascii=False))
+    imprimir("1. Error opaco (sin sugerencias): el agente no sabe cómo corregir la habilidad", correr_con_errata(sugerir_en_error=False))
+    imprimir("2. Error accionable (con sugerencias del catálogo): el agente corrige y acierta", correr_con_errata(sugerir_en_error=True))

@@ -1,37 +1,59 @@
 {
   "preguntas": [
     {
-      "pregunta": "¿Cuál es la diferencia principal entre un Resource y un Tool en el protocolo MCP?",
+      "pregunta": "¿Qué problema arquitectónico resuelve el protocolo MCP (Model Context Protocol) al ejecutar las herramientas en un subproceso separado?",
       "opciones": [
-        "No hay diferencia, son sinónimos",
-        "Un Resource expone datos de lectura direccionables por URI (como un archivo o ficha), mientras que un Tool ejecuta una función parametrizada decidida por el modelo",
-        "Los Resources solo sirven para imágenes",
-        "Los Tools no usan JSON Schema"
+        "Permite que el modelo de lenguaje se ejecute localmente en la CPU sin necesidad de tarjeta gráfica ni red.",
+        "Desacopla al agente de la implementación de las herramientas y aísla credenciales como ATS_DB_SECRET en el servidor MCP.",
+        "Reemplaza el formato JSON por buffers binarios cifrados que reducen a cero el consumo de tokens del modelo.",
+        "Hace innecesario definir esquemas de entrada inputSchema para los parámetros de cada herramienta."
       ],
       "correcta": 1,
-      "explicacion": "Separar lectura de contexto por URI (Resource) de acciones invocables (Tool) simplifica el prompt y reduce llamadas innecesarias."
+      "explicacion": "Con MCP el proceso del agente no posee las credenciales de la base de datos (`credencial_visible_en_proceso_agente: false`) y se comunica por JSON-RPC 2.0."
     },
     {
-      "pregunta": "¿Por qué el servidor MCP mejora la postura de seguridad frente a importar librerías de base de datos directamente en el agente?",
+      "pregunta": "En el ciclo de vida de MCP implementado en 01_servidor_mcp_ats.py y 02_cliente_mcp.py, ¿qué orden siguen los métodos JSON-RPC?",
       "opciones": [
-        "Porque encripta el prompt",
-        "Porque aísla las credenciales y aplica control de acceso e invariantes en la frontera del servidor, sin exponer secretos al entorno del agente",
-        "Porque no usa red",
-        "Porque desactiva los logs"
+        "Primero tools/call, luego tools/list y al finalizar la corrida se cierra con el método initialize.",
+        "Primero tools/list, después notifications/initialized y únicamente al ocurrir un error se envía initialize.",
+        "Primero initialize (seguido de notifications/initialized), luego tools/list para descubrir esquemas y finalmente tools/call.",
+        "Se envía únicamente tools/call en cada turno porque MCP no tiene fase de negociación ni descubrimiento."
       ],
-      "correcta": 1,
-      "explicacion": "El agente solo puede invocar los contratos JSON-RPC permitidos por el servidor MCP con el alcance del token actual."
+      "correcta": 2,
+      "explicacion": "El cliente MCP negocia primero la versión del protocolo con initialize, confirma con notifications/initialized, descubre el catálogo con tools/list y ejecuta con tools/call."
     },
     {
-      "pregunta": "¿Qué ocurre cuando le pasas al LLM los esquemas de 50 herramientas de múltiples servidores MCP al mismo tiempo?",
+      "pregunta": "¿Por qué los mensajes de notificación JSON-RPC 2.0 (como notifications/initialized) no llevan campo \"id\"?",
       "opciones": [
-        "El modelo siempre elige mejor cuantas más herramientas tiene",
-        "Aumenta el consumo de tokens fijos por turno y se degrada la precisión al distinguir entre herramientas con descripciones similares",
-        "El servidor MCP se apaga",
-        "No consume tokens adicionales"
+        "Porque son avisos unidireccionales del cliente al servidor que no esperan un objeto de respuesta JSON-RPC.",
+        "Porque el servidor MCP asigna el identificador numérico de forma aleatoria al guardar el log en disco.",
+        "Porque en el transporte stdio solo se permite usar identificadores en el método de cierre del subproceso.",
+        "Porque incluir un campo id en una notificación reinicia el contador de tokens del cliente anfitrión."
+      ],
+      "correcta": 0,
+      "explicacion": "En la especificación JSON-RPC 2.0, un mensaje sin 'id' es una Notification: el receptor la procesa pero no debe emitir respuesta por stdout."
+    },
+    {
+      "pregunta": "En 01_servidor_mcp_ats.py, ¿cómo informa el servidor MCP que la ejecución de una herramienta produjo un error de negocio o validación?",
+      "opciones": [
+        "Cerrando de inmediato el subproceso con sys.exit(1) para forzar el reinicio del cliente anfitrión.",
+        "Devolviendo dentro de result el contenido textual en JSON acompañado del indicador booleano isError: true.",
+        "Borrando el catálogo de herramientas para que el modelo no pueda volver a invocar ninguna función.",
+        "Enviando una cadena vacía sin estructura JSON por la tubería de error estándar stderr del sistema."
       ],
       "correcta": 1,
-      "explicacion": "Mantener el conjunto activo de herramientas pequeño (idealmente <= 8 por etapa) mejora tanto la precisión como la latencia."
+      "explicacion": "En MCP los errores de protocolo usan el campo 'error' de JSON-RPC, mientras que los errores de ejecución de la herramienta se devuelven en 'result' con 'isError': true."
+    },
+    {
+      "pregunta": "Si un servidor MCP corporativo expone 60 herramientas en tools/list, ¿qué buena práctica debe aplicar el cliente antes de llamar al LLM?",
+      "opciones": [
+        "Concatenar las 60 herramientas en una sola megafunción con 200 parámetros opcionales para el modelo.",
+        "Descartar los esquemas inputSchema y enviar al modelo únicamente una lista con los 60 nombres de funciones.",
+        "Invocar primero las 60 herramientas con argumentos vacíos para comprobar cuáles responden más rápido.",
+        "Filtrar y exponer al modelo solo el subconjunto de herramientas pertinentes al rol y etapa actual del agente."
+      ],
+      "correcta": 3,
+      "explicacion": "Filtrar el catálogo en el cliente reduce el costo por turno, evita la degradación de selección del modelo y aplica el principio de mínimo privilegio."
     }
   ]
 }

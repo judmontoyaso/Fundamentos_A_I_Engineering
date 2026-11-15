@@ -1,32 +1,29 @@
-# Ejercicios · Módulo 3
+# Módulo 3 · Ejercicios
 
-## Ejercicio 1: Costo cuadrático de un historial sin podar
+---
 
-Un agente ejecuta 10 pasos. En cada paso la herramienta devuelve **1.500 tokens** de observación y el system prompt base mide **1.000 tokens**.
-
-1. ¿Cuántos tokens de entrada totales se envían al modelo a lo largo de los 10 pasos si nunca podas las observaciones antiguas?
-2. ¿Cuántos tokens de entrada totales se envían si solo mantienes completas las últimas 2 observaciones y reemplazas cada observación anterior por un resumen de 60 tokens?
+### Ejercicio 1 — ¿Qué pasa si podas también `verificar_elegibilidad`?
+En `podar_observaciones_antiguas` (`code/01_podar_observaciones.py`), cuando se poda una respuesta antigua de `consultar_ficha_candidato` se conserva `{"id": c["id"], "nombre": c["nombre"], "resumen_podado": True}`, pero las respuestas de `verificar_elegibilidad` mantienen su campo `"elegible": True/False`. ¿Qué ocurriría en el último paso (`entregar_terna`) si la poda borrara el booleano `"elegible"` de las verificaciones antiguas?
 
 <details>
-<summary>Solución comentada</summary>
+<summary>Ver solución</summary>
 
-1. **Sin podar**:
-   En el paso `k` (de 1 a 10) entran `1.000 + 1.500 × (k - 1)` tokens.
-   Total = `10 × 1.000 + 1.500 × (9 × 10 / 2) = 10.000 + 67.500 =` **77.500 tokens**.
-2. **Con poda de observaciones (`K = 2` completas, resto a 60 tokens)**:
-   A partir del paso 4 nunca hay más de `2 × 1.500 = 3.000` tokens de observaciones recientes más unos pocos cientos de tokens de resúmenes. El total cae a **~34.200 tokens** (más de un **55 % de ahorro** y menor distracción para el modelo).
-
+Al llegar al paso 11 (`entregar_terna`), el modelo necesita saber cuáles de los 4 candidatos verificados en los pasos 4, 6, 8 y 10 resultaron `elegible: True`. Si borras ese veredicto de las observaciones antiguas y no lo mantienes en un resumen de estado (*scratchpad*), el modelo perderá la evidencia de los primeros candidatos o volverá a llamar a `verificar_elegibilidad` en bucle. Regla de oro: **poda la evidencia cruda pesada (el texto del CV), pero conserva siempre el veredicto compacto (`elegible: true/false`)**.
 </details>
 
 ---
 
-## Ejercicio 2: Qué nunca debe resumirse con prosa libre
-
-¿Qué campos del ATS jamás deberían comprimirse mediante un resumen libre de LLM?
+### Ejercicio 2 — Memoria episódica con fecha de caducidad y autor
+Extiende `MemoriaEpisodica.registrar_aprendizaje` en `code/02_memoria_episodica.py` para que guarde un campo `vigente: bool = True` y añade un método `revocar_aprendizajes(vacante_id)` que desactive las reglas cuando cambie el perfil de la vacante.
 
 <details>
-<summary>Solución comentada</summary>
+<summary>Ver solución</summary>
 
-Identificadores exactos (`CAND-01`, `VAC-101`), montos numéricos (`aspiracion_usd`), fechas y banderas booleanas de elegibilidad. Esos datos deben copiarse de forma determinista al estado tipado del agente antes de enmascarar la observación cruda.
-
+```python
+def listar(self, vacante_id: str) -> list[dict]:
+    if not self.ruta.exists():
+        return []
+    todas = json.loads(self.ruta.read_text(encoding="utf-8"))
+    return [r for r in todas if r.get("vacante_id") == vacante_id and r.get("vigente", True)]
+```
 </details>

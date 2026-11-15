@@ -1,48 +1,59 @@
 {
   "preguntas": [
     {
-      "pregunta": "¿Por qué no conviene exponer directamente todos los endpoints REST o tablas SQL como herramientas individuales?",
+      "pregunta": "¿Qué significa diseñar una herramienta bajo el principio poka-yoke para un agente con LLM?",
       "opciones": [
-        "Porque JSON Schema no soporta más de 3 funciones",
-        "Porque obliga al modelo a encadenar múltiples llamadas de bajo nivel, aumentando los pasos, los tokens y la probabilidad de error",
-        "Porque las bases de datos son lentas",
-        "Porque Python no permite decorar funciones"
+        "Exponer una única función que reciba consultas SQL crudas para darle máxima flexibilidad al modelo.",
+        "Restringir el esquema con tipos estrictos, enumeraciones cerradas y validaciones que impidan llamadas inválidas.",
+        "Ocultar las descripciones de los parámetros para reducir el número de tokens facturados en el prefill.",
+        "Permitir que el modelo modifique el esquema de la base de datos cuando no encuentre una columna esperada."
       ],
       "correcta": 1,
-      "explicacion": "Las herramientas deben modelar intenciones completas de alto valor para la tarea, no operaciones CRUD granulares."
+      "explicacion": "Un contrato poka-yoke acota los parámetros (enums, rangos numéricos, additionalProperties: false) para que los errores de invocación sean imposibles o inmediatamente detectables."
     },
     {
-      "pregunta": "¿Qué es un diseño poka-yoke en los parámetros de una herramienta?",
+      "pregunta": "En 02_errores_accionables.py, ¿por qué el agente fracasa cuando buscar_candidatos devuelve un error opaco ante 'Evaluacion de LLM'?",
       "opciones": [
-        "Recibir un único string libre para que el modelo escriba lo que quiera",
-        "Restringir tipos con Literal/Enum y valores por defecto seguros que hagan imposible o difícil construir una llamada inválida",
-        "Ocultar la descripción de los parámetros para ahorrar tokens",
-        "Lanzar excepciones sin mensaje"
+        "Porque la excepción detiene el intérprete de Python antes de que el bucle pueda capturar la respuesta.",
+        "Porque el modelo interpreta una respuesta vacía sin pistas como ausencia real de candidatos y cierra la terna vacía.",
+        "Porque el proveedor del modelo bloquea la sesión cuando una herramienta devuelve el campo booleano ok en falso.",
+        "Porque el límite de tokens de salida impide que el modelo vuelva a invocar la misma herramienta en el turno siguiente."
       ],
       "correcta": 1,
-      "explicacion": "Cuanto más expresivo y acotado es el esquema de entrada, menos errores de formato comete el LLM."
+      "explicacion": "Sin pistas ni catálogo de sugerencias, el agente no puede distinguir entre 'no existen candidatos en la empresa' y 'escribiste mal el nombre de la habilidad'."
     },
     {
-      "pregunta": "¿Qué debe devolver una herramienta cuando falla una validación de negocio (por ejemplo, un ID de vacante inexistente)?",
+      "pregunta": "¿Qué incluye ejecutar_herramienta_ats cuando el modelo envía una habilidad que no está en CATALOGO_HABILIDADES?",
       "opciones": [
-        "Un traceback completo de Python de 40 líneas",
-        "Un objeto estructurado indicando qué falló y cuáles son las opciones o formatos válidos para corregirlo en el siguiente turno",
-        "Una cadena vacía",
-        "Un código HTTP 500 sin cuerpo"
-      ],
-      "correcta": 1,
-      "explicacion": "El destinatario del error de una herramienta es el propio LLM: una pista concreta evita que adivine a ciegas."
-    },
-    {
-      "pregunta": "¿Por qué una herramienta de búsqueda debe limitar el número de resultados y los campos devueltos?",
-      "opciones": [
-        "Para proteger la ventana de contexto del agente contra ruido masivo y degradación de atención",
-        "Porque JSON no admite listas largas",
-        "Para que el disco duro no se llene",
-        "No hace falta limitarlo si el modelo tiene 128k tokens"
+        "Un diccionario de sugerencias calculado por similitud léxica junto con el catálogo válido de habilidades.",
+        "El volcado completo del código fuente de comun/ag_comun.py para que el modelo inspeccione las constantes.",
+        "Una lista con los ocho candidatos del ATS sin aplicar ningún filtro para no detener el flujo del agente.",
+        "Un código numérico HTTP 500 sin texto adicional para ahorrar tokens de observación en el historial."
       ],
       "correcta": 0,
-      "explicacion": "Incluso con ventanas grandes, volcar decenas de kilobytes irrelevantes dispara el costo y reduce la precisión del modelo en los pasos siguientes."
+      "explicacion": "Devolver sugerencias cercanas (get_close_matches) y el catálogo válido permite que el modelo corrija 'Evaluacion de LLM' por 'Evaluación de LLMs' en el siguiente paso."
+    },
+    {
+      "pregunta": "¿Por qué es preferible exponer verificar_elegibilidad(vacante_id, candidato_id) en vez de obligar al modelo a calcular en prosa las reglas de enfriamiento e inglés?",
+      "opciones": [
+        "Porque los modelos de lenguaje no pueden leer cadenas de dos caracteres como los niveles B1, B2 o C1.",
+        "Porque las reglas de negocio exactas (90 días, escala CEFR, modalidad) se evalúan sin error ni ambigüedad en código.",
+        "Porque reduce el tamaño del archivo JSON de la vacante almacenado en el disco duro del servidor.",
+        "Porque evita que el usuario final vea en su pantalla los motivos por los que fue descartado un candidato."
+      ],
+      "correcta": 1,
+      "explicacion": "Las comparaciones aritméticas, fechas de enfriamiento y jerarquías de niveles son deterministas: ejecutarlas en código elimina errores de cálculo del LLM."
+    },
+    {
+      "pregunta": "¿Qué ventaja aporta declarar \"additionalProperties\": false y \"enum\" en los parámetros JSON Schema de una herramienta?",
+      "opciones": [
+        "Hace que la herramienta se ejecute en un hilo separado del procesador sin consumir memoria del proceso padre.",
+        "Cifra automáticamente los argumentos sensibles antes de registrarlos en el historial de mensajes del agente.",
+        "Impide que el modelo invente campos inexistentes o códigos de vacante fuera de la lista autorizada.",
+        "Elimina la necesidad de validar permisos de negocio dentro del cuerpo de la función en Python."
+      ],
+      "correcta": 2,
+      "explicacion": "Con enum y additionalProperties: false el esquema restringe tanto los nombres de las llaves como los valores admitidos (p. ej. solo VAC-101 y VAC-102)."
     }
   ]
 }

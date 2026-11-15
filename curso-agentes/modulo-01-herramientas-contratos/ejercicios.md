@@ -1,37 +1,24 @@
-# Ejercicios · Módulo 1
+# Módulo 1 · Ejercicios
 
-## Ejercicio 1: Refactorizar una herramienta frágil
+---
 
-Tienes esta herramienta expuesta al agente:
-
-```python
-def query_ats(table: str, col: str, val: str, limit: int = 1000) -> list[dict]:
-    ...
-```
-
-¿Qué tres problemas graves tiene para un agente y cómo la rediseñarías con Pydantic?
+### Ejercicio 1 — Normalización silenciosa vs. rechazo con sugerencia
+En `ejecutar_herramienta_ats` (`comun/ag_comun.py`), cuando el modelo envía `"Evaluacion de LLM"`, la herramienta devuelve `{"ok": False, "sugerencias": ...}` y el modelo gasta 1 paso extra en reintentar. ¿Cuándo conviene **normalizar silenciosamente** la entrada dentro de la herramienta (sin devolver error) y cuándo conviene **rechazar y pedir confirmación**?
 
 <details>
-<summary>Solución comentada</summary>
+<summary>Ver solución</summary>
 
-1. **Problemas**:
-   - Expone nombres físicos de tablas y columnas (`table`, `col`) que el modelo inventará con frecuencia.
-   - `limit=1000` puede volcar cientos de kilobytes en la ventana de contexto de una sola llamada.
-   - No expresa la intención del negocio ni restringe los filtros válidos.
-2. **Rediseño poka-yoke**:
-   Crear `buscar_candidatos_ats(habilidades: list[str], anos_minimos: int = 0, max_aspiracion_usd: int | None = None, top_k: int = Field(default=5, le=15))` que devuelve únicamente campos legibles y un resumen de cuántos candidatos adicionales quedaron fuera.
-
+- **Normalizar silenciosamente** cuando la transformación es **unívoca y sin ambigüedad semántica**: quitar espacios al inicio/final (`.strip()`), pasar códigos de vacante a mayúsculas (`"vac-101" -> "VAC-101"`) o ignorar tildes cuando solo existe una coincidencia exacta en el catálogo (`"Evaluacion de LLMs" -> "Evaluación de LLMs"`). Así ahorras 1 turno completo de latencia y tokens.
+- **Rechazar con sugerencias** cuando hay **ambigüedad real** (por ejemplo, el modelo pide `"SQL Server"` y en el catálogo existen tanto `"SQL"` como `"Postgres"`) o en herramientas con efectos secundarios donde adivinar un parámetro podría modificar el registro equivocado.
 </details>
 
 ---
 
-## Ejercicio 2: Mensajes de error que ahorran pasos
-
-Cuando el agente busca una habilidad mal escrita (`"Postgressql"` en lugar de `"Postgres"`), la búsqueda exacta devuelve `[]`. Modifica la respuesta de la herramienta para que sugiera las habilidades canónicas más cercanas del catálogo.
+### Ejercicio 2 — Añadir filtro `modalidad` con validación Poka-Yoke
+Modifica una copia local de `buscar_candidatos` para que acepte un parámetro opcional `solo_remoto: bool = False`. Si es `True`, debe filtrar únicamente candidatos con `c["remoto"] == True`. Comprueba cuántos candidatos devuelve para `["Python", "SQL", "RAG", "Evaluación de LLMs"]` con `max_aspiracion_usd=8000` cuando `solo_remoto=True` frente a `False`.
 
 <details>
-<summary>Solución comentada</summary>
+<summary>Ver solución</summary>
 
-Usando `difflib.get_close_matches(hab, CATALOGO_HABILIDADES, n=3, cutoff=0.6)`, cuando una habilidad solicitada no existe en el catálogo devolvemos `"advertencia": "La habilidad 'Postgressql' no figura en el catálogo. ¿Quisiste decir ['Postgres']?"`. Así el agente corrige su llamada en el siguiente turno con certeza.
-
+Con `max_aspiracion_usd=8000` y `solo_remoto=False` entran 5 candidatos (`CAND-01`, `CAND-03`, `CAND-04`, `CAND-06`, `CAND-07`). Al activar `solo_remoto=True`, queda excluida `CAND-06` (*Daniela Pardo*, que tiene `remoto: False`), devolviendo 4 candidatos.
 </details>

@@ -1,37 +1,59 @@
 {
   "preguntas": [
     {
-      "pregunta": "¿Por qué la métrica pass^k (p^k) es más representativa que pass@k para agentes en producción?",
+      "pregunta": "¿Por qué evaluar únicamente el resultado final (Outcome) es insuficiente para auditar un agente en producción?",
       "opciones": [
-        "Porque siempre da un número más alto",
-        "Porque mide la probabilidad de que el agente acierte de forma consistente en k ejecuciones consecutivas, en lugar de conformarse con que acierte al menos una vez",
-        "Porque no requiere casos de prueba",
-        "Porque solo mide la velocidad"
+        "Porque el resultado final nunca se puede comparar contra una lista de referencia como terna_correcta.",
+        "Porque un agente puede acertar la terna por azar tras dar rodeos costosos o saltarse verificaciones obligatorias.",
+        "Porque las métricas como precisión, recall y F1 solo están definidas para problemas de clasificación binaria.",
+        "Porque el resultado final no forma parte del objeto JSON que devuelve la herramienta entregar_terna."
       ],
       "correcta": 1,
-      "explicacion": "Un sistema en producción debe ser confiable en cada corrida real; pass@k oculta la fragilidad bajo múltiples reintentos."
+      "explicacion": "En 01_metricas_trayectoria.py vimos cómo una corrida puede parecer corta o acertar parcialmente mientras viola políticas al no llamar a verificar_elegibilidad."
     },
     {
-      "pregunta": "¿Por qué no basta con evaluar únicamente la respuesta final de un agente?",
+      "pregunta": "¿Qué mide exactamente la métrica pass^k (pass-hat-k) introducida en el benchmark τ-bench frente a pass@k?",
       "opciones": [
-        "Porque la respuesta final nunca importa",
-        "Porque el agente puede llegar a la respuesta correcta tras cometer efectos secundarios indeseados, violar políticas o consumir 5 veces más pasos de los necesarios",
-        "Porque las respuestas finales no son JSON",
-        "Porque los agentes no devuelven texto"
+        "pass@k mide la latencia media en k pasos y pass^k mide el costo monetario multiplicado por k.",
+        "pass@k exige que fallen los k intentos y pass^k exige que acierte únicamente el último intento.",
+        "pass@k mide la probabilidad de acertar al menos 1 de k intentos; pass^k mide la probabilidad de acertar TODOS los k intentos.",
+        "Ambas métricas calculan exactamente el mismo valor cuando la probabilidad de éxito por corrida es menor a 1."
       ],
-      "correcta": 1,
-      "explicacion": "Evaluar la trayectoria completa detecta regresiones de costo, latencia, bucles y seguridad antes de que lleguen a producción."
+      "correcta": 2,
+      "explicacion": "En producción importa la consistencia: pass^k exige que las k ejecuciones salgan bien, revelando la fragilidad que pass@k esconde."
     },
     {
-      "pregunta": "Si el camino óptimo para una tarea requiere 3 llamadas a herramientas y tu agente realiza 6 llamadas para llegar al mismo resultado, ¿cuál es su eficiencia de pasos?",
+      "pregunta": "En 02_pass_k_vs_pass_hat_k.py, para el agente sin guarda de estado (p_descuido=0.25), ¿qué ocurre al pasar de k=1 a k=5?",
       "opciones": [
-        "100 %",
-        "50 % (3 / 6)",
-        "200 %",
-        "0 %"
+        "Tanto pass@k como pass^k suben desde 0.312 hasta alcanzar 0.938 en k=5.",
+        "Tanto pass@k como pass^k caen desde 0.312 hasta llegar a 0.000 en k=5.",
+        "pass@k se mantiene constante en 0.500 mientras que pass^k sube hasta 1.000.",
+        "pass@k sube de 0.312 a 0.938 (parece excelente), pero pass^k se desploma de 0.312 a 0.000."
+      ],
+      "correcta": 3,
+      "explicacion": "Con una tasa de éxito por corrida cercana al 31 %, en 5 intentos es casi seguro acertar alguna vez (pass@5 = 93.8 %), pero imposible acertar 5 veces seguidas (pass^5 = 0.0 %)."
+    },
+    {
+      "pregunta": "¿Por qué en 02_pass_k_vs_pass_hat_k.py se calcula pass^k dentro de cada vacante usando combinatoria comb(c, k) / comb(n, k) y luego se promedia entre vacantes?",
+      "opciones": [
+        "Porque τ-bench evalúa la consistencia por tarea individual y promedia después; elevar la media global sesgaría el resultado.",
+        "Porque la función comb de Python solo acepta un máximo de dos tareas por cada archivo de evaluación.",
+        "Para que el valor numérico de pass^k sea siempre mayor que el valor de pass@k en cualquier conjunto de datos.",
+        "Porque las vacantes VAC-101 y VAC-102 tienen exactamente los mismos candidatos elegibles en el ATS."
+      ],
+      "correcta": 0,
+      "explicacion": "Por la desigualdad de Jensen, el promedio de las consistencias por tarea E[p_i^k] no es igual a elevar al exponente k el promedio global (E[p_i])^k."
+    },
+    {
+      "pregunta": "¿Cómo logra el agente con invariantes alcanzar pass^5 = 1.000 en ambas vacantes del benchmark?",
+      "opciones": [
+        "Eliminando las validaciones de enfriamiento e inglés para que cualquier candidato sea aceptado como válido.",
+        "Trasladando las reglas críticas y la verificación obligatoria al controlador determinista fuera del azar del modelo.",
+        "Ejecutando cincuenta llamadas ocultas al modelo en cada turno y eligiendo la respuesta más frecuente.",
+        "Reemplazando los nombres de los candidatos por números aleatorios antes de llamar a entregar_terna."
       ],
       "correcta": 1,
-      "explicacion": "La relación pasos_óptimos / pasos_reales mide cuánto trabajo redundante hizo el agente."
+      "explicacion": "Cuando el controlador impone las invariantes de estado y delega las reglas exactas a herramientas deterministas, la varianza estocástica deja de corromper el resultado."
     }
   ]
 }

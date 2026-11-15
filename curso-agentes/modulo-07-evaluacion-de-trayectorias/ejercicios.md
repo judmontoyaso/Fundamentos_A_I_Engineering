@@ -1,33 +1,35 @@
-# Ejercicios · Módulo 7
+# Módulo 7 · Ejercicios
 
-## Ejercicio 1: Calcular `pass@4` vs. `pass^4`
+---
 
-Un agente de preselección completa correctamente un caso de prueba en **8 de cada 10 corridas** (`p = 0.80`).
-1. Calcula `pass@4`.
-2. Calcula `pass^4`.
-3. ¿Qué le dirías a un compañero que reporta «el agente tiene 99.8 % de éxito porque en 4 intentos siempre sale al menos una vez»?
+### Ejercicio 1 — Por qué promediar `pass^k` por tarea no es igual a elevar el promedio global
+En `code/02_pass_k_vs_pass_hat_k.py` calculamos `estimar_pass_hat_k(n, c, k)` **dentro de cada vacante** y luego promediamos entre `VAC-101` y `VAC-102`. Imagina que tienes 2 tareas: en la Tarea A tu agente acierta `8/8` veces (`100 %`) y en la Tarea B acierta `0/8` veces (`0 %`). La tasa global promedio es `p = 0.50`. ¿Cuánto vale $(0.50)^3$ frente al promedio real de `pass^3` por tarea?
 
 <details>
-<summary>Solución comentada</summary>
+<summary>Ver solución</summary>
 
-1. `pass@4 = 1 - (1 - 0.80)⁴ = 1 - 0.20⁴ = 1 - 0.0016 =` **99.84 %**.
-2. `pass^4 = 0.80⁴ =` **40.96 %**.
-3. En producción el usuario no ejecuta el agente 4 veces ni tiene un oráculo mágico para elegir la corrida buena; por tanto, en 4 tareas reales seguidas habrá al menos un fallo casi el 60 % de las veces.
+- Si elevaras erróneamente la media global al cubo: $(0.50)^3 = 0.125$ (`12.5 %`).
+- Calculando correctamente por tarea como en $\tau$-bench:
+  - Tarea A (`8/8`): $\text{pass}\hat{\mkern6mu}3 = 1.0$.
+  - Tarea B (`0/8`): $\text{pass}\hat{\mkern6mu}3 = 0.0$.
+  - Promedio real de $\text{pass}\hat{\mkern6mu}3 = (1.0 + 0.0) / 2 = 0.500$ (`50.0 %`).
 
+La desigualdad de Jensen ($\mathbb{E}[p_i^k] \ge (\mathbb{E}[p_i])^k$) explica por qué siempre debes medir las $n$ corridas por cada caso del benchmark y promediar al final.
 </details>
 
 ---
 
-## Ejercicio 2: Penalizar pasos innecesarios
-
-Dos versiones del agente encuentran exactamente a `["CAND-01", "CAND-03"]`.
-- La versión A usa 3 pasos y 0 errores de herramienta.
-- La versión B usa 9 pasos (repite búsquedas y consulta una vacante equivocada) y 2 errores.
-Diseña una función de puntuación compuesta que distinga claramente ambas versiones.
+### Ejercicio 2 — Penalizar la eficiencia cuando se violan invariantes
+Modifica `evaluar_corrida` en `code/01_metricas_trayectoria.py` para que si `violaciones_politica_sin_verificar` no está vacía o `exact_match` es `False`, `eficiencia_trayectoria` sea automáticamente `0.0` (evitando que un agente que se salta pasos obligatorios parezca «más eficiente que el óptimo»).
 
 <details>
-<summary>Solución comentada</summary>
+<summary>Ver solución</summary>
 
-Revisa `code/01_metricas_trayectoria.py`: multiplicamos el puntaje de exactitud del resultado final (`F1` sobre los candidatos) por un factor de eficiencia `min(1.0, pasos_óptimos / pasos_reales)` y restamos una penalización por cada error de herramienta o violación de política.
-
+```python
+eficiencia = (
+    round(min(1.0, pasos_optimos / max(len(pasos), 1)), 3)
+    if (obtenida == esperada and not sin_verificar)
+    else 0.0
+)
+```
 </details>

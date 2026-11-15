@@ -1,37 +1,59 @@
 {
   "preguntas": [
     {
-      "pregunta": "¿Por qué no basta con guardar únicamente la lista de mensajes del chat como estado de un agente en producción?",
+      "pregunta": "En 01_maquina_de_estados.py, ¿qué ocurre cuando un modelo descuidado (p_descuido=1.0) corre SIN la guarda de EstadoPreseleccion?",
       "opciones": [
-        "Porque las listas en Python son lentas",
-        "Porque la lista de mensajes no impone invariantes de negocio, es difícil de inspeccionar/migrar y se pierde si no hay checkpoints estructurados por etapa",
-        "Porque JSON no soporta arrays",
-        "Porque los modelos no leen el historial"
+        "Entrega una terna contaminada con candidatos no elegibles como CAND-04 y CAND-07 porque omite verificar_elegibilidad.",
+        "Se detiene en el primer paso porque no logra cargar los requisitos obligatorios de la vacante VAC-101.",
+        "Agenda entrevistas duplicadas para todos los candidatos de la base de datos hasta agotar el presupuesto.",
+        "Reintenta indefinidamente la búsqueda de candidatos hasta que el controlador corta por exceso de tokens."
       ],
-      "correcta": 1,
-      "explicacion": "Un estado explícito y tipado permite auditar en qué etapa exacta está la ejecución, validar precondiciones en código y reanudar tras fallos."
+      "correcta": 0,
+      "explicacion": "Sin una invariante de estado en el controlador, el modelo asume que los 4 candidatos devueltos por buscar_candidatos son elegibles y salta directo a entregar_terna."
     },
     {
-      "pregunta": "¿Para qué sirve restringir qué herramientas están disponibles según el estado actual de la máquina de estados?",
+      "pregunta": "¿Qué invariante impone validar_transicion() antes de permitir el cierre con entregar_terna?",
       "opciones": [
-        "Para hacer el código más largo",
-        "Para impedir estructuralmente que el modelo ejecute acciones fuera de orden (como agendar una entrevista antes de verificar elegibilidad)",
-        "Para gastar más tokens",
-        "Solo sirve en modelos antiguos"
+        "Que el costo acumulado de la corrida haya superado al menos el 50 % del presupuesto asignado.",
+        "Que la terna tenga exactamente tres candidatos sin importar si cumplen los requisitos de la vacante.",
+        "Que todo candidato incluido haya pasado por verificar_elegibilidad y tenga resultado elegible=True.",
+        "Que el modelo haya consultado primero las dos vacantes del catálogo antes de emitir su dictamen."
       ],
-      "correcta": 1,
-      "explicacion": "Si una herramienta no está registrada en la etapa actual, la probabilidad de que el modelo la invoque prematuramente es exactamente cero."
+      "correcta": 2,
+      "explicacion": "La guarda comprueba en el estado del controlador que cada candidato propuesto esté en self.verificados y que su veredicto haya sido True."
     },
     {
-      "pregunta": "¿Qué garantiza una clave de idempotencia en una herramienta con efectos secundarios?",
+      "pregunta": "¿Cómo se calcula clave_idempotencia(herramienta, argumentos) en comun/ag_comun.py para evitar efectos duplicados?",
       "opciones": [
-        "Que la herramienta corra más rápido",
-        "Que si el agente o el orquestador reintenta el mismo paso tras un corte de red, la acción externa (correo, cobro, registro) se ejecute una sola vez",
-        "Que el LLM no alucine nunca",
-        "Que la base de datos no necesite índices"
+        "Generando un identificador aleatorio UUIDv4 distinto cada vez que el despachador invoca la función.",
+        "Tomando únicamente el nombre de la herramienta sin considerar los argumentos enviados por el modelo.",
+        "Concatenando la hora exacta del sistema en milisegundos con el identificador del usuario activo.",
+        "Calculando un hash SHA-256 sobre un JSON canónico con llaves ordenadas de la herramienta y sus argumentos."
+      ],
+      "correcta": 3,
+      "explicacion": "Al serializar con sort_keys=True y aplicar SHA-256, la misma herramienta llamada con los mismos argumentos produce siempre la misma huella determinista."
+    },
+    {
+      "pregunta": "En 02_checkpoints_e_idempotencia.py, cuando el proceso cae en el paso 6 y se vuelve a invocar ejecutor.correr('VAC-101'), ¿qué sucede?",
+      "opciones": [
+        "Borra el archivo m2_checkpoint.json y repite desde el paso 1 todas las llamadas al modelo y al calendario.",
+        "Carga el estado guardado en el paso 6, continúa hasta el paso 13 y no duplica las entrevistas ya registradas.",
+        "Lanza una excepción permanente porque un checkpoint interrumpido no puede reutilizarse en otro proceso.",
+        "Devuelve inmediatamente la terna parcial que hubiera en el paso 6 sin ejecutar los pasos restantes."
       ],
       "correcta": 1,
-      "explicacion": "Al asociar la huella determinista (ejecucion_id + herramienta + argumentos) con el resultado previo, los reintentos son seguros."
+      "explicacion": "El ejecutor hidrata mensajes, contador de pasos y cache_idempotencia desde disco, retomando la corrida justo donde quedó."
+    },
+    {
+      "pregunta": "¿Cuál es la diferencia operativa entre reintentar una herramienta de lectura (obtener_vacante) y una de mutación (agendar_entrevista)?",
+      "opciones": [
+        "La lectura carece de efectos externos, mientras que repetir la mutación sin clave de idempotencia duplica citas reales.",
+        "La herramienta de lectura consume el doble de tokens de salida que la herramienta de mutación en la API.",
+        "Las herramientas de lectura no pueden guardarse dentro del archivo JSON del checkpoint de ejecución.",
+        "Las mutaciones nunca devuelven un objeto JSON al historial de mensajes del agente tras completarse."
+      ],
+      "correcta": 0,
+      "explicacion": "Repetir una lectura solo gasta tiempo/tokens, pero repetir una mutación sin idempotencia crea eventos o cobros duplicados en sistemas externos."
     }
   ]
 }

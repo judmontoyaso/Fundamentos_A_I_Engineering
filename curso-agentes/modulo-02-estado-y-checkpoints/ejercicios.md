@@ -1,27 +1,30 @@
-# Ejercicios · Módulo 2
+# Módulo 2 · Ejercicios
 
-## Ejercicio 1: Transiciones ilegales en una máquina de estados
+---
 
-¿Por qué es peligroso permitir que el modelo llame a `agendar_entrevista(candidato_id)` en cualquier momento del bucle, y cómo lo impide una máquina de estados?
+### Ejercicio 1 — Bloquear `agendar_entrevista` para candidatos no verificados
+En `code/01_maquina_de_estados.py`, `validar_transicion` protege `entregar_terna`. Extiende `validar_transicion` para que también bloquee cualquier llamada a `agendar_entrevista(vacante_id, candidato_id, fecha)` si `candidato_id` no figura en `self.verificados` con valor `True`.
 
 <details>
-<summary>Solución comentada</summary>
+<summary>Ver solución</summary>
 
-En un bucle libre con todas las herramientas visibles desde el turno 1, el modelo puede saltarse la verificación de enfriamiento o de presupuesto y llamar directamente a `agendar_entrevista`. En una máquina de estados explícita, cada etapa habilita únicamente el subconjunto de herramientas permitidas en ese nodo, y la transición a `listo_para_revision` exige que `verificaciones_ats[candidato_id]["elegible"] == True`.
-
+```python
+if herramienta == "agendar_entrevista":
+    cid = str(args.get("candidato_id", ""))
+    if cid not in self.verificados:
+        return f"Transición bloqueada: debes verificar_elegibilidad de {cid} antes de agendar."
+    if not self.verificados[cid]:
+        return f"Transición bloqueada: {cid} no es elegible para la vacante; no se puede agendar entrevista."
+```
 </details>
 
 ---
 
-## Ejercicio 2: Reanudación tras fallo de red
-
-Simula un fallo en la tercera llamada de un flujo de 4 pasos y verifica que al reanudar desde el checkpoint:
-1. No se vuelven a ejecutar los pasos 1 y 2.
-2. Ninguna nota en el ATS queda duplicada.
+### Ejercicio 2 — ¿Qué debe formar parte de la clave de idempotencia?
+Si dos ejecuciones distintas (una en enero y otra en junio para otro proceso de selección) llaman a `consultar_ficha_candidato("CAND-01")`, ¿deberían compartir la misma clave de idempotencia? ¿Por qué `EjecutorConCheckpoint` guarda `cache_idempotencia` **dentro** del checkpoint de la ejecución actual?
 
 <details>
-<summary>Solución comentada</summary>
+<summary>Ver solución</summary>
 
-Revisa `code/02_checkpoints_e_idempotencia.py`: el almacén de checkpoints persiste `etapa` y `efectos_ejecutados` después de cada nodo. En el segundo intento, el grafo salta directamente a la etapa pendiente y cualquier mutación ya registrada por su clave de idempotencia devuelve su recibo previo.
-
+Porque la idempotencia protege contra **reintentos involuntarios dentro de una misma operación o flujo** (`ejecucion_id`), no es una caché perpetua. Si en junio el candidato actualizó su aspiración salarial o cumplió los 90 días de enfriamiento, una ejecución nueva debe leer el estado fresco del ATS. Al ligar `cache_idempotencia` al estado de la corrida (`m2_checkpoint.json`), garantizas que si esa corrida se reanuda tras una caída no duplique llamadas, pero una corrida nueva verá los datos actualizados.
 </details>

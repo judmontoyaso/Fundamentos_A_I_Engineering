@@ -1,86 +1,48 @@
-"""Contrasta una herramienta cruda de bajo nivel con una herramienta poka-yoke diseñada para un LLM."""
+"""Contrasta una herramienta genérica y ambigua frente a contratos Poka-Yoke con validación estricta."""
 from __future__ import annotations
 
-from difflib import get_close_matches
-from typing import Literal
-from pydantic import BaseModel, Field
-import json
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from comun.ag_comun import CANDIDATOS
-
-CATALOGO_HABILIDADES = sorted({h for c in CANDIDATOS.values() for h in c["habilidades"]})
+from comun.ag_comun import CATALOGO_HABILIDADES, ESQUEMAS_HERRAMIENTAS, VACANTES, ejecutar_herramienta_ats, imprimir
 
 
-class BuscarCandidatosInput(BaseModel):
-    habilidades_requeridas: list[str] = Field(
-        description="Lista de habilidades técnicas canónicas, p. ej. ['Python', 'SQL', 'RAG']."
-    )
-    modalidad: Literal["remoto", "bogota_hibrido", "cualquiera"] = Field(
-        default="cualquiera",
-        description="Filtro de ubicación/modalidad de trabajo.",
-    )
-    max_aspiracion_usd: int = Field(
-        default=10_000,
-        ge=1000,
-        le=25_000,
-        description="Tope salarial mensual en USD.",
-    )
-    top_k: int = Field(default=3, ge=1, le=10, description="Máximo de candidatos a devolver.")
+def herramienta_fragil(consulta_libre: str) -> dict:
+    """Antipatrón: recibe texto libre o pseudo-SQL sin tipos, sin cotas y con errores crudos."""
+    if "DROP" in consulta_libre.upper() or ";" in consulta_libre:
+        return {"error": "SQLSyntaxError near ';' at line 1 (tabla interna expuesta: ats_prod_candidates_v2)"}
+    return {"filas": "CAND-01, CAND-02, CAND-03, CAND-04, CAND-05, CAND-06, CAND-07, CAND-08 (volcado sin límite)"}
 
 
-def buscar_candidatos_poka_yoke(params: BuscarCandidatosInput) -> dict:
-    desconocidas = [h for h in params.habilidades_requeridas if h not in CATALOGO_HABILIDADES]
-    if desconocidas:
-        sugerencias = {
-            h: get_close_matches(h, CATALOGO_HABILIDADES, n=2, cutoff=0.5)
-            for h in desconocidas
-        }
-        return {
-            "ok": False,
-            "error": f"Habilidades no reconocidas en el catálogo: {desconocidas}",
-            "sugerencias_catalogo": sugerencias,
-            "catalogo_disponible": CATALOGO_HABILIDADES,
-        }
-
-    reqs = set(params.habilidades_requeridas)
-    resultados = []
-    for c in CANDIDATOS.values():
-        if c["estado_ats"] != "activo":
-            continue
-        if c["aspiracion_usd"] > params.max_aspiracion_usd:
-            continue
-        if params.modalidad == "bogota_hibrido" and c["ciudad"] != "Bogotá":
-            continue
-        faltantes = sorted(reqs - set(c["habilidades"]))
-        cobertura = round((len(reqs) - len(faltantes)) / max(1, len(reqs)), 2)
-        if cobertura > 0:
-            resultados.append({
-                "id": c["id"],
-                "nombre": c["nombre"],
-                "cobertura_requisitos": cobertura,
-                "habilidades_faltantes": faltantes,
-                "aspiracion_usd": c["aspiracion_usd"],
-                "anos_experiencia": c["anos_experiencia"],
-            })
-
-    resultados.sort(key=lambda x: (-x["cobertura_requisitos"], x["aspiracion_usd"]))
-    recorte = resultados[: params.top_k]
+def probar_contratos_poka_yoke() -> dict:
+    """Prueba el contrato Poka-Yoke ante entradas válidas, vacantes inexistentes y habilidades con errata."""
+    casos = {
+        "busqueda_valida": ejecutar_herramienta_ats(
+            "buscar_candidatos",
+            {"habilidades": ["Python", "RAG"], "max_aspiracion_usd": 6500},
+        ),
+        "vacante_inexistente": ejecutar_herramienta_ats(
+            "obtener_vacante",
+            {"vacante_id": "VAC-999"},
+        ),
+        "habilidad_con_errata": ejecutar_herramienta_ats(
+            "buscar_candidatos",
+            {"habilidades": ["Python", "Evaluacion de LLM"], "max_aspiracion_usd": 6500},
+        ),
+        "presupuesto_invalido": ejecutar_herramienta_ats(
+            "buscar_candidatos",
+            {"habilidades": ["Python"], "max_aspiracion_usd": -50},
+        ),
+    }
     return {
-        "ok": True,
-        "total_coincidencias": len(resultados),
-        "mostrando": len(recorte),
-        "candidatos": recorte,
+        "catalogo_habilidades_cerrado": CATALOGO_HABILIDADES,
+        "vacantes_enum": sorted(VACANTES.keys()),
+        "esquema_buscar_candidatos": ESQUEMAS_HERRAMIENTAS["buscar_candidatos"]["function"],
+        "resultados_validacion": casos,
     }
 
 
 if __name__ == "__main__":
-    print("=== 1. Llamada con errata en habilidad ('Postgress') ===")
-    mal = BuscarCandidatosInput(habilidades_requeridas=["Python", "Postgress"], max_aspiracion_usd=6500)
-    print(json.dumps(buscar_candidatos_poka_yoke(mal), indent=2, ensure_ascii=False))
-
-    print("\n=== 2. Llamada corregida por el agente en el siguiente turno ===")
-    bien = BuscarCandidatosInput(habilidades_requeridas=["Python", "Postgres"], max_aspiracion_usd=6500)
-    print(json.dumps(buscar_candidatos_poka_yoke(bien), indent=2, ensure_ascii=False))
+    imprimir("1. Antipatrón: herramienta frágil de texto libre", herramienta_fragil("SELECT * FROM candidatos; DROP TABLE"))
+    imprimir("2. Contratos Poka-Yoke con JSON Schema estricto", probar_contratos_poka_yoke())

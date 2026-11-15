@@ -1,30 +1,25 @@
-# Ejercicios · Módulo 4
+# Módulo 4 · Ejercicios
 
-## Ejercicio 1: Resource vs. Tool en MCP
+---
 
-Para cada caso del ATS, decide si debe modelarse como un **Resource** (`resources/read`) o como un **Tool** (`tools/call`):
-1. El documento estático con la política de contratación y periodos de enfriamiento de la empresa.
-2. Una búsqueda filtrada por habilidades, salario máximo y modalidad.
-3. Registrar una solicitud de entrevista técnica para un candidato.
+### Ejercicio 1 — ¿Por qué `NOMBRES_EXPUESTOS` en el servidor MCP no incluye `enviar_oferta`?
+Revisa `NOMBRES_EXPUESTOS` en `code/01_servidor_mcp_ats.py`. En `comun/ag_comun.py` existen 7 herramientas, pero el servidor MCP de preselección solo expone 5 en `tools/list` (omite `agendar_entrevista` y `enviar_oferta`). ¿Qué principio de seguridad aplica aquí y qué ocurre si el modelo intenta invocar `ats_enviar_oferta` vía `tools/call`?
 
 <details>
-<summary>Solución comentada</summary>
+<summary>Ver solución</summary>
 
-1. **Resource** (`ats://politicas/contratacion`): es un documento de referencia identificable por URI que la aplicación puede adjuntar al inicio sin que el modelo tenga que «descubrirlo» mediante una llamada de herramienta.
-2. **Tool** (`buscar_candidatos`): requiere parámetros dinámicos decididos por el modelo según la consulta.
-3. **Tool con confirmación** (`solicitar_entrevista`): produce un efecto secundario en el sistema externo.
-
+Aplica el **principio de mínimo privilegio por perfil de servidor MCP**: un agente cuya misión es elaborar una terna de preselección solo debe recibir herramientas de lectura y dictamen. Para evitar que un cliente comprometido invoque una herramienta no listada, en `procesar_mensaje_jsonrpc` conviene validar explícitamente que `nombre` esté dentro de `{f"ats_{n}" for n in NOMBRES_EXPUESTOS}` antes de llamar a `ejecutar_herramienta_ats`.
 </details>
 
 ---
 
-## Ejercicio 2: Sobrecarga del catálogo de herramientas
-
-Conectas 4 servidores MCP a tu agente y juntos exponen **52 herramientas**. La precisión de selección de herramientas cae del 94 % al 68 %. ¿Cómo lo solucionas sin reescribir los servidores MCP?
+### Ejercicio 2 — Filtrar herramientas en el cliente cuando un servidor MCP expone decenas
+Si conectas tu agente a un servidor MCP corporativo que devuelve 45 herramientas en `tools/list`, ¿por qué no debes pasar las 45 definiciones directamente al parámetro `tools` del modelo en cada llamada?
 
 <details>
-<summary>Solución comentada</summary>
+<summary>Ver solución</summary>
 
-En el **cliente MCP**, filtra por lista blanca (`allowlist`) según la etapa de la máquina de estados o el rol de la tarea antes de pasar el arreglo `tools` al LLM. Por ejemplo, durante la fase de exploración solo se exponen las 3 herramientas de lectura del ATS.
-
+Por dos razones medidas en producción:
+1. **Costo y latencia de prefill**: 45 esquemas JSON Schema suman entre `4.000` y `8.000` tokens que se facturan en **cada paso** del bucle.
+2. **Caída en precisión de selección de herramienta**: cuando el catálogo supera ~15–20 herramientas similares, aumenta la confusión del modelo entre funciones parecidas. El cliente MCP debe filtrar la lista devuelta por `tools/list` según la etapa actual de la máquina de estados.
 </details>

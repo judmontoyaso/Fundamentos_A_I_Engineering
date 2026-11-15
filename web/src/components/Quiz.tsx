@@ -24,8 +24,9 @@ export function Quiz({ id, preguntas, hecho, conSesion, prev, next }: Props) {
   useEffect(() => {
     if (!aprobado || guardado.current || !conSesion) return;
     guardado.current = true;
-    guardarProgreso(id, true).then((ok) => { if (ok) router.refresh(); else guardado.current = false; });
-  }, [aprobado, conSesion, id, router]);
+    const respuestas = preguntas.map((_, i) => elegidas[i] ?? -1);
+    guardarProgreso(id, true, respuestas).then((ok) => { if (ok) router.refresh(); else guardado.current = false; });
+  }, [aprobado, conSesion, elegidas, id, preguntas, router]);
 
   return (
     <div className="quiz">

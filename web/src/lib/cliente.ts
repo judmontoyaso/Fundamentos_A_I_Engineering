@@ -8,6 +8,7 @@ async function post(url: string, body: unknown): Promise<boolean> {
   }
 }
 
-export const guardarProgreso = (id: string, hecho: boolean) => post("/api/progreso", { id, hecho });
+export const guardarProgreso = (id: string, hecho: boolean, respuestas?: number[]) =>
+  post("/api/progreso", respuestas ? { id, hecho, respuestas } : { id, hecho });
 export const guardarEtiqueta = (nb: string, item: string, label: boolean, nota: string) =>
   post("/api/anotacion", { nb, item, label, nota });

@@ -45,7 +45,7 @@ export default async function Resultado({ searchParams }: { searchParams: Promis
       pedido = await store.pedido(pedido.id);
     }
   } else if (pedido?.estado === "pagado") {
-    // Pagado pero quizá sin acceso (la concesión falló en un intento anterior): se repara al volver aquí.
+    // Pagado pero quizá sin acceso (si la concesión falló en un intento previo): se repara al volver aquí.
     try {
       await confirmarPedido(pedido, null);
     } catch (e) {

@@ -81,6 +81,9 @@ export async function getUsuario(): Promise<Usuario | null> {
   }
 
   if (u) {
+    if (!u.verificado && (await identidadVerificada(u.id, u.email))) {
+      u.verificado = true;
+    }
     // Unificación por correo (entrar con Google o con contraseña y ver el mismo progreso y compras).
     // Solo ocurre si AMBOS lados tienen el correo comprobado: quien entra y la cuenta más antigua que lo recibe.
     // Sin esa condición, registrar el correo de otra persona bastaba para heredar su cuenta.

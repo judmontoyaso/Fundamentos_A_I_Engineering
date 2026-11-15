@@ -1,26 +1,22 @@
-# Fundamentos de AI Engineering — Cursos prácticos
+# IA en Producción · Ruta completa de ingeniería de IA (4 cursos · 42 módulos)
 
-Repositorio con tres cursos prácticos de ingeniería de IA que comparten el mismo caso conductor (**Asistente de Selección de Talento** sobre 30 perfiles y 8 vacantes) y pueden recorrerse desde la web (`web/`) o ejecutando los scripts localmente en Python.
+Formación práctica en español para construir, evaluar, escalar y operar sistemas con modelos de lenguaje en producción. Todo el material se articula alrededor de un mismo caso de ingeniería real (un sistema de reclutamiento, búsqueda híbrida de talento y preselección autónoma sobre un ATS), con manuales profundos, ejercicios resueltos, autoevaluaciones y laboratorios de código en Python.
 
----
+## Los cuatro cursos
 
-## Estructura del repositorio
+| # | Curso | Carpeta | Módulos | Qué construyes y dominas |
+|---|---|---|---|---|
+| 1 | **Fundamentos de AI Engineering** | [`curso-ai-engineering/`](./curso-ai-engineering/README.md) | 9 | Salidas estructuradas, embeddings desde cero, Qdrant, búsqueda híbrida BM25 + RRF, workflows, LangGraph, observabilidad, guardrails y proyecto integrador |
+| 2 | **Evaluación y Observabilidad de Sistemas de IA (Evals)** | [`curso-evals/`](./curso-evals/README.md) | 13 | Error analysis, anotación y $\kappa$ de Cohen, jueces LLM calibrados con TPR/TNR, RAG Triad, regresión en CI/CD, monitoreo en producción y optimización de costo/latencia |
+| 3 | **Búsqueda con IA y RAG en Producción** | [`curso-ai-search/`](./curso-ai-search/README.md) | 11 | nDCG@k y MRR, chunking y estructura, enriquecimiento en ingesta, BM25 + vectores, reranking con cross-encoders, ruteo de consultas, permisos ACL/GDPR y caché semántica |
+| 4 | **Agentes de IA en Producción: Herramientas, Estado y Control** | [`curso-agentes/`](./curso-agentes/README.md) | 9 | Presupuestos de ejecución, herramientas Poka-Yoke, máquinas de estado con checkpoints e idempotencia, poda de contexto, servidores MCP sobre JSON-RPC (`stdio`), subagentes Map-Reduce, HITL, defensa contra *prompt injection* y evaluación $\text{pass}\hat{\mkern6mu}k$ |
 
-| Carpeta | Contenido |
-|---|---|
-| [`curso-ai-engineering/`](./curso-ai-engineering/README.md) | **Curso 1 — Fundamentos de AI Engineering** (9 módulos): Pydantic + `instructor`, embeddings, Qdrant, BM25 + RRF, workflows de agentes, LangGraph, observabilidad, memoria y guardrails, y proyecto integrador. |
-| [`curso-evals/`](./curso-evals/README.md) | **Curso 2 — Evals para Sistemas de IA** (9 módulos): primer eval, análisis de errores, datos sintéticos, anotación y κ de Cohen, jueces con código y con LLM, calibración, RAG + tool calling, multi-turn y CI/CD en producción. |
-| [`curso-ai-search/`](./curso-ai-search/README.md) | **Curso 3 — AI Search y RAG en Producción** (10 módulos): métricas de recuperación, anatomía de un índice híbrido, chunking y representación, expansión de consultas, reranking, compresión de contexto, atribuciones verificables, seguridad/ACL, costo/latencia y sistema en producción. |
-| [`web/`](./web/README.md) | Aplicación web en Next.js para leer los tres cursos, responder cuestionarios, hacer las tareas de anotación y descargar los laboratorios en `.zip`. |
-
----
-
-## Ejecución rápida de los laboratorios en Python
+## Ejecución local de los laboratorios
 
 ```bash
 python -m venv .venv
-# Windows: .venv\Scripts\activate  |  macOS / Linux: source .venv/bin/activate
+source .venv/bin/activate  # En Windows: .venv\Scripts\activate
 pip install -r curso-ai-engineering/requirements.txt
 ```
 
-Define `OPENAI_API_KEY` como variable de entorno (o guárdala en un `.env` en la raíz y lanza los scripts desde ahí con `dotenv run -- python ...`; los scripts no cargan el `.env` por sí solos) y ejecuta cualquier script de `code/` dentro de [`curso-ai-engineering/`](./curso-ai-engineering/README.md), [`curso-evals/`](./curso-evals/README.md) o [`curso-ai-search/`](./curso-ai-search/README.md).
+Define `OPENAI_API_KEY` como variable de entorno (o guárdala en un `.env` y ejecuta los scripts desde esa carpeta). En [`curso-agentes/`](./curso-agentes/README.md), además, todos los laboratorios pueden correrse sin costo de API usando el modo determinista integrado (`ModeloSimulado`) o conectarse a OpenAI al definir `OPENAI_API_KEY`.

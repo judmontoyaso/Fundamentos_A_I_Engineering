@@ -1,33 +1,41 @@
-# Ejercicios · Módulo 0
+# Módulo 0 · Ejercicios
 
-## Ejercicio 1: Probabilidad compuesta de éxito en una trayectoria
+Intenta resolver cada ejercicio ejecutando y modificando los scripts de `code/` antes de desplegar la solución.
 
-Tu equipo diseña un agente que en promedio necesita **7 pasos** para completar una preselección. Hoy cada paso elige la herramienta y argumentos correctos el **90 %** de las veces.
+---
 
-1. Calcula la probabilidad de que una ejecución de 7 pasos termine sin ningún fallo intermedio.
-2. Si logras reemplazar los primeros 4 pasos por un workflow determinista en código (con confiabilidad del 99.5 % en bloque) y dejas al agente solo los últimos 3 pasos exploratorios (al 90 % cada uno), ¿cuál es la nueva tasa de éxito de punta a punta?
+### Ejercicio 1 — Calcular la caída de confiabilidad compuesta
+Si un agente necesita dar 11 pasos de herramientas para preseleccionar `VAC-101` y tu modelo acierta cada decisión individual con probabilidad $p = 0.95$, ¿cuál es la probabilidad de que complete los 11 pasos sin ningún error? ¿Qué precisión por paso $p$ necesitarías para que la trayectoria completa de 11 pasos tenga al menos un **90 %** de éxito?
 
 <details>
-<summary>Solución comentada</summary>
+<summary>Ver solución</summary>
 
-1. Con 7 pasos autónomos independientes al 90 %:
-   - `P(éxito) = 0.90⁷ ≈ 0.4783` (**47.8 %**)
-   - Más de la mitad de las corridas fallan o requieren recuperación.
-2. Con los primeros 4 pasos fijados en código (`0.995`) y solo 3 pasos autónomos (`0.90³`):
-   - `P(éxito) = 0.995 × 0.90³ = 0.995 × 0.729 ≈ 0.7254` (**72.5 %**)
-   - Reducir el número de decisiones abiertas del modelo sube la confiabilidad casi 25 puntos porcentuales sin cambiar de modelo.
+1. Con $p = 0.95$ y $n = 11$ pasos independientes:
+   $$\text{Éxito}_{11} = 0.95^{11} \approx 0.5688 \text{ (56.9 \%)}$$
+2. Para lograr $\text{Éxito}_{11} \ge 0.90$, despejamos $p$:
+   $$p \ge 0.90^{1/11} \approx 0.9905 \text{ (99.05 \% por paso)}$$
 
+Por eso en producción reducimos el número de pasos libres delegando las validaciones repetitivas a funciones deterministas o máquinas de estados.
 </details>
 
 ---
 
-## Ejercicio 2: Detector de bucle repetitivo
-
-Modifica `PresupuestoAgente` para que rechace una llamada si el agente intenta ejecutar exactamente la misma herramienta con los mismos argumentos más de una vez en la misma trayectoria.
+### Ejercicio 2 — Cortar por presupuesto en dólares (`max_costo_usd`)
+En `code/02_presupuesto_y_frenos.py`, la ejecución sana de `VAC-101` consume `15.915` tokens de entrada y `224` de salida (`$0.006724 USD` a los precios por defecto de `$0.40 / $1.60` por millón). Añade un cuarto caso que simule el uso de un modelo grande de razonamiento (`precio_entrada_1m=10.0`, `precio_salida_1m=30.0`) con un techo de `max_costo_usd=0.05`. ¿En qué paso se dispara `PresupuestoAgotado`?
 
 <details>
-<summary>Solución comentada</summary>
+<summary>Ver solución</summary>
 
-Basta con guardar un `set` de hashes `(herramienta, argumentos_json_ordenados)` usando `clave_idempotencia(herramienta, argumentos)` de `comun/ag_comun.py`. Si la clave ya está en `vistos`, devolvemos al modelo un mensaje explícito: `"Ya ejecutaste esta consulta con los mismos argumentos. Usa el resultado anterior o cambia los filtros."` sin gastar otra llamada al servicio externo.
+```python
+presupuesto_caro = PresupuestoAgente(
+    max_pasos=16,
+    max_tokens=60_000,
+    max_costo_usd=0.05,
+    precio_entrada_1m=10.0,
+    precio_salida_1m=30.0,
+)
+resultado = correr_con_presupuesto(crear_modelo(), "VAC-101", presupuesto_caro)
+```
 
+Con `$10 / 1M` de entrada, apenas la suma acumulada de `tokens_entrada` supera los `5.000` tokens (alrededor del **paso 5**), `costo_usd` rebasa `$0.05` y `registrar()` corta la corrida con `motivo_corte="max_costo_usd=0.05"`.
 </details>
