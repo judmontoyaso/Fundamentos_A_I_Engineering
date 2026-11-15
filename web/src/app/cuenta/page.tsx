@@ -14,6 +14,7 @@ export const metadata: Metadata = { title: "Mi cuenta" };
 export const dynamic = "force-dynamic";
 
 const fecha = (iso: string) => new Date(iso).toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric" });
+const ORDEN = ["ai-engineering", "evals", "ai-search", "agentes"];
 
 export default async function Cuenta() {
   const usuario = await getUsuario();
@@ -21,40 +22,51 @@ export default async function Cuenta() {
   const [accesos, progreso] = await Promise.all([store.accesos(usuario.id), store.progreso(usuario.id)]);
   const activos = accesos.filter((a) => vigente(a));
   const admin = esAdmin(usuario);
+  const listaCursos = [...cursos].sort((a, b) => ORDEN.indexOf(a.id) - ORDEN.indexOf(b.id));
 
   return (
     <Sitio>
       <div className="pagina">
         <h1>Mi cuenta</h1>
-        <p className="muted">{usuario.email}{admin ? " · administrador" : ""}</p>
+        <p className="muted">
+          {usuario.nombre ? <><b>{usuario.nombre}</b> · </> : null}
+          {usuario.email}{admin ? " · administrador" : ""}
+        </p>
 
         <h2>Mis cursos y certificados</h2>
-        {cursos.map((c) => {
+        {listaCursos.map((c, idx) => {
           const lecciones = itemsDe(c.id);
           const hechas = lecciones.filter((i) => progreso[i.id]).length;
+          const pct = lecciones.length ? Math.round((hechas / lecciones.length) * 100) : 0;
           const abierto = admin || activos.some((a) => cubre(a, c.id));
           const sigue = lecciones.find((i) => !progreso[i.id] && (abierto || i.gratis)) ?? lecciones[0];
           const completo = cursoCompletado(c.id, progreso);
           const certCodigo = completo ? emitirCodigoCertificado(usuario, c.id) : null;
           return (
-            <div className="caja fila" key={c.id}>
-              <div>
-                <b>{c.titulo}</b>
-                <div className="aviso">
-                  {hechas} de {lecciones.length} lecciones · {abierto ? "acceso completo" : "solo la muestra gratis"}
-                  {completo ? " · ¡curso completado!" : ""}
+            <div className="caja cuenta-curso" key={c.id}>
+              <div className="fila">
+                <div>
+                  <span className="num">Curso {idx + 1} · {c.modulos} módulos</span>
+                  <div style={{ fontWeight: 600, fontSize: "1.05rem", marginTop: ".15rem" }}>{c.titulo}</div>
+                  <div className="aviso">
+                    {hechas} de {lecciones.length} unidades ({pct} %) · {abierto ? "acceso completo" : "muestra gratuita"}
+                    {completo ? " · certificado desbloqueado" : ""}
+                  </div>
                 </div>
+                <span style={{ display: "flex", gap: ".5rem", flexWrap: "wrap" }}>
+                  <Link className="btn primary" href={`/leer/${sigue.id}`}>{completo ? "Repasar" : hechas ? "Continuar" : "Empezar"}</Link>
+                  {certCodigo && (
+                    <Link className="btn done-state" href={`/certificado/${encodeURIComponent(certCodigo)}`}>
+                      Ver certificado
+                    </Link>
+                  )}
+                  {abierto ? <a className="btn" href={`/descargar/${c.id}`}>Descargar código (.zip)</a>
+                    : <Link className="btn" href={`/comprar?plan=curso&curso=${c.id}`}>Comprar</Link>}
+                </span>
               </div>
-              <span style={{ display: "flex", gap: ".5rem", flexWrap: "wrap" }}>
-                <Link className="btn primary" href={`/leer/${sigue.id}`}>{completo ? "Repasar" : hechas ? "Continuar" : "Empezar"}</Link>
-                {certCodigo && (
-                  <Link className="btn" href={`/certificado/${encodeURIComponent(certCodigo)}`}>
-                    Ver certificado
-                  </Link>
-                )}
-                {abierto ? <a className="btn" href={`/descargar/${c.id}`}>Descargar código</a>
-                  : <Link className="btn" href={`/comprar?plan=curso&curso=${c.id}`}>Comprar</Link>}
-              </span>
+              <div className="bar" style={{ marginTop: ".75rem" }}>
+                <span style={{ width: `${pct}%`, background: completo ? "var(--ok)" : "var(--accent)" }} />
+              </div>
             </div>
           );
         })}
@@ -63,7 +75,7 @@ export default async function Cuenta() {
         <div className="caja">
           <form className="form" method="post" action="/api/cuenta/nombre">
             <label>
-              Nombre completo (tal como aparecerá en tus certificados)
+              Nombre completo (tal como aparecerá en tus certificados verificables)
               <input
                 type="text"
                 name="nombre"
@@ -80,7 +92,7 @@ export default async function Cuenta() {
 
         <h2>Mi acceso</h2>
         {accesos.length === 0 ? (
-          <div className="caja">Aún no tienes un plan. <Link href="/#planes">Ver planes</Link></div>
+          <div className="caja">Aún no tienes un plan activo. <Link href="/#planes">Ver planes</Link></div>
         ) : accesos.map((a) => (
           <div className="caja fila" key={a.id}>
             <div>

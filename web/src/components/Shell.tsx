@@ -34,7 +34,11 @@ export function Shell({ cursos, inicios, cursoId, grupos, actual, progreso, abie
       if (t === "light" || t === "dark") setTema(t);
     } catch { /* almacenamiento bloqueado */ }
   }, []);
-  useEffect(() => { setLateral(false); }, [actual]);
+
+  useEffect(() => {
+    setLateral(false);
+    document.querySelector(".nav-item.active")?.scrollIntoView({ block: "nearest" });
+  }, [actual]);
 
   function cambiarTema() {
     const t = TEMAS[(TEMAS.indexOf(tema) + 1) % 3];
@@ -62,31 +66,38 @@ export function Shell({ cursos, inicios, cursoId, grupos, actual, progreso, abie
         </Link>
         {cursos.length > 1 && (
           <label className="course-pick">
-            <span>Curso</span>
+            <span>Curso ({cursos.findIndex((c) => c.id === cursoId) + 1} de {cursos.length})</span>
             <select value={cursoId} onChange={(e) => router.push(`/leer/${inicios[e.target.value]}`)}>
-              {cursos.map((c) => <option key={c.id} value={c.id}>{c.titulo}</option>)}
+              {cursos.map((c, idx) => <option key={c.id} value={c.id}>{idx + 1}. {c.titulo}</option>)}
             </select>
           </label>
         )}
         <nav className="nav" aria-label="Temario">
-          {grupos.map((g) => (
-            <div className="nav-group" key={g.grupo}>
-              <span className="glabel">{g.grupo}</span>
-              {g.items.map((it) => (
-                <Link key={it.id} href={`/leer/${it.id}`} prefetch={false}
-                      className={"nav-item" + (it.id === actual ? " active" : "") + (progreso[it.id] ? " done" : "")}
-                      aria-current={it.id === actual ? "page" : undefined}>
-                  <span className="tick">✓</span>
-                  <span>{it.titulo}</span>
-                  {!abierto && !it.gratis ? <span className="kind lock" title="Incluido en los planes">🔒</span>
-                    : !abierto && it.gratis ? <span className="kind">gratis</span>
-                    : it.tipo === "quiz" ? <span className="kind">?</span>
-                    : it.tipo === "anotar" ? <span className="kind">✎</span>
-                    : it.tipo === "lab" ? <span className="kind">{"</>"}</span> : null}
-                </Link>
-              ))}
-            </div>
-          ))}
+          {grupos.map((g) => {
+            const gHechos = g.items.filter((i) => progreso[i.id]).length;
+            const gCompleto = g.items.length > 0 && gHechos === g.items.length;
+            return (
+              <div className="nav-group" key={g.grupo}>
+                <span className="glabel">
+                  <span>{g.grupo}</span>
+                  {email && <small className={gCompleto ? "g-ok" : ""}>{gCompleto ? "✓" : `${gHechos}/${g.items.length}`}</small>}
+                </span>
+                {g.items.map((it) => (
+                  <Link key={it.id} href={`/leer/${it.id}`} prefetch={false}
+                        className={"nav-item" + (it.id === actual ? " active" : "") + (progreso[it.id] ? " done" : "")}
+                        aria-current={it.id === actual ? "page" : undefined}>
+                    <span className="tick">✓</span>
+                    <span>{it.titulo}</span>
+                    {!abierto && !it.gratis ? <span className="kind lock" title="Incluido en los planes">🔒</span>
+                      : !abierto && it.gratis ? <span className="kind">gratis</span>
+                      : it.tipo === "quiz" ? <span className="kind">?</span>
+                      : it.tipo === "anotar" ? <span className="kind">✎</span>
+                      : it.tipo === "lab" ? <span className="kind">{"</>"}</span> : null}
+                  </Link>
+                ))}
+              </div>
+            );
+          })}
         </nav>
       </aside>
 
@@ -100,6 +111,11 @@ export function Shell({ cursos, inicios, cursoId, grupos, actual, progreso, abie
             </div>
             <div className="bar"><span style={{ width: `${email ? pct : 0}%` }} /></div>
           </div>
+          {email && pct === 100 && (
+            <Link className="tbtn cta" href="/cuenta" title="Tu certificado está listo">
+              Certificado listo
+            </Link>
+          )}
           <button className="tbtn" onClick={cambiarTema} title="Cambiar tema" aria-label="Cambiar tema">
             {tema === "light" ? "☀" : tema === "dark" ? "☾" : "◐"}
           </button>

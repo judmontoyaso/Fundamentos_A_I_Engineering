@@ -2,6 +2,8 @@
 
 Curso práctico de 9 módulos sobre los bloques fundamentales de la ingeniería de IA moderna. Todos los módulos comparten **un mismo problema y un mismo dataset** para que cada técnica se compare sobre la misma base y al final se integren en un sistema completo.
 
+![Curso 1 · Arquitectura completa del pipeline TalentAI: extracción validada, Qdrant, Hybrid RAG, LangGraph y observabilidad](/infografias/ai-engineering-arquitectura.png)
+
 ---
 
 ## El caso conductor

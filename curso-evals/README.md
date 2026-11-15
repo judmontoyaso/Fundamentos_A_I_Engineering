@@ -11,6 +11,8 @@ El orden importa y es el contrario al intuitivo. **No se empieza escribiendo mé
 dónde falla el sistema, con qué frecuencia, qué fallo importa. Solo después se decide qué medir, y solo al final se
 escribe un juez. Cada técnica entra cuando el sistema la necesita, del caso más fácil de verificar al más difícil.
 
+![Curso 2 · Ciclo de evaluación continua: Error Analysis, Dataset Dorado, Juez Calibrado y Puerta de Calidad en CI/CD](/infografias/evals-arquitectura.svg)
+
 ---
 
 ## Los sistemas que vamos a evaluar

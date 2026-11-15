@@ -51,7 +51,9 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .nav { overflow-y: auto; padding: .6rem; flex: 1; min-height: 0; }
 .nav-group { margin-top: .9rem; }
 .nav-group:first-child { margin-top: .2rem; }
-.glabel { font: 500 .66rem "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: .35rem .6rem; display: block; }
+.glabel { font: 500 .66rem "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: .35rem .6rem; display: flex; align-items: center; justify-content: space-between; gap: .4rem; }
+.glabel small { font-size: .64rem; letter-spacing: 0; color: var(--muted); }
+.glabel small.g-ok { color: var(--ok); font-weight: 700; }
 .nav-item { display: flex; align-items: center; gap: .55rem; width: 100%; text-align: left; background: none; border: 0; cursor: pointer; color: var(--fg); font: inherit; font-size: .9rem; padding: .5rem .6rem; border-radius: 8px; line-height: 1.3; }
 .nav-item:hover { background: var(--surface-2); }
 .nav-item.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }

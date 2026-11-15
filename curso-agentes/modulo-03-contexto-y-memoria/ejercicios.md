@@ -11,10 +11,10 @@ Un agente ejecuta 10 pasos. En cada paso la herramienta devuelve **1.500 tokens*
 <summary>Solución comentada</summary>
 
 1. **Sin podar**:
-   En el paso $k$ (de 1 a 10) entran $1000 + 1500 \times (k-1)$ tokens.
-   Total $= 10 \times 1000 + 1500 \times \frac{9 \times 10}{2} = 10.000 + 67.500 = \mathbf{77.500\text{ tokens}}$.
-2. **Con poda de observaciones ($K=2$ completas, resto a 60 tokens)**:
-   A partir del paso 4 nunca hay más de $2 \times 1500 = 3000$ tokens de observaciones recientes más unos pocos cientos de tokens de resúmenes. El total cae a **~34.200 tokens** (más de un **55 % de ahorro** y menor distracción para el modelo).
+   En el paso `k` (de 1 a 10) entran `1.000 + 1.500 × (k - 1)` tokens.
+   Total = `10 × 1.000 + 1.500 × (9 × 10 / 2) = 10.000 + 67.500 =` **77.500 tokens**.
+2. **Con poda de observaciones (`K = 2` completas, resto a 60 tokens)**:
+   A partir del paso 4 nunca hay más de `2 × 1.500 = 3.000` tokens de observaciones recientes más unos pocos cientos de tokens de resúmenes. El total cae a **~34.200 tokens** (más de un **55 % de ahorro** y menor distracción para el modelo).
 
 </details>
 

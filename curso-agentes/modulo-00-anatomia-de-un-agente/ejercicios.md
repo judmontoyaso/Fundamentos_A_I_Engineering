@@ -11,11 +11,11 @@ Tu equipo diseña un agente que en promedio necesita **7 pasos** para completar 
 <summary>Solución comentada</summary>
 
 1. Con 7 pasos autónomos independientes al 90 %:
-   $$P(\text{éxito}) = 0.90^7 \approx 0.4783 \text{ (47.8 \%)}$$
-   Más de la mitad de las corridas fallan o requieren recuperación.
-2. Con los primeros 4 pasos fijados en código ($0.995$) y solo 3 pasos autónomos ($0.90^3$):
-   $$P(\text{éxito}) = 0.995 \times 0.90^3 = 0.995 \times 0.729 \approx 0.7254 \text{ (72.5 \%)}$$
-   Reducir el número de decisiones abiertas del modelo sube la confiabilidad casi 25 puntos porcentuales sin cambiar de modelo.
+   - `P(éxito) = 0.90⁷ ≈ 0.4783` (**47.8 %**)
+   - Más de la mitad de las corridas fallan o requieren recuperación.
+2. Con los primeros 4 pasos fijados en código (`0.995`) y solo 3 pasos autónomos (`0.90³`):
+   - `P(éxito) = 0.995 × 0.90³ = 0.995 × 0.729 ≈ 0.7254` (**72.5 %**)
+   - Reducir el número de decisiones abiertas del modelo sube la confiabilidad casi 25 puntos porcentuales sin cambiar de modelo.
 
 </details>
 

@@ -45,7 +45,7 @@ export default async function Entrar({ searchParams }: Props) {
             {esRegistro ? "Crea tu cuenta" : "Bienvenido de vuelta"}
           </h1>
           <p className="aviso" style={{ marginBottom: "1.1rem" }}>
-            Guarda tu progreso en los 3 cursos, tus autoevaluaciones y tus certificados verificables.
+            Guarda tu progreso en los 4 cursos, tus autoevaluaciones y tus certificados verificables.
           </p>
 
           {sp.error && (

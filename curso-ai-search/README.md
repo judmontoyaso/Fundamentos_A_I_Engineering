@@ -8,6 +8,8 @@ de Evals enseñó a medir si un cambio mejora o empeora un sistema. Este junta l
 búsqueda, y qué cambio lo arregla?** Cada módulo empieza midiendo, prueba una técnica y mira si los números se mueven.
 Si no se mueven, la técnica se quita.
 
+![Curso 3 · Ingeniería de búsqueda y recuperación: línea base nDCG@10, Query Understanding, Rerankers, SQL/Grafos y LTR](/infografias/ai-search-arquitectura.svg)
+
 ---
 
 ## El proyecto: el buscador, ahora con usuarios

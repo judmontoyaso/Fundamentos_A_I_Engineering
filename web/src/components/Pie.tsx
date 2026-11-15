@@ -10,7 +10,11 @@ export function Flechas({ prev, next }: { prev?: ItemNav; next?: ItemNav }) {
   return (
     <div className="nav-arrows">
       {prev && <Link className="btn" href={`/leer/${prev.id}`}>← {prev.titulo}</Link>}
-      {next && <Link className="btn" href={`/leer/${next.id}`}>{next.titulo} →</Link>}
+      {next ? (
+        <Link className="btn" href={`/leer/${next.id}`}>{next.titulo} →</Link>
+      ) : (
+        <Link className="btn" href="/cuenta">Ir a Mi cuenta / Certificado →</Link>
+      )}
     </div>
   );
 }

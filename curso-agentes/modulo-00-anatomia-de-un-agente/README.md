@@ -2,7 +2,7 @@
 
 Un error frecuente en ingeniería de IA es convertir un problema que se resuelve con tres funciones deterministas y una llamada a un LLM en un **agente autónomo con bucle abierto**. Cada vez que le entregas al modelo la decisión de *qué hacer a continuación* y *cuándo detenerse*, introduces tres riesgos:
 
-1. **Propagación multiplicativa del error**: si cada paso tiene una probabilidad de acierto de $p = 0.92$, tras 8 pasos la probabilidad de completar la trayectoria sin errores cae a $0.92^8 \approx 0.51$.
+1. **Propagación multiplicativa del error**: si cada paso tiene una probabilidad de acierto de `p = 0.92`, tras 8 pasos la probabilidad de completar la trayectoria sin errores cae a `0.92⁸ ≈ 0.51` (51 %).
 2. **Varianza en costo y latencia**: un flujo fijo tarda siempre ~1.2 segundos; un agente en bucle puede tardar 1.5 segundos o 28 segundos si entra en una espiral de reintentos.
 3. **Superficie de efectos secundarios**: un agente con herramientas de escritura puede modificar registros equivocados si malinterpreta una observación intermedia.
 

@@ -1,6 +1,7 @@
 // Cabecera y pie de las páginas que no son el lector.
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
+import { TemaBtn } from "@/components/TemaBtn";
 import { esAdmin, getUsuario, urlEntrar } from "@/lib/auth";
 
 const NOMBRE = process.env.NEXT_PUBLIC_NOMBRE_SITIO ?? "IA en Producción";
@@ -18,13 +19,17 @@ export async function Sitio({ children }: { children: React.ReactNode }) {
           <Link href="/#preguntas">Preguntas</Link>
           {esAdmin(usuario) && <Link href="/admin">Admin</Link>}
         </nav>
+        <TemaBtn />
         {usuario ? <Link className="btn" href="/cuenta">Mi cuenta</Link> : <a className="btn" href={urlEntrar("/cuenta")}>Entrar</a>}
       </header>
       {children}
       <footer className="sitio-pie">
         <div className="ancho">
-          <span>© {new Date().getFullYear()} {NOMBRE}</span>
+          <span style={{ display: "flex", alignItems: "center", gap: ".55rem" }}>
+            <Logo size={22} /> © {new Date().getFullYear()} {NOMBRE}
+          </span>
           <span style={{ display: "flex", gap: "1.1rem", flexWrap: "wrap" }}>
+            <Link href="/certificado/ejemplo">Certificado de ejemplo</Link>
             <Link href="/terminos">Términos</Link>
             <Link href="/privacidad">Privacidad</Link>
             {CONTACTO && <a href={`mailto:${CONTACTO}`}>{CONTACTO}</a>}
