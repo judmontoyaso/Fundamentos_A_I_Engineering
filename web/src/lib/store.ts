@@ -13,7 +13,7 @@ import type { Acceso, EstadoPedido, Etiquetas, Pedido, Progreso, Usuario } from 
 
 export interface Store {
   registrarUsuario(u: Usuario): Promise<void>;
-  usuarioPorEmail(email: string): Promise<{ id: string; email: string } | null>;
+  usuarioPorEmail(email: string): Promise<{ id: string; email: string; nombre?: string } | null>;
   progreso(userId: string): Promise<Progreso>;
   marcar(userId: string, itemId: string, hecho: boolean): Promise<void>;
   etiquetas(userId: string, nbId: string): Promise<Etiquetas>;
@@ -43,8 +43,8 @@ function pg(url: string): Store {
     },
     async usuarioPorEmail(email) {
       await ok();
-      const r = await sql`select id, email from usuarios where email = ${email.toLowerCase()} order by creado limit 1`;
-      return r[0] ? { id: r[0].id, email: r[0].email } : null;
+      const r = await sql`select id, email, nombre from usuarios where email = ${email.toLowerCase()} order by creado limit 1`;
+      return r[0] ? { id: r[0].id, email: r[0].email, nombre: r[0].nombre ?? undefined } : null;
     },
     async progreso(userId) {
       await ok();

@@ -31,8 +31,8 @@ export function supabase(url: string, claveServicio: string, esquema: string): S
       await q(db.from("usuarios").upsert({ id: u.id, email: u.email, nombre: u.nombre ?? null }, { onConflict: "id" }));
     },
     async usuarioPorEmail(email) {
-      const r = await q<Filas>(db.from("usuarios").select("id, email").eq("email", email.toLowerCase()).order("creado").limit(1));
-      return r[0] ? { id: r[0].id, email: r[0].email } : null;
+      const r = await q<Filas>(db.from("usuarios").select("id, email, nombre").eq("email", email.toLowerCase()).order("creado").limit(1));
+      return r[0] ? { id: r[0].id, email: r[0].email, nombre: r[0].nombre ?? undefined } : null;
     },
     async progreso(userId) {
       const r = await q<Filas>(db.from("progreso").select("item_id, hecho").eq("user_id", userId));

@@ -1,10 +1,11 @@
-// Mi cuenta: qué acceso tengo, cuánto he avanzado y cómo salir.
+// Mi cuenta: qué acceso tengo, cuánto he avanzado, mis certificados y cómo salir.
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Sitio } from "@/components/Sitio";
 import { cubre, vigente } from "@/lib/acceso";
 import { esAdmin, getUsuario, urlEntrar, urlSalir } from "@/lib/auth";
+import { cursoCompletado, emitirCodigoCertificado } from "@/lib/certificado";
 import { curso, cursos, itemsDe } from "@/lib/contenido";
 import { PLANES } from "@/lib/planes";
 import { store } from "@/lib/store";
@@ -27,26 +28,55 @@ export default async function Cuenta() {
         <h1>Mi cuenta</h1>
         <p className="muted">{usuario.email}{admin ? " · administrador" : ""}</p>
 
-        <h2>Mis cursos</h2>
+        <h2>Mis cursos y certificados</h2>
         {cursos.map((c) => {
           const lecciones = itemsDe(c.id);
           const hechas = lecciones.filter((i) => progreso[i.id]).length;
           const abierto = admin || activos.some((a) => cubre(a, c.id));
           const sigue = lecciones.find((i) => !progreso[i.id] && (abierto || i.gratis)) ?? lecciones[0];
+          const completo = cursoCompletado(c.id, progreso);
+          const certCodigo = completo ? emitirCodigoCertificado(usuario, c.id) : null;
           return (
             <div className="caja fila" key={c.id}>
               <div>
                 <b>{c.titulo}</b>
-                <div className="aviso">{hechas} de {lecciones.length} lecciones · {abierto ? "acceso completo" : "solo la muestra gratis"}</div>
+                <div className="aviso">
+                  {hechas} de {lecciones.length} lecciones · {abierto ? "acceso completo" : "solo la muestra gratis"}
+                  {completo ? " · ¡curso completado!" : ""}
+                </div>
               </div>
               <span style={{ display: "flex", gap: ".5rem", flexWrap: "wrap" }}>
-                <Link className="btn primary" href={`/leer/${sigue.id}`}>{hechas ? "Continuar" : "Empezar"}</Link>
+                <Link className="btn primary" href={`/leer/${sigue.id}`}>{completo ? "Repasar" : hechas ? "Continuar" : "Empezar"}</Link>
+                {certCodigo && (
+                  <Link className="btn" href={`/certificado/${encodeURIComponent(certCodigo)}`}>
+                    Ver certificado
+                  </Link>
+                )}
                 {abierto ? <a className="btn" href={`/descargar/${c.id}`}>Descargar código</a>
                   : <Link className="btn" href={`/comprar?plan=curso&curso=${c.id}`}>Comprar</Link>}
               </span>
             </div>
           );
         })}
+
+        <h2>Perfil para certificados</h2>
+        <div className="caja">
+          <form className="form" method="post" action="/api/cuenta/nombre">
+            <label>
+              Nombre completo (tal como aparecerá en tus certificados)
+              <input
+                type="text"
+                name="nombre"
+                defaultValue={usuario.nombre ?? ""}
+                placeholder="Ej. Ana María Gómez"
+                required
+                minLength={2}
+                maxLength={80}
+              />
+            </label>
+            <button type="submit" className="btn">Guardar nombre</button>
+          </form>
+        </div>
 
         <h2>Mi acceso</h2>
         {accesos.length === 0 ? (
