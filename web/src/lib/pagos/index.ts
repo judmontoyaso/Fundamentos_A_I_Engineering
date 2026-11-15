@@ -58,10 +58,11 @@ export async function aplicarPago(proveedorId: string, ref: string): Promise<Ped
   return store.pedido(pedido.id);
 }
 
-/** URL pública de la app: APP_BASE_URL si existe; si no, la de la petición. */
+/** URL pública de la app según el host que está visitando el comprador (o APP_BASE_URL como respaldo). */
 export function urlBase(req: Request): string {
-  if (process.env.APP_BASE_URL) return process.env.APP_BASE_URL.replace(/\/$/, "");
   const h = req.headers;
   const host = h.get("x-forwarded-host") ?? h.get("host");
-  return host ? `${h.get("x-forwarded-proto") ?? "http"}://${host}` : new URL(req.url).origin;
+  if (host) return `${h.get("x-forwarded-proto") ?? "http"}://${host}`;
+  if (process.env.APP_BASE_URL) return process.env.APP_BASE_URL.replace(/\/$/, "");
+  return new URL(req.url).origin;
 }
