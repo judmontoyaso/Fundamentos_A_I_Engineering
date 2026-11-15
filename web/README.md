@@ -53,7 +53,48 @@ tablas se crean solas en el esquema por defecto.
 3. Allowed Logout URLs: `https://TU-DOMINIO` (y `http://localhost:3000`).
 4. Variables: `AUTH0_DOMAIN`, `AUTH0_CLIENT_ID`, `AUTH0_CLIENT_SECRET`, `AUTH0_SECRET` (`openssl rand -hex 32`) y `APP_BASE_URL`.
 
-Pon tu correo en `ADMIN_EMAILS` para ver `/admin`. El correo debe estar verificado en Auth0.
+Pon tu correo en `ADMIN_EMAILS` para ver `/admin`. El correo debe estar verificado (por Google, por Auth0 o por
+el enlace que envía la app).
+
+El botón «Continuar con Google» usa la conexión `google-oauth2` de Auth0: en producción configura en Auth0 tus
+propias credenciales de Google, no las de prueba. Desactiva en la aplicación de Auth0 la conexión
+Username-Password si no la usas: las altas por ahí llegan sin correo verificado.
+
+#### Acceso por correo y contraseña
+
+`/entrar` también deja crear cuenta con correo y contraseña. Las contraseñas viven en Supabase Auth
+(`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` y la clave service role). Reglas:
+
+- Una cuenta recién creada está **sin verificar**: puede estudiar y comprar, pero no es administradora y no se
+  une a ninguna otra cuenta.
+- Se verifica al abrir el enlace que la app envía por correo (necesita la sección de correos de abajo). La marca
+  se guarda en `app_metadata.curso_correo_verificado` del usuario de Supabase.
+- Entrar con Google y con correo comparte progreso y compras **solo** si las dos identidades tienen el correo
+  verificado. Así nadie hereda una cuenta registrando un correo ajeno.
+- Sin Supabase configurado, el acceso por correo solo funciona en desarrollo; en producción se rechaza.
+
+### 2b. Correos y tareas programadas
+
+Los correos salen por la API de [Resend](https://resend.com): verifica tu dominio allí y define `RESEND_API_KEY`
+y `CORREO_REMITENTE`. Con eso la app envía:
+
+| Correo | Cuándo |
+|---|---|
+| Verificación de cuenta | Al crear cuenta con correo, y al pedirlo desde «Mi cuenta» |
+| Confirmación de compra | Cuando la pasarela confirma el pago y se concede el acceso |
+| Aviso de vencimiento | Cuando lo dispara la tarea programada |
+
+La app no tiene reloj propio. El aviso de vencimiento lo dispara un programador externo, una vez al día:
+
+```
+POST https://TU-DOMINIO/api/tareas/vencimientos?dias=3
+Authorization: Bearer <TAREAS_SECRET>
+```
+
+En **n8n**: un nodo *Schedule Trigger* (cada día a la misma hora) seguido de un nodo *HTTP Request* con método
+POST, esa URL y la cabecera `Authorization`. Responde `{ ok, revisados, enviados, omitidos }`. Para avisar a 7 y a
+1 día, añade otros dos nodos con `?dias=7` y `?dias=1`. Define también `SITIO_URL` para que los correos lleven
+enlaces.
 
 ### 3. Precios
 
@@ -74,7 +115,15 @@ Se activa cada una al definir sus variables; si hay varias, el comprador elige.
 El aviso de la pasarela nunca se toma como verdad: solo aporta el id del pago, y el estado, el monto y la
 moneda se consultan a la pasarela antes de activar nada. Prueba primero con las credenciales de prueba de cada una.
 
-Para añadir otra pasarela (por ejemplo Lemon Squeezy): un archivo en `src/lib/pagos/` que implemente
+- **Lemon Squeezy** (checkout alojado, USD): `LEMONSQUEEZY_API_KEY`, `LEMONSQUEEZY_STORE_ID`,
+  `LEMONSQUEEZY_WEBHOOK_SECRET` y una variante por plan (`LEMONSQUEEZY_VARIANT_MENSUAL`, `_ANUAL`, `_CURSO`).
+  Las variantes deben ser de pago único: las renovaciones de una suscripción no se procesan.
+  Webhook: `https://TU-DOMINIO/api/webhooks/lemonsqueezy`, eventos `order_created` y `order_refunded`.
+
+Si la concesión del acceso falla después de cobrar, el webhook responde 500 y la pasarela reintenta: el
+reintento encuentra el pedido ya pagado, ve que falta el acceso y lo concede.
+
+Para añadir otra pasarela: un archivo en `src/lib/pagos/` que implemente
 `Proveedor` y una línea en la lista `TODOS` de `src/lib/pagos/index.ts`.
 
 ### 5. Despliegue (Vercel)

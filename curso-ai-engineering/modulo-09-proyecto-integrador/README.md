@@ -121,7 +121,7 @@ mostrar**. Son la lección principal del módulo:
    5.8 s de llamadas al modelo: tres consultas en paralelo esperaban su turno porque la llamada al LLM estaba
    **dentro** del candado. Arreglo: llamar al LLM fuera y bloquear solo la escritura en la base.
 4. **Detalles de datos reales:** un nombre en mayúsculas ("MARTA SOL") que se propagaba hasta las respuestas.
-5. **El arreglo 1 tenía un efecto secundario.** Al servir el sistema en la app (página *Asistente de selección*),
+5. **El arreglo 1 tenía un efecto secundario.** Al servir el sistema detrás de una interfaz, con pedidos escritos por personas,
    el mismo pedido de arriba dejó de recomendar a Lucía: **ni la evaluó**. Midiendo solo la recuperación (sin
    llamadas al modelo), los 8 pedidos cortos del examen del §5 ponían a los correctos entre los 4 primeros, pero
    con pedidos largos (el pedido con su requisito, o el pedido más los recuerdos del arreglo 1) Lucía quedaba 5.ª o

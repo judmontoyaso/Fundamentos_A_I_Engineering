@@ -7,7 +7,7 @@
 - buscador(): el buscador híbrido del Módulo 4 (Qdrant + BM25 + embeddings),
   que los workflows y el agente usan como herramienta.
 
-Corre esta celda primero: las demás la importan.
+Los demás scripts del módulo lo importan: no hace falta ejecutarlo aparte.
 """
 from __future__ import annotations
 import asyncio

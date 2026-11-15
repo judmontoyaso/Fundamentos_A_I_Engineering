@@ -170,7 +170,7 @@ Tres cosas que un promedio nunca te habría dicho:
   hicieron para investigarlo. Con `v2`, que tiene justo la regla de los solapes, dio **7, 6, 10 y 12**. Más
   instrucciones no hicieron al modelo pequeño más preciso: lo **desestabilizaron**. La exactitud global de `nano`
   apenas cambió (28 → 28-29), y escondía un arreglo de dos casos y una rotura.
-- **Una rotura puede esconderse en una pasada con suerte.** Al correr `02` otra vez, ya desde la app, el #18 salió
+- **Una rotura puede esconderse en una pasada con suerte.** Al correr `02` otra vez, el #18 salió
   bien en las dos pasadas de `v2` y el informe dijo "v2 no rompe nada". Para salir de dudas se midió solo ese caso,
   10 llamadas por versión: `v1` acertó **9 de 10**; `v2`, **3 de 10** (dio 8 cuatro veces y 9 tres). La rotura es
   real, pero no es "siempre mal": es una caída fuerte de la probabilidad de acertar, y con dos pasadas a veces no se

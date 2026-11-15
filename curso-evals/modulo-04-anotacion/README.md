@@ -3,7 +3,7 @@
 > **Objetivo:** que las etiquetas contra las que mides el sistema sean confiables: una guía escrita, un acuerdo
 > medido entre anotadores y un proceso para convertir cada desacuerdo en una regla.
 >
-> **Lo que te llevas:** una tarea de anotación real en la app (tú etiquetas 30 perfiles), el kappa de Cohen calculado
+> **Lo que te llevas:** una tarea de anotación real (tú etiquetas 30 perfiles), el kappa de Cohen calculado
 > y entendido, y la historia de una guía que pasó por cuatro versiones con su efecto medido.
 
 Índice:
@@ -156,7 +156,7 @@ Dos reglas del proceso:
 - **Anota la duda y la razón**, no solo la etiqueta.
 - **Etiqueta a ciegas**: sin ver la salida de otro anotador ni la del sistema "bueno".
 - **Re-etiqueta cuando cambie la guía**, al menos los casos afectados.
-- **Herramientas:** la página de la app basta para empezar. A escala, Label Studio, Argilla o la anotación de Langfuse
+- **Herramientas:** la página de anotación de este módulo basta para empezar. A escala, Label Studio, Argilla o la anotación de Langfuse
   hacen lo mismo con varios usuarios.
 
 ---

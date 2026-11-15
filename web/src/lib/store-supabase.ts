@@ -2,7 +2,7 @@
 // Las tablas se crean una vez con db/supabase.sql, y el esquema debe estar en "Exposed schemas" de la API.
 import "server-only";
 import { createClient } from "@supabase/supabase-js";
-import { aAcceso, aPedido } from "./filas";
+import { aAcceso, aCupon, aPedido } from "./filas";
 import type { Store } from "./store";
 
 type Res<T> = PromiseLike<{ data: T | null; error: { message: string; code?: string } | null }>;
@@ -33,6 +33,37 @@ export function supabase(url: string, claveServicio: string, esquema: string): S
     async usuarioPorEmail(email) {
       const r = await q<Filas>(db.from("usuarios").select("id, email, nombre").eq("email", email.toLowerCase()).order("creado").limit(1));
       return r[0] ? { id: r[0].id, email: r[0].email, nombre: r[0].nombre ?? undefined } : null;
+    },
+    async usuariosRecientes(n) {
+      const us = await q<Filas>(db.from("usuarios").select("*").order("creado", { ascending: false }).limit(n));
+      const ids = us.map((u) => u.id as string);
+      const prog = ids.length ? await q<Filas>(db.from("progreso").select("user_id").eq("hecho", true).in("user_id", ids)) : [];
+      const conteo = new Map<string, number>();
+      for (const p of prog) conteo.set(p.user_id, (conteo.get(p.user_id) ?? 0) + 1);
+      return us.map((u) => ({
+        id: String(u.id),
+        email: String(u.email),
+        nombre: u.nombre ?? null,
+        creado: new Date(u.creado).toISOString(),
+        unidadesHechas: conteo.get(u.id) ?? 0,
+      }));
+    },
+    async eliminarUsuario(id) {
+      await q(db.from("accesos").update({ estado: "revocado" }).eq("user_id", id));
+      await q(db.from("progreso").delete().eq("user_id", id));
+      await q(db.from("etiquetas").delete().eq("user_id", id));
+      await q(db.from("usuarios").delete().eq("id", id));
+    },
+    async usuariosPorEmail(email) {
+      const r = await q<Filas>(db.from("usuarios").select("id, email, nombre").eq("email", email.toLowerCase()).order("creado"));
+      return r.map((x) => ({ id: x.id, email: x.email, nombre: x.nombre ?? undefined }));
+    },
+    async accesosPorVencer(desde, hasta) {
+      const filas = await q<Filas>(db.from("accesos").select("*").eq("estado", "activo").gte("hasta", desde).lt("hasta", hasta));
+      if (!filas.length) return [];
+      const us = await q<Filas>(db.from("usuarios").select("id, email").in("id", [...new Set(filas.map((f) => f.user_id))]));
+      const correo = new Map(us.map((u) => [u.id, u.email as string]));
+      return filas.map((f) => ({ ...aAcceso(f), email: correo.get(f.user_id) ?? null }));
     },
     async progreso(userId) {
       const r = await q<Filas>(db.from("progreso").select("item_id, hecho").eq("user_id", userId));
@@ -84,13 +115,38 @@ export function supabase(url: string, claveServicio: string, esquema: string): S
       return r[0] ? aPedido(r[0]) : null;
     },
     async transicionPedido(id, desde, a, ref) {
-      // Un solo UPDATE condicionado al estado actual: si dos avisos llegan a la vez, solo uno cambia la fila.
       const cambio = ref ? { estado: a, ref_proveedor: ref } : { estado: a };
       const r = await q<Filas>(db.from("pedidos").update(cambio).eq("id", id).in("estado", desde).select("id"));
       return r.length > 0;
     },
     async pedidosRecientes(n) {
       return (await q<Filas>(db.from("pedidos").select("*").order("creado", { ascending: false }).limit(n))).map(aPedido);
+    },
+    async cupon(codigo) {
+      const r = await q<Filas>(db.from("cupones").select("*").eq("codigo", codigo.trim().toUpperCase()).limit(1));
+      return r[0] ? aCupon(r[0]) : null;
+    },
+    async cupones() {
+      return (await q<Filas>(db.from("cupones").select("*").order("creado", { ascending: false }))).map(aCupon);
+    },
+    async guardarCupon(c) {
+      await q(db.from("cupones").upsert({
+        codigo: c.codigo.trim().toUpperCase(),
+        porcentaje: c.porcentaje,
+        plan: c.plan,
+        curso: c.curso,
+        usos_max: c.usosMax,
+        activo: c.activo,
+      }, { onConflict: "codigo" }));
+    },
+    async usarCupon(codigo) {
+      const actual = await this.cupon(codigo);
+      if (!actual || !actual.activo || (actual.usosMax !== null && actual.usos >= actual.usosMax)) return false;
+      await q(db.from("cupones").update({ usos: actual.usos + 1 }).eq("codigo", actual.codigo));
+      return true;
+    },
+    async eliminarCupon(codigo) {
+      await q(db.from("cupones").delete().eq("codigo", codigo.trim().toUpperCase()));
     },
   };
 }

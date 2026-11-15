@@ -10,7 +10,7 @@
    Después de cada cambio se corren las 41 consultas y se comparan con un índice construido desde cero con el estado
    real. Se mide: embeddings calculados, páginas que muestran a alguien ya borrado y páginas distintas a la verdad.
 2. EL INVENTARIO: ¿en cuántos sitios del sistema está la primera persona que pidió que la borraran? Se recorren las
-   salidas del curso, las bases de la app y los documentos, contando (sin borrar nada).
+   salidas de los cursos (trazas y cachés incluidas) y los documentos, contando (sin borrar nada).
 """
 from __future__ import annotations
 import hashlib

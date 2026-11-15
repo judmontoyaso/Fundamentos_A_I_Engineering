@@ -13,7 +13,7 @@ RRF trata igual a BM25 y a la densa. Cambia `ranking()` para que BM25 pese el do
 ¿Sube el total? ¿Qué pasa con las paráfrasis?
 
 ### Ejercicio 3 — Otro embedder
-Cambia `EMB_MODEL` en `app/backend/.env` por `intfloat/multilingual-e5-small` (y añade los prefijos `query: ` y
+Cambia la variable de entorno `EMB_MODEL` por `intfloat/multilingual-e5-small` (y añade los prefijos `query: ` y
 `passage: ` en `as_buscador`) o usa el backend de OpenAI. Re-mide la línea base. ¿Qué tipos mejoran?
 
 ### Ejercicio 4 — Tus propias consultas

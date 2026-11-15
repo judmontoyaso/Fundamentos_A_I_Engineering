@@ -66,7 +66,7 @@ if __name__ == "__main__":
             filas.append((modelo, ex, u1, ac, fa, u2, time.time() - t))
             print(f"{modelo}: fallos de extracción -> {fallos or 'ninguno'}")
     finally:
-        # En la app, el kernel comparte este módulo con las demás celdas (y con el asistente del Módulo 9):
+        # tz.MODELO es estado compartido: si otro código usa el trazador en el mismo proceso (un notebook, una API),
         # sin restaurarlo, todo lo que viniera después usaría el último modelo de la lista.
         tz.MODELO = original
 

@@ -7,13 +7,19 @@ import fs from "node:fs";
 import path from "node:path";
 import postgres from "postgres";
 import { ESQUEMA } from "./esquema";
-import { aAcceso, aPedido } from "./filas";
+import { aAcceso, aCupon, aPedido } from "./filas";
 import { supabase } from "./store-supabase";
-import type { Acceso, EstadoPedido, Etiquetas, Pedido, Progreso, Usuario } from "./tipos";
+import type { Acceso, Cupon, EstadoPedido, Etiquetas, Pedido, Progreso, Usuario, UsuarioRegistrado } from "./tipos";
 
 export interface Store {
   registrarUsuario(u: Usuario): Promise<void>;
   usuarioPorEmail(email: string): Promise<{ id: string; email: string; nombre?: string } | null>;
+  /** Todas las cuentas con ese correo, de la más antigua a la más reciente. */
+  usuariosPorEmail(email: string): Promise<{ id: string; email: string; nombre?: string }[]>;
+  /** Accesos activos cuyo vencimiento cae en [desde, hasta), con el correo de su dueño. */
+  accesosPorVencer(desde: string, hasta: string): Promise<(Acceso & { email: string | null })[]>;
+  usuariosRecientes(n: number): Promise<UsuarioRegistrado[]>;
+  eliminarUsuario(id: string): Promise<void>;
   progreso(userId: string): Promise<Progreso>;
   marcar(userId: string, itemId: string, hecho: boolean): Promise<void>;
   etiquetas(userId: string, nbId: string): Promise<Etiquetas>;
@@ -28,6 +34,11 @@ export interface Store {
   /** Cambia el estado solo si el actual está en `desde`. Devuelve si hubo cambio (base de la idempotencia). */
   transicionPedido(id: string, desde: EstadoPedido[], a: EstadoPedido, refProveedor: string | null): Promise<boolean>;
   pedidosRecientes(n: number): Promise<Pedido[]>;
+  cupon(codigo: string): Promise<Cupon | null>;
+  cupones(): Promise<Cupon[]>;
+  guardarCupon(c: Omit<Cupon, "usos" | "creado">): Promise<void>;
+  usarCupon(codigo: string): Promise<boolean>;
+  eliminarCupon(codigo: string): Promise<void>;
 }
 
 // ---------------------------------------------------------------- Postgres
@@ -39,12 +50,48 @@ function pg(url: string): Store {
     async registrarUsuario(u) {
       await ok();
       await sql`insert into usuarios (id, email, nombre) values (${u.id}, ${u.email}, ${u.nombre ?? null})
-                on conflict (id) do update set email = excluded.email, nombre = excluded.nombre`;
+                on conflict (id) do update set email = excluded.email, nombre = coalesce(excluded.nombre, usuarios.nombre)`;
     },
     async usuarioPorEmail(email) {
       await ok();
       const r = await sql`select id, email, nombre from usuarios where email = ${email.toLowerCase()} order by creado limit 1`;
       return r[0] ? { id: r[0].id, email: r[0].email, nombre: r[0].nombre ?? undefined } : null;
+    },
+    async usuariosRecientes(n) {
+      await ok();
+      const r = await sql`
+        select u.id, u.email, u.nombre, u.creado,
+               count(p.item_id) filter (where p.hecho = true) as hechas
+        from usuarios u
+        left join progreso p on p.user_id = u.id
+        group by u.id, u.email, u.nombre, u.creado
+        order by u.creado desc
+        limit ${n}`;
+      return r.map((x) => ({
+        id: x.id,
+        email: x.email,
+        nombre: x.nombre ?? null,
+        creado: new Date(x.creado).toISOString(),
+        unidadesHechas: Number(x.hechas ?? 0),
+      }));
+    },
+    async eliminarUsuario(id) {
+      await ok();
+      await sql`update accesos set estado = 'revocado' where user_id = ${id}`;
+      await sql`delete from progreso where user_id = ${id}`;
+      await sql`delete from etiquetas where user_id = ${id}`;
+      await sql`delete from usuarios where id = ${id}`;
+    },
+    async usuariosPorEmail(email) {
+      await ok();
+      const r = await sql`select id, email, nombre from usuarios where email = ${email.toLowerCase()} order by creado`;
+      return r.map((x) => ({ id: x.id, email: x.email, nombre: x.nombre ?? undefined }));
+    },
+    async accesosPorVencer(desde, hasta) {
+      await ok();
+      const r = await sql`select a.*, u.email from accesos a left join usuarios u on u.id = a.user_id
+                          where a.estado = 'activo' and a.hasta >= ${desde} and a.hasta < ${hasta}`;
+      return r.map((x) => ({ ...aAcceso(x), email: x.email ?? null }));
     },
     async progreso(userId) {
       await ok();
@@ -108,16 +155,44 @@ function pg(url: string): Store {
       await ok();
       return (await sql`select * from pedidos order by creado desc limit ${n}`).map(aPedido);
     },
+    async cupon(codigo) {
+      await ok();
+      const r = await sql`select * from cupones where codigo = ${codigo.trim().toUpperCase()} limit 1`;
+      return r[0] ? aCupon(r[0]) : null;
+    },
+    async cupones() {
+      await ok();
+      return (await sql`select * from cupones order by creado desc`).map(aCupon);
+    },
+    async guardarCupon(c) {
+      await ok();
+      await sql`insert into cupones (codigo, porcentaje, plan, curso, usos_max, activo)
+                values (${c.codigo.toUpperCase()}, ${c.porcentaje}, ${c.plan}, ${c.curso}, ${c.usosMax}, ${c.activo})
+                on conflict (codigo) do update set porcentaje = excluded.porcentaje, plan = excluded.plan,
+                curso = excluded.curso, usos_max = excluded.usos_max, activo = excluded.activo`;
+    },
+    async usarCupon(codigo) {
+      await ok();
+      const r = await sql`update cupones set usos = usos + 1
+                          where codigo = ${codigo.toUpperCase()} and activo = true and (usos_max is null or usos < usos_max)
+                          returning codigo`;
+      return r.length > 0;
+    },
+    async eliminarCupon(codigo) {
+      await ok();
+      await sql`delete from cupones where codigo = ${codigo.toUpperCase()}`;
+    },
   };
 }
 
 // ---------------------------------------------------------------- Archivo (desarrollo)
 type Datos = {
-  usuarios: Record<string, { id: string; email: string; nombre?: string }>;
+  usuarios: Record<string, { id: string; email: string; nombre?: string; creado?: string }>;
   progreso: Record<string, Progreso>;
   etiquetas: Record<string, Etiquetas>;
   accesos: Acceso[];
   pedidos: Pedido[];
+  cupones?: Record<string, Cupon>;
 };
 
 function archivo(ruta: string): Store {
@@ -125,7 +200,7 @@ function archivo(ruta: string): Store {
     try {
       return JSON.parse(fs.readFileSync(ruta, "utf8"));
     } catch {
-      return { usuarios: {}, progreso: {}, etiquetas: {}, accesos: [], pedidos: [] };
+      return { usuarios: {}, progreso: {}, etiquetas: {}, accesos: [], pedidos: [], cupones: {} };
     }
   };
   const mutar = <T>(f: (d: Datos) => T): T => {
@@ -136,14 +211,43 @@ function archivo(ruta: string): Store {
     return r;
   };
   return {
-    async registrarUsuario(u) { mutar((d) => { d.usuarios[u.id] = { id: u.id, email: u.email, nombre: u.nombre }; }); },
+    async registrarUsuario(u) {
+      mutar((d) => {
+        const prev = d.usuarios[u.id];
+        d.usuarios[u.id] = { id: u.id, email: u.email, nombre: u.nombre ?? prev?.nombre, creado: prev?.creado ?? new Date().toISOString() };
+      });
+    },
     async usuarioPorEmail(email) { return Object.values(leer().usuarios).find((u) => u.email === email.toLowerCase()) ?? null; },
+    async usuariosRecientes(n) {
+      const d = leer();
+      return Object.values(d.usuarios).slice(-n).reverse().map((u) => ({
+        id: u.id,
+        email: u.email,
+        nombre: u.nombre ?? null,
+        creado: u.creado ?? new Date().toISOString(),
+        unidadesHechas: Object.values(d.progreso[u.id] ?? {}).filter(Boolean).length,
+      }));
+    },
+    async eliminarUsuario(id) {
+      mutar((d) => {
+        d.accesos.forEach((a) => { if (a.userId === id) a.estado = "revocado"; });
+        delete d.progreso[id];
+        delete d.usuarios[id];
+      });
+    },
+    async usuariosPorEmail(email) { return Object.values(leer().usuarios).filter((u) => u.email === email.toLowerCase()); },
+    async accesosPorVencer(desde, hasta) {
+      const d = leer();
+      return d.accesos
+        .filter((a) => a.estado === "activo" && a.hasta !== null && a.hasta >= desde && a.hasta < hasta)
+        .map((a) => ({ ...a, email: d.usuarios[a.userId]?.email ?? null }));
+    },
     async progreso(userId) { return leer().progreso[userId] ?? {}; },
     async marcar(userId, itemId, hecho) { mutar((d) => { (d.progreso[userId] ??= {})[itemId] = hecho; }); },
     async etiquetas(userId, nbId) { return leer().etiquetas[`${userId}::${nbId}`] ?? {}; },
     async etiquetar(userId, nbId, itemId, label, nota) { mutar((d) => { (d.etiquetas[`${userId}::${nbId}`] ??= {})[itemId] = { label, nota }; }); },
     async accesos(userId) { return leer().accesos.filter((a) => a.userId === userId).reverse(); },
-    async crearAcceso(a) { mutar((d) => { d.accesos.push(a); }); },
+    async crearAcceso(a) { mutar((d) => { if (!d.accesos.some((x) => x.id === a.id)) d.accesos.push(a); }); },
     async revocarAcceso(id) { mutar((d) => { d.accesos.forEach((a) => { if (a.id === id) a.estado = "revocado"; }); }); },
     async revocarPorPedido(pedidoId) { mutar((d) => { d.accesos.forEach((a) => { if (a.pedidoId === pedidoId) a.estado = "revocado"; }); }); },
     async accesosRecientes(n) {
@@ -162,6 +266,24 @@ function archivo(ruta: string): Store {
       });
     },
     async pedidosRecientes(n) { return leer().pedidos.slice(-n).reverse(); },
+    async cupon(codigo) { return (leer().cupones ?? {})[codigo.trim().toUpperCase()] ?? null; },
+    async cupones() { return Object.values(leer().cupones ?? {}); },
+    async guardarCupon(c) {
+      mutar((d) => {
+        const cod = c.codigo.toUpperCase();
+        const prev = (d.cupones ??= {})[cod];
+        d.cupones[cod] = { ...c, codigo: cod, usos: prev?.usos ?? 0, creado: prev?.creado ?? new Date().toISOString() };
+      });
+    },
+    async usarCupon(codigo) {
+      return mutar((d) => {
+        const c = (d.cupones ?? {})[codigo.toUpperCase()];
+        if (!c || !c.activo || (c.usosMax !== null && c.usos >= c.usosMax)) return false;
+        c.usos += 1;
+        return true;
+      });
+    },
+    async eliminarCupon(codigo) { mutar((d) => { if (d.cupones) delete d.cupones[codigo.toUpperCase()]; }); },
   };
 }
 

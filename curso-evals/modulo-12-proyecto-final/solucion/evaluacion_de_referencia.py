@@ -7,7 +7,7 @@ Etiquetas de las 10 ofertas con reglas escritas antes de ejecutar:
   - anios_minimos: el mínimo que pide; en un rango ("3 a 5"), el menor.
   - salario_mensual_cop: el mensual en pesos; en un rango, el menor; None si no aparece.
   - skills: las requeridas y las deseables, tal como aparecen (cada esperada debe estar dentro de alguna extraída).
-Corre con: python evaluacion_de_referencia.py   (desde esta carpeta, con el .env de la app cargado)
+Corre con: python evaluacion_de_referencia.py   (desde esta carpeta, con tu API key en el entorno o en un .env)
 """
 from __future__ import annotations
 import pathlib
@@ -19,7 +19,7 @@ COMUN = pathlib.Path(__file__).resolve().parents[2] / "comun"
 sys.path.append(str(COMUN))
 try:
     from dotenv import load_dotenv
-    load_dotenv(COMUN.parents[1] / "app" / "backend" / ".env")
+    load_dotenv(COMUN.parent / ".env") or load_dotenv(COMUN.parents[1] / ".env")   # el del curso o el de la raíz
 except ImportError:
     pass
 sis = import_module("m12_vacantes")

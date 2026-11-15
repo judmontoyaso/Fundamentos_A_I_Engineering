@@ -1,5 +1,5 @@
 // Fila de la base (snake_case) -> tipo de la app. Lo comparten el store de Postgres y el de Supabase.
-import type { Acceso, Pedido } from "./tipos";
+import type { Acceso, Cupon, Pedido } from "./tipos";
 
 type Fila = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 
@@ -13,4 +13,15 @@ export const aAcceso = (r: Fila): Acceso => ({
 export const aPedido = (r: Fila): Pedido => ({
   id: r.id, userId: r.user_id, email: r.email, plan: r.plan, curso: r.curso ?? null, monto: Number(r.monto), moneda: r.moneda,
   proveedor: r.proveedor, estado: r.estado, refProveedor: r.ref_proveedor ?? null, creado: iso(r.creado)!,
+});
+
+export const aCupon = (r: Fila): Cupon => ({
+  codigo: String(r.codigo).toUpperCase(),
+  porcentaje: Number(r.porcentaje),
+  plan: r.plan ?? null,
+  curso: r.curso ?? null,
+  usosMax: r.usos_max !== null && r.usos_max !== undefined ? Number(r.usos_max) : null,
+  usos: Number(r.usos ?? 0),
+  activo: Boolean(r.activo),
+  creado: iso(r.creado) ?? new Date().toISOString(),
 });

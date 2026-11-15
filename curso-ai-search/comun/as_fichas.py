@@ -5,7 +5,7 @@ En producción nadie te da los hechos: los metadatos salen de extraer el texto d
 modelo del .env, con la técnica del Módulo 11 de Evals (el modelo copia trabajos y fechas; los años se suman en
 código), y se guardan en as_fichas.json, que es parte del índice. El Módulo 3 mide cuánto se equivocó esta
 extracción comparándola con los hechos.
-Uso para regenerar: python as_fichas.py   (con el .env de la app cargado)
+Uso para regenerar: python as_fichas.py   (con tu API key en el entorno)
 """
 from __future__ import annotations
 import json

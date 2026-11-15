@@ -9,7 +9,7 @@
 - enmascarar(): quita correos y teléfonos antes de guardar (los CVs son datos personales).
 - arbol(trace_id): imprime la traza como árbol.
 
-Las demás celdas del módulo lo importan: ejecútalo primero.
+Los demás scripts del módulo lo importan: no hace falta ejecutarlo aparte.
 """
 from __future__ import annotations
 import contextvars

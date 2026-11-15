@@ -11,6 +11,7 @@ export type Tarea = { titulo: string; pregunta: string; guiaHtml: string; items:
 export type ItemContenido = ItemNav & { html?: string; preguntas?: Pregunta[]; tarea?: Tarea };
 
 export type Usuario = { id: string; email: string; nombre?: string; verificado: boolean };
+export type UsuarioRegistrado = { id: string; email: string; nombre: string | null; creado: string; unidadesHechas: number };
 export type Progreso = Record<string, boolean>;
 export type Etiquetas = Record<string, { label: boolean; nota: string }>;
 
@@ -24,4 +25,15 @@ export type EstadoPedido = "pendiente" | "pagado" | "rechazado" | "reembolsado";
 export type Pedido = {
   id: string; userId: string; email: string; plan: PlanId; curso: string | null;
   monto: number; moneda: string; proveedor: string; estado: EstadoPedido; refProveedor: string | null; creado: string;
+};
+
+export type Cupon = {
+  codigo: string;
+  porcentaje: number;
+  plan: PlanId | null;
+  curso: string | null;
+  usosMax: number | null;
+  usos: number;
+  activo: boolean;
+  creado: string;
 };

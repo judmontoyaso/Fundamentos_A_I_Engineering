@@ -4,9 +4,10 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Sitio } from "@/components/Sitio";
 import { cubre, vigente } from "@/lib/acceso";
-import { esAdmin, getUsuario, urlEntrar, urlSalir } from "@/lib/auth";
+import { esAdmin, getUsuario, sesionCorreo, urlEntrar, urlSalir } from "@/lib/auth";
 import { cursoCompletado, emitirCodigoCertificado } from "@/lib/certificado";
 import { curso, cursos, itemsDe } from "@/lib/contenido";
+import { correoActivo } from "@/lib/correo";
 import { PLANES } from "@/lib/planes";
 import { store } from "@/lib/store";
 
@@ -16,9 +17,22 @@ export const dynamic = "force-dynamic";
 const fecha = (iso: string) => new Date(iso).toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric" });
 const ORDEN = ["ai-engineering", "evals", "ai-search", "agentes"];
 
-export default async function Cuenta() {
+const AVISOS_CORREO: Record<string, string> = {
+  verificado: "Tu correo quedó verificado.",
+  enviado: "Te enviamos el enlace de verificación. Revisa también la carpeta de spam.",
+  espera: "Ya te enviamos varios enlaces. Espera una hora antes de pedir otro.",
+  fallo: "No pudimos enviar el correo. Intenta de nuevo en unos minutos.",
+  "sin-servicio": "El envío de correos aún no está habilitado.",
+};
+
+type Props = { searchParams: Promise<{ correo?: string }> };
+
+export default async function Cuenta({ searchParams }: Props) {
   const usuario = await getUsuario();
   if (!usuario) redirect(urlEntrar("/cuenta"));
+  const avisoCorreo = AVISOS_CORREO[(await searchParams).correo ?? ""];
+  const propia = await sesionCorreo();
+  const puedeReenviar = correoActivo && Boolean(propia?.id.startsWith("email|"));
   const [accesos, progreso] = await Promise.all([store.accesos(usuario.id), store.progreso(usuario.id)]);
   const activos = accesos.filter((a) => vigente(a));
   const admin = esAdmin(usuario);
@@ -32,6 +46,34 @@ export default async function Cuenta() {
           {usuario.nombre ? <><b>{usuario.nombre}</b> · </> : null}
           {usuario.email}{admin ? " · administrador" : ""}
         </p>
+        {admin && (
+          <div className="caja fila">
+            <div>
+              <b>Panel de administración</b>
+              <div className="aviso">Gestiona usuarios registrados, activa o revoca accesos, crea cupones y revisa pedidos.</div>
+            </div>
+            <Link className="btn primary" href="/admin">Abrir /admin</Link>
+          </div>
+        )}
+
+        {avisoCorreo && <div className="caja" role="status">{avisoCorreo}</div>}
+        {!usuario.verificado && (
+          <div className="caja fila">
+            <div>
+              <b>Tu correo aún no está verificado</b>
+              <div className="aviso">
+                Puedes estudiar y comprar con normalidad. Verificarlo une esta cuenta con tu acceso por Google
+                (mismo correo) y protege tus compras si alguien más intenta registrarlo.
+              </div>
+            </div>
+            {puedeReenviar && (
+              <form method="post" action="/api/auth/verificar">
+                <input type="hidden" name="accion" value="reenviar" />
+                <button className="btn" type="submit">Enviarme el enlace</button>
+              </form>
+            )}
+          </div>
+        )}
 
         <h2>Mis cursos y certificados</h2>
         {listaCursos.map((c, idx) => {

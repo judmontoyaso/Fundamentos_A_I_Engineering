@@ -55,7 +55,7 @@ extraer de cada uno, la mitad difíciles a propósito.
 
 Cada módulo incluye manual (`README.md`), ejercicios con solución (`ejercicios.md`), autoevaluación y los scripts completos en `code/`. Puedes leer y hacer las autoevaluaciones y tareas de anotación en la web del curso, y descargar el `.zip` del curso para correr los scripts de `code/` en tu máquina con tu propia API key.
 
-Instala las dependencias con `pip install -r requirements.txt` y configura tu clave (`OPENAI_API_KEY=...`) en un archivo `.env`. Variable opcional:
+Instala las dependencias con `pip install -r requirements.txt` y define tu clave (`OPENAI_API_KEY`) como variable de entorno, igual que en el curso de AI Engineering. Variable opcional:
 
 ```env
 # El modelo "barato" candidato que evalúa el Módulo 1. Usa uno que exista en tu cuenta.

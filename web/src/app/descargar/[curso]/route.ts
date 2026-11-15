@@ -11,13 +11,21 @@ ${"=".repeat(titulo.length)}
 Código del curso, tal como aparece en las lecciones.
 
 Cómo correrlo
-  1. Python 3.11 o superior.
+  1. Python 3.10 o superior.
   2. Crea un entorno:        python -m venv .venv
      y actívalo:             .venv\\Scripts\\activate   (Windows)   |   source .venv/bin/activate   (macOS / Linux)
-  3. Instala dependencias:   pip install -r <carpeta del módulo>/code/requirements.txt
-     (algunos cursos tienen un requirements.txt único en la raíz).
-  4. Define tu API key como variable de entorno (OPENAI_API_KEY, ANTHROPIC_API_KEY, GOOGLE_API_KEY u OPENROUTER_API_KEY).
-  5. Ejecuta los scripts en orden desde la carpeta code/ de cada módulo:   python 01_....py
+  3. Instala dependencias:   pip install -r requirements.txt     (está en esta misma carpeta)
+  4. Define tu API key en la terminal donde vas a ejecutar los scripts (no leen el archivo .env por sí solos):
+        macOS / Linux:          export OPENAI_API_KEY=sk-...
+        Windows (PowerShell):   $env:OPENAI_API_KEY = "sk-..."
+     Si prefieres un archivo .env en esta carpeta, lanza los scripts desde aquí con:   dotenv run -- python <ruta del script>
+  5. Ejecuta los scripts de cada módulo en orden:   python modulo-01-.../code/01_....py
+
+Qué hay en la carpeta
+  modulo-XX-.../code/   los scripts de cada módulo
+  comun/                código y datos que comparten los módulos (si el curso los tiene)
+  _base/                scripts de otros cursos que este reutiliza; se importan solos, no hay que tocarlos
+  salida/               la crean los scripts: resultados, trazas y cachés de tus corridas
 
 Las llamadas a los modelos se cobran en tu cuenta del proveedor. Cada lección indica el costo aproximado.
 Este material es para tu uso personal: no lo redistribuyas.

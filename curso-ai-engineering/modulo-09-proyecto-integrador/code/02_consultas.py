@@ -1,8 +1,8 @@
 """
 02 · Consultas por el grafo completo, cada una con su traza.
 
-Cuatro pedidos de dos reclutadoras, en paralelo (cada consulta tarda varios segundos y
-la celda tiene un límite de tiempo). La memoria de Ana se usa en su segundo pedido,
+Cuatro pedidos de dos reclutadoras, en paralelo (cada consulta tarda varios segundos;
+en serie se suman). La memoria de Ana se usa en su segundo pedido,
 que se lanza después del primero para que el recuerdo ya exista.
 """
 from __future__ import annotations

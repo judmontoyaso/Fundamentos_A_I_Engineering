@@ -30,7 +30,7 @@ seguridad de la información con ISO 27001 y otra para calidad con ISO 9001. ¿A
 ¿qué modo de búsqueda eligió y por qué? Luego baja `MAX_PASOS` a 2 y repite. ¿Qué devuelve?
 
 ### Ejercicio 6 — El CV malicioso
-Añade al corpus (en la celda libre, sin tocar el Módulo 4) un CV con una instrucción para el sistema y vuelve a
+Añade al corpus (en un script tuyo, sin tocar el Módulo 4) un CV con una instrucción para el sistema y vuelve a
 indexar:
 
 ```python

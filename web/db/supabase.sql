@@ -40,7 +40,7 @@ create table if not exists curso.pedidos (
   id            text primary key,                 -- también es la referencia que se envía a la pasarela
   user_id       text not null,
   email         text not null,
-  plan          text not null check (plan in ('mensual', 'anual', 'curso')),
+  plan          text not null check (plan in ('mensual', 'anual', 'curso', 'vitalicio')),
   curso         text,
   monto         numeric not null,
   moneda        text not null,
@@ -54,7 +54,7 @@ create index if not exists pedidos_user on curso.pedidos (user_id);
 create table if not exists curso.accesos (
   id        text primary key,
   user_id   text not null,
-  plan      text not null check (plan in ('mensual', 'anual', 'curso')),
+  plan      text not null check (plan in ('mensual', 'anual', 'curso', 'vitalicio')),
   alcance   text not null,                        -- 'todo' o el id de un curso
   estado    text not null check (estado in ('activo', 'revocado')),
   hasta     timestamptz,                          -- null = sin vencimiento
@@ -65,11 +65,23 @@ create table if not exists curso.accesos (
 create index if not exists accesos_user on curso.accesos (user_id);
 create index if not exists accesos_pedido on curso.accesos (pedido_id);
 
+create table if not exists curso.cupones (
+  codigo     text primary key,
+  porcentaje integer not null check (porcentaje >= 1 and porcentaje <= 100),
+  plan       text check (plan in ('mensual', 'anual', 'curso', 'vitalicio')),
+  curso      text,
+  usos_max   integer,
+  usos       integer not null default 0,
+  activo     boolean not null default true,
+  creado     timestamptz not null default now()
+);
+
 alter table curso.usuarios  enable row level security;
 alter table curso.progreso  enable row level security;
 alter table curso.etiquetas enable row level security;
 alter table curso.pedidos   enable row level security;
 alter table curso.accesos   enable row level security;
+alter table curso.cupones   enable row level security;
 
 -- Solo el rol de servicio (el servidor de la app) entra a este esquema.
 revoke all on schema curso from anon, authenticated;
@@ -78,7 +90,8 @@ grant usage on schema curso to service_role;
 grant all on all tables in schema curso to service_role;
 alter default privileges in schema curso grant all on tables to service_role;
 
--- Expone el esquema "curso" a la Data API (PostgREST) y recarga su configuración.
-alter role authenticator set pgrst.db_schemas = 'public, graphql_public, curso';
+-- El esquema "curso" se expone a la Data API desde el panel (paso 2 de arriba), no desde aquí.
+-- Antes este archivo ejecutaba  alter role authenticator set pgrst.db_schemas = 'public, graphql_public, curso'
+-- y eso REEMPLAZA la lista completa: en un proyecto compartido deja sin API a los esquemas de los otros productos.
 notify pgrst, 'reload config';
 notify pgrst, 'reload schema';

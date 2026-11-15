@@ -6,7 +6,7 @@ Se corrió una vez para crear el archivo del repositorio; no hace falta volver a
   2. un LLM redacta el CV con un estilo (prosa, lista o tabla; algunos en inglés);
   3. se valida con código que el texto tenga los hechos; si no, se regenera (hasta 3 intentos) y, si sigue
      sin pasar, se descarta y se informa.
-Uso: python as_generar.py   (con el .env de la app cargado)
+Uso: python as_generar.py   (con tu API key en el entorno)
 """
 from __future__ import annotations
 import json

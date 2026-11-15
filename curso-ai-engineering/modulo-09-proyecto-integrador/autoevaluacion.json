@@ -31,7 +31,7 @@
     "Porque en pedidos largos el vector denso se diluye y una candidata correcta quedaba 5.ª o 6.ª"
    ],
    "correcta": 3,
-   "explicacion": "El examen tenía solo pedidos cortos y no lo detectó. Al servir el sistema en la app, con pedidos como los reales, apareció. El umbral de puntaje descarta a los que sobran."
+   "explicacion": "El examen tenía solo pedidos cortos y no lo detectó. Al servir el sistema a personas, con pedidos como los reales, apareció. El umbral de puntaje descarta a los que sobran."
   },
   {
    "pregunta": "¿Por qué el guardrail de salida debe recibir también los requisitos que el reclutador dio antes?",

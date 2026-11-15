@@ -1,6 +1,6 @@
 # Módulo 2 · Ejercicios
 
-Intenta cada uno antes de ver la solución (al final, colapsadas). Se hacen en el **Laboratorio** de la app.
+Intenta cada uno antes de ver la solución (al final, colapsadas). Se hacen con los scripts de `code/`.
 
 ---
 

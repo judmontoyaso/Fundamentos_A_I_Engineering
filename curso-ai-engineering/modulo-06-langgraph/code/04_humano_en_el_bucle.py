@@ -13,8 +13,8 @@ Lecciones aprendidas al escribirlo:
   (manual §10). La traza y el umbral evitaron una invitación equivocada mientras tanto.
 - La persona que aprueba debe LEER el borrador: es la última defensa, no un trámite.
 
-En la app puedes partirlo en dos celdas: ejecuta hasta la pausa, y en la celda
-libre reanuda tú con  app.invoke(Command(resume={...}), CONFIG).
+Para probarlo a mano:  python -i 04_humano_en_el_bucle.py  te deja en el intérprete al terminar,
+con todo cargado: ahí reanudas tú con  app.invoke(Command(resume={...}), CONFIG).
 """
 from __future__ import annotations
 import sys

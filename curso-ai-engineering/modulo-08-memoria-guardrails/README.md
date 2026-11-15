@@ -311,7 +311,7 @@ Lo que pasó al construirlo, y vale más que la teoría:
   el año), no bloquear.
 - **Al copiar una rúbrica se perdió una cláusula** ("decir que algo no se puede verificar es fiel"), y el guardrail
   empezó a castigar justo la respuesta honesta que el prompt pedía. Se detectó al integrar (§13).
-- **El idioma no es el origen.** Usando el asistente en la app (Módulo 9), la capa de política bloqueó "Lucía tiene
+- **El idioma no es el origen.** Al usar el asistente completo (Módulo 9) con pedidos reales, la capa de política bloqueó "Lucía tiene
   inglés nativo" como alusión al origen, cuando el nivel de idioma es una competencia legítima (tabla del §9). Se
   aclaró en la política y el caso entró al set (ahora 11 respuestas): un guardrail se mide también con los falsos
   bloqueos que aparecen en uso real, y cada uno se convierte en un caso de prueba.

@@ -23,4 +23,4 @@ python -m venv .venv
 pip install -r curso-ai-engineering/requirements.txt
 ```
 
-Configura `OPENAI_API_KEY` o `DEEPSEEK_API_KEY` en un archivo `.env` en la raíz del proyecto y ejecuta cualquier script de `code/` dentro de [`curso-ai-engineering/`](./curso-ai-engineering/README.md), [`curso-evals/`](./curso-evals/README.md) o [`curso-ai-search/`](./curso-ai-search/README.md).
+Define `OPENAI_API_KEY` como variable de entorno (o guárdala en un `.env` en la raíz y lanza los scripts desde ahí con `dotenv run -- python ...`; los scripts no cargan el `.env` por sí solos) y ejecuta cualquier script de `code/` dentro de [`curso-ai-engineering/`](./curso-ai-engineering/README.md), [`curso-evals/`](./curso-evals/README.md) o [`curso-ai-search/`](./curso-ai-search/README.md).

@@ -1,5 +1,5 @@
 """
-Configuración de la suite: rutas a comun/, el .env de la app y la marca `llm`.
+Configuración de la suite: rutas a comun/, tu .env (si existe) y la marca `llm`.
 
   pytest -m "not llm"   -> solo los tests sin llamadas al modelo (gratis, en cada commit)
   pytest                -> todos; los `llm` se saltan si no hay OPENAI_API_KEY
@@ -17,7 +17,7 @@ sys.path.append(str(CURSO / "comun"))
 os.environ.setdefault("EVALS_CACHE", "1")
 try:
     from dotenv import load_dotenv
-    load_dotenv(CURSO.parent / "app" / "backend" / ".env")
+    load_dotenv(CURSO / ".env") or load_dotenv(CURSO.parent / ".env")   # el del curso o el de la raíz
 except ImportError:
     pass
 

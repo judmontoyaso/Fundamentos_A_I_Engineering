@@ -70,5 +70,5 @@ if __name__ == "__main__":
         print(f"  {p['trace_id']} {p['nombre'][:18]:18} {p['seg']:5.1f}s · {len(hijos)} llamadas · "
               f"{e} entrada / {o} salida{dinero}  [{p['estado']}]")
     if tz.costo_usd(1, 1) is None:
-        print("\n  Para ver dinero, pon en app/backend/.env los precios de tu cuenta (USD por millón de tokens):")
-        print("  PRECIO_ENTRADA_USD_1M=...  PRECIO_SALIDA_USD_1M=...  PRECIO_CACHE_USD_1M=...  y reinicia la API.")
+        print("\n  Para ver dinero, define estas variables de entorno con los precios de tu cuenta (USD por millón de tokens):")
+        print("  PRECIO_ENTRADA_USD_1M=...  PRECIO_SALIDA_USD_1M=...  PRECIO_CACHE_USD_1M=...")

@@ -1,7 +1,7 @@
 // Permite al estudiante actualizar su nombre completo para que aparezca en sus certificados.
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { COOKIE_SESION, crearCookieSesion, getUsuario, leerCookieSesion } from "@/lib/auth";
+import { COOKIE_SESION, OPCIONES_COOKIE, crearCookieSesion, getUsuario, sesionCorreo } from "@/lib/auth";
 import { urlBase } from "@/lib/pagos";
 import { store } from "@/lib/store";
 
@@ -15,16 +15,9 @@ export async function POST(req: Request) {
   if (nombre) {
     const actualizado = { ...usuario, nombre };
     await store.registrarUsuario(actualizado);
-    const jar = await cookies();
-    if (leerCookieSesion(jar.get(COOKIE_SESION)?.value)) {
-      jar.set(COOKIE_SESION, crearCookieSesion(actualizado), {
-        httpOnly: true,
-        sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-        path: "/",
-        maxAge: 30 * 86400,
-      });
-    }
+    // La cookie conserva su identidad propia (id y verificación); solo cambia el nombre.
+    const propia = await sesionCorreo();
+    if (propia) (await cookies()).set(COOKIE_SESION, crearCookieSesion({ ...propia, nombre }), OPCIONES_COOKIE);
   }
   return NextResponse.redirect(new URL("/cuenta", base), 303);
 }

@@ -10,8 +10,8 @@ Cinco configuraciones del buscador, de la más barata a la más cara:
 1. CALIDAD: nDCG@10 en las 41 consultas (con la caché: no vuelve a pagar lo ya medido).
 2. COSTO Y LATENCIA, EN VIVO: 8 consultas sin caché; de las trazas salen los segundos por consulta y los tokens de cada
    llamada. La medición se guarda en salida/m9_medicion.json y se reutiliza (MEDIR_DE_NUEVO=1 para repetirla).
-   La primera medición tarda unos 3.5 minutos: si la app corta a los 300 s, córrela una vez desde la terminal (o sube
-   KERNEL_TIMEOUT en app/backend/.env).
+   La primera medición tarda unos 3.5 minutos (8 consultas en vivo, sin caché);
+   las corridas siguientes leen el archivo guardado.
 Precios: si defines en .env PRECIO_<MODELO>="entrada,salida" (USD por millón de tokens; por ejemplo
 PRECIO_GPT_5_4_NANO), se calcula el costo por 1.000 consultas. Si no, se queda en tokens.
 """

@@ -103,7 +103,7 @@ export default async function Entrar({ searchParams }: Props) {
                 name="password"
                 type="password"
                 required
-                minLength={6}
+                minLength={esRegistro ? 8 : undefined}
                 autoComplete={esRegistro ? "new-password" : "current-password"}
                 placeholder="••••••••"
               />
@@ -113,6 +113,25 @@ export default async function Entrar({ searchParams }: Props) {
               {esRegistro ? "Crear mi cuenta" : "Entrar con mi correo"}
             </button>
           </form>
+
+          {!esRegistro && (
+            <>
+              <div className="auth-sep"><span>o prueba el entorno demo</span></div>
+              <form method="post" action="/api/auth/correo">
+                <input type="hidden" name="returnTo" value={volver} />
+                <input type="hidden" name="modo" value="entrar" />
+                <input type="hidden" name="email" value="demo@iaenproduccion.com" />
+                <input type="hidden" name="password" value="Demo2026!" />
+                <button
+                  type="submit"
+                  className="btn"
+                  style={{ width: "100%", textAlign: "center", padding: ".6rem .9rem", fontSize: ".84rem" }}
+                >
+                  Entrar con usuario de prueba (2 cursos 100 % completados + certificados)
+                </button>
+              </form>
+            </>
+          )}
         </div>
       </div>
     </Sitio>

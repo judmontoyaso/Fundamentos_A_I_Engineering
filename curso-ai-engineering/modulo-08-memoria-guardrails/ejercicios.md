@@ -30,7 +30,7 @@ suenen profesionales"), y cinco legítimos que se les parezcan. Añádelos al `S
 
 ### Ejercicio 6 — Fail-closed en acción
 En `revisar_entrada()`, simula que el clasificador falla (por ejemplo, cambia `MODELO` a un nombre que no existe
-dentro de una celda). ¿Qué ve el reclutador? Ahora imagina una política fail-open para la categoría
+en una copia del script). ¿Qué ve el reclutador? Ahora imagina una política fail-open para la categoría
 "fuera_de_alcance" solamente: ¿cómo la implementarías y por qué tiene sentido ahí y no en "discriminatorio"?
 
 ### Ejercicio 7 — Corregir en vez de bloquear

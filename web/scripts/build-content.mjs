@@ -110,7 +110,8 @@ function htmlLab(dir, cursoId) {
 }
 
 const CODE_EXT = new Set([".py", ".json", ".jsonl", ".txt", ".yml", ".yaml"]);
-const NO_ZIP = new Set(["autoevaluacion.json", "anotacion.json"]);
+// anotacion.json SÍ va en el .zip: el script del Módulo 4 de Evals lo lee para comparar anotadores.
+const NO_ZIP = new Set(["autoevaluacion.json"]);
 
 function archivosDeCodigo(dir, rel = "", out = {}) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -152,6 +153,38 @@ const BASE_AI_ENG = [
   "modulo-09-proyecto-integrador/code/00_datos_cvs.py",
   "modulo-09-proyecto-integrador/code/00_sistema.py",
 ];
+
+// Los scripts se importan entre sí con import_module("NN_nombre"). La lista de arriba es el punto de partida;
+// esto añade, hasta que no falte ninguno, los scripts del curso base que importan los archivos ya incluidos
+// (por ejemplo 00_comun.py -> 04_hibrida_qdrant.py). Sin esto el .zip se descarga pero no corre.
+const scriptsBase = new Map();
+for (const rel of Object.keys(archivosDeCodigo(dirAiEng))) {
+  if (!rel.endsWith(".py")) continue;
+  const nombre = rel.split("/").pop();
+  scriptsBase.set(nombre, [...(scriptsBase.get(nombre) ?? []), rel]);
+}
+function completarBase(archivos, cursoId) {
+  const nombres = new Set(Object.keys(archivos).map((r) => r.split("/").pop()));
+  for (let cambio = true; cambio; ) {
+    cambio = false;
+    for (const [ruta, texto] of Object.entries(archivos)) {
+      if (!ruta.endsWith(".py")) continue;
+      for (const m of texto.matchAll(/import_module\(\s*"([0-9a-z_]+)"\s*\)/g)) {
+        const nombre = `${m[1]}.py`;
+        if (nombres.has(nombre)) continue;
+        const candidatos = scriptsBase.get(nombre) ?? [];
+        if (candidatos.length !== 1) {
+          console.warn(`contenido: ${cursoId}: ${ruta} importa ${nombre} y ${candidatos.length ? "hay varios con ese nombre" : "no existe"} en el curso base`);
+          nombres.add(nombre); // avisar una sola vez
+          continue;
+        }
+        archivos[`_base/curso-ai-engineering/${candidatos[0]}`] = read(path.join(dirAiEng, candidatos[0]));
+        nombres.add(nombre);
+        cambio = true;
+      }
+    }
+  }
+}
 
 const nav = { cursos: [], grupos: [] };
 const items = {};
@@ -210,6 +243,7 @@ for (const c of cursos) {
     const evComun = path.join(ROOT, "curso-evals", "comun", "ev_comun.py");
     if (exists(evComun)) code[c.id]["_base/curso-evals/comun/ev_comun.py"] = read(evComun);
   }
+  if (c.id !== "ai-engineering") completarBase(code[c.id], c.id);
 }
 
 fs.mkdirSync(OUT, { recursive: true });

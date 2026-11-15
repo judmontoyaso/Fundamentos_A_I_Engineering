@@ -49,15 +49,22 @@ El dataset compartido vive en [`modulo-01-datos-estructurados/data/`](./modulo-0
    pip install -r curso-ai-engineering/requirements.txt
    ```
 
-2. Configura tu clave de OpenAI o DeepSeek en un archivo `.env` en la raíz del proyecto (o en tu entorno):
+2. Define tu clave de OpenAI como variable de entorno. Los scripts la leen del entorno; **no cargan el archivo `.env` por sí solos**. En la terminal donde vas a ejecutarlos:
 
    ```bash
-   OPENAI_API_KEY=sk-...
-   # O bien:
-   DEEPSEEK_API_KEY=sk-...
+   # macOS / Linux
+   export OPENAI_API_KEY=sk-...
+   # Windows (PowerShell)
+   $env:OPENAI_API_KEY = "sk-..."
    ```
 
-   Los módulos **2, 3 y 4** corren 100 % en local sin clave de API. Los módulos **1, 5, 6, 7, 8 y 9** usan el proveedor configurado en `.env`.
+   Si prefieres guardarla en un archivo `.env` en la raíz del proyecto (`OPENAI_API_KEY=sk-...`), ejecuta los scripts
+   **desde esa carpeta** con `dotenv run -- python ...` (viene con `python-dotenv`, que ya está en las dependencias).
+
+   El modelo se elige con la variable `MODELO`. Con otro proveedor compatible con la API de OpenAI, define además
+   `OPENAI_BASE_URL`; el código pide salida estructurada con JSON Schema, así que el proveedor tiene que soportarla.
+
+   Los módulos **2, 3 y 4** corren 100 % en local sin clave de API. Los módulos **1, 5, 6, 7, 8 y 9** llaman al modelo.
 
 3. Ejecuta cualquier script desde su carpeta o desde la raíz:
 

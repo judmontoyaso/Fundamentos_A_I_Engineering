@@ -36,7 +36,11 @@ export const mercadopago: Proveedor = {
         items: [{ id: pedido.plan, title: titulo, quantity: 1, unit_price: pedido.monto, currency_id: pedido.moneda }],
         payer: { email: pedido.email },
         external_reference: pedido.id,
-        back_urls: { success: vuelta, pending: vuelta, failure: vuelta },
+        back_urls: {
+          success: `${vuelta}&retorno=ok`,
+          pending: `${vuelta}&retorno=pendiente`,
+          failure: `${vuelta}&retorno=cancelado`,
+        },
         // auto_return exige URLs https: en local se omite y el comprador vuelve con el botón de la pasarela.
         ...(base.startsWith("https://") ? { auto_return: "approved", notification_url: `${base}/api/webhooks/mercadopago` } : {}),
       }),
@@ -78,5 +82,8 @@ export const mercadopago: Proveedor = {
     return id;
   },
 
-  refDeRetorno: (params) => params.get("payment_id") ?? params.get("collection_id"),
+  refDeRetorno: (params) => {
+    const id = params.get("payment_id") ?? params.get("collection_id");
+    return id && /^\d+$/.test(id) ? id : null;
+  },
 };

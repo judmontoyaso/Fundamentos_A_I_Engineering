@@ -11,7 +11,7 @@
              cada llamada de cualquier módulo deja su span con tokens (autoinstrumentación).
 
 Los correos NO entran al índice (minimización de datos): ningún fragmento puede filtrarlos.
-sistema() construye e ingesta una sola vez por proceso; las demás celdas lo reutilizan.
+sistema() construye e ingesta una sola vez por proceso; los demás scripts lo reutilizan.
 """
 from __future__ import annotations
 import asyncio
@@ -316,7 +316,7 @@ class Sistema:
 
 @lru_cache(maxsize=1)
 def sistema() -> Sistema:
-    """Construye e ingesta una sola vez por proceso: las celdas siguientes lo reutilizan."""
+    """Construye e ingesta una sola vez por proceso: las llamadas siguientes lo reutilizan."""
     instrumentar()
     s = Sistema()
     s.ultima_ingesta = s.ingestar(datos.CVS)

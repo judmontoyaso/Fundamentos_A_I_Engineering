@@ -4,6 +4,7 @@
 import "server-only";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { curso, itemsDe } from "./contenido";
+import { secretoServidor } from "./secreto";
 import { store } from "./store";
 import type { Progreso, Usuario } from "./tipos";
 
@@ -14,12 +15,8 @@ export type DatosCertificado = {
   f: string;       // fecha ISO (YYYY-MM-DD)
 };
 
-function secreto(): string {
-  return process.env.AUTH0_SECRET || process.env.SERVICE_ROLE || process.env.SUPABASE_SERVICE_ROLE_KEY || "dev-secret-ia-en-produccion";
-}
-
 function firmar(payloadB64: string): string {
-  return createHmac("sha256", secreto()).update(`cert:${payloadB64}`).digest("base64url").slice(0, 22);
+  return createHmac("sha256", secretoServidor()).update(`cert:${payloadB64}`).digest("base64url").slice(0, 22);
 }
 
 export function cursoCompletado(cursoId: string, progreso: Progreso): boolean {
@@ -69,7 +66,12 @@ export async function verificarCertificado(codigo: string): Promise<{
   const partes = codigo.split(".");
   if (partes.length !== 2) return null;
   const [payload, firma] = partes;
-  const esperada = firmar(payload);
+  let esperada: string;
+  try {
+    esperada = firmar(payload);
+  } catch {
+    return null; // sin secreto de servidor en producción no se valida ningún certificado
+  }
   const a = Buffer.from(esperada);
   const b = Buffer.from(firma);
   if (a.length !== b.length || !timingSafeEqual(a, b)) return null;
@@ -88,7 +90,7 @@ export async function verificarCertificado(codigo: string): Promise<{
 
   const items = itemsDe(datos.c);
   const quizzes = items.filter((i) => i.tipo === "quiz").length;
-  const hashCorto = createHmac("sha256", secreto()).update(`${datos.u}:${datos.c}`).digest("hex").slice(0, 10).toUpperCase();
+  const hashCorto = createHmac("sha256", secretoServidor()).update(`${datos.u}:${datos.c}`).digest("hex").slice(0, 10).toUpperCase();
 
   return {
     valido: true,

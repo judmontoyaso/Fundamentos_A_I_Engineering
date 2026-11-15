@@ -27,7 +27,7 @@ su lugar, cambia la **descripción del campo** en `FichaCV`:
 ¿Arregla el #30? ¿Rompe algo?
 
 ### Ejercicio 5 — ¿Cuánto cuesta cada opción?
-Las trazas guardan los tokens de cada llamada. Escribe una celda que, para la última corrida de cada modelo, sume
+Las trazas guardan los tokens de cada llamada. Escribe un script que, para la última corrida de cada modelo, sume
 tokens de entrada, de salida y de razonamiento (`ev.tz.spans(trace_id)`, atributos `tokens_*`). Con los precios de tu
 cuenta, calcula el costo de 100.000 extracciones con `gpt-6-luna` y con el candidato. ¿Qué parte del costo del modelo
 grande es razonamiento?
