@@ -18,7 +18,13 @@ from importlib import import_module
 COMUN = pathlib.Path(__file__).resolve().parent
 CURSO = COMUN.parent
 RAIZ = CURSO.parent
-for p in (RAIZ / "curso-evals" / "comun", RAIZ / "modulo-02-embeddings-busqueda-semantica" / "code", COMUN):
+CURSO_EVALS = RAIZ / "curso-evals"
+if not CURSO_EVALS.exists() and (CURSO / "_base" / "curso-evals").exists():
+    CURSO_EVALS = CURSO / "_base" / "curso-evals"
+CURSO_IA = RAIZ / "curso-ai-engineering"
+if not CURSO_IA.exists() and (CURSO / "_base" / "curso-ai-engineering").exists():
+    CURSO_IA = CURSO / "_base" / "curso-ai-engineering"
+for p in (CURSO_EVALS / "comun", CURSO_IA / "modulo-02-embeddings-busqueda-semantica" / "code", COMUN):
     if str(p) not in sys.path:
         sys.path.append(str(p))
 

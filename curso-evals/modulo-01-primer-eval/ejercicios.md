@@ -1,8 +1,8 @@
 # Módulo 1 · Ejercicios
 
-Intenta cada uno antes de ver la solución (al final, colapsadas). Se hacen en el **Laboratorio** de la app; para
-cambiar el modelo candidato, pon `MODELO_BARATO` en `app/backend/.env` y reinicia la API, o asigna
-`ev.MODELO_BARATO = "..."` en la celda libre.
+Intenta cada uno antes de ver la solución (al final, colapsadas). Se hacen con los scripts de `code/`; para
+cambiar el modelo candidato, pon `MODELO_BARATO` en tu `.env`, o asigna
+`ev.MODELO_BARATO = "..."` en el script.
 
 ---
 

@@ -2,7 +2,8 @@
 01 · ¿Etiquetan igual dos anotadores? Acuerdo y kappa de Cohen (manual §3-§5).
 
 Compara las etiquetas del autor del curso (comun/m4_etiquetas_autor.py) con:
-  - las TUYAS, si ya anotaste en la página "Anotar (tu turno)" de este módulo (al menos 10 perfiles);
+  - las TUYAS, si ya anotaste en la página "Anotar (tu turno)" de este módulo (al menos 10 perfiles)
+    y descargaste el archivo en curso-evals/salida/mis_etiquetas.json;
   - dos anotadores LLM, uno con una guía vaga y otro con la guía completa, dos veces cada uno.
 Los anotadores LLM no sustituyen a una persona: sirven aquí para ver qué le hace la guía al acuerdo.
 """
@@ -59,7 +60,8 @@ if __name__ == "__main__":
     if len(tuyas) >= 10:
         comparar("tú", {i: v["label"] for i, v in tuyas.items()})
     else:
-        print(f"  (Has anotado {len(tuyas)} perfiles. Con 10 o más, aquí aparece tu acuerdo con el autor.)")
+        print(f"  (Has anotado {len(tuyas)} perfiles. Etiqueta 10 o más en 'Anotar (tu turno)', descarga "
+              "mis_etiquetas.json en curso-evals/salida/ y vuelve a correr este script.)")
     with ev.tz.nueva_traza("anotadores LLM"):
         for nombre, guia in GUIAS.items():
             for vez in (1, 2):

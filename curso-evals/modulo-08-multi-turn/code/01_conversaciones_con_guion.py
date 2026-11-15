@@ -15,7 +15,7 @@ from importlib import import_module
 
 sys.path.append(str(pathlib.Path(__file__).resolve().parents[2] / "comun"))
 ev = import_module("ev_comun")
-sys.path.append(str(ev.RAIZ / "modulo-09-proyecto-integrador" / "code"))
+sys.path.append(str(ev.CURSO_IA / "modulo-09-proyecto-integrador" / "code"))
 S = import_module("00_sistema")
 
 REPETICIONES = 2

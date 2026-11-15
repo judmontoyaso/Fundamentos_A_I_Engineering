@@ -1,0 +1,17 @@
+node_modules/
+.next/
+.env
+.env.*
+!.env.example
+# contenido compilado (se regenera con `npm run content`)
+src/content/
+# almacenamiento local de desarrollo
+.data/
+next-env.d.ts
+
+# Auth0 credentials
+.env.local
+
+.auth0-mcp-state.json
+
+.auth0-mcp-writes.log

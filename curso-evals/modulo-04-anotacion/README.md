@@ -55,12 +55,14 @@ la etiqueta: dice dónde la guía no alcanza.
 <a name="3-anotar"></a>
 ## 3. Tu turno: anotar
 
-En la app, la página **Anotar (tu turno)** de este módulo muestra cada CV con su perfil, la guía y dos botones (atajos
+En la página **Anotar (tu turno)** de este módulo se muestra cada CV con su perfil, la guía y dos botones (atajos
 <kbd>P</kbd> y <kbd>N</kbd>). Etiqueta los 30 **sin mirar** las etiquetas del autor y escribe una nota cuando dudes.
 Tarda unos 15 minutos y es la única forma de que este módulo mida un acuerdo **entre personas**.
 
-Tus etiquetas quedan en la base de la app, y el laboratorio [`code/01_acuerdo_entre_anotadores.py`](code/01_acuerdo_entre_anotadores.py)
-las compara con las del autor en cuanto tengas 10 o más.
+Al terminar (o cuando lleves al menos 10), haz clic en **Descargar mis etiquetas (.json)** al pie de la página y guarda
+el archivo como `curso-evals/salida/mis_etiquetas.json`. El script
+[`code/01_acuerdo_entre_anotadores.py`](code/01_acuerdo_entre_anotadores.py) lo lee de ahí y compara tus etiquetas con
+las del autor.
 
 ---
 

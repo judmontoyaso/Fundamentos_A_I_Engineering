@@ -1,0 +1,9 @@
+instructor
+pydantic>=2
+openai
+# el buscador que usan los workflows y el agente (Módulo 4):
+numpy
+qdrant-client>=1.10
+sentence-transformers
+# servidor y cliente MCP (08 y 09). La API usada es la del SDK 2.x:
+mcp>=2

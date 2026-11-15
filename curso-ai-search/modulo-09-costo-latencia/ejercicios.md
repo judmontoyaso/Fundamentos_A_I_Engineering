@@ -19,7 +19,7 @@ La política del §4 usa la salida del parser. ¿Qué pasa con ella si el parser
 si el parser se equivoca y no detecta una exclusión?
 
 ### Ejercicio 4 — Probar antes de servir
-51 de los 84 errores fueron "falta la clave". Escribe una comprobación de arranque para el backend de la app: qué
+51 de los 84 errores fueron "falta la clave". Escribe una comprobación de arranque para el servicio del buscador: qué
 verifica, qué hace si falla y cuánto cuesta correrla.
 
 ### Ejercicio 5 — Tu factura

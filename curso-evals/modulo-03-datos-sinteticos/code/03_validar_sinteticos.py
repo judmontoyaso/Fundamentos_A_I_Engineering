@@ -20,7 +20,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 dh = import_module("01_dimensiones_y_hechos")
 ev = dh.ev
 datos = import_module("ev_datos")
-sys.path.append(str(ev.RAIZ / "modulo-02-embeddings-busqueda-semantica" / "code"))
+sys.path.append(str(ev.CURSO_IA / "modulo-02-embeddings-busqueda-semantica" / "code"))
 
 PALABRAS = {  # 1-15 en los tres idiomas, sin tildes (se compara normalizado)
     "español": "uno dos tres cuatro cinco seis siete ocho nueve diez once doce trece catorce quince",

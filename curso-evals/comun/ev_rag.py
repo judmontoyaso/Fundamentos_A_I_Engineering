@@ -15,7 +15,7 @@ from pydantic import BaseModel, Field
 
 ev = import_module("ev_comun")
 datos = import_module("ev_datos")
-sys.path.append(str(ev.RAIZ / "modulo-02-embeddings-busqueda-semantica" / "code"))
+sys.path.append(str(ev.CURSO_IA / "modulo-02-embeddings-busqueda-semantica" / "code"))
 bm25 = import_module("01_bm25_desde_cero")
 
 CVS = {cv["id"]: cv["texto"] for cv in datos.CVS}

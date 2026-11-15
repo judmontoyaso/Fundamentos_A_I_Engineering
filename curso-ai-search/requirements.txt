@@ -1,0 +1,9 @@
+# Dependencias de los laboratorios del curso de AI Search y RAG en Producción.
+instructor
+pydantic>=2
+openai
+python-dotenv
+numpy
+qdrant-client>=1.10
+sentence-transformers
+pytest

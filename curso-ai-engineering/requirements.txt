@@ -1,0 +1,13 @@
+# Dependencias de los laboratorios del curso Fundamentos de AI Engineering.
+pydantic>=2
+instructor
+openai
+python-dotenv
+rich
+numpy
+sentence-transformers
+scikit-learn
+matplotlib
+qdrant-client>=1.10
+langgraph
+pytest

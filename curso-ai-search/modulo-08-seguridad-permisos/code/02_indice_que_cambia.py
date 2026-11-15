@@ -110,7 +110,7 @@ def inventario(cv: dict) -> list[tuple[str, int | str]]:
     nombre = ev.norm(cv["hechos"]["nombre"])
     contar = lambda texto: ev.norm(texto).count(nombre)
     filas = []
-    raices = [ac.SALIDA, ac.RAIZ / "curso-evals" / "salida", ac.RAIZ / "app" / "backend" / "data", ac.COMUN]
+    raices = [ac.SALIDA, ac.RAIZ / "curso-evals" / "salida", ac.RAIZ / "curso-ai-engineering" / "salida", ac.COMUN]
     for raiz in raices:
         if not raiz.exists():
             continue

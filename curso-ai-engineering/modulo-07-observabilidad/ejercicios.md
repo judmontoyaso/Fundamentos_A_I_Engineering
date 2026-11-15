@@ -1,0 +1,117 @@
+# Módulo 7 · Ejercicios
+
+Intenta cada uno antes de ver la solución (al final, colapsadas). Se hacen con los scripts de `code/`;
+`00_trazador.py` guarda las trazas en SQLite (`salida/trazas.db`, o `TRAZAS_DB` si lo defines): `tz.borrar_trazas()` las vacía.
+
+---
+
+### Ejercicio 1 — Traza tu propio flujo
+En un script nuevo (o al final de `01`), envuelve el agente del Módulo 5 en una traza: abre `tz.nueva_traza("agente")` y, dentro, un
+`tz.span(...)` por cada paso del bucle. Imprime el árbol con `tz.arbol(...)`. ¿Qué paso es el más lento? ¿Cuántos
+tokens de entrada reenvía el último paso en comparación con el primero?
+
+### Ejercicio 2 — Enmascarado
+Llama a `tz.enmascarar()` con un CV que tenga un correo, un teléfono colombiano con espacios (`+57 300 123 4567`), uno
+con guiones (`300-123-4567`) y un número que **no** es teléfono (`ISO 27001`, `2016-2020`). ¿Cuál enmascara de más o
+de menos? Ajusta las expresiones regulares y vuelve a probar.
+
+### Ejercicio 3 — Precios y proyección
+Busca los precios actuales de tu modelo en la página de tu proveedor y ponlos en `.env`
+(`PRECIO_ENTRADA_USD_1M`, `PRECIO_SALIDA_USD_1M`, `PRECIO_CACHE_USD_1M`). Ejecuta `01` y `02`.
+¿Cuánto cuestan 1000 pedidos? ¿Qué parte de ese costo es razonamiento?
+
+### Ejercicio 4 — Casos más difíciles
+El dataset de `03` salió perfecto. Añade 5 casos que creas que van a fallar (por ejemplo: dos correos, años de
+experiencia contradictorios, experiencia en meses, un CV desordenado en una sola línea, un nombre en mayúsculas).
+Define lo esperado **antes** de ejecutar. ¿Cuántos fallan? ¿Algún fallo es en realidad una etiqueta discutible?
+
+### Ejercicio 5 — Comparar dos prompts de extracción
+`evaluar_extraccion()` acepta otro prompt. Prueba uno más corto ("Extrae los datos.") con
+`evaluar_extraccion("Extrae los datos.", "extraccion-v0")` y compara la exactitud por campo con la del prompt v1.
+¿Qué campo se resiente primero?
+
+### Ejercicio 6 — Calibra tú el juez
+Añade a `CASOS` de `04` seis casos tuyos (tres fieles y tres no fieles, con al menos uno sutil). Etiquétalos **antes**
+de ejecutar el juez. ¿Coincide contigo? En cada desacuerdo, lee la razón del juez y decide: ¿estaba mal el juez o tu
+etiqueta?
+
+### Ejercicio 7 — Más poder en la regresión
+En `05`, sube `EJECUCIONES` a 8. ¿Aparece algún fallo de la versión v1? Calcula cuántas ejecuciones harían falta para
+que la probabilidad de no ver ningún fallo de un problema que ocurre 1 de cada 3 veces sea menor que 1 %.
+
+### Ejercicio 8 — Proyecto
+Instrumenta el grafo de selección del Módulo 6 (`04_humano_en_el_bucle.py`): un span por nodo, tokens en cada llamada
+al LLM y el `thread_id` del grafo como atributo de la traza. Genera el informe de `02` sobre 5 vacantes y escribe tres
+conclusiones accionables (qué optimizarías primero y por qué, con números).
+
+### Ejercicio 9 — ¿Se sostiene la recomendación?
+`06_comparar_modelos.py` recomienda un modelo por tarea con una sola pasada. Repite la comparación tres veces y anota,
+por modelo, la exactitud y los casos que fallan en cada pasada. ¿Los fallos son siempre los mismos casos o cambian?
+Después añade la fecha de hoy al prompt de extracción (`PROMPT_V1 + "\nHoy es 2026-10-22."`) y vuelve a correr
+`gpt-4.1-mini`. ¿Cuántos puntos recupera? ¿Cambia la recomendación?
+
+---
+
+<details>
+<summary><b>Soluciones</b></summary>
+
+**1.** Esqueleto:
+```python
+import importlib; a = importlib.import_module("05_agente_desde_cero")
+with tz.nueva_traza("agente") as raiz:
+    historial = [{"role": "user", "content": "Pedido: alguien senior para datos en tiempo real"}]
+    for paso in range(a.MAX_PASOS):
+        with tz.span(f"paso {paso + 1}") as s:
+            d = tz.llm_trazado(a.Decision, a.SYSTEM, str(historial), nombre="decidir")
+            s.atributos["herramienta"] = d.herramienta
+            if d.herramienta == "terminar":
+                break
+            obs = a.ejecutar(d)
+            historial += [d.model_dump_json(), obs]
+print(tz.arbol(raiz.trace_id))
+```
+Lo típico es que los pasos de `decidir` dominen el tiempo, y que los tokens de entrada crezcan paso a paso porque
+cada uno reenvía el historial completo (manual §4).
+
+**2.** Medido con el trazador tal como viene: enmascara bien `laura@mail.com`, `+57 300 123 4567` y `300-123-4567`,
+y deja intacto `ISO 27001`. Pero enmascara **de más** `2016-2020` (lo toma por un teléfono: pierdes un dato útil para
+depurar) y **de menos** un fijo de 7 dígitos como `3001234` (se filtra un dato personal). No hay una expresión
+perfecta: decide qué error prefieres. En trazas, enmascarar de más suele ser aceptable; de menos, no. Una mejora:
+exigir al menos 7 dígitos en total y excluir el patrón `AAAA-AAAA` de años.
+
+**3.** El resultado depende de tus precios. Para la parte de razonamiento: multiplica los tokens de razonamiento por el
+precio de salida. Con el 50 % de la salida en razonamiento que midió el laboratorio, una parte importante del costo
+de salida es "pensar", y no aparece en ninguna respuesta.
+
+**4.** Lo habitual es que fallen experiencia en meses (¿18 meses son 1 o 2 años?) y años contradictorios. Y que al
+menos un "fallo" sea una etiqueta discutible: si dudaste al escribir lo esperado, el modelo también duda. Esos casos
+se aclaran en el schema (por ejemplo, "redondea hacia abajo") o se quitan del dataset.
+
+**5.** Con un prompt mínimo suele resentirse primero `correo` (inventa o normaliza correos ausentes) o `anios` (los
+casos de inyección y de años en palabras). Precisamente lo que el prompt v1 pedía explícitamente ("No inventes", CV
+delimitado).
+
+**6.** No hay una única solución: el entregable es la tabla de acuerdo y tu decisión en cada desacuerdo. Si más de la
+mitad de los desacuerdos resultan ser etiquetas tuyas mal puestas, el juez está mejor calibrado de lo que creías; si
+el juez aprueba invenciones sutiles, endurece la rúbrica.
+
+**7.** La probabilidad de no ver ningún fallo en `n` ejecuciones es (2/3)ⁿ. Para que sea menor que 1 %:
+n > ln(0.01) / ln(2/3) ≈ 11.4, es decir, **12 ejecuciones**. Con 8, la probabilidad es ≈ 4 %.
+
+**8.** Patrón: `with tz.span(nombre_del_nodo, thread_id=...)` dentro de cada función nodo, y `tz.llm_trazado` en lugar
+de `c.llm`. Las conclusiones típicas: el arranque en frío de la búsqueda domina el primer pedido (precalentar el
+índice al arrancar la API); la evaluación de candidatos es la mayor parte del costo (evaluar menos candidatos o usar
+un modelo más barato para el primer filtro); el razonamiento es una fracción grande de la salida (probar un modelo
+sin razonamiento para las tareas simples, y medir si la calidad se mantiene).
+
+**9.** Distingue dos tipos de fallo. Los **sistemáticos** (el mismo caso falla en cada pasada, como "hasta hoy" sin
+fecha en el prompt, o la inyección en `gpt-4.1-nano`) son propiedades del modelo o del prompt y se corrigen o deciden.
+Los **ocasionales** (un caso falla una vez de tres) son ruido: con 10 casos, un fallo son 10 puntos, así que no basan
+una decisión. Medido con `gpt-4.1-mini`, dos pasadas por variante: **sin fecha**, "depende de hoy" falló 2 de 2
+(sistemático) y "versiones" 1 de 2 (ocasional), 98 % y 95 %; **con fecha**, "depende de hoy" pasó 2 de 2 y
+"versiones" siguió fallando 1 de 2, 100 % y 98 %. Una línea en el prompt quitó el fallo sistemático; el ocasional
+sigue ahí y solo se ve repitiendo. Si con eso `gpt-4.1-mini` queda al nivel del mejor, la recomendación cambia a él
+por precio y latencia, siempre que no falle la inyección. Una regla útil: ningún modelo que obedezca una inyección del dataset se recomienda para leer documentos
+de terceros, aunque su exactitud global sea alta.
+
+</details>

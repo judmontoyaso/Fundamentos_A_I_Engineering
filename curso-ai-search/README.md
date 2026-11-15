@@ -1,7 +1,7 @@
-# AI search: medir y mejorar — edición personal
+# AI search: medir y mejorar
 
-> Material de estudio **original**. Uso personal. Sigue como mapa de temas el curso del mismo nombre de Majup Learn
-> (que al escribir esto aún no había publicado sus lecciones); el contenido, los datos y el código son propios.
+> Contenido, datos y código **originales**, escritos a partir de investigación propia y de práctica con
+> sistemas reales.
 
 El curso de AI Engineering terminó con un buscador de CVs que funciona: búsqueda híbrida, RAG, agente, guardrails. El
 de Evals enseñó a medir si un cambio mejora o empeora un sistema. Este junta los dos: **¿qué está fallando en la
@@ -45,8 +45,6 @@ escriben": con paráfrasis, abreviaturas, erratas, requisitos numéricos, exclus
 
 ## Cómo usarlo
 
-Igual que los anteriores: manual, laboratorio ejecutable, ejercicios con solución y autoevaluación, dentro de la app
-(selector **Curso**). Los laboratorios usan el backend de la app y reutilizan el código de los otros dos cursos (el
-trazador, la caché de llamadas, el BM25 y el embedder). Los resultados se guardan en `curso-ai-search/salida/`.
+Cada módulo incluye manual (`README.md`), ejercicios con solución (`ejercicios.md`), autoevaluación y los scripts completos en `code/`. Puedes leer y hacer las autoevaluaciones en la web del curso, y descargar el `.zip` del curso para ejecutar los scripts en tu máquina (`pip install -r requirements.txt` y tu clave `OPENAI_API_KEY` en `.env`). Los laboratorios reutilizan las piezas base de los otros dos cursos (el trazador, la caché de llamadas, el BM25 y el embedder, ya incluidos en la descarga) y guardan sus resultados en `curso-ai-search/salida/`.
 
 Empieza por el [Módulo 0](modulo-00-que-vamos-a-mejorar/README.md).

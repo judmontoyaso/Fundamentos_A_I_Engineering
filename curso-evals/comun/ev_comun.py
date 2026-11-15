@@ -22,10 +22,13 @@ from pydantic import BaseModel, Field
 
 COMUN = pathlib.Path(__file__).resolve().parent
 CURSO = COMUN.parent
-RAIZ = CURSO.parent                                   # carpeta del curso de AI Engineering
+RAIZ = CURSO.parent
+CURSO_IA = RAIZ / "curso-ai-engineering"
+if not CURSO_IA.exists() and (CURSO / "_base" / "curso-ai-engineering").exists():
+    CURSO_IA = CURSO / "_base" / "curso-ai-engineering"
 for sub in ("modulo-05-workflows-agentes", "modulo-07-observabilidad", "modulo-04-bm25-hibrida-rrf"):
-    if str(RAIZ / sub / "code") not in sys.path:
-        sys.path.append(str(RAIZ / sub / "code"))
+    if str(CURSO_IA / sub / "code") not in sys.path:
+        sys.path.append(str(CURSO_IA / sub / "code"))
 if str(COMUN) not in sys.path:
     sys.path.append(str(COMUN))
 
@@ -144,22 +147,21 @@ def pipeline(texto: str, modelo: str | None = None, version: str = "v1") -> dict
             "perfil": perfil.perfil}
 
 
-# ---------------- Anotaciones de la app (Módulo 4) ----------------
-DB_APP = RAIZ / "app" / "backend" / "data" / "curso.db"
+# ---------------- Tus anotaciones (Módulo 4) ----------------
+# En la web del curso, la página "Anotar (tu turno)" tiene un enlace "Descargar mis etiquetas (.json)".
+# Guarda ese archivo como curso-evals/salida/mis_etiquetas.json (o apunta MIS_ETIQUETAS a donde lo dejaste).
+ETIQUETAS = pathlib.Path(os.getenv("MIS_ETIQUETAS") or SALIDA / "mis_etiquetas.json")
 
 
 def anotaciones(nb_id: str, anotador: str = "yo") -> dict[str, dict]:
-    """Las etiquetas que pusiste en la página "Anotar" de la app: item_id -> {"label": bool, "nota": str}."""
-    import sqlite3
-    if not DB_APP.exists():
+    """Las etiquetas que pusiste en la página "Anotar": item_id -> {"label": bool, "nota": str}."""
+    if not ETIQUETAS.exists():
         return {}
-    with sqlite3.connect(DB_APP) as con:
-        try:
-            filas = con.execute("SELECT item_id, label, nota FROM annotations WHERE nb_id=? AND anotador=?",
-                                (nb_id, anotador)).fetchall()
-        except sqlite3.OperationalError:            # la API aún no creó la tabla
-            return {}
-    return {i: {"label": bool(l), "nota": n} for i, l, n in filas}
+    datos = json.loads(ETIQUETAS.read_text(encoding="utf-8-sig"))
+    if datos.get("nb", nb_id) != nb_id:
+        return {}
+    return {str(i): {"label": bool(v["label"]), "nota": v.get("nota", "")}
+            for i, v in datos.get("etiquetas", {}).items()}
 
 
 def kappa(a: list[bool], b: list[bool]) -> float:

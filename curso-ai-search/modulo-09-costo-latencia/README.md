@@ -40,8 +40,7 @@ cuántos segundos y cuántos tokens?
 
 La calidad, en las 41 consultas con la caché. La latencia y los tokens, **en vivo y sin caché** sobre 8 consultas,
 leídos de las trazas (curso de AI Engineering, Módulo 7): la observabilidad que montaste para depurar es la que mide el
-costo. La medición en vivo tarda unos 3.5 minutos y se guarda; si la app corta el laboratorio a los 300 s, córrelo una
-vez desde la terminal.
+costo. La medición en vivo tarda unos 3.5 minutos y se guarda en `salida/`.
 
 El costo en dinero depende de los precios de tu cuenta, que cambian. El laboratorio reporta **tokens**, que no
 cambian, y los convierte a dólares si defines `PRECIO_<MODELO>="entrada,salida"` en `.env` (USD por millón de tokens).

@@ -166,11 +166,11 @@ Dos advertencias para llevarlo a producción:
 ## 6. Borrar de verdad
 
 La primera persona que pidió que la borraran es el CV 27. El laboratorio busca su nombre, sin borrar nada, en las
-salidas de los tres cursos y en las bases de la app. En mi máquina:
+salidas y bases de datos de los tres cursos. En mi máquina:
 
 | Dónde | Veces | Qué es |
 |---|---|---|
-| `app/backend/data/trazas.db` | **34** | las trazas del Módulo 7 de AI Engineering |
+| `trazas.db` (`salida/trazas.db`) | **34** | las trazas del Módulo 7 de AI Engineering |
 | `curso-evals/salida/cache_llm.db` | 6 | respuestas guardadas del LLM (nombres extraídos, listas que lo mencionan) |
 | `curso-ai-search/salida/parseos.json` | 2 | el texto de su documento con cada forma de parsear (Módulo 3) |
 | `curso-ai-search/comun/as_cvs.json` | 2 | la fuente |

@@ -1,7 +1,7 @@
-# Evals para AI Engineers — edición personal
+# Evals para AI Engineers
 
-> Material de estudio **original**. Uso personal. Sigue como mapa de temas el curso del mismo nombre de Majup Learn
-> (que al escribir esto aún no había publicado sus lecciones); el contenido, los datos y el código son propios.
+> Contenido, datos y código **originales**, escritos a partir de investigación propia y de práctica con
+> sistemas reales.
 
 El curso de AI Engineering terminó con un sistema que funciona: extrae CVs, busca con RAG híbrido, recomienda con un
 agente y tiene guardrails. Este curso responde la pregunta que viene después: **¿cómo sé, con evidencia, si un cambio
@@ -15,7 +15,7 @@ escribe un juez. Cada técnica entra cuando el sistema la necesita, del caso má
 
 ## Los sistemas que vamos a evaluar
 
-Son los tuyos, del curso de AI Engineering (la carpeta raíz de este repositorio):
+Son los tuyos, del curso de AI Engineering ([`../curso-ai-engineering/`](../curso-ai-engineering/README.md)):
 
 | Sistema | Qué hace | Por qué es difícil evaluarlo |
 |---|---|---|
@@ -51,11 +51,9 @@ extraer de cada uno, la mitad difíciles a propósito.
 
 ## Cómo usarlo
 
-Igual que el primer curso: manual (`README.md`), laboratorio ejecutable (`code/`), ejercicios con solución y
-autoevaluación, todo dentro de la app (`app/`, selector **Curso** arriba a la izquierda). Los laboratorios usan las
-dependencias y el `.env` del backend de la app.
+Cada módulo incluye manual (`README.md`), ejercicios con solución (`ejercicios.md`), autoevaluación y los scripts completos en `code/`. Puedes leer y hacer las autoevaluaciones y tareas de anotación en la web del curso, y descargar el `.zip` del curso para correr los scripts de `code/` en tu máquina con tu propia API key.
 
-Dos variables nuevas en `app/backend/.env` (opcionales):
+Instala las dependencias con `pip install -r requirements.txt` y configura tu clave (`OPENAI_API_KEY=...`) en un archivo `.env`. Variable opcional:
 
 ```env
 # El modelo "barato" candidato que evalúa el Módulo 1. Usa uno que exista en tu cuenta.
