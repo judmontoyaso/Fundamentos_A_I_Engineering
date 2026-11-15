@@ -7,7 +7,7 @@ const SITIO = process.env.NEXT_PUBLIC_NOMBRE_SITIO ?? "IA en Producción";
 export const metadata: Metadata = {
   title: { default: SITIO, template: `%s · ${SITIO}` },
   description:
-    "Tres cursos en español para pasar de un demo de LLM a software de verdad: datos estructurados, RAG híbrido, agentes, evals y búsqueda.",
+    "Cuatro cursos en español para pasar de un demo de LLM a software en producción: AI Engineering, Evals, AI Search y Agentes en Producción.",
 };
 export const viewport: Viewport = { width: "device-width", initialScale: 1 };
 

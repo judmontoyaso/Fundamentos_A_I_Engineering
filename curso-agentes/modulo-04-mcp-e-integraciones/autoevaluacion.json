@@ -1,0 +1,37 @@
+{
+  "preguntas": [
+    {
+      "pregunta": "¿Cuál es la diferencia principal entre un Resource y un Tool en el protocolo MCP?",
+      "opciones": [
+        "No hay diferencia, son sinónimos",
+        "Un Resource expone datos de lectura direccionables por URI (como un archivo o ficha), mientras que un Tool ejecuta una función parametrizada decidida por el modelo",
+        "Los Resources solo sirven para imágenes",
+        "Los Tools no usan JSON Schema"
+      ],
+      "correcta": 1,
+      "explicacion": "Separar lectura de contexto por URI (Resource) de acciones invocables (Tool) simplifica el prompt y reduce llamadas innecesarias."
+    },
+    {
+      "pregunta": "¿Por qué el servidor MCP mejora la postura de seguridad frente a importar librerías de base de datos directamente en el agente?",
+      "opciones": [
+        "Porque encripta el prompt",
+        "Porque aísla las credenciales y aplica control de acceso e invariantes en la frontera del servidor, sin exponer secretos al entorno del agente",
+        "Porque no usa red",
+        "Porque desactiva los logs"
+      ],
+      "correcta": 1,
+      "explicacion": "El agente solo puede invocar los contratos JSON-RPC permitidos por el servidor MCP con el alcance del token actual."
+    },
+    {
+      "pregunta": "¿Qué ocurre cuando le pasas al LLM los esquemas de 50 herramientas de múltiples servidores MCP al mismo tiempo?",
+      "opciones": [
+        "El modelo siempre elige mejor cuantas más herramientas tiene",
+        "Aumenta el consumo de tokens fijos por turno y se degrada la precisión al distinguir entre herramientas con descripciones similares",
+        "El servidor MCP se apaga",
+        "No consume tokens adicionales"
+      ],
+      "correcta": 1,
+      "explicacion": "Mantener el conjunto activo de herramientas pequeño (idealmente <= 8 por etapa) mejora tanto la precisión como la latencia."
+    }
+  ]
+}

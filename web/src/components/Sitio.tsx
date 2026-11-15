@@ -1,5 +1,6 @@
 // Cabecera y pie de las páginas que no son el lector.
 import Link from "next/link";
+import { Logo } from "@/components/Logo";
 import { esAdmin, getUsuario, urlEntrar } from "@/lib/auth";
 
 const NOMBRE = process.env.NEXT_PUBLIC_NOMBRE_SITIO ?? "IA en Producción";
@@ -10,7 +11,7 @@ export async function Sitio({ children }: { children: React.ReactNode }) {
   return (
     <div className="sitio">
       <header className="sitio-top">
-        <Link className="marca" href="/"><span className="logo">IAP</span>{NOMBRE}</Link>
+        <Link className="marca" href="/"><Logo size={34} />{NOMBRE}</Link>
         <nav>
           <Link href="/#cursos">Cursos</Link>
           <Link href="/#planes">Planes</Link>

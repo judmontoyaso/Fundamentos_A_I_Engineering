@@ -1,0 +1,37 @@
+{
+  "preguntas": [
+    {
+      "pregunta": "¿Cuál es la justificación técnica principal para delegar una subtarea a un subagente en producción?",
+      "opciones": [
+        "Hacer que dos modelos discutan libremente sin límite de turnos",
+        "Aislar el contexto pesado de la subtarea en una ventana limpia y devolver al orquestador solo un resultado estructurado y compacto",
+        "Evitar el uso de JSON Schema",
+        "Gastar más tokens por consulta"
+      ],
+      "correcta": 1,
+      "explicacion": "El subagente actúa como un filtro de compresión cognitiva: absorbe miles de tokens de exploración local y retorna solo la conclusión estructurada."
+    },
+    {
+      "pregunta": "Si debes auditar 6 candidatos independientes y cada auditoría tarda 4 segundos, ¿qué ventaja aporta el patrón map-reduce con subagentes en paralelo?",
+      "opciones": [
+        "Reduce los tokens totales a cero",
+        "Reduce la latencia total de ~24 segundos (secuencial) a ~4 segundos (el máximo de las ramas paralelas)",
+        "Elimina la necesidad de validar las salidas",
+        "Permite que los candidatos se vean entre sí"
+      ],
+      "correcta": 1,
+      "explicacion": "Cuando las subtareas son independientes entre sí, ejecutarlas en paralelo con concurrencia acotada corta drásticamente la latencia percibida."
+    },
+    {
+      "pregunta": "¿Por qué no es recomendable permitir que múltiples subagentes se envíen mensajes libres todos contra todos (topología malla completa)?",
+      "opciones": [
+        "Porque es difícil de programar",
+        "Porque el número de mensajes explota cuadráticamente, se vuelve imposible depurar la causa de un fallo y no hay garantías de terminación",
+        "Porque Python no tiene async/await",
+        "Porque los modelos prefieren hablar en inglés"
+      ],
+      "correcta": 1,
+      "explicacion": "Una topología jerárquica (orquestador -> trabajadores con contrato fijo) mantiene el flujo predecible, trazable y acotado."
+    }
+  ]
+}

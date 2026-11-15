@@ -1,0 +1,48 @@
+{
+  "preguntas": [
+    {
+      "pregunta": "¿Por qué no conviene exponer directamente todos los endpoints REST o tablas SQL como herramientas individuales?",
+      "opciones": [
+        "Porque JSON Schema no soporta más de 3 funciones",
+        "Porque obliga al modelo a encadenar múltiples llamadas de bajo nivel, aumentando los pasos, los tokens y la probabilidad de error",
+        "Porque las bases de datos son lentas",
+        "Porque Python no permite decorar funciones"
+      ],
+      "correcta": 1,
+      "explicacion": "Las herramientas deben modelar intenciones completas de alto valor para la tarea, no operaciones CRUD granulares."
+    },
+    {
+      "pregunta": "¿Qué es un diseño poka-yoke en los parámetros de una herramienta?",
+      "opciones": [
+        "Recibir un único string libre para que el modelo escriba lo que quiera",
+        "Restringir tipos con Literal/Enum y valores por defecto seguros que hagan imposible o difícil construir una llamada inválida",
+        "Ocultar la descripción de los parámetros para ahorrar tokens",
+        "Lanzar excepciones sin mensaje"
+      ],
+      "correcta": 1,
+      "explicacion": "Cuanto más expresivo y acotado es el esquema de entrada, menos errores de formato comete el LLM."
+    },
+    {
+      "pregunta": "¿Qué debe devolver una herramienta cuando falla una validación de negocio (por ejemplo, un ID de vacante inexistente)?",
+      "opciones": [
+        "Un traceback completo de Python de 40 líneas",
+        "Un objeto estructurado indicando qué falló y cuáles son las opciones o formatos válidos para corregirlo en el siguiente turno",
+        "Una cadena vacía",
+        "Un código HTTP 500 sin cuerpo"
+      ],
+      "correcta": 1,
+      "explicacion": "El destinatario del error de una herramienta es el propio LLM: una pista concreta evita que adivine a ciegas."
+    },
+    {
+      "pregunta": "¿Por qué una herramienta de búsqueda debe limitar el número de resultados y los campos devueltos?",
+      "opciones": [
+        "Para proteger la ventana de contexto del agente contra ruido masivo y degradación de atención",
+        "Porque JSON no admite listas largas",
+        "Para que el disco duro no se llene",
+        "No hace falta limitarlo si el modelo tiene 128k tokens"
+      ],
+      "correcta": 0,
+      "explicacion": "Incluso con ventanas grandes, volcar decenas de kilobytes irrelevantes dispara el costo y reduce la precisión del modelo en los pasos siguientes."
+    }
+  ]
+}

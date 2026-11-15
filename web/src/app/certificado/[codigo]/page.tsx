@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ImprimirBtn } from "@/components/ImprimirBtn";
+import { Logo } from "@/components/Logo";
 import { Sitio } from "@/components/Sitio";
 import { verificarCertificado } from "@/lib/certificado";
 import { gruposDe } from "@/lib/contenido";
@@ -73,7 +74,7 @@ export default async function PaginaCertificado({ params }: { params: Promise<{ 
           <div className="cert-borde">
             <header className="cert-cabecera">
               <div className="cert-marca">
-                <span className="cert-logo">IAP</span>
+                <Logo size={42} />
                 <div>
                   <b>IA en Producción</b>
                   <span>Formación técnica en ingeniería de IA</span>

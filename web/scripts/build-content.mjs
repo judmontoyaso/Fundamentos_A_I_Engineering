@@ -16,7 +16,7 @@ const ROOT = process.env.COURSE_ROOT ? path.resolve(process.env.COURSE_ROOT) : p
 const OUT = path.join(WEB, "src", "content");
 
 // Qué se puede leer sin pagar: la presentación de cada curso y su primer módulo.
-const GRATIS = /^(inicio|m1-.+|evals-inicio|evals-m0-.+|ai-search-inicio|ai-search-m0-.+)$/;
+const GRATIS = /^(inicio|m1-.+|evals-inicio|evals-m0-.+|ai-search-inicio|ai-search-m0-.+|agentes-inicio|agentes-m0-.+)$/;
 
 const read = (p) => fs.readFileSync(p, "utf8");
 const exists = (p) => fs.existsSync(p);

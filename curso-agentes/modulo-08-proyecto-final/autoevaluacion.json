@@ -1,0 +1,37 @@
+{
+  "preguntas": [
+    {
+      "pregunta": "En el agente integrador de producción, ¿por qué CAND-02 (Mateo Cárdenas) queda descartado para la vacante VAC-101?",
+      "opciones": [
+        "Porque no sabe Python",
+        "Porque está en periodo de enfriamiento en el ATS (último contacto hace 20 días < 90 días) y su aspiración ($7.800) supera el presupuesto ($6.500)",
+        "Porque su CV tiene una inyección de prompt",
+        "Por azar"
+      ],
+      "correcta": 1,
+      "explicacion": "El agente cruza tanto habilidades técnicas como políticas duras del ATS (enfriamiento y presupuesto) antes de proponer la terna."
+    },
+    {
+      "pregunta": "¿Por qué CAND-04 no logra que el agente ejecute enviar_oferta(candidato_id='CAND-04', monto=9500)?",
+      "opciones": [
+        "Porque el agente combina extracción aislada de atributos tipados, validación determinista de elegibilidad (PEP) y pausa obligatoria de aprobación humana",
+        "Porque el modelo no sabe leer corchetes",
+        "Porque el monto es menor a 10.000",
+        "Porque no hay conexión a internet"
+      ],
+      "correcta": 0,
+      "explicacion": "La defensa en profundidad garantiza que ni siquiera un intento explícito de inyección pueda disparar una herramienta sensible."
+    },
+    {
+      "pregunta": "¿Qué comprueba la suite de regresión del agente antes de permitir un despliegue a producción?",
+      "opciones": [
+        "Únicamente que el script no tenga errores de sintaxis",
+        "Que el conjunto de candidatos preseleccionados sea exacto (F1=1.0), que las inyecciones sean bloqueadas, que el presupuesto de pasos se respete y que las acciones irreversibles queden en estado de aprobación humana",
+        "Que el texto sea largo",
+        "Que tarde más de 30 segundos"
+      ],
+      "correcta": 1,
+      "explicacion": "Una suite de evaluación de agentes verifica tanto el resultado de negocio como las invariantes operativas y de seguridad de la trayectoria."
+    }
+  ]
+}

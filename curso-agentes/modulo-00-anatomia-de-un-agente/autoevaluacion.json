@@ -1,0 +1,48 @@
+{
+  "preguntas": [
+    {
+      "pregunta": "¿Cuándo es preferible un workflow determinista (DAG) frente a un agente autónomo?",
+      "opciones": [
+        "Siempre que el modelo sea pequeño",
+        "Cuando la secuencia de etapas se conoce de antemano y no depende de explorar resultados impredecibles",
+        "Nunca, porque los agentes son más flexibles",
+        "Solo cuando no se usa base de datos"
+      ],
+      "correcta": 1,
+      "explicacion": "Si ya sabes que siempre debes extraer -> buscar -> rerankear -> formatear, codificar ese orden elimina varianza, costo y fallos de planificación."
+    },
+    {
+      "pregunta": "Si cada paso de un agente acierta con probabilidad 0.90 y una tarea requiere 6 pasos sin recuperación, ¿qué ocurre con la confiabilidad total?",
+      "opciones": [
+        "Se mantiene en 90 %",
+        "Sube a 95 %",
+        "Cae a 0.90^6 ≈ 53.1 %",
+        "Se divide entre 6 (15 %)"
+      ],
+      "correcta": 2,
+      "explicacion": "Los errores en pasos secuenciales se multiplican; por eso hay que minimizar el número de decisiones abiertas."
+    },
+    {
+      "pregunta": "¿Dónde deben aplicarse los límites de presupuesto (max_pasos, max_tokens, max_costo_usd)?",
+      "opciones": [
+        "En el system prompt pidiéndole al modelo que sea breve",
+        "En el bucle controlador en código, fuera del LLM",
+        "En el frontend con un temporizador visual",
+        "Solo en los tests unitarios"
+      ],
+      "correcta": 1,
+      "explicacion": "Un prompt es una sugerencia probabilística; un límite de presupuesto o seguridad debe ser una invariante garantizada por el runtime."
+    },
+    {
+      "pregunta": "Un agente llama tres veces seguidas a buscar_candidatos(ciudad='Bogotá') recibiendo la misma lista vacía. ¿Cuál es el mejor freno?",
+      "opciones": [
+        "Subir la temperatura a 1.0",
+        "Detectar la llamada duplicada por su huella de argumentos y devolver una pista accionable sin re-ejecutar",
+        "Borrar todo el historial de mensajes",
+        "Aumentar max_pasos a 50"
+      ],
+      "correcta": 1,
+      "explicacion": "La detección de llamadas idempotentes repetidas corta el bucle infinito y guía al modelo a relajar los filtros."
+    }
+  ]
+}

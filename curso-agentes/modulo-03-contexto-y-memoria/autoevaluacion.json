@@ -1,0 +1,37 @@
+{
+  "preguntas": [
+    {
+      "pregunta": "¿Por qué el costo en tokens de un agente sin gestión de contexto crece de forma cuadrática con el número de pasos?",
+      "opciones": [
+        "Porque el proveedor cobra más caro a partir del quinto turno",
+        "Porque cada observación grande añadida en el paso k vuelve a enviarse como entrada en todos los pasos posteriores (k+1, k+2, ..., N)",
+        "Porque los embeddings duplican su dimensión",
+        "No crece de forma cuadrática"
+      ],
+      "correcta": 1,
+      "explicacion": "Acumular salidas crudas de herramientas hace que pagues una y otra vez por payloads que el agente ya procesó."
+    },
+    {
+      "pregunta": "¿En qué consiste la poda de observaciones (observation masking)?",
+      "opciones": [
+        "En borrar el system prompt",
+        "En conservar completas solo las últimas K observaciones de herramientas y sustituir las anteriores por un marcador compacto una vez extraídos los datos clave al estado",
+        "En truncar aleatoriamente la mitad de cada JSON",
+        "En no usar herramientas"
+      ],
+      "correcta": 1,
+      "explicacion": "El modelo necesita el detalle crudo de lo que acaba de consultar, pero para pasos antiguos le basta con los hechos ya consolidados."
+    },
+    {
+      "pregunta": "¿Cuál es el riesgo de resumir todo el historial con un LLM en texto libre cada 3 turnos?",
+      "opciones": [
+        "Que el resumen pierda o altere identificadores exactos (IDs), cifras salariales o restricciones duras",
+        "Que sea demasiado exacto",
+        "Que ocupe más espacio que el original",
+        "Ninguno"
+      ],
+      "correcta": 0,
+      "explicacion": "Los IDs, números y estados deben preservarse en campos estructurados deterministas, no depender de una paráfrasis."
+    }
+  ]
+}

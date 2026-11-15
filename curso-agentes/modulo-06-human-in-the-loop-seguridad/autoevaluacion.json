@@ -1,0 +1,37 @@
+{
+  "preguntas": [
+    {
+      "pregunta": "¿Qué es una inyección indirecta de prompt (Indirect Prompt Injection) en un agente?",
+      "opciones": [
+        "Cuando el desarrollador escribe un prompt muy largo",
+        "Cuando datos externos no confiables leídos por una herramienta (como un CV, correo o web) contienen instrucciones diseñadas para desviar al agente e invocar herramientas con privilegios",
+        "Cuando falla la conexión SQL",
+        "Cuando el usuario olvida su contraseña"
+      ],
+      "correcta": 1,
+      "explicacion": "La combinación letal ocurre cuando el mismo contexto mezcla datos externos no confiables con capacidad de ejecutar acciones sensibles."
+    },
+    {
+      "pregunta": "¿Cuál es la arquitectura más segura para procesar el texto libre de un CV antes de que el agente tome decisiones con herramientas?",
+      "opciones": [
+        "Pasar el PDF completo directamente al agente que tiene la herramienta enviar_oferta",
+        "Procesar el texto no confiable con un extractor aislado SIN herramientas que solo devuelve campos tipados/enumerados, y validar políticas en código antes de cualquier acción",
+        "Pedirle al candidato que no escriba corchetes",
+        "Subir la temperatura del agente"
+      ],
+      "correcta": 1,
+      "explicacion": "Un modelo sin herramientas no puede ejecutar acciones externas aunque el texto del CV intente manipularlo."
+    },
+    {
+      "pregunta": "Cuando un agente necesita ejecutar una acción irreversible (como enviar una oferta salarial), ¿cómo debe implementarse el Human-in-the-Loop?",
+      "opciones": [
+        "Con un time.sleep(3600) dejando el servidor colgado una hora",
+        "Guardando un checkpoint en estado 'esperando_aprobacion_humana' con los argumentos propuestos y deteniendo la corrida hasta recibir confirmación explícita",
+        "Preguntándole a otro LLM si está de acuerdo",
+        "Ejecutando la acción primero y enviando un aviso después"
+      ],
+      "correcta": 1,
+      "explicacion": "Pausar mediante checkpoint libera cómputo y garantiza que ningún efecto irreversible ocurra sin firma humana."
+    }
+  ]
+}

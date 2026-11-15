@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Logo } from "@/components/Logo";
 import type { CursoNav, GrupoNav, Progreso } from "@/lib/tipos";
 
 type Tema = "system" | "light" | "dark";
@@ -53,7 +54,7 @@ export function Shell({ cursos, inicios, cursoId, grupos, actual, progreso, abie
       <div className={"scrim" + (lateral ? " show" : "")} onClick={() => setLateral(false)} />
       <aside className={"sidebar" + (lateral ? " open" : "")}>
         <Link className="brand" href="/">
-          <div className="logo">IAP</div>
+          <Logo size={34} />
           <div>
             <h1>{NOMBRE}</h1>
             <p>AI Engineering</p>

@@ -1,5 +1,6 @@
 // Página de venta.
 import Link from "next/link";
+import { Logo } from "@/components/Logo";
 import { Sitio } from "@/components/Sitio";
 import { cursos, grupos, gruposDe, itemsDe } from "@/lib/contenido";
 import { PLANES } from "@/lib/planes";
@@ -11,15 +12,17 @@ const DESCRIPCION: Record<string, string> = {
     "De un demo a software de verdad. Construyes un buscador de hojas de vida de principio a fin: extracción validada con esquemas, embeddings, RAG híbrido, agentes con herramientas, observabilidad y guardrails.",
   evals: "¿Cómo sabes, con evidencia, si un cambio mejoró o empeoró tu sistema? Análisis de errores, etiquetado, datos sintéticos, LLM como juez calibrado y evals en CI.",
   "ai-search": "¿Qué está fallando en tu RAG y qué cambio lo arregla? Cada módulo mide primero (Recall@k, MRR, NDCG), prueba una técnica y verifica si los números se mueven.",
+  agentes: "¿Cómo construyes un agente que opera sobre sistemas reales sin salirse de presupuesto ni corromper datos? Contratos poka-yoke, máquinas de estado, checkpoints, MCP, subagentes, aprobación humana y evaluación de trayectorias.",
 };
 
 const ETAPA: Record<string, string> = {
   "ai-engineering": "Etapa 1 · Construir el sistema",
   evals: "Etapa 2 · Medir con rigor",
   "ai-search": "Etapa 3 · Optimizar la recuperación",
+  agentes: "Etapa 4 · Orquestar agentes en producción",
 };
 
-const ORDEN = ["ai-engineering", "evals", "ai-search"];
+const ORDEN = ["ai-engineering", "evals", "ai-search", "agentes"];
 const limpio = (g: string) => g.replace(/^Módulo\s+\d+\s*[·:\-–—]\s*/i, "");
 
 export default function Inicio() {
@@ -38,9 +41,9 @@ export default function Inicio() {
               <span className="eyebrow">Ingeniería de IA aplicada · En español</span>
               <h1>Lleva sistemas con LLMs del notebook a producción</h1>
               <p className="lead">
-                Tres cursos técnicos escritos para leerse despacio y ejecutarse en tu máquina. Sin relleno ni recetas
-                mágicas: construyes una arquitectura real, la mides con métricas reproducibles, la proteges contra fallos
-                y obtienes un certificado verificable al terminar cada curso.
+                Cuatro cursos técnicos escritos para leerse despacio y ejecutarse en tu máquina. Sin relleno ni recetas
+                mágicas: construyes una arquitectura real, la mides con métricas reproducibles, optimizas su recuperación,
+                despliegas agentes con control de estado y obtienes un certificado verificable por cada curso.
               </p>
               <div className="acciones">
                 <Link className="btn primary grande" href={`/leer/${primero}`}>Leer el primer módulo gratis</Link>
@@ -151,10 +154,10 @@ export default function Inicio() {
             </div>
             <div className="cert-mini">
               <div className="cert-mini-top">
-                <span className="cert-logo">IAP</span>
-                <code>IAP-AI-ENGINEERING-DEMO2026</code>
+                <Logo size={32} />
+                <code>IAP-AGENTES-PROD2026</code>
               </div>
-              <b>Fundamentos de AI Engineering</b>
+              <b>Agentes en producción: herramientas, estado y control</b>
               <span>9 módulos · 9 autoevaluaciones aprobadas · Verificación pública activa</span>
             </div>
           </div>
@@ -173,7 +176,7 @@ export default function Inicio() {
               <h3>{PLANES.mensual.nombre}</h3>
               <div className="precio">{PLANES.mensual.usd} USD <small>/ 30 días</small></div>
               <ul>
-                <li>Los tres cursos completos</li>
+                <li>Los cuatro cursos completos</li>
                 <li>Código descargable y certificados verificables</li>
                 <li>Renuevas solo si quieres seguir</li>
               </ul>
@@ -184,7 +187,7 @@ export default function Inicio() {
               <h3>{PLANES.anual.nombre}</h3>
               <div className="precio">{PLANES.anual.usd} USD <small>/ año</small></div>
               <ul>
-                <li>Los tres cursos completos</li>
+                <li>Los cuatro cursos completos</li>
                 <li>Código descargable y certificados verificables</li>
                 <li>Todo el contenido nuevo durante el año</li>
               </ul>

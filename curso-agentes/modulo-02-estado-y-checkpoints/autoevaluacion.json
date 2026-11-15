@@ -1,0 +1,37 @@
+{
+  "preguntas": [
+    {
+      "pregunta": "¿Por qué no basta con guardar únicamente la lista de mensajes del chat como estado de un agente en producción?",
+      "opciones": [
+        "Porque las listas en Python son lentas",
+        "Porque la lista de mensajes no impone invariantes de negocio, es difícil de inspeccionar/migrar y se pierde si no hay checkpoints estructurados por etapa",
+        "Porque JSON no soporta arrays",
+        "Porque los modelos no leen el historial"
+      ],
+      "correcta": 1,
+      "explicacion": "Un estado explícito y tipado permite auditar en qué etapa exacta está la ejecución, validar precondiciones en código y reanudar tras fallos."
+    },
+    {
+      "pregunta": "¿Para qué sirve restringir qué herramientas están disponibles según el estado actual de la máquina de estados?",
+      "opciones": [
+        "Para hacer el código más largo",
+        "Para impedir estructuralmente que el modelo ejecute acciones fuera de orden (como agendar una entrevista antes de verificar elegibilidad)",
+        "Para gastar más tokens",
+        "Solo sirve en modelos antiguos"
+      ],
+      "correcta": 1,
+      "explicacion": "Si una herramienta no está registrada en la etapa actual, la probabilidad de que el modelo la invoque prematuramente es exactamente cero."
+    },
+    {
+      "pregunta": "¿Qué garantiza una clave de idempotencia en una herramienta con efectos secundarios?",
+      "opciones": [
+        "Que la herramienta corra más rápido",
+        "Que si el agente o el orquestador reintenta el mismo paso tras un corte de red, la acción externa (correo, cobro, registro) se ejecute una sola vez",
+        "Que el LLM no alucine nunca",
+        "Que la base de datos no necesite índices"
+      ],
+      "correcta": 1,
+      "explicacion": "Al asociar la huella determinista (ejecucion_id + herramienta + argumentos) con el resultado previo, los reintentos son seguros."
+    }
+  ]
+}
