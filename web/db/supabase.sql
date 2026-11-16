@@ -83,6 +83,20 @@ alter table curso.pedidos   enable row level security;
 alter table curso.accesos   enable row level security;
 alter table curso.cupones   enable row level security;
 
+-- Política explícita de bloqueo para roles cliente: el acceso ocurre únicamente desde el servidor con service_role.
+drop policy if exists solo_servidor on curso.usuarios;
+create policy solo_servidor on curso.usuarios for all to anon, authenticated using (false) with check (false);
+drop policy if exists solo_servidor on curso.progreso;
+create policy solo_servidor on curso.progreso for all to anon, authenticated using (false) with check (false);
+drop policy if exists solo_servidor on curso.etiquetas;
+create policy solo_servidor on curso.etiquetas for all to anon, authenticated using (false) with check (false);
+drop policy if exists solo_servidor on curso.pedidos;
+create policy solo_servidor on curso.pedidos for all to anon, authenticated using (false) with check (false);
+drop policy if exists solo_servidor on curso.accesos;
+create policy solo_servidor on curso.accesos for all to anon, authenticated using (false) with check (false);
+drop policy if exists solo_servidor on curso.cupones;
+create policy solo_servidor on curso.cupones for all to anon, authenticated using (false) with check (false);
+
 -- Solo el rol de servicio (el servidor de la app) entra a este esquema.
 revoke all on schema curso from anon, authenticated;
 revoke all on all tables in schema curso from anon, authenticated;

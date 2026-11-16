@@ -8,13 +8,12 @@ import {
   crearTokenRecuperacion,
   leerTokenRecuperacion,
 } from "@/lib/auth";
+import { validarClaveNueva } from "@/lib/clave";
 import { correoActivo, enviarRecuperacion } from "@/lib/correo";
 import { ipDe, permitido } from "@/lib/limite";
 import { urlBase } from "@/lib/pagos";
 import { store } from "@/lib/store";
 import { MARCA_VERIFICADO, clientesAuth } from "@/lib/supabase-auth";
-
-const MIN_CLAVE = 8;
 
 async function buscarUsuarioCorreo(email: string): Promise<{ uid: string; nombre?: string } | null> {
   const supa = clientesAuth();
@@ -76,9 +75,10 @@ export async function POST(req: Request) {
     const token = leerTokenRecuperacion(rawT);
     const password = String(form.get("password") ?? "");
     if (!token) return NextResponse.redirect(new URL("/recuperar", base), 303);
-    if (password.length < MIN_CLAVE || password.length > 200) {
+    const errClave = await validarClaveNueva(password);
+    if (errClave) {
       return NextResponse.redirect(
-        new URL(`/recuperar?t=${encodeURIComponent(rawT)}&error=${encodeURIComponent(`La contraseña debe tener al menos ${MIN_CLAVE} caracteres.`)}`, base),
+        new URL(`/recuperar?t=${encodeURIComponent(rawT)}&error=${encodeURIComponent(errClave)}`, base),
         303,
       );
     }

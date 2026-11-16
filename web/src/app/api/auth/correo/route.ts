@@ -6,13 +6,12 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { COOKIE_SESION, OPCIONES_COOKIE, crearCookieSesion, crearTokenVerificacion, rutaSegura } from "@/lib/auth";
+import { MAX_CLAVE, validarClaveNueva } from "@/lib/clave";
 import { correoActivo, enviarVerificacion } from "@/lib/correo";
 import { ipDe, permitido } from "@/lib/limite";
 import { urlBase } from "@/lib/pagos";
 import { clientesAuth, estaVerificado } from "@/lib/supabase-auth";
 import type { Usuario } from "@/lib/tipos";
-
-const MIN_CLAVE = 8;
 
 export async function POST(req: Request) {
   const base = urlBase(req);
@@ -30,9 +29,10 @@ export async function POST(req: Request) {
     );
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) return devolverError("Escribe un correo válido.");
-  if (!password || password.length > 200) return devolverError("Escribe tu contraseña.");
-  if (modo === "registro" && password.length < MIN_CLAVE) {
-    return devolverError(`La contraseña debe tener al menos ${MIN_CLAVE} caracteres.`);
+  if (!password || password.length > MAX_CLAVE) return devolverError("Escribe tu contraseña.");
+  if (modo === "registro") {
+    const errClave = await validarClaveNueva(password);
+    if (errClave) return devolverError(errClave);
   }
 
   // Freno a la fuerza bruta y al registro masivo: por origen y, al entrar, también por cuenta.
