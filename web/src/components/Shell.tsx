@@ -2,6 +2,7 @@
 // Marco del lector: barra lateral con el temario, barra superior con el progreso, y el contenido.
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Monitor, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Logo } from "@/components/Logo";
 import type { CursoNav, GrupoNav, Progreso } from "@/lib/tipos";
@@ -113,8 +114,8 @@ export function Shell({ cursos, inicios, cursoId, grupos, actual, progreso, abie
           <button className="menu-btn" onClick={() => setLateral(!lateral)} aria-label="Temario">☰</button>
           <div className="progress-wrap">
             <div className="progress-top">
-              <span>{email ? `Progreso · ${titulo}` : titulo}</span>
-              {email ? <span className="mono"><b>{pct}%</b> · {hechos}/{items.length}</span> : <span>Vista previa gratuita</span>}
+              <span>{titulo}</span>
+              {email ? <span><b>{pct} %</b> completado, {hechos} de {items.length}</span> : <span>Vista previa gratuita</span>}
             </div>
             <div className="bar"><span style={{ width: `${email ? pct : 0}%` }} /></div>
           </div>
@@ -124,7 +125,7 @@ export function Shell({ cursos, inicios, cursoId, grupos, actual, progreso, abie
             </Link>
           )}
           <button className="tbtn" onClick={cambiarTema} title="Cambiar tema" aria-label="Cambiar tema">
-            {tema === "light" ? "☀" : tema === "dark" ? "☾" : "◐"}
+            {tema === "light" ? <Sun size={16} aria-hidden /> : tema === "dark" ? <Moon size={16} aria-hidden /> : <Monitor size={16} aria-hidden />}
           </button>
           {!abierto && <Link className="tbtn cta" href="/#planes">Ver planes</Link>}
           {email ? <Link className="tbtn" href="/cuenta">Mi cuenta</Link> : <a className="tbtn" href={urlEntrar}>Entrar</a>}

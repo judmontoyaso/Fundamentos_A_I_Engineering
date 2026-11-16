@@ -49,17 +49,19 @@ export default async function Comprar({ searchParams }: Props) {
           {elegido && <input type="hidden" name="curso" value={elegido.id} />}
           <div className="fila">
             <div>
-              <b>¿Tienes un cupón de descuento o beca?</b>
-              <div className="aviso">Aplica descuentos parciales o acceso 100 % gratuito a un curso, mes o plan.</div>
+              <b>¿Tienes un cupón?</b>
+              <div className="aviso">Escríbelo y aplícalo antes de pagar.</div>
             </div>
             <div style={{ display: "flex", gap: ".45rem", alignItems: "center", flexWrap: "wrap" }}>
               <input
                 type="text"
                 name="cupon"
                 defaultValue={codigoRaw}
-                placeholder="Ej. LANZAMIENTO50"
+                placeholder="Código del cupón"
+                aria-label="Código del cupón"
                 style={{
-                  font: "600 .88rem 'IBM Plex Mono', monospace",
+                  font: "500 .92rem 'IBM Plex Sans', system-ui, sans-serif",
+                  letterSpacing: ".04em",
                   textTransform: "uppercase",
                   padding: ".48rem .7rem",
                   borderRadius: "8px",
@@ -81,7 +83,7 @@ export default async function Comprar({ searchParams }: Props) {
             <div>
               {resCupon.ok ? (
                 <span className="estado ok">
-                  cupón {resCupon.cupon.codigo} aplicado · -{resCupon.porcentaje} %
+                  Cupón {resCupon.cupon.codigo} aplicado: {resCupon.porcentaje} % de descuento
                 </span>
               ) : (
                 <span className="estado no">{resCupon.error}</span>
@@ -97,7 +99,7 @@ export default async function Comprar({ searchParams }: Props) {
             <div className="fila">
               <div>
                 <b>Plan {plan.nombre.toLowerCase()}</b>
-                <div className="aviso">{plan.resumen}. Pago único · no se renueva solo.</div>
+                <div className="aviso">{plan.resumen}. Pago único, no se renueva solo.</div>
                 {plan.usdAntes && (
                   <div className="aviso" style={{ color: "var(--ok)" }}>
                     Promoción de lanzamiento: antes {plan.usdAntes} USD, ahora {plan.usd} USD.
@@ -136,7 +138,7 @@ export default async function Comprar({ searchParams }: Props) {
             <div className="caja fila">
               <div>
                 <b>Activación directa con cupón ({resCupon?.ok ? resCupon.cupon.codigo : codigoRaw})</b>
-                <div className="aviso">100 % de descuento · No necesitas tarjeta ni pasarela de pago.</div>
+                <div className="aviso">Descuento del 100 %: no necesitas tarjeta.</div>
               </div>
               <button className="btn primary grande" name="proveedor" value="cupon">
                 Canjear cupón y activar acceso gratis

@@ -32,7 +32,7 @@ export default function OgImage() {
                 width: 44,
                 height: 44,
                 borderRadius: 11,
-                background: "linear-gradient(135deg, #2563eb, #10b981)",
+                background: "linear-gradient(135deg, #0f5f52, #1f7a4d)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",

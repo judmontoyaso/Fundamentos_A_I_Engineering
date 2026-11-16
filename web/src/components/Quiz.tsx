@@ -2,6 +2,7 @@
 // Autoevaluación de un módulo: cada respuesta se corrige al momento y explica por qué.
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import { guardarProgreso } from "@/lib/cliente";
 import type { ItemNav, Pregunta } from "@/lib/tipos";
 import { Flechas } from "./Pie";
@@ -25,7 +26,15 @@ export function Quiz({ id, preguntas, hecho, conSesion, prev, next }: Props) {
     if (!aprobado || guardado.current || !conSesion) return;
     guardado.current = true;
     const respuestas = preguntas.map((_, i) => elegidas[i] ?? -1);
-    guardarProgreso(id, true, respuestas).then((ok) => { if (ok) router.refresh(); else guardado.current = false; });
+    guardarProgreso(id, true, respuestas).then((ok) => {
+      if (ok) {
+        toast.success("Autoevaluación aprobada", { description: "El módulo quedó marcado como completado." });
+        router.refresh();
+      } else {
+        guardado.current = false;
+        toast.error("Aprobaste, pero no se pudo guardar el resultado. Vuelve a intentarlo.");
+      }
+    });
   }, [aprobado, conSesion, elegidas, id, preguntas, router]);
 
   return (
@@ -67,7 +76,7 @@ export function Quiz({ id, preguntas, hecho, conSesion, prev, next }: Props) {
       <div className="foot">
         <div className="q-score">
           {terminado
-            ? <><b className="mono">{aciertos}/{total}</b> {aprobado ? "· módulo completado" : "· repasa el manual y vuelve a intentarlo"}</>
+            ? <><b className="mono">{aciertos}/{total}</b> {aprobado ? "aciertos. Módulo completado." : "aciertos. Repasa el manual y vuelve a intentarlo."}</>
             : <span className="muted mono">{respondidas}/{total} respondidas</span>}
           {respondidas > 0 && <button className="btn" onClick={() => setElegidas({})}>Reintentar</button>}
         </div>

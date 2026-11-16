@@ -1,3 +1,4 @@
+import { Toaster } from "sonner";
 import type { Metadata, Viewport } from "next";
 import { cursos } from "@/lib/contenido";
 import { NOMBRE_SITIO, urlSitioPublico } from "@/lib/sitio";
@@ -67,11 +68,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
         />
         <script dangerouslySetInnerHTML={{ __html: TEMA }} />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Toaster position="bottom-center" richColors closeButton />
+      </body>
     </html>
   );
 }

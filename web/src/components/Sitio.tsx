@@ -1,6 +1,7 @@
 // Cabecera y pie de las páginas que no son el lector.
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
+import { MenuMovil } from "@/components/MenuMovil";
 import { TemaBtn } from "@/components/TemaBtn";
 import { esAdmin, getUsuario, urlEntrar } from "@/lib/auth";
 import { CONTACTO_SITIO, NOMBRE_SITIO } from "@/lib/sitio";
@@ -19,7 +20,18 @@ export async function Sitio({ children }: { children: React.ReactNode }) {
           {esAdmin(usuario) && <Link href="/admin">Admin</Link>}
         </nav>
         <TemaBtn />
-        {usuario ? <Link className="btn" href="/cuenta">Mi cuenta</Link> : <a className="btn" href={urlEntrar("/cuenta")}>Entrar</a>}
+        <span className="solo-ancho">
+          {usuario ? <Link className="btn" href="/cuenta">Mi cuenta</Link> : <a className="btn" href={urlEntrar("/cuenta")}>Entrar</a>}
+        </span>
+        <MenuMovil
+          enlaces={[
+            { href: "/#cursos", texto: "Cursos" },
+            { href: "/#planes", texto: "Planes" },
+            { href: "/#preguntas", texto: "Preguntas" },
+            ...(esAdmin(usuario) ? [{ href: "/admin", texto: "Admin" }] : []),
+          ]}
+          cuenta={usuario ? { href: "/cuenta", texto: "Mi cuenta" } : { href: urlEntrar("/cuenta"), texto: "Entrar" }}
+        />
       </header>
       <main id="contenido" className="sitio-main">{children}</main>
       <footer className="sitio-pie">

@@ -1,4 +1,5 @@
 "use client";
+import { Monitor, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 
 type Tema = "system" | "light" | "dark";
@@ -23,8 +24,14 @@ export function TemaBtn() {
   }
 
   return (
-    <button type="button" className="tbtn" onClick={cambiar} title="Cambiar tema (sistema / claro / oscuro)" aria-label="Cambiar tema">
-      {tema === "light" ? "☀" : tema === "dark" ? "☾" : "◐"}
+    <button
+      type="button"
+      className="tbtn"
+      onClick={cambiar}
+      title={tema === "light" ? "Tema claro" : tema === "dark" ? "Tema oscuro" : "Tema del sistema"}
+      aria-label={`Cambiar tema (ahora: ${tema === "light" ? "claro" : tema === "dark" ? "oscuro" : "el del sistema"})`}
+    >
+      {tema === "light" ? <Sun size={16} aria-hidden /> : tema === "dark" ? <Moon size={16} aria-hidden /> : <Monitor size={16} aria-hidden />}
     </button>
   );
 }

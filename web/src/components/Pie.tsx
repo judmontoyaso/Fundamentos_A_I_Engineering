@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 import { guardarProgreso } from "@/lib/cliente";
 import type { ItemNav } from "@/lib/tipos";
 
@@ -30,8 +31,14 @@ export function Pie({ id, hecho, conSesion, urlEntrar, prev, next }: Props) {
     const nuevo = !valor;
     setValor(nuevo);
     setError(false);
-    if (await guardarProgreso(id, nuevo)) router.refresh();
-    else { setValor(!nuevo); setError(true); }
+    if (await guardarProgreso(id, nuevo)) {
+      toast.success(nuevo ? "Lección marcada como completada" : "Lección marcada como pendiente");
+      router.refresh();
+    } else {
+      setValor(!nuevo);
+      setError(true);
+      toast.error("No se pudo guardar tu progreso. Revisa tu conexión e inténtalo otra vez.");
+    }
   }
 
   return (

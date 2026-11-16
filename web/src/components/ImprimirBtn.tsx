@@ -22,7 +22,7 @@ export function ImprimirBtn({
           particleCount: 55,
           spread: 68,
           origin: { y: 0.62 },
-          colors: ["#2563eb", "#059669", "#eab308", "#38bdf8"],
+          colors: ["#0f5f52", "#1f7a4d", "#b7790c", "#5cc4a8"],
         });
       } catch {
         /* ignore if canvas blocked */

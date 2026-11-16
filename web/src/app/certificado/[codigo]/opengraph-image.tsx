@@ -38,7 +38,7 @@ export default async function CertificadoOg({ params }: { params: Promise<{ codi
             justifyContent: "space-between",
             padding: "44px 54px",
             borderRadius: "18px",
-            border: "2px solid rgba(59, 130, 246, 0.45)",
+            border: "2px solid rgba(15, 95, 82, 0.5)",
             background: "linear-gradient(145deg, #0f172a 0%, #111c36 100%)",
           }}
         >

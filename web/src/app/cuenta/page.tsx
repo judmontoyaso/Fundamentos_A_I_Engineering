@@ -43,8 +43,8 @@ export default async function Cuenta({ searchParams }: Props) {
       <div className="pagina">
         <h1>Mi cuenta</h1>
         <p className="muted">
-          {usuario.nombre ? <><b>{usuario.nombre}</b> · </> : null}
-          {usuario.email}{admin ? " · administrador" : ""}
+          {usuario.nombre ? <><b>{usuario.nombre}</b>, </> : null}
+          {usuario.email}{admin ? " (administrador)" : ""}
         </p>
         {admin && (
           <div className="caja fila">
@@ -89,11 +89,11 @@ export default async function Cuenta({ searchParams }: Props) {
             <div className="caja cuenta-curso" key={c.id}>
               <div className="fila">
                 <div>
-                  <span className="num">Curso {idx + 1} · {c.modulos} módulos</span>
+                  <span className="num">Curso {idx + 1}, {c.modulos} módulos</span>
                   <div style={{ fontWeight: 600, fontSize: "1.05rem", marginTop: ".15rem" }}>{c.titulo}</div>
                   <div className="aviso">
-                    {hechas} de {lecciones.length} unidades ({pct} %) · {abierto ? "acceso completo" : "muestra gratuita"}
-                    {completo ? " · certificado desbloqueado" : ""}
+                    {hechas} de {lecciones.length} unidades ({pct} %), {abierto ? "acceso completo" : "solo la muestra gratuita"}
+                    {completo ? ". Certificado disponible" : ""}
                   </div>
                 </div>
                 <span style={{ display: "flex", gap: ".5rem", flexWrap: "wrap" }}>
@@ -139,9 +139,9 @@ export default async function Cuenta({ searchParams }: Props) {
         ) : accesos.map((a) => (
           <div className="caja fila" key={a.id}>
             <div>
-              <b>{PLANES[a.plan].nombre}{a.alcance !== "todo" ? ` · ${curso(a.alcance)?.titulo ?? a.alcance}` : ""}</b>
+              <b>{PLANES[a.plan].nombre}{a.alcance !== "todo" ? `: ${curso(a.alcance)?.titulo ?? a.alcance}` : ""}</b>
               <div className="aviso">
-                Desde el {fecha(a.creado)} · {a.hasta ? `${new Date(a.hasta) > new Date() ? "vence" : "venció"} el ${fecha(a.hasta)}` : "sin vencimiento"}
+                Desde el {fecha(a.creado)}, {a.hasta ? `${new Date(a.hasta) > new Date() ? "vence" : "venció"} el ${fecha(a.hasta)}` : "sin vencimiento"}
               </div>
             </div>
             <span className={"estado " + (vigente(a) ? "ok" : "no")}>

@@ -89,7 +89,7 @@ export default async function Resultado({ searchParams }: { searchParams: Promis
             </p>
             <p style={{ marginTop: "1.1rem", display: "flex", gap: ".6rem", flexWrap: "wrap" }}>
               <a className="btn primary" href={`/pago/resultado?${params}`}>Volver a comprobar</a>
-              <a className="btn" href={`/pago/resultado?pedido=${pedido.id}&cancelar=1`}>No pagué · cancelar pedido</a>
+              <a className="btn" href={`/pago/resultado?pedido=${pedido.id}&cancelar=1`}>No pagué: cancelar el pedido</a>
             </p>
           </div>
         ) : (
