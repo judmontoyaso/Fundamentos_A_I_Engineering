@@ -1,6 +1,6 @@
 # AI search: medir y mejorar
 
-> Contenido, datos y código **originales**, escritos a partir de investigación propia y de práctica con
+> El contenido, los datos y el código de este curso se escribieron para el curso, a partir de la práctica con
 > sistemas reales.
 
 El curso de AI Engineering terminó con un buscador de CVs que funciona: búsqueda híbrida, RAG, agente, guardrails. El

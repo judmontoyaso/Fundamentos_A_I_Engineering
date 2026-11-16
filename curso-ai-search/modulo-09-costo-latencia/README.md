@@ -3,18 +3,18 @@
 > **Objetivo:** poner a cada pieza del buscador tres números (calidad, latencia y costo) y decidir con ellos qué
 > pagar; y medir qué pasa cuando el LLM falla, en vez de descubrirlo en una caída.
 >
-> **Lo que te llevas:** la tabla calidad-latencia-tokens de cinco configuraciones, una política que paga el reranker
-> solo donde compra, las fallas reales de tus trazas, y cinco estrategias contra una caída simulada (tiempo límite,
+> **Lo que te llevas:** la tabla calidad-latencia-tokens de cinco configuraciones, una política que llama al reranker
+> solo donde aporta, las fallas reales de tus trazas, y cinco estrategias contra una caída simulada (tiempo límite,
 > reintentos, respaldo, presupuesto, cortacircuitos).
 
 Índice:
 
 1. [Tres números por pieza](#1-numeros)
 2. [Lo que cuesta cada configuración](#2-tabla)
-3. [Qué compra cada pieza](#3-compra)
-4. [Pagar solo donde compra](#4-politica)
+3. [Qué aporta cada pieza](#3-compra)
+4. [Pagar solo donde aporta](#4-politica)
 5. [Cachés](#5-caches)
-6. [Cómo falla de verdad](#6-fallas)
+6. [Cómo falla en la práctica](#6-fallas)
 7. [Una caída simulada](#7-caida)
 
 Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
@@ -25,8 +25,8 @@ Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 ## 1. Tres números por pieza
 
 Cada módulo añadió una pieza y midió su calidad. En producción cada pieza tiene además **latencia** (lo que espera el
-reclutador) y **costo** (tokens que se pagan). Sin los tres, "el reranker mejora 2 puntos" es media frase: ¿a cambio de
-cuántos segundos y cuántos tokens?
+reclutador) y **costo** (tokens que se pagan). Sin los tres, decir que "el reranker mejora 2 puntos" deja la pregunta
+a medias: ¿a cambio de cuántos segundos y cuántos tokens?
 
 [`code/01_costo_y_latencia.py`](code/01_costo_y_latencia.py) mide cinco configuraciones:
 
@@ -64,17 +64,18 @@ principal tarda p50 3.6 s y p95 5.6 s; el barato, en 139, p50 1.2 s y p95 1.7 s.
 ---
 
 <a name="3-compra"></a>
-## 3. Qué compra cada pieza
+## 3. Qué aporta cada pieza
 
-Leída como "cuánto pago por cada punto":
+Si se lee la tabla como cuánto cuesta cada punto de mejora:
 
-- **El parser es la mejor compra del curso**: +0.21 de nDCG por una llamada de ~800 tokens. Es lo primero que se paga.
-- **El modelo principal no compra nada en el parser**: 0.893 contra 0.891, con el triple de latencia y casi el doble de
+- **El parser es la pieza más rentable del curso**: +0.21 de nDCG por una llamada de ~800 tokens, y es lo primero que
+  conviene pagar.
+- **El modelo principal no aporta nada en el parser**: 0.893 contra 0.891, con el triple de latencia y casi el doble de
   tokens de salida (el modelo principal razona: 71 tokens de razonamiento que se pagan y no se ven). Para una tarea
-  acotada, con salida estructurada y bien medida (Módulo 2), el modelo barato basta. **Se cambia el modelo cuando el
-  eval dice que se puede**, no antes.
-- **El reranker compra poco y cuesta mucho**: +0.02 por 20 llamadas, 8 veces los tokens y 3.5 s más de espera. Es el
-  mismo resultado del Módulo 4 (sobre la búsqueda entendida el reranker casi no suma), ahora con su factura.
+  acotada, con salida estructurada y bien medida (Módulo 2), el modelo barato basta. **Se cambia de modelo cuando el
+  eval muestra que se puede**, y no antes.
+- **El reranker aporta poco y cuesta mucho**: +0.02 por 20 llamadas, 8 veces los tokens y 3.5 s más de espera. Es el
+  mismo resultado del Módulo 4 (sobre la búsqueda entendida el reranker casi no suma), ahora con su costo medido.
 
 La latencia del reranker no es 20 veces la del parser porque las 20 llamadas van **en paralelo**: la latencia de un
 pedido es la de su camino más lento, no la suma. El costo, en cambio, sí es la suma.
@@ -82,7 +83,7 @@ pedido es la de su camino más lento, no la suma. El costo, en cambio, sí es la
 ---
 
 <a name="4-politica"></a>
-## 4. Pagar solo donde compra
+## 4. Pagar solo donde aporta
 
 El reranker no ayuda igual a todas las consultas. Por tipo (nano + reranker contra parser nano):
 
@@ -94,7 +95,7 @@ El reranker no ayuda igual a todas las consultas. Por tipo (nano + reranker cont
 | tecnología, rol, nivel, certificación, abreviatura, en inglés | 23 | 0.00 |
 | rol + ciudad | 3 | **−0.06** |
 
-Gana donde los filtros suaves son débiles (exclusiones, rangos de años) y no hace nada, o estorba, en el resto. El tipo
+Gana donde los filtros suaves son débiles (exclusiones, rangos de años) y no aporta, o incluso perjudica, en el resto. El tipo
 es una etiqueta del conjunto de evaluación, que en producción no existe, pero **el parser ya dice lo mismo**: si la
 consulta entendida trae `skills_excluidas` o un mínimo o máximo de años, se llama al reranker; si no, no.
 
@@ -104,8 +105,8 @@ consulta entendida trae `skills_excluidas` o un mínimo o máximo de años, se l
 | siempre | 0.910 | 41 / 41 | 20 |
 | **si el parser ve exclusión o años** | **0.910** | 9 / 41 | **4.4** |
 
-La misma calidad con el 22% de las llamadas. Es el patrón general: **una pieza cara detrás de una condición barata**,
-y la condición sale de una pieza que ya pagaste.
+Se obtiene la misma calidad con el 22% de las llamadas. Es un patrón que sirve en general: **poner una pieza cara
+detrás de una condición barata**, y que esa condición salga de una pieza que ya estás pagando.
 
 ---
 
@@ -124,12 +125,13 @@ Tres cachés distintas, que no hay que confundir:
   trazador la registra (`tokens_cache`). Se aprovecha poniendo lo fijo (instrucciones, esquema) al principio y lo
   variable (la consulta, los CVs) al final.
 
-Y una advertencia del Módulo 8: las tres guardan datos. Una caché de respuestas es una copia más en el inventario.
+Y una advertencia del Módulo 8: las tres guardan datos, así que una caché de respuestas es una copia más que entra en
+el inventario.
 
 ---
 
 <a name="6-fallas"></a>
-## 6. Cómo falla de verdad
+## 6. Cómo falla en la práctica
 
 [`code/02_que_no_se_caiga.py`](code/02_que_no_se_caiga.py) empieza por las trazas de este proyecto: **14.077 llamadas al
 LLM, 84 con error (0.6%)**.
@@ -166,15 +168,15 @@ estrategias con el modelo principal, y dos con el barato:
 
 Sin fallos, el techo es 0.893 (siempre con parser) y el piso 0.685 (nunca).
 
-Lo que enseña:
+De la simulación salen estas conclusiones:
 
-- **Los valores por defecto no son una decisión.** El SDK espera hasta 600 s por intento y reintenta dos veces: en la
-  caída, cada pedido queda colgado media hora. Nadie elige eso; se hereda.
+- **Los valores por defecto hay que revisarlos.** El SDK espera hasta 600 s por intento y reintenta dos veces, así
+  que durante la caída cada pedido queda colgado media hora. Nadie lo decidió: venía configurado así.
 - **Reintentar no arregla una caída.** Recupera los fallos sueltos (el 2%), pero contra un proveedor caído solo
   multiplica la espera y las llamadas.
 - **El respaldo es lo que da disponibilidad.** Si el parser no responde, se busca con la híbrida sin entender la
-  consulta: peor (0.685 contra 0.893), pero **una respuesta peor es mejor que un error**. Es posible porque el sistema
-  tiene una ruta sin LLM; diseñar esa ruta es parte del sistema, no un parche.
+  consulta. El resultado es peor (0.685 contra 0.893), pero **una respuesta peor es preferible a un error**. Funciona
+  porque el sistema tiene una ruta sin LLM, y esa ruta debe diseñarse como parte del sistema desde el principio.
 - **Un presupuesto por debajo de la mediana destruye la calidad.** Con el modelo principal (p50 3.6 s), 3 s cortan más
   de la mitad de los parseos: nDCG 0.728. El presupuesto se fija desde la distribución de latencias, y el
   **cortacircuitos** lo empeora: interpreta la lentitud como fallo y apaga el parser casi todo el tiempo (169 llamadas
@@ -188,9 +190,9 @@ Lo que enseña:
 ## Resumen del módulo
 
 - Cada pieza lleva **tres números**: calidad, latencia y tokens. Las trazas los dan.
-- El **parser** es la mejor compra (+0.21 por una llamada); el **modelo principal** no compra nada ahí; el **reranker**
-  compra +0.02 por 20 llamadas.
-- **Pagar solo donde compra**: el reranker detrás de una condición del parser da la misma calidad con el 22% de las
+- El **parser** es la pieza más rentable (+0.21 por una llamada); el **modelo principal** no aporta nada ahí; el
+  **reranker** aporta +0.02 por 20 llamadas.
+- **Pagar solo donde aporta**: el reranker detrás de una condición del parser da la misma calidad con el 22% de las
   llamadas.
 - Las cachés ahorran según **cuánto se repite el tráfico**, que se mide; y guardan datos.
 - Las fallas reales de este proyecto fueron **configuración y un modelo retirado**: se detectan antes de servir.

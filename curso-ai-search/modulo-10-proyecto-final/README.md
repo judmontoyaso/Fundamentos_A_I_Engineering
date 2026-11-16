@@ -10,7 +10,7 @@
 
 1. [El sistema](#1-sistema)
 2. [Los datos](#2-datos)
-3. [Las reglas del juego](#3-reglas)
+3. [Las reglas del proyecto](#3-reglas)
 4. [Las fases](#4-fases)
 5. [Entregables y rúbrica](#5-entregables)
 
@@ -60,12 +60,12 @@ requisitos" (0.55, en 6 vacantes). Por qué, es tu primera pregunta de la fase 2
 ---
 
 <a name="3-reglas"></a>
-## 3. Las reglas del juego
+## 3. Las reglas del proyecto
 
 - **El holdout se mira una vez.** Itera en DEV todo lo que quieras; cuando decidas tu versión final, corre
-  `HOLDOUT=1`. Si después de mirarlo cambias algo, ese cambio ya no tiene medición honesta.
-- **Todo número con su tamaño y su repetición.** 15 vacantes son pocas: un intervalo bootstrap y al menos dos corridas
-  sin caché.
+  `HOLDOUT=1`. Si cambias algo después de mirarlo, ese cambio ya no tiene una medición independiente.
+- **Cada número va con su tamaño de muestra y sus repeticiones.** 15 vacantes son pocas, así que hace falta un
+  intervalo bootstrap y al menos dos corridas sin caché.
 - **Cada pieza que agregues, con sus tres números** (Módulo 9): cuánto mejora, cuánto tarda, cuántas llamadas.
 - **No leas la solución de referencia** (al final de `ejercicios.md` y en `solucion/`) hasta tener tu informe.
 
