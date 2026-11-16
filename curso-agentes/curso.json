@@ -1,7 +1,7 @@
 {
   "orden": 4,
   "etapa": "Etapa 4 · Convertirlo en un agente",
-  "descripcion": "Conviertes el buscador en un agente que consulta el sistema de reclutamiento por su cuenta, sin pasarse del presupuesto ni dañar datos. Ves diseño de herramientas, estado y puntos de recuperación, MCP, aprobación humana y la forma de medir que el agente acierte una y otra vez.",
+  "descripcion": "Conviertes el buscador en un agente que consulta el sistema de reclutamiento por su cuenta, con límites de pasos y de costo. Incluye diseño de herramientas, estado y recuperación ante fallos, MCP, aprobación humana y métricas para medir la consistencia del agente.",
   "infografia": "/infografias/agentes-arquitectura.png",
   "dependencias": []
 }

@@ -1,7 +1,7 @@
 {
   "orden": 2,
   "etapa": "Etapa 2 · Medir si funciona",
-  "descripcion": "Aprendes a saber, con datos, si un cambio mejoró tu sistema o lo empeoró. Revisas errores a mano, armas conjuntos de prueba, calibras un modelo que actúa como juez y dejas todo corriendo como una prueba automática en cada cambio de código.",
+  "descripcion": "Construyes la evaluación del sistema: análisis de errores, conjuntos de prueba, un modelo que actúa como juez calibrado contra etiquetas humanas y pruebas automáticas que corren en cada cambio de código.",
   "infografia": "/infografias/evals-arquitectura.svg",
   "dependencias": [
     "ai-engineering"

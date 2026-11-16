@@ -42,9 +42,8 @@ export function Quiz({ id, preguntas, hecho, conSesion, prev, next }: Props) {
       <div className="md">
         <h1>Autoevaluación</h1>
         <p>
-          Son {total} preguntas. Cada una se corrige en cuanto eliges una opción y trae su explicación, así que
-          equivocarte también te sirve para repasar. Si aciertas el {Math.round(APROBADO * 100)} % o más, el módulo
-          queda como completado.
+          Son {total} preguntas. Cada una se corrige al elegir una opción y muestra la explicación de la respuesta.
+          Con el {Math.round(APROBADO * 100)} % o más de aciertos, el módulo queda completado.
         </p>
       </div>
       {preguntas.map((p, i) => {

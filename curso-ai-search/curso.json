@@ -1,7 +1,7 @@
 {
   "orden": 3,
   "etapa": "Etapa 3 · Mejorar la búsqueda",
-  "descripcion": "Cuando un RAG responde mal, muchas veces es porque trajo los documentos equivocados. En este curso mides la recuperación con métricas como Recall@k y NDCG, pruebas una técnica distinta en cada módulo y te quedas con las que de verdad mejoran los resultados.",
+  "descripcion": "Mides la recuperación de un RAG con métricas como Recall@k y NDCG, pruebas una técnica distinta en cada módulo (parsing, consultas, reranking, grafos, permisos) y comparas los resultados antes y después de cada cambio.",
   "infografia": "/infografias/ai-search-arquitectura.svg",
   "dependencias": [
     "ai-engineering",

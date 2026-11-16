@@ -26,7 +26,7 @@ export default function Inicio() {
   const faqs = [
     {
       q: "¿Qué necesito saber antes de empezar?",
-      a: "Basta con que programes en Python con soltura y hayas trabajado alguna vez con una API. No necesitas experiencia previa con modelos de lenguaje ni con machine learning, porque los conceptos que hacen falta se explican desde el primer curso.",
+      a: "Programar en Python con soltura y haber trabajado alguna vez con una API. No se necesita experiencia previa con modelos de lenguaje ni con machine learning; los conceptos necesarios se explican en el primer curso.",
     },
     {
       q: `¿En qué orden conviene hacer los ${lista.length} cursos?`,
@@ -129,13 +129,13 @@ export default function Inicio() {
       <section className="hero">
         <div className="ancho hero-grid">
           <div className="hero-texto">
-            <h1>Aprende a construir sistemas con LLMs que funcionen fuera del notebook</h1>
+            <h1>Cursos de ingeniería de IA en español, con código en Python</h1>
             <p className="lead">
-              Lograr que un modelo de lenguaje responda bien en una demo es relativamente sencillo. Lo difícil empieza
-              cuando ese sistema tiene usuarios, datos reales y un presupuesto que cuidar. En estos cuatro cursos
-              recorremos ese camino con un mismo proyecto, un buscador de candidatos para procesos de selección, que
-              construyes en Python, evalúas con métricas, mejoras por partes y terminas convirtiendo en un agente en
-              el que se puede confiar.
+              Los cuatro cursos trabajan sobre el mismo proyecto, un buscador de candidatos para procesos de
+              selección. En el primero lo construyes con extracción de datos, embeddings y búsqueda híbrida; en el
+              segundo preparas las evaluaciones para medir qué tan bien funciona; en el tercero mejoras la búsqueda, y
+              en el cuarto lo conviertes en un agente con límites de costo y aprobación humana. El código corre en tu
+              computador.
             </p>
             <div className="acciones">
               <Link className="btn primary grande" href={`/leer/${primero}`}>
@@ -146,9 +146,9 @@ export default function Inicio() {
               </Link>
             </div>
             <p className="hero-nota">
-              Puedes empezar hoy con el primer módulo de cualquier curso, que es gratuito y no pide tarjeta. Entre los
-              cuatro cursos hay {modulos} módulos y {quizzes} autoevaluaciones, y cada curso que terminas te da un
-              certificado que se puede verificar en línea.
+              El primer módulo de cada curso es gratuito y no pide tarjeta. Entre los cuatro cursos hay {modulos}{" "}
+              módulos y {quizzes} autoevaluaciones, y al terminar cada uno recibes un certificado que se puede
+              verificar en línea.
             </p>
           </div>
           <Traza />
@@ -160,27 +160,26 @@ export default function Inicio() {
           <div className="cabecera-seccion">
             <h2>Qué trae cada módulo</h2>
             <p>
-              Cada módulo está organizado como una clase. Primero viene el manual, que explica la técnica y cuándo
-              tiene sentido usarla; después el código, para que lo ejecutes y lo modifiques; luego los ejercicios, y al
-              final una autoevaluación corta que te muestra si el tema quedó claro.
+              Los módulos tienen cuatro partes que se estudian en orden: el manual, el código, los ejercicios y una
+              autoevaluación.
             </p>
           </div>
           <ol className="pasos-modulo">
             <li>
               <h3>Manual</h3>
-              <p>La explicación de cada técnica con diagramas, lo que cuesta en tiempo de respuesta y en dinero, y los casos en los que es mejor no usarla. Es la parte que vale la pena leer con calma.</p>
+              <p>Explica la técnica con diagramas, cuánto cuesta en tiempo de respuesta y en dinero, y en qué casos conviene usar otra.</p>
             </li>
             <li>
               <h3>Código</h3>
-              <p>Los scripts completos en Python, comentados. Los puedes leer en la página o descargarlos y correrlos en tu computador con tu propia API key, que es como mejor se aprende.</p>
+              <p>Los scripts completos en Python, comentados. Se pueden leer en la página o descargar para correrlos en tu computador con tu propia API key.</p>
             </li>
             <li>
               <h3>Ejercicios</h3>
-              <p>Problemas parecidos a los que aparecen en un proyecto real. Cambias algo del sistema, mides el efecto y luego comparas tu trabajo con la solución explicada.</p>
+              <p>Cada ejercicio pide modificar una parte del sistema y medir el efecto del cambio. Todos traen la solución explicada.</p>
             </li>
             <li>
               <h3>Autoevaluación</h3>
-              <p>Cinco preguntas que plantean decisiones como las que tomarías en el trabajo. Cada respuesta se corrige en el momento con su explicación, y al aprobar el módulo queda terminado.</p>
+              <p>Cinco preguntas sobre decisiones de diseño, corregidas en el momento y con la explicación de cada respuesta. Al aprobarlas, el módulo queda completado.</p>
             </li>
           </ol>
         </div>
@@ -191,9 +190,8 @@ export default function Inicio() {
           <div className="cabecera-seccion">
             <h2>Los cursos</h2>
             <p>
-              Conviene tomarlos en orden, porque los cuatro trabajan sobre el mismo sistema de reclutamiento y cada uno
-              parte de lo que construiste en el anterior. Si ya tienes experiencia con alguno de estos temas, puedes
-              comprar solo el curso que necesitas.
+              Están pensados para tomarse en orden, porque cada uno parte del sistema que quedó al final del anterior.
+              También se pueden comprar por separado.
             </p>
           </div>
           <ol className="ruta">
@@ -249,10 +247,9 @@ export default function Inicio() {
           <div>
             <h2>Certificado al terminar cada curso</h2>
             <p>
-              Cuando completas las lecciones de un curso y apruebas sus autoevaluaciones, tu cuenta genera un
-              certificado con un código propio. Quien lo reciba, por ejemplo alguien de recursos humanos, puede abrir el
-              enlace o escanear el código QR para confirmar que es auténtico. También lo puedes descargar en PDF o
-              agregar a tu perfil de LinkedIn.
+              Al completar las lecciones de un curso y aprobar sus autoevaluaciones, tu cuenta genera un certificado
+              con un código propio. Cualquier persona puede abrir el enlace o escanear el código QR para comprobar que
+              es auténtico. El certificado se descarga en PDF y se puede agregar a LinkedIn.
             </p>
             <Link className="btn" href="/certificado/ejemplo">
               Ver un certificado de ejemplo
@@ -274,9 +271,8 @@ export default function Inicio() {
           <div className="cabecera-seccion">
             <h2>Precios</h2>
             <p>
-              Los precios aparecen en dólares como referencia. Si pagas con Mercado Pago, el cobro se hace en pesos
-              colombianos y ves el valor exacto antes de confirmar. Ningún plan se renueva automáticamente, de modo que
-              no vas a encontrar cobros que no esperabas.
+              Los precios están en dólares como referencia. Con Mercado Pago el cobro se hace en pesos colombianos y el
+              valor exacto aparece antes de confirmar. Ningún plan se renueva automáticamente.
             </p>
           </div>
           <div className="planes">
