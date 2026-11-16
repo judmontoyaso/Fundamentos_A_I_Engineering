@@ -22,7 +22,7 @@ tokens el schema de hechos?
 Haz que la suite del Módulo 9 pruebe v5 (casos críticos y umbral). ¿Pasa los críticos? Usa la regla de McNemar del
 laboratorio 03 del Módulo 9 para decidir entre v2 y v5 en el holdout. ¿Bloquea, pasa o pasa con aviso?
 
-### Ejercicio 5. Un holdout de verdad
+### Ejercicio 5. Un holdout independiente
 El holdout de este módulo son sintéticos escritos por un LLM. Escribe 10 CVs a mano con formatos que ninguno de los
 dos sets tenga (por ejemplo, fechas como "mar 2018 - jun 2021", CVs larguísimos, dos idiomas mezclados), etiquétalos y
 mide v2 y v5. ¿Se mantiene la ventaja de v5?

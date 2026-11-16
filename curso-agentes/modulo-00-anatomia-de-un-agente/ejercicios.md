@@ -1,6 +1,6 @@
 # Módulo 0 · Ejercicios
 
-Intenta resolver cada ejercicio ejecutando y modificando los scripts de `code/` antes de desplegar la solución.
+Intenta resolver cada ejercicio ejecutando y modificando los scripts de `code/` antes de abrir la solución.
 
 ---
 
@@ -15,7 +15,7 @@ Si un agente necesita dar 11 pasos de herramientas para preseleccionar `VAC-101`
 2. Para lograr $\text{Éxito}_{11} \ge 0.90$, despejamos $p$:
    $$p \ge 0.90^{1/11} \approx 0.9905 \text{ (99.05 \% por paso)}$$
 
-Por eso en producción reducimos el número de pasos libres delegando las validaciones repetitivas a funciones deterministas o máquinas de estados.
+Por eso conviene quitarle decisiones al modelo: cada validación que pasa a una función determinista o a una máquina de estados deja de multiplicar el error.
 </details>
 
 ---
@@ -37,7 +37,7 @@ presupuesto_caro = PresupuestoAgente(
 resultado = correr_con_presupuesto(crear_modelo(), "VAC-101", presupuesto_caro)
 ```
 
-Con `$10 / 1M` de entrada, apenas la suma acumulada de `tokens_entrada` supera los `5.000` tokens (alrededor del **paso 5**), `costo_usd` rebasa `$0.05` y `registrar()` corta la corrida con `motivo_corte="max_costo_usd=0.05"`.
+En nuestra corrida, con esos precios la ejecución se cortó en el **paso 5**, con 4.898 tokens de entrada y un costo acumulado de 0,052 USD: `registrar()` detectó que se había pasado del tope y devolvió `motivo_corte="max_costo_usd=0.05"`. Con el modelo pequeño, la misma ejecución completa cuesta menos de un centavo.
 </details>
 
 ---

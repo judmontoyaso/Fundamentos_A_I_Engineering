@@ -86,7 +86,7 @@ Cada restricción (`gt=0`, `Literal`) reduce el espacio de salidas inválidas y 
 
 **3.** Sin `Optional`, el modelo se ve forzado a producir *algo* para `fecha` y suele **alucinar** una fecha
 plausible para cumplir el schema. Con `Optional[...] = None` + "null si no aparece", tiene permiso de devolver
-`null`, que es la respuesta correcta. Moraleja: dar permiso explícito de ausencia previene alucinaciones.
+`null`, que es la respuesta correcta. Dar permiso explícito para que el dato falte reduce las alucinaciones.
 
 **4.** En el segundo intento el modelo recibe un turno extra con el `ValidationError` de Pydantic como contenido
 (p. ej. "Value error, el correo debe terminar en @empresa.com") y el pedido de corregir. Al tener feedback preciso y

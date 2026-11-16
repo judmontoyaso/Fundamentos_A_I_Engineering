@@ -43,7 +43,7 @@ primera etapa y costo de la segunda: un reranker no arregla lo que la primera et
 donde "que", "de" y "con" sumaban similitud con cualquier CV. Es lo que hace ColBERT con su entrenamiento y lo que BM25
 hace con el IDF: no todos los tokens de la consulta pesan lo mismo.
 
-**4.** Con descripciones de roles en los pares, la paráfrasis suele recuperarse. La pregunta de la trampa es la buena:
+**4.** Con descripciones de roles en los pares, la paráfrasis suele recuperarse. La pregunta sobre si hiciste trampa es la importante:
 si tus descripciones se parecen mucho a las consultas de prueba ("quien haga pruebas automatizadas"), estás entrenando
 con el examen. Escríbelas sin mirar las consultas de prueba, o mejor, tómalas de consultas reales de usuarios
 (Módulo 7) y deja las de prueba fuera.

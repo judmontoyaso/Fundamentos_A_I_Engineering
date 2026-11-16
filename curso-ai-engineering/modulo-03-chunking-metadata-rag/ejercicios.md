@@ -94,7 +94,7 @@ preguntas específicas (liderazgo, una tecnología concreta), porque el pasaje r
 promedio del CV. Documenta el antes/después con tu número de `recall@5`.
 
 **9.** Cuando se escribió el curso, el contexto largo dio 0.88, 0.77 y 0.81 en tres repeticiones: un rango de 0.11,
-mayor que cualquier diferencia con la línea base. Con ese ruido, la única conclusión honesta es "no concluyente". Si
+mayor que cualquier diferencia con la línea base. Con ese ruido, lo único que se puede concluir es que el resultado no es concluyente. Si
 con 5 repeticiones la diferencia sigue dentro del rango, no cambies el sistema por ella; si queda claramente fuera,
 tienes una mejora candidata que confirmar con más consultas.
 

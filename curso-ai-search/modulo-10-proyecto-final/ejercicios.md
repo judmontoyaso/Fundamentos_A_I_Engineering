@@ -25,7 +25,7 @@ no la abras hasta tener el tuyo.
 2. ¿Tu métrica premia algo que el reclutador no pidió, o ignora algo que sí pidió?
 3. Con permisos, ¿cuántas vacantes no tienen un candidato autorizado que cumpla todo? ¿Qué debería mostrar el sistema?
 4. Si mañana el LLM no responde, ¿qué ve el reclutador?
-5. ¿Qué encontraste mirando el holdout que ya no puedes arreglar con una medición honesta?
+5. ¿Qué encontraste mirando el holdout que ya no puedes arreglar sin perder una medición independiente?
 
 ---
 

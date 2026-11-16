@@ -44,7 +44,7 @@ Pásalos por el sistema. ¿Cuántos se colaron, y en qué capa debió atraparlos
 ### Ejercicio 8. Tu informe final
 Escribe una página para alguien que tiene que decidir si usar este asistente en su equipo de selección. Incluye: qué
 hace, qué números tiene (con su tamaño de muestra), qué riesgos conoces, qué falta para producción (§7) y tu
-recomendación. Es el entregable que de verdad se le pide a un AI engineer.
+recomendación. Es el tipo de documento que se le suele pedir a un AI engineer en un proyecto real.
 
 ### Ejercicio 9. Volver a K_CV = 4 sin perder a nadie
 El arreglo 5 del §4 subió `K_CV` a 6 y la consulta cuesta un tercio más. Escribe 5 pedidos **largos** (con dos o tres

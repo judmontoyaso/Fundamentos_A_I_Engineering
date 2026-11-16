@@ -38,7 +38,7 @@ arriba. Recibir 10 CVs cuesta tokens en cada pregunta y, en contextos largos, el
 queda en medio. Subir k es un parche: arregla el recall a costa de todo lo demás.
 
 **2.** La precisión más baja suele estar en las preguntas con un solo relevante (dato, tecnología): 1 de 3 = 33 % aunque
-la recuperación sea perfecta. Por eso la precisión sola engaña con k fijo. Importa menos si el generador acierta con el
+la recuperación sea perfecta. Por eso, con k fijo, la precisión sola puede llevar a conclusiones equivocadas. Importa menos si el generador acierta con el
 oráculo **y** con el sistema: el ruido no le molestó. Importaría si el contexto fuera largo o si el ruido contuviera
 datos contradictorios.
 

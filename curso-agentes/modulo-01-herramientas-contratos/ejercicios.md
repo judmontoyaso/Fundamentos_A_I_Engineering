@@ -2,8 +2,7 @@
 
 ---
 
-### Ejercicio 1. Normalización silenciosa vs. rechazo con sugerencia
-En `ejecutar_herramienta_ats` (`comun/ag_comun.py`), cuando el modelo envía `"Evaluacion de LLM"`, la herramienta devuelve `{"ok": False, "sugerencias": ...}` y el modelo gasta 1 paso extra en reintentar. ¿Cuándo conviene **normalizar silenciosamente** la entrada dentro de la herramienta (sin devolver error) y cuándo conviene **rechazar y pedir confirmación**?
+### Ejercicio 1. Normalizar en silencio o rechazar con una sugerencia
 
 <details>
 <summary>Ver solución</summary>
@@ -14,8 +13,7 @@ En `ejecutar_herramienta_ats` (`comun/ag_comun.py`), cuando el modelo envía `"E
 
 ---
 
-### Ejercicio 2. Añadir filtro `modalidad` con validación Poka-Yoke
-Modifica una copia local de `buscar_candidatos` para que acepte un parámetro opcional `solo_remoto: bool = False`. Si es `True`, debe filtrar únicamente candidatos con `c["remoto"] == True`. Comprueba cuántos candidatos devuelve para `["Python", "SQL", "RAG", "Evaluación de LLMs"]` con `max_aspiracion_usd=8000` cuando `solo_remoto=True` frente a `False`.
+### Ejercicio 2. Añadir un filtro de modalidad con validación
 
 <details>
 <summary>Ver solución</summary>

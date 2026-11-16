@@ -57,10 +57,10 @@ cualquier cosa sale inflado aunque la *dirección* (el significado) sea la misma
 (más tokens → a veces vector de mayor norma) podría rankear artificialmente alto solo por ser largo, no por ser más
 relevante. El coseno, al mirar solo el ángulo, lo evita. Por eso coseno es el default.
 
-**2.** Normalmente gana el documento correcto (ese es el punto del módulo). Para "romperlo": el modelo a veces acerca
+**2.** Normalmente gana el documento correcto (que es lo que el módulo busca mostrar). Para "romperlo": el modelo a veces acerca
 textos que comparten **tema/forma** aunque signifiquen lo opuesto: p. ej. "me encantó la película" y "odié la
 película" quedan *cercanos* porque hablan de lo mismo con estructura parecida; el embedding de propósito general
-captura *aboutness* (de qué trata), no siempre *polaridad*. Lección: los embeddings codifican similitud temática, y
+captura *aboutness* (de qué trata), no siempre *polaridad*. En resumen, los embeddings codifican similitud temática, y
 el matiz (negación, sentimiento) puede perderse. Para eso están los re-rankers y la búsqueda híbrida (Módulo 4).
 
 **3.** Depende del modelo, pero típicamente el top-1 aguanta hasta 256–512 dims. RAM: 1M × (dim_completa − 512) × 4
@@ -86,7 +86,7 @@ del Módulo 3 debería cerrar.
 
 **8.** Hipótesis típica: incluir skills **y** cargos suele ganar frente a solo skills, porque da más contexto
 semántico para emparejar consultas sobre responsabilidades ("lideró equipos"), no solo tecnologías. Pero depende de
-tus consultas: si siempre buscan por tecnología, "solo skills" puede ser más limpio (menos ruido). El punto del
+tus consultas: si siempre buscan por tecnología, "solo skills" puede ser más limpio (menos ruido). Lo importante del
 ejercicio es que **lo decidas con el número de recall, no con intuición**.
 
 **9.** Como referencia, con las 10 consultas originales los cinco modelos empataron en recall@1 = 0.90 (manual §6):

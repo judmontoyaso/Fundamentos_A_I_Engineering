@@ -20,7 +20,7 @@ La desigualdad de Jensen ($\mathbb{E}[p_i^k] \ge (\mathbb{E}[p_i])^k$) explica p
 ---
 
 ### Ejercicio 2. Penalizar la eficiencia cuando se violan invariantes
-Modifica `evaluar_corrida` en `code/01_metricas_trayectoria.py` para que si `violaciones_politica_sin_verificar` no está vacía o `exact_match` es `False`, `eficiencia_trayectoria` sea automáticamente `0.0` (evitando que un agente que se salta pasos obligatorios parezca «más eficiente que el óptimo»).
+Modifica `evaluar_corrida` en `code/01_metricas_trayectoria.py` para que `eficiencia_trayectoria` valga `0.0` cuando la terna no es exacta o hay candidatos sin verificar. Así una trayectoria incorrecta no puede sacar una buena nota de eficiencia, aunque haya usado pocos pasos.
 
 <details>
 <summary>Ver solución</summary>

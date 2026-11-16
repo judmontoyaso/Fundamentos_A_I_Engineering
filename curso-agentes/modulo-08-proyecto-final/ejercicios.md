@@ -23,7 +23,7 @@ pruebas.append({
 ---
 
 ### Ejercicio 2. Correr toda la suite con un modelo real (`ModeloOpenAI`)
-Define `OPENAI_API_KEY` en tu terminal y ejecuta `python modulo-08-proyecto-final/code/02_suite_eval_agente.py`. Compara los tokens de entrada y salida de `gpt-4.1-mini` en los casos 1 y 2 frente a los del modelo simulado, y luego fuerza el modo simulado para los tests adversariales (`AGENTE_SIMULADO=1`).
+Define `OPENAI_API_KEY` en tu terminal y ejecuta `python curso-agentes/modulo-08-proyecto-final/code/01_agente_reclutador_produccion.py`. Compara los pasos, los tokens y la terna con los del modelo simulado. Después corre la suite de CI en modo simulado (`AGENTE_SIMULADO=1`), porque sus casos adversariales dependen de los defectos que se encienden en el simulador.
 
 <details>
 <summary>Ver solución</summary>

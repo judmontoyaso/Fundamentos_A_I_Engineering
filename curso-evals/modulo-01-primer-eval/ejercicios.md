@@ -53,7 +53,7 @@ de más (por ejemplo, para no inventar skills), eso merece **su propio** chequeo
 
 **3.** Lo más probable es que el #18 pase a "inestable": al escribir el curso, midiendo solo ese caso, `v2` acertó 3
 de cada 10 llamadas y `v1`, 9 de 10. Con cuatro pasadas casi seguro sale bien alguna vez. Sigue siendo mucho peor que
-`v1`, pero la etiqueta "roto" (siempre mal) ya no le corresponde. La lección: las clases del laboratorio son una
+`v1`, pero la etiqueta "roto" (siempre mal) ya no le corresponde. Es decir, las clases del laboratorio son una
 primera lectura; para un caso que importa, la medida buena es **la tasa de acierto con muchas repeticiones**, y
 compararla entre versiones.
 

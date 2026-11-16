@@ -34,7 +34,7 @@ Lee el borrador. Luego reanúdalo tú con tu decisión
 (`app.invoke(Command(resume={"aprobado": ..., "edicion": ...}), cfg)`). ¿Qué tiene `app.get_state(cfg)` entre las
 dos llamadas?
 
-### Ejercicio 5. Provocar la trampa de `interrupt`
+### Ejercicio 5. Provocar el problema de `interrupt`
 Mueve la llamada al LLM de `redactar` **dentro** de `aprobar`, antes del `interrupt`. Ejecuta el flujo completo con
 `c.reiniciar_contador()` antes y `c.resumen_costo()` después. ¿Cuántas llamadas hubo en comparación con la versión
 original? ¿El borrador que viste en la pausa es el mismo que se envió?

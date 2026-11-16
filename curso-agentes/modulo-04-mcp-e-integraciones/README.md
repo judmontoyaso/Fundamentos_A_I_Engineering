@@ -4,7 +4,7 @@
 > el agente no vea credenciales y para que la misma integración sirva a varios clientes.
 >
 > **Lo que te llevas:** qué es MCP y qué no es, un servidor y un cliente escritos a mano sobre JSON-RPC 2.0 por stdio
-> (para ver el protocolo sin magia), el agente del curso corriendo sobre ese servidor sin conocer el secreto de la base
+> (para ver cada mensaje del protocolo), el agente del curso corriendo sobre ese servidor sin conocer el secreto de la base
 > de datos, y cómo pasar al SDK oficial.
 
 Índice:
@@ -115,6 +115,9 @@ detalles:
 
 - **El servidor exige `ATS_DB_SECRET` en su propio entorno** y responde con error si no lo tiene. La credencial vive en
   el servidor.
+- **Solo se ejecuta lo que se publica.** `tools/call` rechaza cualquier nombre que no esté en `tools/list`. La
+  función del ATS conoce las 7 herramientas, y sin esta comprobación un cliente podría llamar a `ats_enviar_oferta`
+  aunque el servidor no la anuncie (ejercicio 1).
 - **En stdio, stdout es del protocolo.** Cualquier `print` de depuración en el servidor corrompe la comunicación; los
   logs van a stderr.
 

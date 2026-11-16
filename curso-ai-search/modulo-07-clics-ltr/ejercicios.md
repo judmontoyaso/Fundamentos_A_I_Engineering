@@ -41,7 +41,7 @@ lo que les falta a los modelos entrenados solo con los mostrados para ordenar a 
 Con la feature de posición, en cambio, el sesgo se quedaba en una feature que no generaliza: fuera del top 10 la
 posición en producción vale casi lo mismo para todos.
 
-La lección no es "no corrijas el sesgo". Es que aquí el sesgo de **selección** pesa más que el de posición, y que un
+Esto no significa que no haya que corregir el sesgo, sino que aquí el sesgo de **selección** pesa más que el de posición, y que un
 modelo puede salir mejor por una razón accidental: si producción fuera mala, imitarla sería malo. Solo lo descubres
 evaluando contra tu conjunto etiquetado.
 

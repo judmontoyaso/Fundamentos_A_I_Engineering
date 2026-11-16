@@ -13,7 +13,7 @@ Escribe una inyección más agresiva para los CVs prohibidos. Por ejemplo, una q
 otra con `autorizado_para="general"`. Pruébala con los dos modelos. ¿Qué defensa en el código la anula sin depender
 del modelo?
 
-### Ejercicio 3. La cuenta que delata
+### Ejercicio 3. Una cuenta que revela datos ocultos
 Añade la pregunta "¿Cuántos analistas de seguridad hay?" con la regla en el prompt y con el filtro en el código. ¿Qué
 número da cada una a un reclutador de Salud Orquídea? ¿Por qué una cuenta es una fuga aunque no tenga nombres?
 

@@ -34,7 +34,7 @@ de fichas. ¿Qué parte del costo de la ingesta es OCR? ¿Cómo lo bajarías si 
 
 **1.** A 60 dpi y torcido, el OCR empieza a confundir caracteres en lo pequeño: años ("2018" por "2016"), siglas y
 correos. Los hechos que sobreviven bajan de 100 %, sobre todo los años, y con ellos el nivel calculado. La búsqueda baja
-menos que con la ingesta ingenua, porque el rol y la mayoría de tecnologías se leen igual. Lección: mide el OCR con
+menos que con la ingesta ingenua, porque el rol y la mayoría de tecnologías se leen igual. Por eso conviene medir el OCR con
 documentos como los tuyos, no con el mejor caso.
 
 **2.** `get_text()` suele devolver las celdas en orden de lectura de la página, a veces con los años separados de su
@@ -49,7 +49,7 @@ documentos revisar o mandar a OCR.
 
 **4.** Desaparecen casi todos: la ficha de un documento vacío dice "no remoto" porque no sabe nada, y coincide con los
 CVs que no aceptan remoto. Contando solo los campos con información, la ingesta ingenua del escaneado acierta cero en
-todo. Es la forma honesta de reportar.
+todo. Es la forma correcta de reportarlo.
 
 **5.** Una llamada con imagen suele costar varias veces más tokens de entrada que una de texto. Con un tercio de
 escaneados, el OCR puede ser una parte grande del costo de la ingesta, aunque se haga una sola vez por documento. Para

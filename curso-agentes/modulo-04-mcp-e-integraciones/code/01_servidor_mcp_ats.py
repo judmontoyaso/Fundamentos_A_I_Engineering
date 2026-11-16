@@ -69,7 +69,14 @@ def procesar_mensaje_jsonrpc(msg: dict) -> dict | None:
         params = msg.get("params") or {}
         nombre = str(params.get("name") or "")
         argumentos = params.get("arguments") or {}
-        resultado = ejecutar_herramienta_ats(nombre, argumentos)
+        # Solo se ejecuta lo que el servidor publica en tools/list. Sin esta comprobación, un cliente podría llamar a
+        # `ats_enviar_oferta` aunque no aparezca en el catálogo, porque la función de ejecución del ATS sí la conoce.
+        publicadas = {f"ats_{n}" for n in NOMBRES_EXPUESTOS}
+        if nombre not in publicadas:
+            resultado = {"ok": False, "error": f"La herramienta '{nombre}' no existe en este servidor.",
+                         "herramientas_disponibles": sorted(publicadas)}
+        else:
+            resultado = ejecutar_herramienta_ats(nombre, argumentos)
         es_error = not bool(resultado.get("ok", True))
         return {
             "jsonrpc": "2.0",

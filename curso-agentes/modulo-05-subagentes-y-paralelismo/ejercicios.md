@@ -8,7 +8,7 @@ En `code/02_map_reduce_cvs.py` usamos `ThreadPoolExecutor(max_workers=8)`. Si tu
 <details>
 <summary>Ver solución</summary>
 
-Con `500` hilos simultáneos agotarías en menos de un segundo las cuotas de *Requests Per Minute (RPM)* y *Tokens Per Minute (TPM)* del proveedor, recibiendo una cascada de errores `429 Too Many Requests` que dispararían reintentos y multiplicarían la latencia. En producción se acota `max_workers` (típicamente entre `4` y `16`) según la fórmula:
+Con 500 hilos simultáneos agotarías en segundos los límites de peticiones y de tokens por minuto del proveedor, y recibirías una avalancha de errores `429 Too Many Requests` que dispararían reintentos y alargarían la ejecución. Hay que acotar `max_workers` con los límites de tu cuenta y la latencia media de cada llamada:
 
 $$\text{Concurrencia máxima segura} = \min\left(\frac{\text{RPM límite}}{60 / \text{latencia\_s}}, \frac{\text{TPM límite}}{\text{tokens\_por\_trabajador} \times (60 / \text{latencia\_s})}\right)$$
 </details>

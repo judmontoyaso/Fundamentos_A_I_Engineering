@@ -8,7 +8,7 @@ Revisa `NOMBRES_EXPUESTOS` en `code/01_servidor_mcp_ats.py`. En `comun/ag_comun.
 <details>
 <summary>Ver solución</summary>
 
-Aplica el **principio de mínimo privilegio por perfil de servidor MCP**: un agente cuya misión es elaborar una terna de preselección solo debe recibir herramientas de lectura y dictamen. Para evitar que un cliente comprometido invoque una herramienta no listada, en `procesar_mensaje_jsonrpc` conviene validar explícitamente que `nombre` esté dentro de `{f"ats_{n}" for n in NOMBRES_EXPUESTOS}` antes de llamar a `ejecutar_herramienta_ats`.
+Se aplica el **principio de mínimo privilegio**: un agente que arma una terna solo necesita herramientas de lectura y de dictamen, así que el servidor de preselección no publica las que tienen efectos. Pero publicar menos herramientas no basta. En una versión anterior del laboratorio, `tools/call` ejecutaba cualquier nombre que conociera la función del ATS, y una llamada directa a `ats_enviar_oferta` emitía la oferta aunque la herramienta no apareciera en `tools/list`. Ahora `procesar_mensaje_jsonrpc` comprueba que el nombre esté entre las herramientas publicadas y, si no, responde con `isError: true` y la lista de las disponibles. Compruébalo enviando esa llamada a mano al servidor: el catálogo que se anuncia y lo que se permite ejecutar tienen que coincidir, y eso se verifica en el servidor.
 </details>
 
 ---
@@ -19,9 +19,9 @@ Si conectas tu agente a un servidor MCP corporativo que devuelve 45 herramientas
 <details>
 <summary>Ver solución</summary>
 
-Por dos razones medidas en producción:
-1. **Costo y latencia de prefill**: 45 esquemas JSON Schema suman entre `4.000` y `8.000` tokens que se facturan en **cada paso** del bucle.
-2. **Caída en precisión de selección de herramienta**: cuando el catálogo supera ~15–20 herramientas similares, aumenta la confusión del modelo entre funciones parecidas. El cliente MCP debe filtrar la lista devuelta por `tools/list` según la etapa actual de la máquina de estados.
+Por dos razones:
+1. **Costo y latencia**: cada esquema del ATS ocupa unos 120 tokens, así que 45 herramientas parecidas suman del orden de 5.000 tokens que se vuelven a enviar en **cada paso** del bucle.
+2. **Peor elección de herramienta**: con muchas herramientas parecidas, el modelo se confunde más al elegir. Cuántas son demasiadas depende del modelo y de las herramientas, así que conviene medirlo con tus tareas. El cliente MCP debe filtrar la lista que devuelve `tools/list` y pasarle al modelo solo las de la etapa actual de la máquina de estados.
 </details>
 
 ---

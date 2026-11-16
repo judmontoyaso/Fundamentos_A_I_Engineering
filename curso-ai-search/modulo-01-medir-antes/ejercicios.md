@@ -20,7 +20,7 @@ Cambia la variable de entorno `EMB_MODEL` por `intfloat/multilingual-e5-small` (
 Añade a `as_consultas.py` cinco consultas como las escribiría un reclutador de tu empresa, con su función de relevancia.
 ¿En qué tipo caen? ¿Cómo les va con la línea base?
 
-### Ejercicio 5. El promedio que miente
+### Ejercicio 5. Cuando el promedio oculta lo que pasa
 Con `linea_base.jsonl`, calcula la mediana de la diferencia de nDCG entre la híbrida y BM25, y no solo la media. ¿Qué
 signo tiene? ¿Qué te dice que la media y la mediana tengan signos distintos?
 

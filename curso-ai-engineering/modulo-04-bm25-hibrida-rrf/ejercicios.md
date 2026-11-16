@@ -30,7 +30,7 @@ En `03_rrf.py`, cambia los puntajes de coseno para que haya un valor atípico (p
 ### Ejercicio 6. El empate simétrico
 En el laboratorio, la consulta "ISO 27001" empata en RRF. Rómpelo de dos maneras: (a) con un RRF ponderado hecho por
 ti (usa `rrf(..., pesos=[...])` de `03_rrf.py` sobre los ids de cada búsqueda), y (b) cambiando la consulta a "ISO
-27001 auditor". ¿Cuál de las dos soluciones es más honesta para un buscador real?
+27001 auditor". ¿Cuál de las dos soluciones es más adecuada para un buscador real?
 
 ### Ejercicio 7. Prefetch y candidatos
 En [`code/04_hibrida_qdrant.py`](code/04_hibrida_qdrant.py), baja `candidatos` a 1 y vuelve a correr
@@ -78,7 +78,7 @@ puntaje de otro. Esa es su robustez.
 **6.** (a) Con más peso a BM25 (por ejemplo `pesos = [1.5, 1.0]` si la primera lista es la de BM25), Andrés pasa
 primero. (b) Al añadir "auditor", BM25 y la semántica coinciden en Andrés y el empate desaparece. La (a) es una
 decisión de diseño válida si tu evaluación dice que BM25 es más fiable en tus consultas de códigos; la (b) no es una
-solución, porque no controlas lo que escribe el usuario. Lo honesto es (a) respaldado por la evaluación, o un
+solución, porque no controlas lo que escribe el usuario. Lo razonable es (a) respaldado por la evaluación, o un
 re-ranker (§11).
 
 **7.** Con `candidatos = 1`, cada búsqueda aporta un solo documento a la fusión. Si el relevante es el 2º de una
