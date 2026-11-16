@@ -145,16 +145,22 @@ a { color: inherit; }
               var(--surface);
   border: 1px solid var(--border);
   border-radius: 18px;
-  padding: clamp(1rem, 2.5vw, 1.8rem);
+  padding: 1.8rem;
   box-shadow: 0 24px 60px -24px rgba(0, 0, 0, .28);
+  /* Un diploma no se reacomoda: mide siempre 1120 px y CertEscala lo reduce entero en pantallas angostas. */
+  width: 1120px;
+  box-sizing: border-box;
 }
+.cert-escala { width: 100%; overflow: hidden; }
+.cert-hoja .cert-nombre { font-size: 3.1rem; }
+.cert-hoja .cert-curso { font-size: 1.9rem; }
 .cert-borde {
   position: relative;
   border: 2px solid var(--border);
   outline: 1px solid rgba(37, 99, 235, 0.24);
   outline-offset: -7px;
   border-radius: 12px;
-  padding: clamp(1.5rem, 3.8vw, 2.8rem);
+  padding: 2.8rem;
   display: grid;
   gap: 1.9rem;
 }
@@ -194,13 +200,15 @@ a { color: inherit; }
 .cert-qr-svg svg { width: 100%; height: 100%; display: block; }
 
 @media (max-width: 860px) {
-  .hero-grid, .cert-promo, .rejilla-cursos, .cert-pie { grid-template-columns: 1fr; }
+  .hero-grid, .cert-promo, .rejilla-cursos { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) { .sitio-top nav { display: none; } }
 @media print {
   .sitio-top, .sitio-pie, .no-print { display: none !important; }
   .pagina.cert-wrap { max-width: 100%; padding: 0; margin: 0; }
-  .cert-hoja { box-shadow: none; border: none; padding: 0; }
+  .cert-hoja { box-shadow: none; border: none; padding: 0; zoom: 1 !important; width: 100%; }
+  .cert-escala { height: auto !important; overflow: visible; }
+  @page { size: landscape; margin: 10mm; }
 }
 
 

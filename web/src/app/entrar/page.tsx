@@ -21,7 +21,6 @@ export default async function Entrar({ searchParams }: Props) {
   const modo = sp.modo === "registro" ? "registro" : sp.modo === "recuperar" ? "recuperar" : "entrar";
   const esRegistro = modo === "registro";
   const esRecuperar = modo === "recuperar";
-  const mostrarDemo = process.env.DESACTIVAR_DEMO !== "1";
 
   const usuario = await getUsuario();
   if (usuario) redirect(volver);
@@ -153,24 +152,6 @@ export default async function Entrar({ searchParams }: Props) {
                 </p>
               )}
 
-              {!esRegistro && mostrarDemo && (
-                <>
-                  <div className="auth-sep"><span>o prueba el entorno demo</span></div>
-                  <form method="post" action="/api/auth/correo">
-                    <input type="hidden" name="returnTo" value={volver} />
-                    <input type="hidden" name="modo" value="entrar" />
-                    <input type="hidden" name="email" value="demo@iaenproduccion.com" />
-                    <input type="hidden" name="password" value="Demo2026!" />
-                    <button
-                      type="submit"
-                      className="btn"
-                      style={{ width: "100%", textAlign: "center", padding: ".6rem .9rem", fontSize: ".84rem" }}
-                    >
-                      Entrar con usuario de prueba (cursos completados + certificados)
-                    </button>
-                  </form>
-                </>
-              )}
             </>
           )}
         </div>

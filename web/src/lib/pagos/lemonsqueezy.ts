@@ -47,6 +47,8 @@ export const lemonsqueezy: Proveedor = {
         data: {
           type: "checkouts",
           attributes: {
+            // El precio lo fija el pedido (con su cupón, si lo hay), no la variante. En centavos de USD.
+            custom_price: Math.round(pedido.monto * 100),
             product_options: { name: titulo, redirect_url: vuelta },
             checkout_data: {
               email: pedido.email,

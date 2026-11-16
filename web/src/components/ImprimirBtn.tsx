@@ -36,14 +36,17 @@ export function ImprimirBtn({
     if (!nodo || descargando) return;
     setDescargando(true);
     try {
-      const rect = nodo.getBoundingClientRect();
+      // El diploma se captura a su tamaño real (sin la reducción que se aplica en pantallas angostas).
+      const zoomPrevio = nodo.style.zoom;
+      nodo.style.zoom = "1";
+      const rect = { width: nodo.offsetWidth, height: nodo.offsetHeight };
       const dataUrl = await toPng(nodo, {
         quality: 1,
         pixelRatio: 2.5,
         cacheBust: true,
         width: rect.width,
         height: rect.height,
-      });
+      }).finally(() => { nodo.style.zoom = zoomPrevio; });
 
       const w = rect.width;
       const h = rect.height;

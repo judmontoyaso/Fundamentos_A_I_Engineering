@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { NOMBRE_SITIO, urlSitioPublico } from "@/lib/sitio";
 import Link from "next/link";
 import QRCode from "qrcode";
+import { CertEscala } from "@/components/CertEscala";
 import { ImprimirBtn } from "@/components/ImprimirBtn";
 import { Logo } from "@/components/Logo";
 import { Sitio } from "@/components/Sitio";
@@ -114,6 +115,7 @@ export default async function PaginaCertificado({ params }: { params: Promise<{ 
           </div>
         </div>
 
+        <CertEscala>
         <article id="certificado-diploma" className="cert-hoja">
           <div className="cert-borde">
             <div className="cert-esquina tl" aria-hidden="true" />
@@ -127,7 +129,7 @@ export default async function PaginaCertificado({ params }: { params: Promise<{ 
                 <div>
                   <span className="cert-inst">ACADEMIA DE INGENIERÍA APLICADA</span>
                   <b>IA en Producción</b>
-                  <span>Formación profesional en sistemas de IA, RAG, Evals y Agentes</span>
+                  <span>Formación profesional en IA</span>
                 </div>
               </div>
 
@@ -205,6 +207,7 @@ export default async function PaginaCertificado({ params }: { params: Promise<{ 
             </footer>
           </div>
         </article>
+        </CertEscala>
       </div>
     </Sitio>
   );
