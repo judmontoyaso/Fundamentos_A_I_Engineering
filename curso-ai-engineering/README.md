@@ -18,7 +18,7 @@ Construimos el asistente técnico de un **taller de talento de ingeniería**: da
 |---|---|---|
 | 1 | [Datos estructurados](./modulo-01-datos-estructurados/README.md) | Esquemas Pydantic de `Candidato`, `Vacante` y `EvaluacionCandidato`; extracción desde CVs en texto libre con `instructor` y Function Calling |
 | 2 | [Embeddings y búsqueda semántica](./modulo-02-embeddings-busqueda-semantica/README.md) | Vectorización de los 30 perfiles y las 8 vacantes; similitud coseno desde cero; visualización 2D del espacio de talento |
-| 3 | [Bases vectoriales (Qdrant)](./modulo-03-bases-vectoriales-qdrant/README.md) | Colección `candidatos` en Qdrant con payload indexado y filtros duros (ubicación, años de experiencia, modalidad) combinados con similitud vectorial |
+| 3 | [Chunking, metadata e introducción a RAG](./modulo-03-chunking-metadata-rag/README.md) | Partición de CVs en chunks con metadatos filtrables en Qdrant y primer pipeline RAG con citas verificadas |
 | 4 | [BM25, búsqueda híbrida y RRF](./modulo-04-bm25-hibrida-rrf/README.md) | Búsqueda léxica exacta para tecnologías específicas (`"K8s"`, `"HIPAA"`, `"COBOL"`) fusionada con la semántica mediante Reciprocal Rank Fusion |
 | 5 | [Workflows de agentes](./modulo-05-workflows-agentes/README.md) | Chaining, routing, paralelización y evaluador-optimizador aplicados al análisis y comparación de candidatos |
 | 6 | [Orquestación con LangGraph](./modulo-06-langgraph/README.md) | Grafo con estado tipado, reintentos cuando la búsqueda no alcanza umbral, y punto de aprobación humana antes de enviar el informe |
@@ -37,7 +37,7 @@ modulo-XX-nombre/
 └── code/            # Scripts numerados listos para ejecutar en orden
 ```
 
-El dataset compartido vive en [`modulo-01-datos-estructurados/data/`](./modulo-01-datos-estructurados/data/) y todos los módulos posteriores lo consumen desde ahí.
+El dataset compartido de candidatos y vacantes vive en [`modulo-09-proyecto-integrador/code/00_datos_cvs.py`](./modulo-09-proyecto-integrador/code/00_datos_cvs.py) y los scripts autocontenidos de cada módulo en `modulo-XX-.../code/`.
 
 ---
 

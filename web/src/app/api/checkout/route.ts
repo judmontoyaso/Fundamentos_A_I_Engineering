@@ -64,11 +64,7 @@ export async function POST(req: Request) {
   if (montoBase === null) return error("El precio de este plan aún no está configurado.");
   const monto = aplicarDescuento(montoBase, porcentajeDescuento);
 
-  if (codigoCupon && porcentajeDescuento > 0) {
-    const consumido = await store.usarCupon(codigoCupon);
-    if (!consumido) return error("Este cupón ya no está disponible.");
-  }
-
+  // En cobros con pasarela (descuento parcial), el uso del cupón se descuenta solo al confirmarse el pago.
   const pedido: Pedido = {
     id: randomUUID(),
     userId: usuario.id,
@@ -79,7 +75,7 @@ export async function POST(req: Request) {
     moneda: monedaPedido,
     proveedor: p.id,
     estado: "pendiente",
-    refProveedor: codigoCupon || null,
+    refProveedor: codigoCupon && porcentajeDescuento > 0 ? `cupon:${codigoCupon}` : null,
     creado: new Date().toISOString(),
   };
   await store.crearPedido(pedido);

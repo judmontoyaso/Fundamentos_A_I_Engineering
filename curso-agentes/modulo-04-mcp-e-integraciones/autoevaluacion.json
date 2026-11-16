@@ -3,43 +3,43 @@
     {
       "pregunta": "¿Qué problema arquitectónico resuelve el protocolo MCP (Model Context Protocol) al ejecutar las herramientas en un subproceso separado?",
       "opciones": [
-        "Permite que el modelo de lenguaje se ejecute localmente en la CPU sin necesidad de tarjeta gráfica ni red.",
-        "Desacopla al agente de la implementación de las herramientas y aísla credenciales como ATS_DB_SECRET en el servidor MCP.",
-        "Reemplaza el formato JSON por buffers binarios cifrados que reducen a cero el consumo de tokens del modelo.",
-        "Hace innecesario definir esquemas de entrada inputSchema para los parámetros de cada herramienta."
+        "Desacopla las herramientas del agente y aísla secretos como ATS_DB_SECRET en el servidor MCP.",
+        "Permite ejecutar el modelo de lenguaje directamente en la CPU local sin necesidad de GPU ni internet.",
+        "Reemplaza el protocolo JSON por buffers binarios cifrados con cero consumo de tokens en cada llamada.",
+        "Elimina la necesidad de declarar esquemas inputSchema para validar los argumentos de cada herramienta."
       ],
-      "correcta": 1,
+      "correcta": 0,
       "explicacion": "Con MCP el proceso del agente no posee las credenciales de la base de datos (`credencial_visible_en_proceso_agente: false`) y se comunica por JSON-RPC 2.0."
     },
     {
       "pregunta": "En el ciclo de vida de MCP implementado en 01_servidor_mcp_ats.py y 02_cliente_mcp.py, ¿qué orden siguen los métodos JSON-RPC?",
       "opciones": [
-        "Primero tools/call, luego tools/list y al finalizar la corrida se cierra con el método initialize.",
-        "Primero tools/list, después notifications/initialized y únicamente al ocurrir un error se envía initialize.",
-        "Primero initialize (seguido de notifications/initialized), luego tools/list para descubrir esquemas y finalmente tools/call.",
-        "Se envía únicamente tools/call en cada turno porque MCP no tiene fase de negociación ni descubrimiento."
+        "Primero invoca tools/call, después tools/list y cierra la sesión enviando el método initialize.",
+        "Primero tools/list, luego notifications/initialized y ante errores graves solicita el handshake initialize.",
+        "Solo utiliza tools/call turno a turno porque el protocolo MCP carece de fase previa de descubrimiento.",
+        "Ejecuta initialize, notifications/initialized, luego tools/list y finalmente tools/call."
       ],
-      "correcta": 2,
+      "correcta": 3,
       "explicacion": "El cliente MCP negocia primero la versión del protocolo con initialize, confirma con notifications/initialized, descubre el catálogo con tools/list y ejecuta con tools/call."
     },
     {
       "pregunta": "¿Por qué los mensajes de notificación JSON-RPC 2.0 (como notifications/initialized) no llevan campo \"id\"?",
       "opciones": [
-        "Porque son avisos unidireccionales del cliente al servidor que no esperan un objeto de respuesta JSON-RPC.",
-        "Porque el servidor MCP asigna el identificador numérico de forma aleatoria al guardar el log en disco.",
-        "Porque en el transporte stdio solo se permite usar identificadores en el método de cierre del subproceso.",
-        "Porque incluir un campo id en una notificación reinicia el contador de tokens del cliente anfitrión."
+        "Porque el servidor MCP asigna el número de secuencia de forma aleatoria al volcar el log en disco.",
+        "Porque el transporte stdio reserva los campos de identificación únicamente para el cierre del subproceso.",
+        "Porque son avisos unidireccionales del cliente que no esperan ningún objeto respuesta.",
+        "Porque enviar un campo id dentro de una notificación reinicia el conteo de tokens del host."
       ],
-      "correcta": 0,
+      "correcta": 2,
       "explicacion": "En la especificación JSON-RPC 2.0, un mensaje sin 'id' es una Notification: el receptor la procesa pero no debe emitir respuesta por stdout."
     },
     {
       "pregunta": "En 01_servidor_mcp_ats.py, ¿cómo informa el servidor MCP que la ejecución de una herramienta produjo un error de negocio o validación?",
       "opciones": [
-        "Cerrando de inmediato el subproceso con sys.exit(1) para forzar el reinicio del cliente anfitrión.",
-        "Devolviendo dentro de result el contenido textual en JSON acompañado del indicador booleano isError: true.",
-        "Borrando el catálogo de herramientas para que el modelo no pueda volver a invocar ninguna función.",
-        "Enviando una cadena vacía sin estructura JSON por la tubería de error estándar stderr del sistema."
+        "Cerrando abruptamente el subproceso con sys.exit(1) para forzar un reinicio completo del cliente.",
+        "Devolviendo el texto del fallo dentro de result acompañado del indicador isError: true.",
+        "Eliminando el registro de esa herramienta del catálogo para impedir llamadas futuras del agente.",
+        "Enviando una línea vacía por stderr sin devolver ningún objeto JSON estructurado por stdout."
       ],
       "correcta": 1,
       "explicacion": "En MCP los errores de protocolo usan el campo 'error' de JSON-RPC, mientras que los errores de ejecución de la herramienta se devuelven en 'result' con 'isError': true."
@@ -47,12 +47,12 @@
     {
       "pregunta": "Si un servidor MCP corporativo expone 60 herramientas en tools/list, ¿qué buena práctica debe aplicar el cliente antes de llamar al LLM?",
       "opciones": [
-        "Concatenar las 60 herramientas en una sola megafunción con 200 parámetros opcionales para el modelo.",
-        "Descartar los esquemas inputSchema y enviar al modelo únicamente una lista con los 60 nombres de funciones.",
-        "Invocar primero las 60 herramientas con argumentos vacíos para comprobar cuáles responden más rápido.",
-        "Filtrar y exponer al modelo solo el subconjunto de herramientas pertinentes al rol y etapa actual del agente."
+        "Agrupar las 60 operaciones en una única herramienta genérica con doscientos parámetros opcionales.",
+        "Omitir los esquemas inputSchema y entregarle al modelo únicamente la lista plana de sesenta nombres.",
+        "Exponer únicamente el subconjunto de herramientas pertinente al rol y etapa del agente.",
+        "Ejecutar primero las 60 funciones con entradas vacías para medir cuál responde en menos tiempo."
       ],
-      "correcta": 3,
+      "correcta": 2,
       "explicacion": "Filtrar el catálogo en el cliente reduce el costo por turno, evita la degradación de selección del modelo y aplica el principio de mínimo privilegio."
     }
   ]

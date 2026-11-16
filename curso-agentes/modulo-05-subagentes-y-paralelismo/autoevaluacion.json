@@ -3,56 +3,56 @@
     {
       "pregunta": "En ingeniería de producción, ¿cuáles son las dos razones técnicas principales para delegar trabajo a subagentes?",
       "opciones": [
-        "Aislar el contexto pesado en ventanas efímeras por subtarea y reducir la latencia total ejecutando en paralelo.",
-        "Simular debates de personalidad entre roles ficticios y aumentar la longitud literaria de la respuesta.",
-        "Evitar el uso de esquemas JSON Schema y reemplazar las funciones de Python por conversación libre.",
-        "Duplicar el historial completo de mensajes en cada hilo para que todos los agentes vean todos los CVs crudos."
+        "Simular debates entre roles ficticios para enriquecer el estilo literario y el tono de la respuesta final.",
+        "Aislar contexto pesado en ventanas efímeras y paralelizar subtareas para bajar la latencia.",
+        "Evitar definir esquemas JSON Schema estrictos y sustituir el código Python por diálogo abierto.",
+        "Replicar el historial íntegro en todos los hilos para que cada agente relea los CVs completos."
       ],
-      "correcta": 0,
+      "correcta": 1,
       "explicacion": "Los subagentes resuelven dos límites físicos: evitan contaminar la ventana del orquestador (95 % de ahorro de tokens en el hilo central) y paralelizan subtareas independientes."
     },
     {
       "pregunta": "En 01_orquestador_trabajadores.py, al evaluar los 4 candidatos de VAC-101, ¿cuántos tokens reciben los trabajadores frente a los que recibe el orquestador?",
       "opciones": [
-        "Los trabajadores consumen 37 tokens en total y el orquestador recibe los 792 tokens de las fichas completas.",
-        "Los trabajadores procesan 792 tokens de fichas y verificaciones, pero al orquestador solo llegan 37 tokens de dictámenes.",
-        "Tanto el orquestador como cada uno de los cuatro trabajadores reciben exactamente 792 tokens en su ventana.",
-        "El orquestador no recibe ningún token porque los trabajadores escriben directamente la oferta al candidato."
+        "Los trabajadores procesan 37 tokens resumidos y el orquestador recibe los 792 tokens de las fichas.",
+        "Tanto el orquestador como cada uno de los cuatro trabajadores cargan exactamente 792 tokens en su ventana.",
+        "El orquestador recibe cero tokens porque los trabajadores emiten directamente la oferta laboral al aspirante.",
+        "Los trabajadores procesan 792 tokens de fichas y el orquestador solo recibe 37 tokens de dictámenes."
       ],
-      "correcta": 1,
+      "correcta": 3,
       "explicacion": "Cada trabajador absorbe el costo de leer la ficha y verificar elegibilidad en su ventana efímera y devuelve al orquestador solo `{id, elegible}` (37 tokens en total)."
     },
     {
       "pregunta": "¿Qué requisito deben cumplir las subtareas de la fase Map (02_map_reduce_cvs.py) para poder ejecutarse en paralelo sin condiciones de carrera?",
       "opciones": [
-        "Deben modificar simultáneamente la misma lista global sin usar candados ni valores de retorno por función.",
-        "Deben depender cada una del resultado que devuelva el candidato inmediatamente anterior en la lista.",
-        "Deben ser independientes entre sí y operar sobre entradas inmutables sin estado mutable compartido.",
-        "Deben ejecutarse obligatoriamente en servidores físicos ubicados en distintas regiones geográficas."
+        "Ser independientes entre sí y operar sobre entradas inmutables sin estado compartido.",
+        "Actualizar simultáneamente la misma lista global compartida sin usar candados ni valores de retorno.",
+        "Depender secuencialmente de la calificación obtenida por el candidato evaluado inmediatamente antes.",
+        "Ejecutarse de forma obligatoria en servidores físicos separados en distintas regiones geográficas."
       ],
-      "correcta": 2,
+      "correcta": 0,
       "explicacion": "La evaluación de un par (vacante_id, candidato_id) es una función pura sin efectos colaterales entre pares, ideal para paralelizar con un pool de trabajadores."
     },
     {
       "pregunta": "¿Por qué siempre se debe limitar max_workers (o usar un Semaphore) al lanzar subagentes que llaman a una API de LLM en paralelo?",
       "opciones": [
-        "Para no disparar errores 429 (Rate Limit) por saturar las cuotas de peticiones o tokens por minuto del proveedor.",
-        "Porque Python impide crear más de dos hilos dentro de un proceso que importe el módulo estándar json.",
-        "Porque al superar cuatro hilos el modelo cambia automáticamente el idioma de sus respuestas al inglés.",
-        "Para obligar a que el tiempo total de ejecución sea idéntico al de un bucle secuencial paso a paso."
+        "Porque Python bloquea la creación de más de dos hilos dentro de un módulo que importe la librería json.",
+        "Para evitar errores 429 (Rate Limit) al saturar cuotas de peticiones o tokens por minuto.",
+        "Porque superar cuatro hilos simultáneos provoca que el modelo responda en inglés de forma predeterminada.",
+        "Para garantizar que el tiempo total de corrida sea igual al de una ejecución secuencial turno por turno."
       ],
-      "correcta": 0,
+      "correcta": 1,
       "explicacion": "Un abanico paralelo sin cota de concurrencia agota las cuotas RPM/TPM del proveedor de IA y provoca cascadas de reintentos que empeoran la latencia."
     },
     {
       "pregunta": "En 02_map_reduce_cvs.py, ¿por qué la fase Reduce (agrupar elegibles y ordenar por disponibilidad y sueldo) se hace en Python y no con otro LLM?",
       "opciones": [
-        "Porque ordenar números y filtrar booleanos ya estructurados es exacto, instantáneo y gratuito en código.",
-        "Porque ningún modelo de lenguaje actual permite recibir una lista de diccionarios en el mensaje de usuario.",
-        "Porque la fase Reduce siempre debe ejecutarse antes de la fase Map dentro de la arquitectura del agente.",
-        "Porque el protocolo de herramientas prohíbe hacer más de cuatro llamadas al modelo en un mismo script."
+        "Porque ningún modelo de lenguaje actual acepta listas de diccionarios JSON dentro del mensaje de entrada.",
+        "Porque la fase Reduce debe ocurrir obligatoriamente antes que la fase Map en el diseño del agente.",
+        "Porque ordenar números y filtrar booleanos estructurados en código es exacto, instantáneo y gratis.",
+        "Porque la especificación de herramientas prohíbe realizar más de cuatro llamadas al LLM por archivo."
       ],
-      "correcta": 0,
+      "correcta": 2,
       "explicacion": "Una vez que la fase Map produjo datos tipados (`elegible`, `disponibilidad_dias`, `aspiracion_usd`), la agregación y ordenamiento determinista en Python no tiene margen de error."
     }
   ]

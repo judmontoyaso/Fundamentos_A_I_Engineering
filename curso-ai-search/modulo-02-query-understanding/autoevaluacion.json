@@ -3,10 +3,10 @@
   {
    "pregunta": "¿Qué hace el parser con «desarrollador backend que no use Java»?",
    "opciones": [
-    "Busca «Java»",
-    "Saca la negación del texto y la convierte en una skill excluida",
-    "La ignora",
-    "Devuelve un error"
+    "Prioriza documentos con mayor densidad del término «Java»",
+    "Extrae la negación del texto como skill excluida",
+    "Ignora la cláusula negativa por completo durante el parseo",
+    "Devuelve un error de validación solicitando reformular la frase"
    ],
    "correcta": 1,
    "explicacion": "La negación hacía daño en el texto; como filtro, se aplica con código."
@@ -14,10 +14,10 @@
   {
    "pregunta": "¿Por qué los filtros suaves superan a los duros?",
    "opciones": [
-    "Un filtro duro convierte cualquier error de taxonomía o del índice en un candidato perdido; el suave lo deja más abajo",
-    "Por azar",
-    "Porque son más rápidos",
-    "No los superan"
+    "Un filtro duro pierde candidatos por errores de taxonomía; el suave solo penaliza",
+    "Por mera variación aleatoria dentro de este subconjunto específico de pruebas",
+    "Porque aplicar penalizaciones numéricas ejecuta mucho más rápido que filtrar",
+    "No los superan: siempre es más seguro descartar cualquier candidato distinto"
    ],
    "correcta": 0,
    "explicacion": "En «backend en Medellín», el filtro duro eliminó a los desarrolladores Python y .NET."
@@ -25,10 +25,10 @@
   {
    "pregunta": "Solo reescribir la consulta ganó en 13 y perdió en 16. ¿Por qué?",
    "opciones": [
-    "Porque la reescritura es mala",
-    "Por la latencia",
-    "Por el embedder",
-    "Porque quitar palabras como «senior» quita la señal sin poner un filtro en su lugar"
+    "Porque toda reescritura automática de consultas introduce alucinaciones",
+    "Por la latencia extra que impide completar la recuperación a tiempo",
+    "Porque el modelo de embeddings pierde precisión con frases cortas",
+    "Quitar «senior» borra esa señal si no agregas su filtro"
    ],
    "correcta": 3,
    "explicacion": "Reescribir y filtrar van juntos."
@@ -36,10 +36,10 @@
   {
    "pregunta": "¿Qué mostró comparar parsers de distintos modelos?",
    "opciones": [
-    "Que hace falta el más caro",
-    "Que el barato falla",
-    "Que el barato rinde igual (0.90) con un tercio de la latencia",
-    "Que no hay diferencia de latencia"
+    "Que resulta indispensable emplear el modelo más caro disponible",
+    "Que el modelo económico comete demasiados errores de formato JSON",
+    "El barato rinde igual (0.90) con un tercio de la latencia",
+    "Que todos los modelos tardan prácticamente lo mismo en esta tarea"
    ],
    "correcta": 2,
    "explicacion": "Entender una consulta corta es una tarea fácil."
@@ -47,10 +47,10 @@
   {
    "pregunta": "El parser cuesta ~1 s por consulta frente a ~15 ms de la búsqueda. ¿Qué haces?",
    "opciones": [
-    "Nada",
-    "Cachear consultas repetidas, atajos sin LLM para lo trivial, mostrar primero y refinar después",
-    "Quitar el parser",
-    "Usar el modelo más caro"
+    "Nada relevante porque un segundo entra en el rango aceptable",
+    "Cachear repetidas, atajos sin LLM y refinar tras mostrar base",
+    "Eliminar por completo el parser y volver a búsqueda por texto libre",
+    "Cambiar al modelo de razonamiento más grande para ahorrar pasos"
    ],
    "correcta": 1,
    "explicacion": "Un LLM para lo difícil, código para lo trivial."
@@ -58,10 +58,10 @@
   {
    "pregunta": "Con el parser, ¿qué routing sigue haciendo falta?",
    "opciones": [
-    "Entre buscar y contar: preguntas que piden una cuenta o un máximo, no un ranking",
-    "Entre BM25 y densa",
-    "Ninguno",
-    "Entre idiomas"
+    "Entre buscar y contar: consultas de cuenta o máximo",
+    "Entre el índice léxico BM25 y la búsqueda puramente semántica densa",
+    "Ninguno adicional una vez normalizadas las entidades y filtros",
+    "Entre consultas redactadas en español frente a consultas en inglés"
    ],
    "correcta": 0,
    "explicacion": "La reescritura y los filtros resuelven lo que pedía enrutar modos; las agregaciones son otra cosa (Módulo 6)."

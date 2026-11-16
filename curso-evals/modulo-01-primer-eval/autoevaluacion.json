@@ -3,10 +3,10 @@
   {
    "pregunta": "Dos versiones del extractor tienen la misma exactitud global. ¿Qué puede estar escondiendo ese empate?",
    "opciones": [
-    "Nada: son equivalentes",
+    "Nada relevante: ambas versiones se comportan de forma equivalente caso por caso",
     "Casos arreglados y casos rotos que se compensan",
-    "Que el modelo cambió",
-    "Un error de redondeo"
+    "Que la versión del modelo subyacente cambió sin alterar su desempeño global",
+    "Un error menor de redondeo al promediar los porcentajes del conjunto total"
    ],
    "correcta": 1,
    "explicacion": "Con gpt-5.4-nano, v2 arregló dos casos y rompió uno, y la cifra global casi no se movió. Por eso se compara caso por caso."
@@ -15,9 +15,9 @@
    "pregunta": "El extractor devuelve «net» donde se esperaba «.net». ¿Cuándo relajarías el chequeo para aceptarlo?",
    "opciones": [
     "Solo si lo obtenido es igual de útil que lo esperado para el producto",
-    "Siempre, para que el informe se vea mejor",
-    "Nunca relajar un chequeo",
-    "Cuando falle más de una vez"
+    "Siempre que la diferencia sea un signo de puntuación o carácter inicial menor",
+    "Nunca conviene relajar una aserción exacta dentro de una suite de evaluación",
+    "Cuando la misma discrepancia aparezca en más de dos ejecuciones consecutivas"
    ],
    "correcta": 0,
    "explicacion": "Para un buscador de CVs, «net» es ambiguo (¿.NET?, ¿redes?): es peor dato, así que se mantuvo como fallo."
@@ -25,9 +25,9 @@
   {
    "pregunta": "gpt-4o-mini cuenta 8 años en vez de 11 porque excluye el trabajo de mesero. ¿Qué revela?",
    "opciones": [
-    "Que el modelo es malo",
-    "Que la etiqueta es incorrecta seguro",
-    "Un fallo de red",
+    "Que el modelo pequeño carece de capacidad básica para sumar intervalos",
+    "Que la etiqueta de referencia contiene sin duda un error de cálculo humano",
+    "Un fallo intermitente de red que truncó parcialmente la respuesta final",
     "Una regla de las etiquetas que nunca llegó al prompt"
    ],
    "correcta": 3,
@@ -36,10 +36,10 @@
   {
    "pregunta": "Con el prompt v2, el caso de rangos solapados en gpt-5.4-nano pasó de 7 siempre a 7, 6, 10 y 12. ¿Qué enseña?",
    "opciones": [
-    "Que la regla estaba mal escrita",
-    "Que hay que usar temperatura 0",
+    "Que la nueva regla estaba redactada con errores de sintaxis graves",
+    "Que configurar temperatura cero elimina por completo este tipo de variación",
     "Que más instrucciones pueden desestabilizar a un modelo pequeño, y solo se ve repitiendo",
-    "Que el caso es inválido"
+    "Que el caso debe eliminarse del set de pruebas por presentar fechas ambiguas"
    ],
    "correcta": 2,
    "explicacion": "Cada instrucción tiene un costo. Sin repeticiones, la rotura habría pasado por un mal resultado aislado."
@@ -47,10 +47,10 @@
   {
    "pregunta": "60 extracciones sin ningún fallo. Con 95 % de confianza, ¿qué puedes afirmar de la tasa de error?",
    "opciones": [
-    "Que es 0 %",
+    "Que la tasa real de fallo en producción equivale exactamente a 0 %",
     "Que está por debajo de ~5 % (3/60) en casos como estos",
-    "Que está por debajo de 1 %",
-    "Nada"
+    "Que la tasa de error garantizada ya se encuentra por debajo del 1 %",
+    "Nada estadísticamente interpretable hasta alcanzar al menos 500 casos"
    ],
    "correcta": 1,
    "explicacion": "La regla del tres: 0 fallos en n intentos acota la tasa por debajo de 3/n. Para bajar de 1 % harían falta unos 300 casos sin fallos."
@@ -59,9 +59,9 @@
    "pregunta": "Un caso salió mal con v1 en una pasada y bien en la otra, y bien en las dos con v2. ¿Cómo lo clasificas?",
    "opciones": [
     "Inestable: con tan pocas pasadas no se distingue la mejora de la suerte",
-    "Arreglado",
-    "Roto",
-    "Siempre bien"
+    "Definitivamente arreglado por los cambios introducidos en la nueva versión",
+    "Clasificado como fallo roto hasta comprobarlo con otra temperatura distinta",
+    "Siempre correcto porque aprobó la mayoría de las ejecuciones registradas"
    ],
    "correcta": 0,
    "explicacion": "«Arreglado» exige que fallara siempre antes y acierte siempre después. Si ya acertaba a veces, hacen falta más pasadas."

@@ -1,0 +1,7 @@
+{
+  "orden": 1,
+  "etapa": "Etapa 1 · Construir el sistema",
+  "descripcion": "De un demo a software de verdad. Construyes un buscador de hojas de vida de principio a fin: extracción validada con esquemas, embeddings, RAG híbrido, agentes con herramientas, observabilidad y guardrails.",
+  "infografia": "/infografias/ai-engineering-arquitectura.png",
+  "dependencias": []
+}

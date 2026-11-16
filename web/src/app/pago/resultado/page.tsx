@@ -10,7 +10,7 @@ import { itemsDe } from "@/lib/contenido";
 import { aplicarPago, proveedor } from "@/lib/pagos";
 import { store } from "@/lib/store";
 
-export const metadata: Metadata = { title: "Resultado del pago" };
+export const metadata: Metadata = { title: "Resultado del pago", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
 
 export default async function Resultado({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {

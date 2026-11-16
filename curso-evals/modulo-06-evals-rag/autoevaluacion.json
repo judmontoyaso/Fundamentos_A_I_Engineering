@@ -3,9 +3,9 @@
   {
    "pregunta": "¿Qué etiqueta falta en la mayoría de los sets de evaluación de RAG?",
    "opciones": [
-    "La respuesta esperada",
-    "El idioma",
-    "La fecha",
+    "La respuesta de referencia redactada por un experto",
+    "El idioma principal en que fue formulada la consulta",
+    "La fecha de corte temporal aplicable al documento base",
     "Qué documentos hay que recuperar para responder"
    ],
    "correcta": 3,
@@ -14,10 +14,10 @@
   {
    "pregunta": "¿Qué es el «oráculo» en la evaluación de un RAG?",
    "opciones": [
-    "Un juez muy capaz",
-    "El modelo más caro",
-    "Pasarle al generador exactamente los documentos relevantes, para medir la generación sola",
-    "Una herramienta de Ragas"
+    "Un juez de alta capacidad encargado de puntuar la fidelidad",
+    "El modelo comercial más avanzado usado como techo teórico",
+    "Pasar al generador los docs relevantes para aislar la generación",
+    "Una métrica automática integrada en la librería Ragas"
    ],
    "correcta": 2,
    "explicacion": "Con la recuperación perfecta, cualquier fallo es del generador."
@@ -25,10 +25,10 @@
   {
    "pregunta": "Con el oráculo el generador acertó 40/40 y el sistema 32/40. ¿Qué conviene arreglar?",
    "opciones": [
-    "El prompt del generador",
+    "Las instrucciones y formato del prompt del generador",
     "La recuperación: todos los fallos son suyos",
-    "El modelo",
-    "Nada"
+    "El modelo base utilizado para redactar la respuesta final",
+    "Nada: 32/40 representa el techo práctico de cualquier sistema RAG"
    ],
    "correcta": 1,
    "explicacion": "La distancia entre el oráculo y el sistema es lo que cuesta la recuperación."
@@ -36,10 +36,10 @@
   {
    "pregunta": "¿Por qué «¿cuántos candidatos trabajan con Python?» falla con k = 3?",
    "opciones": [
-    "Porque hay 7 CVs relevantes y solo se recuperan 3: falla por diseño",
-    "Porque el embedder es malo",
-    "Porque el LLM no sabe contar",
-    "Por la temperatura"
+    "Porque hay 7 CVs relevantes y con k=3 falla por diseño",
+    "Porque el modelo de embeddings subestima consultas numéricas",
+    "Porque el LLM comete errores al contar elementos del contexto",
+    "Por mantener la temperatura por encima de cero durante la respuesta"
    ],
    "correcta": 0,
    "explicacion": "Las agregaciones sobre todo el corpus necesitan otra ruta (fichas + código), no un mejor embedder."
@@ -47,9 +47,9 @@
   {
    "pregunta": "Las 4 respuestas incorrectas del sistema fueron juzgadas fieles. ¿Qué enseña?",
    "opciones": [
-    "Que el juez falla",
-    "Que no hay que medir fidelidad",
-    "Que el set está mal",
+    "Que el juez automático de fidelidad está mal calibrado en desarrollo",
+    "Que medir fidelidad aislada induce errores y conviene descartarla",
+    "Que el conjunto de preguntas contiene respuestas imposibles o mal escritas",
     "Que fiel no es correcta: una respuesta puede estar respaldada por un contexto malo"
    ],
    "correcta": 3,
@@ -58,10 +58,10 @@
   {
    "pregunta": "«Gabriel Rojas tiene más años de experiencia de todos» con 3 CVs en el contexto, ¿por qué es dañina?",
    "opciones": [
-    "Porque es larga",
-    "Porque cita mal",
+    "Porque genera respuestas excesivamente largas difíciles de validar",
+    "Porque el formato de cita empleado no coincide con el esquema",
     "Porque afirma algo sobre todo el corpus habiendo visto tres CVs",
-    "No es dañina"
+    "No resulta dañina si realmente lidera dentro de esos tres CVs"
    ],
    "correcta": 2,
    "explicacion": "Es fiel a su contexto y falsa. Merece su propio chequeo: un juez por fallo."
@@ -69,10 +69,10 @@
   {
    "pregunta": "Una herramienta mide la relevancia del contexto con un LLM. ¿Qué cuidado tener?",
    "opciones": [
-    "Ninguno",
-    "Es una estimación con sus propios errores; si puedes etiquetar la relevancia, etiquétala",
-    "Que es más exacta que etiquetar",
-    "Que solo funciona en inglés"
+    "Ninguno especial si el proveedor usa un modelo de frontera",
+    "Es una estimación con error; si puedes etiquetarla, hazlo",
+    "Que suele superar en exactitud a las etiquetas humanas directas",
+    "Que solo entrega puntajes fiables para consultas en inglés"
    ],
    "correcta": 1,
    "explicacion": "Etiquetar convierte esa medida en algo gratis y exacto; inferirla con un LLM obliga a calibrar otro juez."

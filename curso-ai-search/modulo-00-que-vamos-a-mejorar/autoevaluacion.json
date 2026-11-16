@@ -3,10 +3,10 @@
   {
    "pregunta": "¿Por qué el corpus pasa de 10 a 119 CVs?",
    "opciones": [
-    "Para que sea más lento",
+    "Para probar latencia con un volumen mínimo que simule producción real",
     "Porque con 10 casi cualquier búsqueda acierta; con 119 de roles parecidos hay que distinguir de verdad",
-    "Por estética",
-    "Para entrenar un modelo"
+    "Por pura organización visual al mostrar páginas de diez resultados completos",
+    "Para reunir ejemplos suficientes con los cuales entrenar un reranker propio"
    ],
    "correcta": 1,
    "explicacion": "En el Módulo 2 de AI Engineering, cinco modelos de embeddings empataron con 10 CVs."
@@ -15,9 +15,9 @@
    "pregunta": "¿De dónde sale la relevancia de cada CV para cada consulta?",
    "opciones": [
     "De una función sobre los hechos del CV",
-    "De una persona que lee",
-    "De un juez LLM",
-    "De los clics"
+    "De evaluadores humanos que leen todos los perfiles uno por uno",
+    "De un modelo LLM juez que califica cada par consulta-documento",
+    "Del historial previo de clics acumulados por los reclutadores"
    ],
    "correcta": 0,
    "explicacion": "Así se pueden medir métricas graduadas sin leer 119 CVs por consulta, y recalcular si cambian las reglas."
@@ -25,10 +25,10 @@
   {
    "pregunta": "¿Qué implica que el nivel no esté escrito en los CVs?",
    "opciones": [
-    "Nada",
-    "Que no se puede buscar por nivel",
-    "Que hay que reescribir los CVs",
-    "Que una consulta «senior» exige inferir el nivel de los años: es un problema de entender la consulta"
+    "Nada relevante: la similitud semántica infiere la jerarquía sin esfuerzo",
+    "Que resulta imposible aplicar filtros de búsqueda por nivel profesional",
+    "Que conviene reescribir manualmente todos los CVs agregando su etiqueta",
+    "Que «senior» exige inferir años: entender la consulta"
    ],
    "correcta": 3,
    "explicacion": "El parecido de textos no ve «senior» en un CV que solo dice fechas."
@@ -36,10 +36,10 @@
   {
    "pregunta": "¿Cuál es el costo de la relevancia calculada?",
    "opciones": [
-    "Ninguno",
-    "Es cara",
-    "Es tan buena como sus reglas, que son decisiones discutibles",
-    "Es lenta"
+    "Ninguno significativo frente al costo de calcular embeddings",
+    "Resulta cara porque invoca llamadas LLM por cada consulta",
+    "Es tan buena como sus reglas (decisiones discutibles)",
+    "Es demasiado lenta para ejecutarse en cada iteración local"
    ],
    "correcta": 2,
    "explicacion": "Por eso las reglas están escritas: se pueden discutir y cambiar."
@@ -47,10 +47,10 @@
   {
    "pregunta": "¿Qué forma tiene cada módulo del curso?",
    "opciones": [
-    "Teoría y examen",
-    "Pregunta, medición, técnica, nueva medición y decisión de quedarse o quitarla",
-    "Solo código",
-    "Un catálogo de técnicas"
+    "Exposición teórica extensa seguida de un examen final único",
+    "Pregunta, medida, técnica, remedición y decisión de uso",
+    "Únicamente scripts aislados sin evaluación cuantitativa previa",
+    "Un catálogo general de librerías ordenadas por popularidad"
    ],
    "correcta": 1,
    "explicacion": "Una técnica que no mueve los números se quita."

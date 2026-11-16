@@ -3,10 +3,10 @@
   {
    "pregunta": "¿Por qué el emparejador de hoy rinde mal con vacantes largas?",
    "opciones": [
-    "Porque el embedder es malo",
-    "Porque busca con todo el texto: empresa, beneficios y deseables pesan como los requisitos",
-    "Porque hay pocos CVs",
-    "Porque usa BM25"
+    "Porque los embeddings actuales no funcionan en textos largos",
+    "Usa todo el texto: beneficios pesan igual que requisitos",
+    "Porque el corpus cuenta con demasiados pocos perfiles reales",
+    "Porque el emparejador actual utiliza exclusivamente BM25"
    ],
    "correcta": 1,
    "explicacion": "La entrada se entiende antes de buscar con ella (Módulo 2)."
@@ -14,10 +14,10 @@
   {
    "pregunta": "¿Para qué sirven DEV y HOLDOUT?",
    "opciones": [
-    "Son lo mismo",
-    "HOLDOUT para iterar y DEV para el informe",
+    "Cumplen exactamente el mismo papel durante todo el desarrollo",
+    "HOLDOUT para iterar prompts diarios y DEV para el informe",
     "DEV para iterar; HOLDOUT para medir la versión final una sola vez",
-    "Para entrenar un modelo"
+    "Para entrenar un modelo propio mediante ajuste fino supervisado"
    ],
    "correcta": 2,
    "explicacion": "Si cambias algo después de mirar el holdout, ese cambio ya no tiene medición honesta."
@@ -25,10 +25,10 @@
   {
    "pregunta": "En la referencia, ¿qué pieza compró casi toda la mejora?",
    "opciones": [
-    "Ordenar por cuántos requisitos cumple cada CV",
-    "Acortar la consulta",
-    "Las deseables como desempate",
-    "El reranker"
+    "Ordenar por cuántos requisitos cumple cada candidato",
+    "Acortar la consulta eliminando palabras secundarias del rol",
+    "Añadir habilidades deseables como criterio de desempate",
+    "Aplicar un reranker LLM costoso al top de resultados"
    ],
    "correcta": 0,
    "explicacion": "+0.20 con intervalo lejos de cero; la consulta corta sola no se distinguía de cero."
@@ -36,10 +36,10 @@
   {
    "pregunta": "Ordenar por deseables no mejoró el nDCG. ¿Qué se concluye?",
    "opciones": [
-    "Que las deseables no importan",
-    "Que hay que quitarlas",
-    "Que el código está mal",
-    "Que la métrica no las mide: si importan al negocio, hay que etiquetarlas"
+    "Que las habilidades deseables resultan irrelevantes al contratar",
+    "Que conviene eliminarlas del esquema de extracción cuanto antes",
+    "Que la lógica de ordenamiento contiene seguramente un defecto",
+    "La métrica no las mide: si importan, hay que etiquetarlas"
    ],
    "correcta": 3,
    "explicacion": "Una pieza que no puede ganar en tu métrica no prueba que no sirva: prueba qué mide tu eval."
@@ -47,10 +47,10 @@
   {
    "pregunta": "El parser escribió «amazon web services (aws)» y el requisito dejó de coincidir. ¿Cuál es el arreglo robusto?",
    "opciones": [
-    "Pedirle al modelo que no lo haga",
-    "Normalizar las skills contra el vocabulario del índice en código",
-    "Usar un modelo más grande",
-    "Ignorar AWS"
+    "Agregar una frase en el prompt pidiendo abreviaturas simples",
+    "Normalizar las skills en código contra el vocabulario del índice",
+    "Migrar a un modelo más grande esperando consistencia absoluta",
+    "Excluir AWS de los criterios obligatorios de la vacante"
    ],
    "correcta": 1,
    "explicacion": "Fue intermitente (una corrida sí, otra no): lo intermitente se arregla en el código."
@@ -58,10 +58,10 @@
   {
    "pregunta": "Encontraste dos fallos mirando el holdout. ¿Qué haces?",
    "opciones": [
-    "Los arreglas y vuelves a medir en el mismo holdout",
-    "Los ignoras",
-    "Los anotas; para medir su arreglo necesitas vacantes nuevas",
-    "Cambias la métrica"
+    "Los corriges y vuelves a calcular métricas en ese mismo holdout",
+    "Los ignoras mientras el promedio global supere el umbral objetivo",
+    "Los anotas y generas otro holdout nuevo para medir su arreglo",
+    "Modificas los pesos de la métrica para reflejar esos casos"
    ],
    "correcta": 2,
    "explicacion": "El generador desde los hechos produce otro holdout con otra semilla."
@@ -69,9 +69,9 @@
   {
    "pregunta": "Con permisos, 6 de 30 vacantes no tienen ningún candidato autorizado que cumpla todo. ¿Qué debería hacer el sistema?",
    "opciones": [
-    "Mostrar un top 10 normal",
-    "Mostrar candidatos de otros clientes",
-    "Devolver un error",
+    "Mostrar igualmente un top 10 estándar sin advertencias previas",
+    "Incluir candidatos autorizados temporalmente de otros clientes",
+    "Devolver un error técnico genérico de consulta sin coincidencias",
     "Decir que nadie cumple todo y mostrar los más cercanos con lo que les falta"
    ],
    "correcta": 3,
@@ -80,10 +80,10 @@
   {
    "pregunta": "Si la extracción de la vacante falla, ¿qué devuelve la referencia?",
    "opciones": [
-    "Un error",
-    "La búsqueda de hoy con el texto completo: peor, pero una respuesta",
-    "Una lista vacía",
-    "Reintenta indefinidamente"
+    "Un código de error interrumpiendo de golpe la búsqueda",
+    "La búsqueda base usando el texto completo como respaldo",
+    "Una lista vacía evitando consumir más recursos de búsqueda",
+    "Reintenta indefinidamente hasta lograr un esquema JSON válido"
    ],
    "correcta": 1,
    "explicacion": "La ruta de respaldo sin LLM del Módulo 9."

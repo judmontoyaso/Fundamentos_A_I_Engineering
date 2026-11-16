@@ -3,10 +3,10 @@
   {
    "pregunta": "¿Cuál de estos NO es un problema del «vibe check» (probar a mano unas entradas)?",
    "opciones": [
-    "No se repite igual tras un cambio",
-    "Es demasiado caro",
-    "No dice con qué frecuencia falla",
-    "Prueba lo que ya sabías que funcionaba"
+    "No garantiza repetibilidad exacta tras editar un prompt o cambiar de versión",
+    "Resulta excesivamente costoso en llamadas a la API frente a un pipeline automatizado",
+    "No cuantifica con qué frecuencia ocurre un fallo sobre casos representativos",
+    "Tiende a evaluar únicamente los ejemplos que ya sabías que funcionaban bien"
    ],
    "correcta": 1,
    "explicacion": "Probar a mano es barato; ese no es el problema. Lo grave es que no se repite, no se cuenta y solo prueba lo que tenías en mente."
@@ -15,9 +15,9 @@
    "pregunta": "¿Qué chequeo usarías para verificar que el correo extraído es el correcto?",
    "opciones": [
     "Código: igualdad tras normalizar",
-    "Un LLM como juez",
-    "Una persona",
-    "BERTScore"
+    "Un LLM como juez comparando la salida contra el texto completo",
+    "Una persona revisando manualmente cada ficha del conjunto diario",
+    "BERTScore calculando similitud semántica entre cadenas de texto"
    ],
    "correcta": 0,
    "explicacion": "La respuesta correcta es exacta: el código la verifica gratis y sin equivocarse. Usa el chequeo más barato que mida lo que importa."
@@ -25,9 +25,9 @@
   {
    "pregunta": "¿Por qué las reglas de las etiquetas se escriben antes de ejecutar el sistema?",
    "opciones": [
-    "Porque es más rápido",
-    "Porque el modelo las lee",
-    "No importa el orden",
+    "Porque agiliza el procesamiento por lotes dentro del servidor",
+    "Porque el modelo lee esa especificación antes de inferir cada ficha",
+    "En la práctica da igual el momento en que se definan las fronteras",
     "Para no ajustar las etiquetas a lo que devuelve el modelo"
    ],
    "correcta": 3,
@@ -36,10 +36,10 @@
   {
    "pregunta": "La etiqueta de «desde 2019 hasta la fecha» se calcula como año actual − 2019. ¿Por qué no un número fijo?",
    "opciones": [
-    "Por estética",
-    "Porque el modelo lo pide",
+    "Por pura estética del formato JSON generado para las pruebas",
+    "Porque el modelo exige recibir siempre una fecha dinámica en la entrada",
     "Porque un número fijo se vuelve falso al cambiar el año",
-    "Para que el caso sea más difícil"
+    "Para incrementar artificialmente la dificultad de la prueba automática"
    ],
    "correcta": 2,
    "explicacion": "Las etiquetas que dependen de hoy deben calcularse; si no, el eval empieza a marcar como fallos respuestas correctas."
@@ -47,10 +47,10 @@
   {
    "pregunta": "El extractor con gpt-6-luna acertó los cinco casos difíciles del laboratorio. ¿Qué concluyes?",
    "opciones": [
-    "Que no falla",
+    "Que el extractor ya es lo bastante fiable como para omitir más pruebas",
     "Que esos cinco casos no informan sobre lo que va a fallar; hace falta un set que encuentre fallos",
-    "Que no hace falta un eval",
-    "Que hay que cambiar de modelo"
+    "Que con un modelo tan capaz basta verificar por inspección manual ocasional",
+    "Que conviene sustituir de inmediato el modelo actual por otro proveedor externo"
    ],
    "correcta": 1,
    "explicacion": "Un resultado perfecto en pocos casos no dice nada sobre la tasa de error. Un set de evaluación sirve si encuentra fallos."

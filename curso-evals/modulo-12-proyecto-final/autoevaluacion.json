@@ -3,10 +3,10 @@
   {
    "pregunta": "Al evaluar un sistema ajeno, ¿por qué no leer su código al principio?",
    "opciones": [
-    "Porque te haría buscar solo los fallos que ves en el código",
-    "Porque es largo",
-    "Porque está prohibido",
-    "Da igual"
+    "Te sesgaría a buscar solo los fallos visibles en el código",
+    "Porque suele ser demasiado extenso para auditarlo en una tarde",
+    "Porque por contrato las auditorías negras prohíben leer fuentes",
+    "En la práctica da igual empezar leyendo el código o las salidas"
    ],
    "correcta": 0,
    "explicacion": "Primero se leen salidas; el código se lee para atribuir el origen de cada fallo."
@@ -14,10 +14,10 @@
   {
    "pregunta": "Un fallo de la modalidad aparece en todas las ofertas híbridas, en todas las corridas. ¿Qué sospechas primero?",
    "opciones": [
-    "Ruido del modelo",
-    "La red",
-    "El set",
-    "Algo determinista: una regla en el código o en el prompt"
+    "Variación aleatoria propia del modelo al clasificar textos",
+    "Inestabilidad en red que recorta etiquetas específicas de cargo",
+    "Etiquetas equivocadas en todas las ofertas híbridas del dataset",
+    "Algo determinista: una regla en código o prompt"
    ],
    "correcta": 3,
    "explicacion": "Un fallo 100 % sistemático y ligado a un valor suele ser código. Se confirma midiendo la salida del modelo antes del posprocesado."
@@ -25,10 +25,10 @@
   {
    "pregunta": "El salario de una oferta sale 12 billones. ¿Qué tipo de chequeo lo atrapa en producción?",
    "opciones": [
-    "Un juez",
-    "Ninguno",
+    "Un juez LLM revisando cada extracción contra el anuncio",
+    "Ninguno viable sin comparar contra salarios reales etiquetados",
     "Uno sin referencia: un salario así es imposible",
-    "Una persona"
+    "Una revisión humana muestreada semanalmente tras publicar"
    ],
    "correcta": 2,
    "explicacion": "No hace falta la etiqueta para saber que un valor es imposible."
@@ -36,10 +36,10 @@
   {
    "pregunta": "¿Cómo confirmas que un fallo nace en el código y no en el modelo?",
    "opciones": [
-    "Preguntándole al modelo",
+    "Preguntándole directamente al modelo por qué omitió ese dato",
     "Midiendo la salida del modelo antes del posprocesado",
-    "Cambiando de modelo",
-    "Por intuición"
+    "Cambiando al modelo más grande para ver si el error desaparece",
+    "Deduciéndolo por intuición tras revisar las reglas de negocio"
    ],
    "correcta": 1,
    "explicacion": "En la oferta 8, el modelo extraía el salario y el código lo sobrescribía con None."
@@ -48,9 +48,9 @@
    "pregunta": "¿Qué debe decir el informe además de los fallos?",
    "opciones": [
     "Qué no midió el eval y qué no sabes todavía",
-    "Solo la recomendación",
-    "El código completo",
-    "El precio del modelo"
+    "Únicamente el veredicto final de aprobar o rechazar",
+    "El código fuente completo corregido listo para desplegar",
+    "El desglose de costos del modelo en todas las pruebas"
    ],
    "correcta": 0,
    "explicacion": "La honestidad sobre los límites es parte de la evidencia."

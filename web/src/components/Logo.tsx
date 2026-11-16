@@ -1,12 +1,14 @@
-// Logotipo oficial de IA en Producción generado por IA (cubo isométrico neural en azul zafiro y verde esmeralda).
-export function Logo({ size = 36, className = "" }: { size?: number; className?: string }) {
+// Logotipo oficial de IA en Producción optimizado con next/image.
+import Image from "next/image";
+
+export function Logo({ size = 36, className = "", priority = false }: { size?: number; className?: string; priority?: boolean }) {
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
+    <Image
       src="/logo.png"
       alt="IA en Producción"
       width={size}
       height={size}
+      priority={priority}
       className={className}
       style={{
         width: size,

@@ -14,9 +14,7 @@ import hljs from "highlight.js";
 const WEB = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const ROOT = process.env.COURSE_ROOT ? path.resolve(process.env.COURSE_ROOT) : path.resolve(WEB, "..");
 const OUT = path.join(WEB, "src", "content");
-
-// Qué se puede leer sin pagar: la presentación de cada curso y su primer módulo.
-const GRATIS = /^(inicio|m1-.+|evals-inicio|evals-m0-.+|ai-search-inicio|ai-search-m0-.+|agentes-inicio|agentes-m0-.+)$/;
+const PUBLIC_INFOGRAFIAS = path.join(WEB, "public", "infografias");
 
 const read = (p) => fs.readFileSync(p, "utf8");
 const exists = (p) => fs.existsSync(p);
@@ -25,6 +23,39 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 function titulo(readme, fallback) {
   for (const line of read(readme).split(/\r?\n/)) if (line.startsWith("# ")) return line.slice(2).trim();
   return fallback;
+}
+
+function extraerResumen(md) {
+  for (const raw of md.split(/\r?\n\r?\n/)) {
+    const line = raw.trim();
+    if (!line || line.startsWith("#") || line.startsWith(">") || line.startsWith("!") || line.startsWith("|") || line.startsWith("---")) continue;
+    const limpio = line
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+      .replace(/[`*_]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (limpio.length >= 40) return limpio.slice(0, 260);
+  }
+  return "";
+}
+
+function infografiaDeCurso(cursoId, meta) {
+  if (meta.infografia) return meta.infografia;
+  for (const ext of [".png", ".jpg", ".webp", ".svg"]) {
+    const nombre = `${cursoId}-arquitectura${ext}`;
+    if (exists(path.join(PUBLIC_INFOGRAFIAS, nombre))) return `/infografias/${nombre}`;
+  }
+  return undefined;
+}
+
+function leerMetaCurso(dir) {
+  const p = path.join(dir, "curso.json");
+  if (!exists(p)) return {};
+  try {
+    return JSON.parse(read(p));
+  } catch {
+    return {};
+  }
 }
 
 function resaltar(code, lang) {
@@ -92,12 +123,13 @@ function primerDocstring(code) {
   return m[1].trim().split(/\r?\n/).find((l) => l.trim())?.trim() ?? "";
 }
 
-function htmlLab(dir, cursoId) {
+function htmlLab(dir, cursoId, esGratis) {
+  const enlaceZip = esGratis
+    ? `Si estás probando la muestra gratis, <a href="/descargar/${cursoId}?muestra=1">descarga los scripts de este módulo inicial (.zip)</a> (con un plan activo también bajas <a href="/descargar/${cursoId}">el curso completo en .zip</a>).`
+    : `<a href="/descargar/${cursoId}">Descarga el código completo del curso (.zip)</a>, instala las dependencias indicadas y ejecuta cada script en orden.`;
   const partes = [
     `<h1>Código del módulo</h1>`,
-    `<p>Los scripts completos de este módulo. Están pensados para correrse en tu máquina: ` +
-      `<a href="/descargar/${cursoId}">descarga el código del curso (.zip)</a>, instala las dependencias ` +
-      `indicadas y ejecuta cada script en orden. Necesitas tu propia API key de un proveedor de LLM.</p>`,
+    `<p>Los scripts completos de este módulo están pensados para correrse en tu máquina. ${enlaceZip}</p>`,
   ];
   for (const f of fs.readdirSync(dir).filter((f) => f.endsWith(".py")).sort()) {
     const code = read(path.join(dir, f));
@@ -111,7 +143,7 @@ function htmlLab(dir, cursoId) {
 
 const CODE_EXT = new Set([".py", ".json", ".jsonl", ".txt", ".yml", ".yaml"]);
 // anotacion.json SÍ va en el .zip: el script del Módulo 4 de Evals lo lee para comparar anotadores.
-const NO_ZIP = new Set(["autoevaluacion.json"]);
+const NO_ZIP = new Set(["autoevaluacion.json", "curso.json"]);
 
 function archivosDeCodigo(dir, rel = "", out = {}) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -124,7 +156,7 @@ function archivosDeCodigo(dir, rel = "", out = {}) {
   return out;
 }
 
-// ---------- descubrir cursos y módulos (misma convención que tenía el backend) ----------
+// ---------- descubrir cursos y módulos ----------
 const dirAiEng = path.join(ROOT, "curso-ai-engineering");
 if (!exists(dirAiEng) && exists(path.join(OUT, "nav.js"))) {
   console.log("contenido: usando src/content precompilado");
@@ -139,8 +171,7 @@ for (const d of fs.readdirSync(ROOT).filter((d) => d.startsWith("curso-") && d !
   }
 }
 
-// Archivos base de curso-ai-engineering que reutilizan curso-evals y curso-ai-search
-// (para que cada .zip de curso funcione por separado aunque no se descarguen los tres).
+// Archivos base de curso-ai-engineering que reutilizan otros cursos dependientes
 const BASE_AI_ENG = [
   "modulo-02-embeddings-busqueda-semantica/code/06_embeddings_reales.py",
   "modulo-04-bm25-hibrida-rrf/code/01_bm25_desde_cero.py",
@@ -154,9 +185,6 @@ const BASE_AI_ENG = [
   "modulo-09-proyecto-integrador/code/00_sistema.py",
 ];
 
-// Los scripts se importan entre sí con import_module("NN_nombre"). La lista de arriba es el punto de partida;
-// esto añade, hasta que no falte ninguno, los scripts del curso base que importan los archivos ya incluidos
-// (por ejemplo 00_comun.py -> 04_hibrida_qdrant.py). Sin esto el .zip se descarga pero no corre.
 const scriptsBase = new Map();
 for (const rel of Object.keys(archivosDeCodigo(dirAiEng))) {
   if (!rel.endsWith(".py")) continue;
@@ -175,7 +203,7 @@ function completarBase(archivos, cursoId) {
         const candidatos = scriptsBase.get(nombre) ?? [];
         if (candidatos.length !== 1) {
           console.warn(`contenido: ${cursoId}: ${ruta} importa ${nombre} y ${candidatos.length ? "hay varios con ese nombre" : "no existe"} en el curso base`);
-          nombres.add(nombre); // avisar una sola vez
+          nombres.add(nombre);
           continue;
         }
         archivos[`_base/curso-ai-engineering/${candidatos[0]}`] = read(path.join(dirAiEng, candidatos[0]));
@@ -190,70 +218,85 @@ const nav = { cursos: [], grupos: [] };
 const items = {};
 const code = {};
 
-for (const c of cursos) {
+for (let ci = 0; ci < cursos.length; ci += 1) {
+  const c = cursos[ci];
+  const meta = leerMetaCurso(c.dir);
   const md = crearMarked(c.prefijo);
   const modulos = fs.readdirSync(c.dir).filter((d) => /^modulo-\d+-/.test(d) && exists(path.join(c.dir, d, "README.md"))).sort();
-  nav.cursos.push({ id: c.id, titulo: c.titulo.replace(/\s*\(edición personal\)\s*/i, ""), modulos: modulos.length });
+  const primerModuloN = modulos.length ? Number(modulos[0].match(/^modulo-(\d+)-/)[1]) : -1;
+  const readmeRaw = read(path.join(c.dir, "README.md"));
+  const mdInicio = limpiarInicio(readmeRaw);
 
-  const add = (grupo, item, contenido) => {
+  nav.cursos.push({
+    id: c.id,
+    titulo: c.titulo.replace(/\s*\(edición personal\)\s*/i, ""),
+    modulos: modulos.length,
+    orden: typeof meta.orden === "number" ? meta.orden : 50 + ci,
+    etapa: meta.etapa ?? `Curso ${ci + 1}`,
+    descripcion: meta.descripcion ?? extraerResumen(mdInicio),
+    infografia: infografiaDeCurso(c.id, meta),
+  });
+
+  const add = (grupo, item, contenido, gratis = false) => {
     item.curso = c.id;
-    item.gratis = GRATIS.test(item.id);
+    item.gratis = gratis;
     grupo.items.push(item);
     items[item.id] = { ...item, ...contenido };
   };
 
+  // La presentación y todo el primer módulo de cualquier curso son gratuitos por convención.
   const inicio = { curso: c.id, grupo: "Inicio", items: [] };
-  const mdInicio = limpiarInicio(read(path.join(c.dir, "README.md")));
-  add(inicio, { id: `${c.prefijo}inicio`, titulo: "Presentación del curso", tipo: "md" }, { html: md.parse(mdInicio) });
+  add(inicio, { id: `${c.prefijo}inicio`, titulo: "Presentación del curso", tipo: "md" }, { html: md.parse(mdInicio) }, true);
   nav.grupos.push(inicio);
 
   for (const carpeta of modulos) {
     const n = Number(carpeta.match(/^modulo-(\d+)-/)[1]);
+    const esGratis = n === primerModuloN;
     const dir = path.join(c.dir, carpeta);
     const grupo = { curso: c.id, grupo: titulo(path.join(dir, "README.md"), `Módulo ${n}`), items: [] };
     const id = (s) => `${c.prefijo}m${n}-${s}`;
 
-    add(grupo, { id: id("manual"), titulo: "Manual", tipo: "md" }, { html: md.parse(read(path.join(dir, "README.md"))) });
+    add(grupo, { id: id("manual"), titulo: "Manual", tipo: "md" }, { html: md.parse(read(path.join(dir, "README.md"))) }, esGratis);
     if (exists(path.join(dir, "ejercicios.md")))
-      add(grupo, { id: id("ejercicios"), titulo: "Ejercicios", tipo: "md" }, { html: md.parse(read(path.join(dir, "ejercicios.md"))) });
+      add(grupo, { id: id("ejercicios"), titulo: "Ejercicios", tipo: "md" }, { html: md.parse(read(path.join(dir, "ejercicios.md"))) }, esGratis);
     const codeDir = path.join(dir, "code");
     if (exists(codeDir) && fs.readdirSync(codeDir).some((f) => f.endsWith(".py")))
-      add(grupo, { id: id("lab"), titulo: "Código del módulo", tipo: "lab" }, { html: htmlLab(codeDir, c.id) });
+      add(grupo, { id: id("lab"), titulo: "Código del módulo", tipo: "lab" }, { html: htmlLab(codeDir, c.id, esGratis) }, esGratis);
     if (exists(path.join(dir, "anotacion.json"))) {
       const a = JSON.parse(read(path.join(dir, "anotacion.json")));
       add(grupo, { id: id("anotar"), titulo: "Anotar (tu turno)", tipo: "anotar" },
-        { tarea: { titulo: a.titulo, pregunta: a.pregunta, guiaHtml: md.parse(a.guia), items: a.items } });
+        { tarea: { titulo: a.titulo, pregunta: a.pregunta, guiaHtml: md.parse(a.guia), items: a.items } }, esGratis);
     }
     if (exists(path.join(dir, "autoevaluacion.json")))
       add(grupo, { id: id("quiz"), titulo: "Autoevaluación", tipo: "quiz" },
-        { preguntas: JSON.parse(read(path.join(dir, "autoevaluacion.json"))).preguntas });
+        { preguntas: JSON.parse(read(path.join(dir, "autoevaluacion.json"))).preguntas }, esGratis);
     nav.grupos.push(grupo);
   }
 
-  // Código descargable de la carpeta del curso (+ archivos base compartidos si depende de otro curso).
+  // Código descargable del curso (+ dependencias explícitas en _base/ cuando aplica).
   code[c.id] = {};
   archivosDeCodigo(c.dir, "", code[c.id]);
-  if (c.id !== "ai-engineering") {
+  const deps = new Set(Array.isArray(meta.dependencias) ? meta.dependencias : []);
+  if (deps.has("ai-engineering")) {
     for (const rel of BASE_AI_ENG) {
       const abs = path.join(dirAiEng, rel);
       if (exists(abs)) code[c.id][`_base/curso-ai-engineering/${rel}`] = read(abs);
     }
   }
-  if (c.id === "ai-search") {
+  if (deps.has("evals")) {
     const evComun = path.join(ROOT, "curso-evals", "comun", "ev_comun.py");
     if (exists(evComun)) code[c.id]["_base/curso-evals/comun/ev_comun.py"] = read(evComun);
   }
-  if (c.id !== "ai-engineering") completarBase(code[c.id], c.id);
+  if (deps.size > 0) completarBase(code[c.id], c.id);
 }
 
+// Ordenar cursos según `orden` para que portada, cuenta y sitemap compartan exactamente la misma secuencia.
+nav.cursos.sort((a, b) => (a.orden ?? 99) - (b.orden ?? 99));
+
 fs.mkdirSync(OUT, { recursive: true });
-// Se emiten como módulos .js (con su .d.ts) para que TypeScript no tenga que inferir tipos de 2 MB de JSON.
 const emitir = (nombre, datos, tipo) => {
-  fs.writeFileSync(path.join(OUT, `${nombre}.js`), `export default ${JSON.stringify(datos)};
-`);
-  fs.writeFileSync(path.join(OUT, `${nombre}.d.ts`), `declare const d: ${tipo};
-export default d;
-`);
+  fs.writeFileSync(path.join(OUT, `${nombre}.js`), `export default ${JSON.stringify(datos)};\n`);
+  fs.writeFileSync(path.join(OUT, `${nombre}.d.ts`), `declare const d: ${tipo};\nexport default d;\n`);
 };
 emitir("nav", nav, 'import("../lib/tipos").Nav');
 emitir("items", items, 'Record<string, import("../lib/tipos").ItemContenido>');

@@ -3,9 +3,9 @@
   {
    "pregunta": "¿Cuál es la diferencia entre un workflow y un agente?",
    "opciones": [
-    "El agente usa un modelo más grande",
-    "El workflow no usa LLM",
-    "El agente siempre es más barato",
+    "El agente exige por diseño emplear modelos más grandes",
+    "Un workflow clásico prescinde de llamadas a cualquier LLM",
+    "El agente resulta siempre más barato en consumo de tokens",
     "En el workflow el camino lo decide tu código; en el agente lo decide el modelo"
    ],
    "correcta": 3,
@@ -14,10 +14,10 @@
   {
    "pregunta": "¿Quién ejecuta una herramienta en un agente?",
    "opciones": [
-    "El modelo",
-    "El proveedor de la API",
+    "El propio modelo LLM dentro de su entorno de inferencia",
+    "El proveedor de la API al recibir el esquema JSON de la herramienta",
     "Tu código: el modelo solo propone la llamada estructurada",
-    "La base de datos"
+    "El servidor de la base vectorial al devolver los fragmentos"
    ],
    "correcta": 2,
    "explicacion": "El LLM devuelve «llama a buscar con estos argumentos». Tu código valida, ejecuta y devuelve el resultado. Por eso los argumentos y los resultados son entrada no confiable."
@@ -37,9 +37,9 @@
    "pregunta": "En el ejercicio del CV malicioso, el agente no recomendó a Pedro. ¿Qué había que comprobar antes de concluir que «resistió» la inyección?",
    "opciones": [
     "Que la inyección apareció en una observación: si no la leyó, no resistió nada",
-    "Que usó el modelo correcto",
-    "Que tardó menos de 10 s",
-    "Que hizo más de 3 pasos"
+    "Que la configuración invocó la versión exacta del modelo indicado en el script",
+    "Que el flujo de ejecución completó todas las herramientas en menos de diez segundos",
+    "Que el agente realizó al menos tres llamadas consecutivas a la base vectorial"
    ],
    "correcta": 0,
    "explicacion": "Con Pedro como junior, el filtro por nivel impidió que el agente lo viera. Una prueba de seguridad solo vale si el ataque llegó al modelo; la traza lo confirma."
@@ -47,9 +47,9 @@
   {
    "pregunta": "¿Qué propiedades debe tener el bucle de un agente según el módulo?",
    "opciones": [
-    "Solo una buena descripción de herramientas",
-    "Memoria de largo plazo",
-    "Temperatura cero",
+    "Basta con redactar descripciones detalladas para todas sus herramientas",
+    "Exigir almacenamiento de memoria de largo plazo entre distintas sesiones",
+    "Fijar siempre la temperatura en cero para garantizar respuestas deterministas",
     "Condición de parada, tope de pasos, observaciones compactas y traza"
    ],
    "correcta": 3,
@@ -58,10 +58,10 @@
   {
    "pregunta": "En el orquestador-trabajadores, ¿por qué un criterio en el que todos los candidatos sacan 1/5 es un mal criterio?",
    "opciones": [
-    "Porque es demasiado estricto",
-    "Porque el modelo se equivocó",
+    "Porque el criterio resulta innecesariamente estricto para este perfil",
+    "Porque el modelo falló al interpretar la rúbrica de evaluación enviada",
     "Porque no discrimina entre candidatos: solo añade costo y ruido",
-    "Porque hay que usar 0 a 10"
+    "Porque conviene reemplazar la escala de cinco puntos por una escala de diez"
    ],
    "correcta": 2,
    "explicacion": "Un criterio útil separa a los candidatos. Si los CVs no permiten evaluarlo, todos empatan abajo y el orquestador gastó una llamada por candidato para nada."
@@ -69,10 +69,10 @@
   {
    "pregunta": "Pasas las herramientas del agente a un servidor MCP. ¿Qué cambia en el bucle decidir → actuar → observar?",
    "opciones": [
-    "El modelo ahora ejecuta las herramientas directamente en el servidor",
+    "El modelo ejecuta directamente las herramientas en el servidor MCP sin pasar por tu código",
     "Nada en la decisión: el modelo sigue proponiendo la llamada y tu código la reenvía al servidor",
-    "El bucle desaparece porque el servidor orquesta los pasos",
-    "Ya no hace falta tope de pasos"
+    "El bucle desaparece por completo porque el servidor MCP orquesta internamente cada paso",
+    "Ya no hace falta fijar tope de pasos ni límites de reintentos en el cliente del agente"
    ],
    "correcta": 1,
    "explicacion": "MCP cambia dónde vive la herramienta y cuándo se conoce (se descubre al conectar), no quién decide. El modelo propone una llamada estructurada y tu cliente la ejecuta contra el servidor; el tope de pasos y la traza siguen siendo tuyos."
@@ -80,10 +80,10 @@
   {
    "pregunta": "Conectas a tu agente un servidor MCP de un tercero. ¿Qué parte de ese servidor debes tratar como entrada no confiable?",
    "opciones": [
-    "Solo los resultados de sus herramientas",
-    "Nada, si el servidor usa HTTPS",
+    "Solo los resultados devueltos por sus herramientas",
+    "Nada crítico si el servidor remoto usa HTTPS",
     "Los resultados y también las descripciones de las herramientas",
-    "Solo los argumentos que envía el modelo"
+    "Solo los argumentos recibidos por el cliente"
    ],
    "correcta": 2,
    "explicacion": "La descripción de una herramienta viaja en el prompt y el modelo la lee como instrucciones. Un servidor ajeno puede poner ahí órdenes (tool poisoning) o cambiarlas después de que lo revisaste. HTTPS protege el transporte, no el contenido."
@@ -91,10 +91,10 @@
   {
    "pregunta": "Un servidor MCP por stdio deja de responder después de que añadiste un print() para depurar. ¿Por qué?",
    "opciones": [
-    "print() es demasiado lento para el protocolo",
+    "La función print() bloquea el hilo principal e introduce demasiada latencia",
     "La salida estándar es el canal del protocolo, y el texto suelto lo corrompe",
-    "MCP no permite funciones con efectos secundarios",
-    "El cliente cerró la sesión por inactividad"
+    "El protocolo MCP prohíbe ejecutar funciones que generen efectos secundarios",
+    "El cliente cierra la conexión por tiempo de espera antes de terminar el print"
    ],
    "correcta": 1,
    "explicacion": "En stdio, cliente y servidor intercambian mensajes por stdin y stdout. Cualquier otra cosa escrita en stdout rompe el flujo. Los mensajes de diagnóstico van a stderr."

@@ -3,10 +3,10 @@
   {
    "pregunta": "¿En qué tipo de consulta suele fallar la búsqueda semántica y acertar BM25?",
    "opciones": [
-    "Paráfrasis",
-    "Preguntas largas",
+    "Consultas formuladas mediante paráfrasis amplias del problema",
+    "Preguntas extensas que requieren resumir múltiples documentos",
     "Siglas, códigos y versiones exactas como «ISO 27001»",
-    "Consultas en otro idioma"
+    "Consultas redactadas en idiomas distintos al del índice principal"
    ],
    "correcta": 2,
    "explicacion": "Un embedding aproxima significados; un código exacto como ISO 27001 frente a ISO 9001 puede quedar casi igual. BM25 compara términos y conserva lo exacto."
@@ -14,10 +14,10 @@
   {
    "pregunta": "¿Qué hace el IDF en BM25?",
    "opciones": [
-    "Penaliza los documentos largos",
+    "Penaliza automáticamente los documentos más extensos por longitud",
     "Da más peso a los términos raros y menos a los que aparecen en casi todos los documentos",
-    "Cuenta cuántas veces aparece un término",
-    "Normaliza los vectores"
+    "Cuenta cuántas veces se repite un término dentro del fragmento",
+    "Normaliza los puntajes antes de ordenarlos por relevancia final"
    ],
    "correcta": 1,
    "explicacion": "Un término que aparece en todos los CVs («experiencia») no distingue a nadie; uno raro («Flink») sí. La saturación y la normalización por longitud son las otras dos piezas."
@@ -25,10 +25,10 @@
   {
    "pregunta": "¿Por qué RRF combina por puesto y no sumando puntajes?",
    "opciones": [
-    "Porque los puntajes de BM25 y del coseno están en escalas distintas y no son comparables",
-    "Porque es más rápido",
-    "Porque Qdrant no devuelve puntajes",
-    "Porque los puntajes siempre son negativos"
+    "Porque BM25 y coseno están en escalas distintas y no son comparables",
+    "Porque evitar operaciones en punto flotante acelera de manera notable la fusión",
+    "Porque Qdrant omite los puntajes individuales cuando realiza búsquedas híbridas",
+    "Porque los puntajes de similitud coseno pueden adoptar valores negativos incompatibles"
    ],
    "correcta": 0,
    "explicacion": "Un BM25 de 12 y un coseno de 0.8 no se suman con sentido. RRF usa 1/(k + puesto): no necesita calibrar escalas y premia lo que sale arriba en ambas listas."
@@ -36,9 +36,9 @@
   {
    "pregunta": "En el laboratorio de reranking, el reordenamiento con LLM subió recall@3 y MRR. ¿Cuál fue el costo?",
    "opciones": [
-    "Ninguno",
-    "Reindexar todo el corpus",
-    "Duplicar la memoria",
+    "Ninguno en absoluto: el reranker se ejecuta sin gasto adicional",
+    "Tener que reindexar por completo todos los documentos en la colección",
+    "Duplicar el uso de memoria RAM para mantener los índices paralelos",
     "Unos segundos y una llamada al modelo más por consulta"
    ],
    "correcta": 3,
@@ -47,10 +47,10 @@
   {
    "pregunta": "Consulta y documento se tokenizan con reglas distintas (uno quita tildes y el otro no). ¿Qué ocurre?",
    "opciones": [
-    "Nada",
-    "BM25 se vuelve semántico",
+    "Nada relevante en la práctica: Qdrant corrige las diferencias al comparar",
+    "BM25 compensa las diferencias comportándose como índice semántico",
     "Términos iguales dejan de coincidir y BM25 pierde aciertos",
-    "Mejora el recall"
+    "Aumenta la tolerancia a errores ortográficos y mejora el recall global"
    ],
    "correcta": 2,
    "explicacion": "En búsqueda léxica el tokenizador es la mitad del resultado: «gestión» y «gestion» son términos distintos si no se normalizan igual en los dos lados."
@@ -58,10 +58,10 @@
   {
    "pregunta": "¿La búsqueda híbrida gana siempre?",
    "opciones": [
-    "Sí, por definición",
+    "Sí: la combinación de léxico y semántico supera cualquier modo simple",
     "No: hay que medir los tres modos y leer el desglose por consulta",
-    "Solo pierde en inglés",
-    "Gana si k es grande"
+    "Solo pierde desempeño en corpus técnicos escritos en inglés americano",
+    "Gana siempre que se aumente el valor de k por encima de cincuenta"
    ],
    "correcta": 1,
    "explicacion": "La híbrida suele ser robusta, pero el Módulo 9 mostró consultas largas donde BM25 sola recuperaba mejor. Mide denso, BM25 e híbrida en tus casos."

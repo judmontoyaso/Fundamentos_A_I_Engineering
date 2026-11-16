@@ -61,7 +61,7 @@ export function Shell({ cursos, inicios, cursoId, grupos, actual, progreso, abie
           <Logo size={34} />
           <div>
             <h1>{NOMBRE}</h1>
-            <p>AI Engineering</p>
+            <p>Ingeniería de IA aplicada</p>
           </div>
         </Link>
         {cursos.length > 1 && (
@@ -98,6 +98,13 @@ export function Shell({ cursos, inicios, cursoId, grupos, actual, progreso, abie
               </div>
             );
           })}
+          <a
+            className="nav-item nav-zip"
+            href={abierto ? `/descargar/${cursoId}` : `/descargar/${cursoId}?muestra=1`}
+          >
+            <span className="tick">↓</span>
+            <span>{abierto ? "Descargar código completo (.zip)" : "Descargar muestra gratis (.zip)"}</span>
+          </a>
         </nav>
       </aside>
 

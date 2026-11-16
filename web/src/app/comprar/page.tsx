@@ -9,7 +9,7 @@ import { aplicarDescuento, validarCupon } from "@/lib/cupones";
 import { proveedoresActivos } from "@/lib/pagos";
 import { MONEDA, PLANES, esPlan, formatoMonto, montoDe } from "@/lib/planes";
 
-export const metadata: Metadata = { title: "Comprar" };
+export const metadata: Metadata = { title: "Comprar", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
 
 const TRANSFERENCIA = process.env.PAGO_MANUAL_INSTRUCCIONES ?? "";

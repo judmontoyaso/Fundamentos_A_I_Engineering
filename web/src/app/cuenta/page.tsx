@@ -11,14 +11,14 @@ import { correoActivo } from "@/lib/correo";
 import { PLANES } from "@/lib/planes";
 import { store } from "@/lib/store";
 
-export const metadata: Metadata = { title: "Mi cuenta" };
+export const metadata: Metadata = { title: "Mi cuenta", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
 
 const fecha = (iso: string) => new Date(iso).toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric" });
-const ORDEN = ["ai-engineering", "evals", "ai-search", "agentes"];
 
 const AVISOS_CORREO: Record<string, string> = {
   verificado: "Tu correo quedó verificado.",
+  "clave-actualizada": "Tu contraseña se actualizó y tu correo quedó verificado.",
   enviado: "Te enviamos el enlace de verificación. Revisa también la carpeta de spam.",
   espera: "Ya te enviamos varios enlaces. Espera una hora antes de pedir otro.",
   fallo: "No pudimos enviar el correo. Intenta de nuevo en unos minutos.",
@@ -36,7 +36,7 @@ export default async function Cuenta({ searchParams }: Props) {
   const [accesos, progreso] = await Promise.all([store.accesos(usuario.id), store.progreso(usuario.id)]);
   const activos = accesos.filter((a) => vigente(a));
   const admin = esAdmin(usuario);
-  const listaCursos = [...cursos].sort((a, b) => ORDEN.indexOf(a.id) - ORDEN.indexOf(b.id));
+  const listaCursos = [...cursos].sort((a, b) => (a.orden ?? 99) - (b.orden ?? 99));
 
   return (
     <Sitio>
@@ -64,6 +64,7 @@ export default async function Cuenta({ searchParams }: Props) {
               <div className="aviso">
                 Puedes estudiar y comprar con normalidad. Verificarlo une esta cuenta con tu acceso por Google
                 (mismo correo) y protege tus compras si alguien más intenta registrarlo.
+                {!correoActivo && " El envío automático de enlaces se habilitará en cuanto conectemos el remitente del sitio."}
               </div>
             </div>
             {puedeReenviar && (

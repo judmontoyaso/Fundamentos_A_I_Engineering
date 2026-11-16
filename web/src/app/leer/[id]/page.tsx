@@ -9,18 +9,46 @@ import { Quiz } from "@/components/Quiz";
 import { Shell } from "@/components/Shell";
 import { cursosAbiertos } from "@/lib/acceso";
 import { getUsuario, urlEntrar } from "@/lib/auth";
-import { cursos, gruposDe, item, itemsDe } from "@/lib/contenido";
+import { curso, cursos, gruposDe, item, itemsDe } from "@/lib/contenido";
+import { NOMBRE_SITIO, urlSitioPublico } from "@/lib/sitio";
 import { store } from "@/lib/store";
 
 export const dynamic = "force-dynamic";
 
 type Props = { params: Promise<{ id: string }> };
 
+function extractoTexto(html?: string): string {
+  if (!html) return "";
+  const limpio = html
+    .replace(/<h1[^>]*>[\s\S]*?<\/h1>/i, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return limpio.slice(0, 158) + (limpio.length > 158 ? "…" : "");
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const it = item((await params).id);
-  if (!it) return {};
+  const { id } = await params;
+  const it = item(id);
+  if (!it) return { robots: { index: false, follow: false } };
+  const c = curso(it.curso);
   const grupo = gruposDe(it.curso).find((g) => g.items.some((x) => x.id === it.id))?.grupo;
-  return { title: grupo && grupo !== "Inicio" ? `${it.titulo} · ${grupo}` : it.titulo };
+  const titulo = grupo && grupo !== "Inicio" ? `${it.titulo} · ${grupo}` : `${it.titulo} · ${c?.titulo ?? NOMBRE_SITIO}`;
+  const desc = it.gratis
+    ? extractoTexto(it.html) || `Muestra gratuita del curso ${c?.titulo ?? NOMBRE_SITIO}.`
+    : `Lección del curso ${c?.titulo ?? NOMBRE_SITIO}.`;
+  return {
+    title: titulo,
+    description: desc,
+    alternates: { canonical: `/leer/${encodeURIComponent(id)}` },
+    openGraph: {
+      title: titulo,
+      description: desc,
+      type: "article",
+      url: `/leer/${encodeURIComponent(id)}`,
+    },
+    robots: it.gratis ? { index: true, follow: true } : { index: false, follow: true },
+  };
 }
 
 export default async function Leer({ params }: Props) {
@@ -33,7 +61,9 @@ export default async function Leer({ params }: Props) {
   const permitido = it.gratis || abierto;
   const progreso = usuario ? await store.progreso(usuario.id) : {};
 
+  const cActual = curso(it.curso);
   const grupos = gruposDe(it.curso);
+  const grupoActual = grupos.find((g) => g.items.some((x) => x.id === id))?.grupo;
   const plano = itemsDe(it.curso);
   const pos = plano.findIndex((x) => x.id === id);
   const prev = plano[pos - 1];
@@ -44,11 +74,10 @@ export default async function Leer({ params }: Props) {
 
   let cuerpo: React.ReactNode;
   if (!permitido) {
-    const grupo = grupos.find((g) => g.items.some((x) => x.id === id))?.grupo;
     cuerpo = (
       <div className="muro">
         <div className="candado" aria-hidden>🔒</div>
-        <h1>{grupo && grupo !== "Inicio" ? grupo : it.titulo}</h1>
+        <h1>{grupoActual && grupoActual !== "Inicio" ? grupoActual : it.titulo}</h1>
         <p>
           Esta lección forma parte del contenido de pago.{" "}
           {usuario ? "Tu cuenta todavía no tiene un plan que incluya este curso." : "Elige un plan o entra con tu cuenta si ya lo compraste."}
@@ -78,9 +107,25 @@ export default async function Leer({ params }: Props) {
     );
   }
 
+  const base = urlSitioPublico();
+  const breadcrumb = it.gratis
+    ? {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: NOMBRE_SITIO, item: `${base}/` },
+          { "@type": "ListItem", position: 2, name: cActual?.titulo ?? it.curso, item: `${base}/leer/${inicios[it.curso]}` },
+          { "@type": "ListItem", position: 3, name: grupoActual && grupoActual !== "Inicio" ? `${grupoActual} · ${it.titulo}` : it.titulo, item: `${base}/leer/${encodeURIComponent(id)}` },
+        ],
+      }
+    : null;
+
   return (
     <Shell cursos={cursos} inicios={inicios} cursoId={it.curso} grupos={grupos} actual={id} progreso={progreso}
            abierto={abierto} email={usuario?.email ?? null} urlEntrar={entrar}>
+      {breadcrumb && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      )}
       {cuerpo}
     </Shell>
   );

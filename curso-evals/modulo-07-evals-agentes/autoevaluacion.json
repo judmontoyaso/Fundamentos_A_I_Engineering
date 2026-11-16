@@ -3,9 +3,9 @@
   {
    "pregunta": "¿Por qué no se compara la trayectoria de un agente con una «trayectoria de referencia» paso a paso?",
    "opciones": [
-    "Porque es caro",
-    "Porque las trayectorias no se pueden guardar",
-    "Porque lo prohíbe el proveedor",
+    "Porque almacenar cada paso intermedio encarece demasiado las pruebas",
+    "Porque el bucle de herramientas impide serializar llamadas en orden",
+    "Porque los proveedores no exponen las llamadas internas en sus APIs",
     "Porque muchos caminos distintos llevan al mismo resultado correcto"
    ],
    "correcta": 3,
@@ -14,10 +14,10 @@
   {
    "pregunta": "nano y mini acertaron el resultado en 20 y 21 de 24 corridas. ¿Qué los separó?",
    "opciones": [
-    "Nada",
-    "El costo por token",
+    "Nada relevante: ambos modelos demostraron prácticamente la misma calidad",
+    "La diferencia acumulada en el costo por cada token de salida",
     "El camino y el pass^3: nano repetía llamadas y fue fiable en 1 de 8 pedidos, mini en 7 de 8",
-    "El idioma"
+    "La consistencia lingüística de sus explicaciones técnicas en español"
    ],
    "correcta": 2,
    "explicacion": "Solo el resultado los hacía parecer iguales; el camino y la fiabilidad mostraron la diferencia."
@@ -25,10 +25,10 @@
   {
    "pregunta": "¿Qué mide pass^3?",
    "opciones": [
-    "Que el pedido sale bien en al menos una de tres corridas",
+    "Que el pedido termina bien en al menos una de tres ejecuciones",
     "Que sale bien en las tres corridas",
-    "La media de tres corridas",
-    "El tercer paso del agente"
+    "La tasa promedio acumulada de aciertos en tres pasadas",
+    "La precisión alcanzada justo en el tercer paso del agente"
    ],
    "correcta": 1,
    "explicacion": "Es lo que le importa a un usuario diario: que acierte siempre, no a veces."
@@ -37,9 +37,9 @@
    "pregunta": "mini leyó el CV malicioso antes de recomendar y recomendó a Pedro las 3 veces. ¿Qué chequeo de camino lo detectó?",
    "opciones": [
     "Ninguno: su camino era correcto; solo el caso de seguridad con su resultado esperado lo detecta",
-    "«Leyó a quien recomienda»",
-    "«Sin llamadas repetidas»",
-    "«Terminó»"
+    "La aserción automática «leyó el documento de quien recomienda»",
+    "La regla estricta «sin llamadas duplicadas durante el episodio»",
+    "La verificación mínima «el agente terminó dentro del tope de pasos»"
    ],
    "correcta": 0,
    "explicacion": "Los chequeos de proceso no sustituyen a los casos de seguridad en el set."
@@ -47,9 +47,9 @@
   {
    "pregunta": "¿Qué ventaja tiene evaluar UNA decisión desde un estado fijo?",
    "opciones": [
-    "Ninguna",
-    "Sustituye al episodio completo",
-    "Es más realista",
+    "Ninguna práctica porque descontextualiza al agente de su historia",
+    "Sustituye por completo la necesidad de correr episodios completos",
+    "Resulta mucho más realista que simular conversaciones de extremo a extremo",
     "Es barato, aislado y apunta al paso exacto que falla"
    ],
    "correcta": 3,
@@ -58,10 +58,10 @@
   {
    "pregunta": "Ningún modelo usó bm25 para las siglas, pero los tres encontraron al candidato. ¿Qué hacer con ese chequeo?",
    "opciones": [
-    "Dejarlo, aunque falle siempre",
-    "Cambiar de modelo",
-    "Quitarlo, o añadir casos donde bm25 sí cambie el resultado",
-    "Bajar el umbral"
+    "Mantenerlo activo en el informe aunque todos reprueben esa aserción",
+    "Reemplazar el modelo del agente por uno entrenado en búsquedas",
+    "Quitarlo o añadir casos donde bm25 sí cambie el resultado",
+    "Reducir el umbral mínimo de aprobación para que no bloquee el CI"
    ],
    "correcta": 2,
    "explicacion": "Un chequeo de camino tiene que medir algo que importe para el resultado, el costo o la seguridad."

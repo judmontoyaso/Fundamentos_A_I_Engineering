@@ -3,10 +3,10 @@
   {
    "pregunta": "¿Cuál es la idea central de «generar desde los hechos»?",
    "opciones": [
-    "El LLM escribe el CV y su etiqueta",
-    "Se copian CVs reales",
+    "El modelo genera libremente el texto completo del CV y luego deduce su etiqueta",
+    "Se copian hojas de vida reales y se anonimizan manualmente antes de evaluar",
     "El código fija los hechos y calcula la etiqueta; el LLM solo redacta el texto",
-    "El LLM juzga cada CV"
+    "Un segundo modelo juzga cada documento generado para asignarle etiqueta real"
    ],
    "correcta": 2,
    "explicacion": "Así la etiqueta es correcta por construcción y la dificultad la controlas tú, no el gusto del generador."
@@ -14,10 +14,10 @@
   {
    "pregunta": "Se pidió al generador que añadiera una inyección en 18 CVs. ¿Qué pasó?",
    "opciones": [
-    "Las escribió todas",
+    "Inserto todas las inyecciones exactamente como pedía la instrucción",
     "No escribió ninguna, y no avisó",
-    "Escribió la mitad",
-    "Dio un error"
+    "Escribió la mitad en los casos finales y omitió el resto en silencio",
+    "Lanzó una excepción de moderación al detectar instrucciones maliciosas"
    ],
    "correcta": 1,
    "explicacion": "Sin validación, el set habría tenido 18 «casos de inyección» sin inyección. Lo adversarial se inserta con plantillas en código."
@@ -25,10 +25,10 @@
   {
    "pregunta": "¿Por qué se muestrean tuplas que cubren cada VALOR en vez de todas las combinaciones?",
    "opciones": [
-    "Porque todas son 432: primero se busca qué valores rompen el sistema y luego se exploran sus interacciones",
-    "Porque las combinaciones no existen",
-    "Porque es más aleatorio",
-    "Para que el LLM no se canse"
+    "Son 432 combinaciones: primero buscas valores que rompen y luego interacciones",
+    "Porque muchas combinaciones teóricas resultan inválidas en código Python",
+    "Porque muestrear al azar garantiza mayor diversidad estadística de estilos",
+    "Para reducir el tamaño de contexto y evitar truncamientos en la respuesta"
    ],
    "correcta": 0,
    "explicacion": "Cubrir cada valor con pocas tuplas encuentra los puntos débiles; las interacciones se estudian alrededor de lo que falló."
@@ -36,9 +36,9 @@
   {
    "pregunta": "Los sintéticos tuvieron similitud media 0.52 y los escritos a mano 0.44. ¿Qué significa?",
    "opciones": [
-    "Que los sintéticos son mejores",
-    "Que el embedder falla",
-    "Nada",
+    "Que los datos sintéticos tienen mayor calidad semántica que los reales",
+    "Que el modelo de embeddings falla al vectorizar textos redactados a mano",
+    "Nada interpretable sobre diversidad porque 0.08 puntos entran en el margen",
     "Que se parecen más entre sí: complementan a los reales, no los sustituyen"
    ],
    "correcta": 3,
@@ -47,10 +47,10 @@
   {
    "pregunta": "gpt-6-luna sacó 35/35 en CVs que él mismo escribió. ¿Por qué desconfiar?",
    "opciones": [
-    "No hay por qué",
-    "Porque 35 es poco",
+    "No hay motivo para dudar si el porcentaje de acierto alcanza el 100 %",
+    "Porque 35 documentos resultan insuficientes para calcular un promedio",
     "Un modelo tiende a entender bien el texto que él mismo genera; hace falta otro generador o CVs reales",
-    "Porque usó portugués"
+    "Porque la redacción automática introdujo frases en un idioma secundario"
    ],
    "correcta": 2,
    "explicacion": "Evaluar a un modelo con datos que él produjo infla sus resultados."
@@ -58,10 +58,10 @@
   {
    "pregunta": "Con nano, la exactitud global de v1 y v2 fue igual (24/35). ¿Qué escondía?",
    "opciones": [
-    "Nada",
+    "Nada relevante: la segunda versión no introdujo cambios efectivos",
     "v2 arregló «hasta hoy» y empeoró los rangos solapados: se compensaban",
-    "Un error de redondeo",
-    "Que el set es pequeño"
+    "Un error de redondeo al promediar las puntuaciones de cada ejecución",
+    "Que un set de 35 casos carece de sensibilidad para detectar cambios"
    ],
    "correcta": 1,
    "explicacion": "Es la misma lección del Módulo 1, con más evidencia: mira los fallos por valor de dimensión, no solo el total."
@@ -69,10 +69,10 @@
   {
    "pregunta": "Un 69 % de CVs perfectos en el set sintético, ¿es la tasa que verás en producción?",
    "opciones": [
-    "No: es la tasa en una mezcla de entradas elegida por ti, con la mitad adversariales",
-    "Sí",
-    "Será mayor seguro",
-    "Será menor seguro"
+    "No: refleja una mezcla elegida por ti, con mitad de casos adversariales",
+    "Sí: anticipa con precisión el rendimiento esperado ante usuarios reales",
+    "En producción será seguramente mayor porque los CVs reales son simples",
+    "En producción será menor debido al ruido inevitable de los archivos PDF"
    ],
    "correcta": 0,
    "explicacion": "Los sintéticos sirven para encontrar fallos; la frecuencia real depende de qué entradas llegan, y eso solo lo dicen los datos reales."

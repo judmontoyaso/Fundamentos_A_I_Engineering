@@ -3,43 +3,43 @@
     {
       "pregunta": "En AgenteReclutadorProduccion (01_agente_reclutador_produccion.py), ¿cómo se evita que el agente entre en un bucle infinito cuando el modelo repite la misma búsqueda?",
       "opciones": [
-        "Comprobando si la clave de idempotencia de buscar_candidatos ya existe en cache_idem y cortando de inmediato.",
-        "Esperando a que el proveedor externo cierre la conexión TCP tras diez minutos de inactividad en la red.",
-        "Borrando todos los candidatos de la base de datos cuando se detecta una segunda llamada a buscar_candidatos.",
-        "Aumentando automáticamente el presupuesto salarial de la vacante en mil dólares por cada intento repetido."
+        "Esperando a que el proveedor externo cierre la conexión TCP tras diez minutos seguidos de inactividad.",
+        "Eliminando a todos los candidatos del registro en cuanto detecta una segunda llamada a buscar_candidatos.",
+        "Aumentando el presupuesto salarial de la vacante en mil dólares por cada invocación repetida del LLM.",
+        "Comprobando si la clave de idempotencia ya existe en cache_idem y cortando la corrida."
       ],
-      "correcta": 0,
+      "correcta": 3,
       "explicacion": "El detector de bucles compara clave_idempotencia(tc.nombre, tc.argumentos) contra cache_idem: si repite la misma búsqueda, corta en el paso 2 sin gastar más."
     },
     {
       "pregunta": "¿Qué tres condiciones comprueba AgenteReclutadorProduccion antes de ejecutar efectivamente agendar_entrevista para un candidato?",
       "opciones": [
-        "Que el candidato viva en otra ciudad, que pida más del presupuesto y que no tenga resumen de CV.",
-        "Que esté verificado como elegible, que exista aprobador_humano (HITL) y que la llamada no esté repetida en cache_idem.",
-        "Que sea el único candidato en toda la base de datos, que hable inglés C2 y que tenga diez años de experiencia.",
-        "Que el modelo haya llamado antes a enviar_oferta, que no haya presupuesto activo y que sea la vacante VAC-102."
+        "Que resida en una ciudad distinta, supere el tope salarial y carezca de resumen previo en el ATS.",
+        "Que sea el único candidato registrado, acredite inglés C2 y supere diez años de trayectoria laboral.",
+        "Elegibilidad verificada, aprobación humana (HITL) presente y ausencia previa en cache_idem.",
+        "Que el modelo haya invocado enviar_oferta antes, no exista presupuesto y sea la vacante VAC-102."
       ],
-      "correcta": 1,
+      "correcta": 2,
       "explicacion": "Solo agenda si verificados.get(cid) es True, hay firma en self.aprobador_humano y la clave de idempotencia no se ejecutó ya en la corrida."
     },
     {
       "pregunta": "¿Qué hace el controlador en entregar_terna si el modelo olvidó llamar a verificar_elegibilidad para alguno de los candidatos hallados?",
       "opciones": [
-        "Aprueba automáticamente a todos los candidatos sin verificar para terminar en menos pasos.",
-        "Lanza un error fatal que borra las entrevistas ya agendadas en el calendario corporativo.",
-        "Ejecuta en el controlador la verificación pendiente sobre cada candidato hallado y entrega solo los elegibles reales.",
-        "Cambia el identificador de la vacante a VAC-102 para reducir el número de requisitos obligatorios."
+        "Ejecuta la verificación pendiente en código sobre cada candidato y entrega solo elegibles reales.",
+        "Aprueba automáticamente a todos los aspirantes sin comprobar reglas para cerrar en menor cantidad de pasos.",
+        "Lanza una excepción irrecuperable que borra las entrevistas ya agendadas en el calendario corporativo.",
+        "Cambia internamente la vacante activa hacia VAC-102 con el objetivo de reducir los requisitos obligatorios."
       ],
-      "correcta": 2,
+      "correcta": 0,
       "explicacion": "La invariante dura de cierre garantiza que ningún candidato entre ni quede fuera sin haber sido evaluado contra verificar_elegibilidad, manteniendo pass^3 = 1.0."
     },
     {
       "pregunta": "En la puerta de calidad 02_suite_eval_agente.py, ¿por qué CAND-08 no aparece en la terna final de VAC-102 a pesar de cumplir habilidades, inglés B2 y sueldo?",
       "opciones": [
-        "Porque no acepta trabajo remoto y la vacante VAC-102 exige modalidad cien por ciento remota.",
-        "Porque su último contacto en el ATS fue hace 45 días, incumpliendo el mínimo de 90 días de enfriamiento.",
-        "Porque su resumen de CV contiene una instrucción maliciosa de inyección de prompts para enviar_oferta.",
-        "Porque tiene solo dos años de experiencia y la vacante VAC-102 exige un mínimo de cinco años."
+        "Porque rechaza la modalidad remota y la vacante VAC-102 exige trabajo cien por ciento a distancia.",
+        "Porque su último contacto en el ATS fue hace 45 días, bajo el mínimo de 90 días de enfriamiento.",
+        "Porque su resumen de CV oculta una instrucción maliciosa de prompt injection para enviar_oferta.",
+        "Porque cuenta con apenas dos años de experiencia cuando VAC-102 requiere al menos cinco años."
       ],
       "correcta": 1,
       "explicacion": "Laura Mejía (CAND-08) cumple habilidades, experiencia (6 >= 5), inglés (B2) y sueldo ($6.800 <= $7.000), pero tuvo contacto hace 45 días (< 90 días de enfriamiento)."
@@ -47,12 +47,12 @@
     {
       "pregunta": "¿Qué devuelve el script 02_suite_eval_agente.py al sistema de integración continua (CI/CD) si cualquiera de los 6 escenarios de prueba falla?",
       "opciones": [
-        "Finaliza con código de salida 0 pero escribe una advertencia opcional en un archivo temporal.",
-        "Finaliza con sys.exit(1), bloqueando el despliegue del cambio hasta corregir la regresión detectada.",
-        "Desactiva automáticamente el caso de prueba fallido y vuelve a correr únicamente los casos aprobados.",
-        "Envía las credenciales del entorno al repositorio público para facilitar la depuración remota."
+        "Termina con código de salida 0 escribiendo apenas una advertencia opcional dentro de un archivo temporal.",
+        "Deshabilita de forma automática el escenario fallido y vuelve a ejecutar únicamente los casos aprobados.",
+        "Finaliza con sys.exit(1) para bloquear el despliegue hasta corregir la regresión detectada.",
+        "Publica las variables secretas del entorno dentro del repositorio con el fin de depurar el fallo en remoto."
       ],
-      "correcta": 1,
+      "correcta": 2,
       "explicacion": "Una suite de evaluación en CI/CD debe actuar como puerta dura (sys.exit(1) si puerta_ci_abierta es False) para impedir que una regresión llegue a producción."
     }
   ]

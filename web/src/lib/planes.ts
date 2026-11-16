@@ -5,9 +5,27 @@ import type { PlanId } from "./tipos";
 export type Plan = { id: PlanId; nombre: string; usd: number; dias: number | null; resumen: string };
 
 export const PLANES: Record<PlanId, Plan> = {
-  mensual: { id: "mensual", nombre: "Mensual", usd: 10, dias: 30, resumen: "Los cuatro cursos completos durante 30 días" },
-  anual: { id: "anual", nombre: "Anual", usd: 100, dias: 365, resumen: "Los cuatro cursos completos durante un año" },
-  curso: { id: "curso", nombre: "Un curso", usd: 40, dias: null, resumen: "Un curso a tu elección, para siempre" },
+  mensual: {
+    id: "mensual",
+    nombre: "Mensual",
+    usd: 10,
+    dias: 30,
+    resumen: "Acceso a todo el catálogo actual y nuevos cursos durante 30 días",
+  },
+  anual: {
+    id: "anual",
+    nombre: "Anual",
+    usd: 100,
+    dias: 365,
+    resumen: "Acceso a todo el catálogo actual y nuevos cursos durante un año",
+  },
+  curso: {
+    id: "curso",
+    nombre: "Un curso",
+    usd: 40,
+    dias: null,
+    resumen: "Un curso a tu elección, para siempre",
+  },
 };
 
 export const esPlan = (p: unknown): p is PlanId => typeof p === "string" && p in PLANES;
@@ -23,7 +41,11 @@ export function montoDe(plan: PlanId): number | null {
 
 export function formatoMonto(monto: number, moneda: string): string {
   try {
-    return new Intl.NumberFormat("es-CO", { style: "currency", currency: moneda, maximumFractionDigits: moneda === "COP" ? 0 : 2 }).format(monto);
+    return new Intl.NumberFormat("es-CO", {
+      style: "currency",
+      currency: moneda,
+      maximumFractionDigits: moneda === "COP" ? 0 : 2,
+    }).format(monto);
   } catch {
     return `${monto} ${moneda}`;
   }

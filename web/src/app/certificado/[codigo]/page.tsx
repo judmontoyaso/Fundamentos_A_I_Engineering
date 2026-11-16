@@ -1,5 +1,6 @@
 // Página pública de verificación, descarga PDF en alta definición e impresión de certificado.
 import type { Metadata } from "next";
+import { NOMBRE_SITIO, urlSitioPublico } from "@/lib/sitio";
 import Link from "next/link";
 import QRCode from "qrcode";
 import { ImprimirBtn } from "@/components/ImprimirBtn";
@@ -8,7 +9,37 @@ import { Sitio } from "@/components/Sitio";
 import { verificarCertificado } from "@/lib/certificado";
 import { gruposDe } from "@/lib/contenido";
 
-export const metadata: Metadata = { title: "Certificado verificable · IA en Producción" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ codigo: string }>;
+}): Promise<Metadata> {
+  const { codigo } = await params;
+  const esEjemplo = codigo === "ejemplo";
+  const ruta = `/certificado/${encodeURIComponent(codigo)}`;
+  const titulo = esEjemplo
+    ? "Ejemplo de certificado verificable"
+    : "Certificado verificable de finalización";
+  const descripcion =
+    "Comprobante público verificable de curso completado con proyectos prácticos, código descargable y autoevaluación en IA en Producción.";
+  return {
+    title: titulo,
+    description: descripcion,
+    alternates: { canonical: ruta },
+    openGraph: {
+      title: `${titulo} · ${NOMBRE_SITIO}`,
+      description: descripcion,
+      url: ruta,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${titulo} · ${NOMBRE_SITIO}`,
+      description: descripcion,
+    },
+    robots: { index: esEjemplo, follow: true },
+  };
+}
 export const dynamic = "force-dynamic";
 
 const limpio = (g: string) => g.replace(/^Módulo\s+\d+\s*[·:\-–—]\s*/i, "");
@@ -45,7 +76,8 @@ export default async function PaginaCertificado({ params }: { params: Promise<{ 
     .filter((g) => g.grupo !== "Inicio")
     .map((g) => limpio(g.grupo));
 
-  const urlPublica = `https://iaenproduccion.vercel.app/certificado/${encodeURIComponent(codigo)}`;
+  const baseUrl = urlSitioPublico().replace(/\/+$/, "");
+  const urlPublica = `${baseUrl}/certificado/${encodeURIComponent(codigo)}`;
   const qrSvg = await QRCode.toString(urlPublica, {
     type: "svg",
     margin: 1,
@@ -166,7 +198,7 @@ export default async function PaginaCertificado({ params }: { params: Promise<{ 
                   <span className="cert-etiqueta">Verificación criptográfica (HMAC)</span>
                   <b style={{ display: "block", fontSize: ".8rem" }}>Escanea el QR o visita:</b>
                   <code className="ref" style={{ fontSize: ".72rem" }}>
-                    iaenproduccion.vercel.app/certificado/{cert.esEjemplo ? "ejemplo" : cert.idVerificacion}
+                    {`${baseUrl.replace(/^https?:\/\//, "")}/certificado/${cert.esEjemplo ? "ejemplo" : cert.idVerificacion}`}
                   </code>
                 </div>
               </div>

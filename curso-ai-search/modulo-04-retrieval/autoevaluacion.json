@@ -3,10 +3,10 @@
   {
    "pregunta": "¿Por qué el reranker no arregló la paráfrasis sobre la búsqueda base (0.57)?",
    "opciones": [
-    "Por el modelo",
-    "Por la temperatura",
-    "Por la caché",
-    "Porque solo reordena el top 20, y los CVs correctos no estaban ahí"
+    "Por usar un modelo pequeño con poca comprensión de sinónimos",
+    "Por una temperatura mal calibrada durante la fase de reordenamiento",
+    "Por culpa de la caché que devolvió puntuaciones desactualizadas",
+    "Solo reordena el top 20 y los relevantes no estaban allí"
    ],
    "correcta": 3,
    "explicacion": "Un reranker no arregla la recuperación."
@@ -14,10 +14,10 @@
   {
    "pregunta": "El reranker sube 13 puntos sobre la base y 2 (no distinguibles) sobre la búsqueda entendida. ¿Qué enseña?",
    "opciones": [
-    "Que no sirve",
-    "Que siempre hay que usarlo",
-    "Que el valor de una técnica depende de lo que el sistema ya hace",
-    "Que el parser sobra"
+    "Que el reranker nunca aporta ganancias medibles en sistemas reales",
+    "Que conviene habilitar siempre el reranker sin mirar la base previa",
+    "El aporte de una técnica depende de lo que el sistema ya hace",
+    "Que conviene eliminar el parser para ahorrar latencia en la consulta"
    ],
    "correcta": 2,
    "explicacion": "Reranker y parser arreglan cosas parecidas: el segundo aporta poco."
@@ -25,10 +25,10 @@
   {
    "pregunta": "¿Qué hace MaxSim (late interaction)?",
    "opciones": [
-    "Promedia los tokens",
+    "Promedia los vectores de todos los tokens en un único embedding global",
     "Para cada token de la consulta busca el token más parecido del documento y suma",
-    "Reordena con un LLM",
-    "Usa BM25"
+    "Envía el conjunto completo de candidatos a un LLM para puntuar orden",
+    "Calcula frecuencias léxicas exactas ponderadas mediante esquema BM25"
    ],
    "correcta": 1,
    "explicacion": "Así una tecnología no se diluye en el promedio de un CV con diez."
@@ -36,10 +36,10 @@
   {
    "pregunta": "¿Cuál es el costo principal de late interaction?",
    "opciones": [
-    "Guardar un vector por token: aquí 86 veces más vectores",
-    "Ninguno",
-    "Una llamada al LLM",
-    "Reentrenar"
+    "Guardar un vector por token (aquí 86 veces más vectores)",
+    "Ninguno significativo en almacenamiento ni índices vectoriales",
+    "Ejecutar una llamada LLM adicional por cada candidato recuperado",
+    "Tener que reentrenar el embedder cada vez que cambian los roles"
    ],
    "correcta": 0,
    "explicacion": "Con millones de documentos exige índices y compresión especiales."
@@ -47,10 +47,10 @@
   {
    "pregunta": "El embedder afinado subió de 0.55 a 0.73 evaluado con los mismos CVs. ¿Qué problema tiene esa medida?",
    "opciones": [
-    "Ninguno",
-    "Es muy baja",
-    "No usa nDCG",
-    "Está inflada: el modelo vio esos documentos al entrenar"
+    "Ninguno grave si el porcentaje de acierto supera veinte puntos",
+    "Sigue resultando demasiado baja para desplegarse en producción",
+    "Omite calcular la métrica graduada nDCG por falta de pesos reales",
+    "Está inflada porque el modelo vio esos documentos al entrenar"
    ],
    "correcta": 3,
    "explicacion": "En producción llegan CVs nuevos; se evalúa con un holdout de documentos que no vio."
@@ -58,10 +58,10 @@
   {
    "pregunta": "En el holdout, el embedder afinado empeoró «quien haga pruebas automatizadas» (0.64 → 0.24). ¿Por qué?",
    "opciones": [
-    "Por azar",
-    "Por el idioma",
+    "Por pura fluctuación aleatoria dentro de consultas poco frecuentes",
+    "Por diferencias lingüísticas entre términos en inglés y en español",
     "Aprendió los sesgos de sus pares: las plantillas siempre nombran tecnologías y roles",
-    "Por la tasa de aprendizaje"
+    "Por haber elegido una tasa de aprendizaje demasiado elevada al ajustar"
    ],
    "correcta": 2,
    "explicacion": "Si las consultas reales tienen paráfrasis, los pares de entrenamiento también deben tenerlas."

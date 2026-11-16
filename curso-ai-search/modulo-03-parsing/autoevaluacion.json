@@ -3,10 +3,10 @@
   {
    "pregunta": "¿Qué pasa con un PDF escaneado y una ingesta ingenua?",
    "opciones": [
-    "Da un error",
-    "Se indexa vacío y sin ningún error",
-    "Se lee mal",
-    "Se descarta"
+    "Lanza de inmediato una excepción explícita de formato no soportado",
+    "Se indexa vacío y sin lanzar advertencias",
+    "Se extrae con caracteres corruptos de codificación en lugar de fallar",
+    "Se descarta automáticamente en la tubería antes de crear chunks"
    ],
    "correcta": 1,
    "explicacion": "Por eso hay que contar los documentos sin texto: la falla es silenciosa."
@@ -14,10 +14,10 @@
   {
    "pregunta": "En dos columnas, el 100 % de los hechos estaban en el texto ingenuo. ¿Por qué no basta esa medida?",
    "opciones": [
-    "Porque los hechos están desordenados y el desorden solo se ve aguas abajo",
-    "Sí basta",
-    "Porque el texto es corto",
-    "Porque falta el OCR"
+    "Los hechos salen desordenados y el daño solo se ve aguas abajo",
+    "En la práctica sí basta si cada palabra clave clave aparece en el texto",
+    "Porque la longitud total extraída queda por debajo del umbral óptimo",
+    "Porque el proceso de verificación omitió ejecutar OCR en cada página"
    ],
    "correcta": 0,
    "explicacion": "Contar palabras no ve el orden; las fichas y la búsqueda sí."
@@ -25,10 +25,10 @@
   {
    "pregunta": "¿Cuánto bajó la búsqueda sin OCR, con un tercio de CVs escaneados?",
    "opciones": [
-    "Nada",
-    "A cero",
-    "Subió",
-    "De 0.89 a 0.72"
+    "Prácticamente nada gracias a la compensación semántica",
+    "Cayó por completo hasta cero por falta de índice válido",
+    "Subió ligeramente al eliminarse documentos extensos ruidosos",
+    "Cayó de 0.89 a 0.72 sin forma de recuperarlo"
    ],
    "correcta": 3,
    "explicacion": "Ninguna técnica posterior recupera esos puntos: no hay nada que encontrar."
@@ -36,10 +36,10 @@
   {
    "pregunta": "Con gpt-6-luna el texto intercalado no hizo daño; con gpt-5.4-nano perdió tecnologías. ¿Qué enseña?",
    "opciones": [
-    "Que el orden no importa",
-    "Que nano es inútil",
+    "Que el orden visual de las columnas resulta irrelevante en modelos modernos",
+    "Que gpt-5.4-nano carece de capacidad para extraer listas técnicas simples",
     "Que un buen extractor tapa un mal parsing y uno barato no: el techo depende de quién lee después",
-    "Nada"
+    "Nada concluyente porque ambos modelos usaron prompts distintos al evaluar"
    ],
    "correcta": 2,
    "explicacion": "Si vas a bajar el costo de la extracción, arregla antes la ingesta."
@@ -47,10 +47,10 @@
   {
    "pregunta": "Un documento vacío «acertó» remoto en 27 de 39. ¿Cómo se interpreta?",
    "opciones": [
-    "Como aciertos",
-    "Como aciertos por defecto: el valor por defecto coincidió con el hecho",
-    "Como un bug del OCR",
-    "Como ruido"
+    "Como aciertos reales válidos del extractor sobre el campo",
+    "Aciertos por defecto: el valor predeterminado coincidió",
+    "Como un error interno del motor OCR al analizar texto en blanco",
+    "Como ruido aleatorio esperado cuando falta contexto completo"
    ],
    "correcta": 1,
    "explicacion": "Cuenta los campos vacíos aparte."

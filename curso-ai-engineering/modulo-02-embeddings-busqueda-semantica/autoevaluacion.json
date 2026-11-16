@@ -14,10 +14,10 @@
   {
    "pregunta": "Un modelo E5 se entrenó con los prefijos «query:» y «passage:». ¿Qué pasa si los omites?",
    "opciones": [
-    "Nada: los prefijos son decorativos",
-    "El modelo lanza un error",
+    "Nada en absoluto: los prefijos son opcionales y solo sirven para depurar",
+    "El modelo detecta la omisión y devuelve una excepción de formato de entrada",
     "La calidad de la búsqueda puede bajar, porque el modelo espera ese formato",
-    "Los vectores salen con otra dimensión"
+    "Los vectores generados cambian automáticamente su dimensionalidad de salida"
    ],
    "correcta": 2,
    "explicacion": "Un modelo de embeddings se usa como se entrenó. Omitir los prefijos no da error: degrada en silencio. Por eso el laboratorio 12 mide E5 con y sin prefijos sobre los mismos datos."
@@ -25,10 +25,10 @@
   {
    "pregunta": "¿Qué mide recall@3?",
    "opciones": [
-    "La fracción de resultados correctos entre los 3 primeros",
+    "La proporción de documentos recuperados en el top 3 que resultan correctos",
     "La fracción de los documentos relevantes que aparecen entre los 3 primeros",
-    "El puesto del primer resultado correcto",
-    "Cuántas consultas tardan menos de 3 segundos"
+    "El inverso de la posición en que aparece el primer documento relevante en lista",
+    "El porcentaje de consultas del conjunto de prueba respondidas bajo 3 segundos"
    ],
    "correcta": 1,
    "explicacion": "Recall@k responde «¿cuánto de lo que debía encontrar está en el top k?». El puesto del primer acierto es la base de MRR; la fracción correcta del top k es precisión@k."
@@ -37,9 +37,9 @@
    "pregunta": "¿Para qué sirve HNSW en una base vectorial?",
    "opciones": [
     "Para buscar vecinos aproximados entre millones de vectores sin compararlos todos",
-    "Para comprimir los vectores",
-    "Para calcular embeddings más rápido",
-    "Para filtrar por metadata"
+    "Para cuantizar y reducir la dimensionalidad de los embeddings antes de guardar",
+    "Para acelerar la inferencia del modelo de embeddings al vectorizar documentos",
+    "Para indexar filtros exactos de metadata sin comparar distancias vectoriales"
    ],
    "correcta": 0,
    "explicacion": "HNSW es un índice de vecinos aproximados (ANN): un grafo por capas que llega a los más cercanos en milisegundos a cambio de una pequeña pérdida de exactitud frente a la fuerza bruta."
@@ -47,9 +47,9 @@
   {
    "pregunta": "Un ranking público de embeddings pone al modelo X primero. ¿Qué recomienda el módulo?",
    "opciones": [
-    "Usar X sin más",
-    "Elegir siempre el de más dimensiones",
-    "Elegir siempre el más barato",
+    "Adoptar directamente el modelo X como estándar único para todo tu dominio",
+    "Priorizar siempre el modelo que produzca embeddings con mayor dimensionalidad",
+    "Elegir siempre la alternativa de menor costo por token sin medir su recuerdo",
     "Medirlo con tus propios documentos y consultas antes de elegirlo"
    ],
    "correcta": 3,
@@ -58,10 +58,10 @@
   {
    "pregunta": "¿Qué aporta el payload (metadata) en Qdrant?",
    "opciones": [
-    "Nada: solo ocupa espacio",
-    "Mejora la calidad del embedding",
+    "Nada en la consulta: Qdrant solo guarda metadata para registro",
+    "Mejora directamente el cálculo geométrico de similitud coseno",
     "Permite filtrar por reglas (nivel, área) y combinarlo con la búsqueda por significado",
-    "Sustituye al índice HNSW"
+    "Reemplaza al índice HNSW evitando comparar distancias entre vectores"
    ],
    "correcta": 2,
    "explicacion": "La similitud no sabe de reglas de negocio. Filtrar por payload (por ejemplo nivel = senior) junto a la búsqueda vectorial combina significado con restricciones exactas."

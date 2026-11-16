@@ -5,8 +5,15 @@ import { Sitio } from "@/components/Sitio";
 
 export const dynamic = "force-dynamic"; // la cabecera depende de la sesión
 
-export const metadata: Metadata = { title: "Términos y reembolsos" };
-const CONTACTO = process.env.NEXT_PUBLIC_CONTACTO ?? "el correo de contacto del sitio";
+import { CONTACTO_SITIO, NOMBRE_SITIO } from "@/lib/sitio";
+
+export const metadata: Metadata = {
+  title: "Términos y reembolsos",
+  description: `Condiciones de compra, licencias de uso individual, garantía de reembolso y datos del titular en ${NOMBRE_SITIO}.`,
+  alternates: { canonical: "/terminos" },
+};
+const CONTACTO = CONTACTO_SITIO || "el correo de soporte (pendiente de configurar)";
+const TITULAR = process.env.NEXT_PUBLIC_TITULAR_LEGAL?.trim();
 
 export default function Terminos() {
   return (
@@ -35,6 +42,16 @@ export default function Terminos() {
 
         <h2>Contacto</h2>
         <p>Dudas sobre tu compra o tu cuenta: {CONTACTO}.</p>
+
+        <h2>Titular del servicio</h2>
+        {TITULAR ? (
+          <p>Responsable comercial y legal: {TITULAR}. Contacto: {CONTACTO}.</p>
+        ) : (
+          <p className="aviso-pendiente">
+            [PENDIENTE antes de vender en producción: publicar aquí el nombre completo o razón social del titular,
+            NIT o documento de identificación, domicilio y jurisdicción aplicable conforme a la normativa del país.]
+          </p>
+        )}
       </div>
     </Sitio>
   );

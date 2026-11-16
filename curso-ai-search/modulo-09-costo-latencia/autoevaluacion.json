@@ -3,10 +3,10 @@
   {
    "pregunta": "¿Qué tres números necesita cada pieza del buscador para decidir si se paga?",
    "opciones": [
-    "Calidad, latencia y costo (tokens)",
-    "Solo la calidad",
-    "Calidad y número de parámetros del modelo",
-    "Latencia y memoria"
+    "Calidad, latencia y costo en tokens",
+    "Únicamente la calidad medida en el holdout",
+    "Calidad y tamaño de parámetros del modelo usado",
+    "Latencia en p95 y consumo pico de memoria RAM"
    ],
    "correcta": 0,
    "explicacion": "«Mejora 2 puntos» es media frase sin cuántos segundos y cuántos tokens cuesta."
@@ -14,10 +14,10 @@
   {
    "pregunta": "El parser con el modelo principal dio 0.893 y con el barato 0.891. ¿Qué se decide?",
    "opciones": [
-    "Usar el principal: es mejor",
-    "Usar el barato: misma calidad, un tercio de la latencia y menos tokens",
-    "Quitar el parser",
-    "Usar los dos"
+    "Mantener el modelo principal por tener dos milésimas arriba",
+    "El barato: igual calidad, 1/3 latencia y menos tokens",
+    "Quitar por completo la etapa de parseo en ambas versiones",
+    "Ejecutar ambos modelos en paralelo y combinar sus esquemas"
    ],
    "correcta": 1,
    "explicacion": "Se cambia el modelo cuando el eval dice que se puede."
@@ -25,10 +25,10 @@
   {
    "pregunta": "¿Por qué el reranker (20 llamadas) no tarda 20 veces lo que el parser?",
    "opciones": [
-    "Porque usa caché",
-    "Porque el modelo es más rápido",
+    "Porque todas las comparaciones previas se resuelven desde caché",
+    "Porque utiliza internamente un modelo veinte veces más pequeño",
     "Porque las llamadas van en paralelo: la latencia es la del camino más lento, el costo sí es la suma",
-    "Porque solo hace una llamada"
+    "Porque el código agrupa los veinte perfiles en una sola petición"
    ],
    "correcta": 2,
    "explicacion": "Latencia y costo se suman distinto."
@@ -36,10 +36,10 @@
   {
    "pregunta": "¿Cómo se consiguió la calidad del reranker con el 22% de sus llamadas?",
    "opciones": [
-    "Con un modelo más barato",
-    "Reduciendo el top 20 a top 5",
-    "Con caché",
-    "Llamándolo solo cuando el parser ve exclusiones o requisitos de años"
+    "Cambiando hacia un modelo económico con menor precisión de cruce",
+    "Limitando la etapa de reordenamiento solo del top 20 al top 5",
+    "Activando caché semántica sobre consultas con palabras parecidas",
+    "Invocándolo solo si el parser detecta exclusiones o años"
    ],
    "correcta": 3,
    "explicacion": "Una pieza cara detrás de una condición barata, que sale de una pieza ya pagada."
@@ -47,10 +47,10 @@
   {
    "pregunta": "¿De qué depende cuánto ahorra una caché de parseos?",
    "opciones": [
-    "Del tamaño de la caché",
-    "De cuánto se repiten las consultas en tu tráfico, que se mide en los logs",
-    "Del modelo",
-    "De la base de datos"
+    "De la capacidad total asignada en memoria a la caché",
+    "Según cuánto se repiten las consultas en tus logs",
+    "Del tamaño del modelo de lenguaje empleado en el parser",
+    "De la latencia promedio de lectura en la base de datos"
    ],
    "correcta": 1,
    "explicacion": "Con la mitad del tráfico repetido sale ~46%; con casi todo único, casi nada."
@@ -58,10 +58,10 @@
   {
    "pregunta": "En las trazas del proyecto, ¿cuál fue la causa más común de error de las llamadas al LLM?",
    "opciones": [
-    "Caídas del proveedor",
-    "Respuestas lentas",
+    "Caídas completas prolongadas en los servidores del proveedor",
+    "Respuestas excesivamente lentas que vencían el límite estándar",
     "Configuración (falta la clave) y un modelo retirado",
-    "Inyecciones"
+    "Bloqueos de moderación provocados por inyecciones en los CVs"
    ],
    "correcta": 2,
    "explicacion": "Solo 1 de 84 fue un timeout del proveedor. Se detectan con una prueba de arranque y el eval en CI."
@@ -69,10 +69,10 @@
   {
    "pregunta": "Durante una caída del proveedor, ¿qué consiguen los reintentos?",
    "opciones": [
-    "Nada contra la caída: multiplican la espera y las llamadas",
-    "Disponibilidad del 100%",
-    "Bajar la latencia",
-    "Mejorar el nDCG"
+    "Nada útil: solo multiplican la espera y llamadas fallidas",
+    "Mantener la disponibilidad del sistema cerca del 100%",
+    "Reducir la latencia promedio percibida por los usuarios",
+    "Mejorar el puntaje nDCG aprovechando el segundo intento"
    ],
    "correcta": 0,
    "explicacion": "Recuperan fallos sueltos, no una caída. La disponibilidad la da el respaldo."
@@ -80,10 +80,10 @@
   {
    "pregunta": "¿Qué es el respaldo en este buscador?",
    "opciones": [
-    "Otro proveedor de LLM",
-    "Un mensaje de error amable",
-    "Reintentar más veces",
-    "Buscar con la híbrida sin entender la consulta: peor, pero una respuesta"
+    "Cambiar automáticamente a otro proveedor comercial en red",
+    "Mostrar un mensaje amable de error pidiendo intentar luego",
+    "Aumentar al triple los reintentos antes de cancelar el pedido",
+    "Buscar con híbrida sin parseo: inferior, pero responde"
    ],
    "correcta": 3,
    "explicacion": "Una ruta sin LLM es parte del diseño, no un parche."
@@ -91,10 +91,10 @@
   {
    "pregunta": "Con el modelo principal (p50 3.6 s), un presupuesto de 3 s y un cortacircuitos dieron nDCG 0.690. ¿Por qué?",
    "opciones": [
-    "Por la caída",
+    "Por una caída simultánea completa en la infraestructura del proveedor",
     "El presupuesto cortaba la mayoría de los parseos y el cortacircuitos tomó la lentitud por fallo y apagó el parser",
-    "Por un error en la búsqueda",
-    "Por la caché"
+    "Por un error lógico en el algoritmo de ordenamiento híbrido posterior",
+    "Porque la caché local devolvió entradas obsoletas durante la prueba"
    ],
    "correcta": 1,
    "explicacion": "Presupuestos y cortacircuitos se calibran contra la distribución real de latencias."
@@ -102,10 +102,10 @@
   {
    "pregunta": "¿Qué pasa si no fijas el tiempo límite de las llamadas?",
    "opciones": [
-    "Nada: el SDK tiene uno razonable",
-    "Se usa 1 s",
-    "Heredas el del SDK: en la simulación, cada pedido quedó colgado media hora durante la caída",
-    "Falla de inmediato"
+    "Nada grave porque los SDK fijan siempre un límite corto seguro",
+    "La librería aplica automáticamente un corte máximo de un segundo",
+    "Heredas el del SDK: cada pedido puede colgarse media hora",
+    "La llamada falla de forma inmediata si detecta congestión leve"
    ],
    "correcta": 2,
    "explicacion": "Los valores por defecto no son una decisión: se heredan."

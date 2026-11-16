@@ -2,7 +2,15 @@
 export type TipoItem = "md" | "lab" | "quiz" | "anotar";
 export type ItemNav = { id: string; titulo: string; tipo: TipoItem; curso: string; gratis: boolean };
 export type GrupoNav = { curso: string; grupo: string; items: ItemNav[] };
-export type CursoNav = { id: string; titulo: string; modulos: number };
+export type CursoNav = {
+  id: string;
+  titulo: string;
+  modulos: number;
+  orden?: number;
+  etapa?: string;
+  descripcion?: string;
+  infografia?: string;
+};
 export type Nav = { cursos: CursoNav[]; grupos: GrupoNav[] };
 
 export type Pregunta = { pregunta: string; opciones: string[]; correcta: number; explicacion: string };

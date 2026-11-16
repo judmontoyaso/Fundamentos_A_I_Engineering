@@ -63,8 +63,10 @@ export async function conceder(o: Concesion): Promise<Acceso> {
  * Si la concesión falla, la excepción sube, el webhook responde 500 y la pasarela reintenta.
  */
 export async function confirmarPedido(pedido: Pedido, refProveedor: string | null): Promise<boolean> {
+  const cuponPendiente = pedido.refProveedor?.startsWith("cupon:") ? pedido.refProveedor.slice(6) : null;
   const cambio = await store.transicionPedido(pedido.id, ["pendiente", "rechazado"], "pagado", refProveedor);
   if (!cambio && (await store.pedido(pedido.id))?.estado !== "pagado") return false; // reembolsado o inexistente
+  if (cambio && cuponPendiente) await store.usarCupon(cuponPendiente);
 
   const tieneAcceso = async () => (await store.accesos(pedido.userId)).some((a) => a.pedidoId === pedido.id);
   if (await tieneAcceso()) return cambio;

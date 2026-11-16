@@ -3,32 +3,32 @@
     {
       "pregunta": "¿Cuándo conviene usar un workflow determinista en código en lugar de un agente con bucle abierto?",
       "opciones": [
-        "Cuando la secuencia de etapas se conoce de antemano y las reglas de filtrado están bien definidas en código.",
-        "Cuando el modelo de lenguaje no soporta salidas estructuradas con validación de esquemas JSON en la API.",
-        "Cuando el sistema debe descubrir en tiempo de ejecución qué fuentes consultar según hallazgos inesperados.",
-        "Cuando se busca eliminar por completo el uso de bases de datos relacionales o vectoriales en el backend."
+        "Cuando el modelo de lenguaje carece de salidas estructuradas con esquemas JSON validados.",
+        "Cuando el sistema debe descubrir en tiempo de ejecución qué fuentes consultar ante hallazgos imprevistos.",
+        "Cuando la secuencia de etapas y las reglas de filtrado ya están bien definidas en código.",
+        "Cuando se busca prescindir por completo de bases relacionales o índices vectoriales en producción."
       ],
-      "correcta": 0,
+      "correcta": 2,
       "explicacion": "Si la secuencia de pasos es fija (leer vacante -> aplicar reglas de negocio -> devolver lista), un workflow determinista en código es más rápido, barato y predecible que un bucle autónomo."
     },
     {
       "pregunta": "Si un agente necesita completar 11 pasos seguidos y acierta cada paso con probabilidad independiente p = 0.92, ¿qué ocurre con la confiabilidad total de la corrida?",
       "opciones": [
-        "Se mantiene en 92 % gracias a que los errores de los pasos intermedios se compensan entre sí.",
-        "Sube por encima del 95 % porque el historial acumulado corrige automáticamente las desviaciones.",
-        "Cae a 0.92 elevado a la 11 (alrededor del 40 %), porque el riesgo de fallo se multiplica en cada paso.",
-        "Disminuye linealmente un 1 % por cada paso adicional hasta estabilizarse exactamente en el 81 %."
+        "Se mantiene en 92 % gracias a que los aciertos posteriores compensan automáticamente los errores previos.",
+        "Sube por encima del 95 % porque el historial acumulado en contexto corrige las desviaciones por sí solo.",
+        "Disminuye de manera lineal 1 % por cada llamada adicional hasta estabilizarse exactamente alrededor del 81 %.",
+        "Cae a 0.92^11 (~40 %), porque la probabilidad de éxito se multiplica en cada paso secuencial."
       ],
-      "correcta": 2,
+      "correcta": 3,
       "explicacion": "En una cadena de N decisiones secuenciales necesarias para el éxito, la probabilidad conjunta es p^N: pequeños errores por paso producen una caída compuesta severa."
     },
     {
       "pregunta": "¿Por qué el método abrir_paso() de PresupuestoAgente debe ejecutarse ANTES de invocar modelo.responder()?",
       "opciones": [
-        "Para comprimir el historial de mensajes antes de enviarlo por red al proveedor del modelo de lenguaje.",
-        "Para que el paso que excede max_pasos se corte en código sin llegar a pagar la llamada adicional a la API.",
-        "Para reiniciar el contador de tokens de entrada y salida en cada turno del bucle de preselección.",
-        "Para permitir que el propio modelo decida en su prompt si desea ampliar el límite de pasos disponibles."
+        "Para comprimir el historial acumulado antes de enviarlo por la red al proveedor del modelo de lenguaje.",
+        "Para cortar cualquier paso que exceda max_pasos antes de pagar la llamada extra a la API.",
+        "Para reiniciar el contador de tokens de entrada y salida al comenzar cada nuevo turno del agente.",
+        "Para permitir que el modelo decida desde el system prompt si necesita ampliar su cuota máxima."
       ],
       "correcta": 1,
       "explicacion": "Comprobar max_pasos antes de llamar al proveedor garantiza que cuando el agente alcanza el límite no se dispare ni se facture una llamada extra."
@@ -36,23 +36,23 @@
     {
       "pregunta": "En el laboratorio 02_presupuesto_y_frenos.py, ¿qué sucede cuando se ejecuta un modelo atascado (terco=True) con max_pasos=5?",
       "opciones": [
-        "El modelo cambia automáticamente su temperatura a 1.0 en el tercer intento para salir del bucle repetitivo.",
-        "La herramienta buscar_candidatos relaja por su cuenta el presupuesto salarial para devolver algún candidato.",
-        "El proceso espera indefinidamente hasta que la base de datos del ATS incorpore nuevos candidatos activos.",
-        "El controlador lanza PresupuestoAgotado tras el quinto paso y detiene el gasto en menos de dos décimas de centavo."
+        "El controlador lanza PresupuestoAgotado tras el quinto paso y detiene el gasto de inmediato.",
+        "El modelo cambia automáticamente su temperatura a 1.0 en el tercer intento para evitar repeticiones.",
+        "La herramienta buscar_candidatos relaja por su cuenta el tope salarial hasta encontrar algún perfil.",
+        "El bucle queda bloqueado esperando indefinidamente a que ingresen nuevos candidatos activos en el ATS."
       ],
-      "correcta": 3,
+      "correcta": 0,
       "explicacion": "El freno vive en el bucle de Python fuera del modelo: al intentar abrir el sexto paso lanza PresupuestoAgotado('max_pasos=5') y corta la espiral."
     },
     {
       "pregunta": "¿Por qué no basta con escribir en el system prompt «Nunca des más de 6 pasos ni gastes más de $0.05 USD»?",
       "opciones": [
-        "Porque el modelo no conoce su facturación acumulada real y un bucle atascado puede ignorar instrucciones del prompt.",
-        "Porque los modelos comerciales rechazan cualquier system prompt que incluya cifras monetarias o símbolos de dólar.",
-        "Porque las herramientas JSON Schema desactivan la lectura del mensaje de sistema después del segundo turno.",
-        "Porque el conteo de pasos dentro del prompt duplica la latencia de red en las llamadas de tipo tool calling."
+        "Porque los modelos comerciales rechazan cualquier system prompt que incluya cifras monetarias o límites en dólares.",
+        "Porque las definiciones JSON Schema desactivan la lectura del mensaje de sistema tras el segundo turno.",
+        "Porque el conteo explícito de pasos en prosa duplica la latencia de red en las llamadas tool calling.",
+        "Porque el LLM ignora su gasto acumulado real y un bucle atascado puede desobedecer el prompt."
       ],
-      "correcta": 0,
+      "correcta": 3,
       "explicacion": "El LLM no tiene acceso confiable al contador real de tokens/dólares ni garantiza obedecer límites numéricos bajo fallos; los topes deben aplicarse en código."
     }
   ]

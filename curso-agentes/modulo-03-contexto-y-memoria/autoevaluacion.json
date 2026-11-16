@@ -3,32 +3,32 @@
     {
       "pregunta": "¿Por qué el consumo de tokens de entrada de un agente crece de forma cuadrática O(N²) con el número de pasos N si no se poda el contexto?",
       "opciones": [
-        "Porque el proveedor duplica la tarifa unitaria por token cada vez que la conversación supera cinco turnos.",
-        "Porque cada observación añadida en el paso k vuelve a enviarse y facturarse en todos los pasos siguientes k+1..N.",
-        "Porque los esquemas JSON de las herramientas se multiplican por el número de candidatos en cada iteración.",
-        "Porque el modelo genera respuestas en prosa cada vez más largas a medida que se acerca al paso final."
+        "Porque el proveedor duplica la tarifa unitaria por token cada vez que la sesión supera cinco turnos.",
+        "Porque los esquemas JSON de las herramientas se replican por cada candidato devuelto en la búsqueda.",
+        "Porque cada observación previa del paso k vuelve a reenviarse en todos los pasos k+1..N.",
+        "Porque el modelo redacta respuestas en prosa progresivamente más largas al acercarse al paso final."
       ],
-      "correcta": 1,
+      "correcta": 2,
       "explicacion": "Al reenviar el historial completo en cada llamada al modelo, una observación pesada del paso 2 se paga de nuevo en los pasos 3, 4, ..., N."
     },
     {
       "pregunta": "En 01_podar_observaciones.py, ¿cómo logra podar_observaciones_antiguas() ahorrar ~48.5 % de tokens de entrada sin alterar la terna final?",
       "opciones": [
-        "Eliminando por completo los mensajes con role='tool' y también las llamadas 'tool_calls' del asistente.",
-        "Traduciendo todas las fichas de los candidatos del español al inglés antes de llamar al modelo.",
-        "Conservando íntegras las últimas K=2 observaciones y compactando las anteriores sin borrar los veredictos clave.",
-        "Reduciendo el número de candidatos devueltos por buscar_candidatos de cuatro a solo uno al azar."
+        "Eliminando por completo los mensajes con role='tool' junto con las llamadas 'tool_calls' del asistente.",
+        "Traduciendo todas las fichas completas de los candidatos del español al inglés antes de llamar al LLM.",
+        "Reduciendo de cuatro a uno el número máximo de perfiles devueltos al azar por buscar_candidatos.",
+        "Dejando intactas las últimas K=2 observaciones y compactando las previas sin perder veredictos."
       ],
-      "correcta": 2,
+      "correcta": 3,
       "explicacion": "Mantener intactas las últimas K=2 observaciones y resumir las fichas antiguas conserva la estructura válida del diálogo y los veredictos de elegibilidad."
     },
     {
       "pregunta": "¿Qué peligro tiene pedirle a otro LLM que resuma todo el historial en prosa libre en vez de usar poda determinista de observaciones?",
       "opciones": [
-        "Un resumen en prosa libre añade latencia, cuesta tokens y suele alterar o perder identificadores exactos como CAND-03.",
-        "La API de OpenAI prohíbe enviar texto resumido por otro modelo dentro de una sesión con herramientas activas.",
-        "Los resúmenes en prosa libre impiden que el controlador compruebe el límite max_pasos del presupuesto.",
-        "El resumen en prosa duplica el tamaño de las trazas de auditoría guardadas en la base de datos."
+        "Un resumen en prosa cuesta latencia/tokens y puede corromper IDs exactos como CAND-03.",
+        "La API de OpenAI rechaza el texto resumido por otro modelo dentro de una sesión con tool calling.",
+        "Los resúmenes en prosa bloquean la comprobación del límite numérico max_pasos en el controlador.",
+        "Resumir en prosa duplica el tamaño en disco de las trazas de auditoría guardadas en la base de datos."
       ],
       "correcta": 0,
       "explicacion": "La poda determinista sobre JSON es instantánea, gratuita y nunca inventa ni deforma IDs (`CAND-01`, `VAC-101`) ni montos numéricos."
@@ -36,10 +36,10 @@
     {
       "pregunta": "En 02_memoria_episodica.py, ¿cómo cambia el comportamiento del agente en la Sesión 2 tras registrar 'REQUISITO_EXTRA: FastAPI' para VAC-101?",
       "opciones": [
-        "El agente ignora los requisitos originales de VAC-101 y busca únicamente candidatos que sepan FastAPI.",
-        "El agente recupera el recuerdo de VAC-101, añade FastAPI al filtro de búsqueda y estrecha la terna a ['CAND-01'].",
-        "El agente modifica el archivo comun/ag_comun.py en disco para reescribir el diccionario global VACANTES.",
-        "El agente descarta a todos los candidatos porque ninguno declara FastAPI junto con Evaluación de LLMs."
+        "Ignora los requisitos base originales de VAC-101 y busca únicamente candidatos con experiencia en FastAPI.",
+        "Recupera el recuerdo de VAC-101, suma FastAPI al filtro y acota la terna a ['CAND-01'].",
+        "Edita el código fuente de comun/ag_comun.py en disco para reescribir el diccionario global VACANTES.",
+        "Descarta a toda la base de candidatos porque ninguno combina FastAPI con Evaluación de LLMs."
       ],
       "correcta": 1,
       "explicacion": "Al inyectar la regla episódica de VAC-101 en el prompt de sistema, el agente busca las 4 habilidades base más FastAPI y selecciona solo a CAND-01."
@@ -47,12 +47,12 @@
     {
       "pregunta": "¿Por qué la memoria episódica se indexa y recupera por entidad (p. ej. vacante_id) en lugar de inyectar todos los recuerdos del sistema en cada corrida?",
       "opciones": [
-        "Para evitar que una preferencia específica de VAC-101 contamine la preselección de otra vacante distinta como VAC-102.",
-        "Porque el formato JSON no permite almacenar más de un objeto dentro del archivo m3_memoria_episodica.json.",
-        "Porque los recuerdos de otras vacantes provocan un error de sintaxis en el validador de esquemas de herramientas.",
-        "Para que el modelo no pueda consultar la fecha en que el revisor humano registró la corrección operativa."
+        "Porque el formato JSON prohíbe guardar más de un diccionario dentro de m3_memoria_episodica.json.",
+        "Porque los recuerdos de otras vacantes causan errores de sintaxis en el validador de herramientas.",
+        "Para impedir que preferencias específicas de VAC-101 contaminen otras vacantes como VAC-102.",
+        "Para ocultar al modelo la fecha exacta en que el revisor humano añadió la corrección operativa."
       ],
-      "correcta": 0,
+      "correcta": 2,
       "explicacion": "Filtrar los recuerdos por el ámbito relevante (vacante_id) mantiene limpio el prompt y evita aplicar reglas de un puesto de IA a una vacante de MLOps."
     }
   ]

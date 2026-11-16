@@ -3,10 +3,10 @@
   {
    "pregunta": "¿Por qué nDCG es la métrica principal del curso?",
    "opciones": [
-    "Porque es la más conocida",
-    "Porque es la única de las tres que usa la relevancia graduada (un 2 vale más que un 1)",
-    "Porque es más rápida",
-    "Porque no usa etiquetas"
+    "Porque es la métrica estándar más citada en publicaciones académicas recientes",
+    "Es la única que aprovecha relevancia graduada (2 vale más que 1)",
+    "Porque exige menos tiempo de cómputo que calcular recall o precisión en top k",
+    "Porque evalúa el orden del ranking sin depender de ninguna etiqueta externa"
    ],
    "correcta": 1,
    "explicacion": "Recall@10 y MRR solo cuentan los CVs con relevancia 2."
@@ -15,9 +15,9 @@
    "pregunta": "¿Por qué medir la búsqueda sola es determinista?",
    "opciones": [
     "Porque no hay LLM: BM25 y los embeddings dan siempre el mismo ranking",
-    "Porque usa un LLM con temperatura 0",
-    "Porque se repite",
-    "No lo es"
+    "Porque el buscador fija la temperatura del LLM evaluador en cero exacto",
+    "Porque la métrica promedia automáticamente el resultado de diez pasadas",
+    "En la práctica no lo es debido a la aleatoriedad del índice aproximado"
    ],
    "correcta": 0,
    "explicacion": "Sin ruido entre corridas, las diferencias son del sistema."
@@ -25,10 +25,10 @@
   {
    "pregunta": "La híbrida tiene el mejor promedio pero pierde frente a BM25 en 20 de 41 consultas. ¿Qué concluyes?",
    "opciones": [
-    "Que es mejor",
-    "Que BM25 es mejor",
-    "Que el set está mal",
-    "Que gana mucho en pocas y pierde poco en muchas; el intervalo incluye el cero: no se distingue"
+    "Que la búsqueda híbrida supera claramente a BM25 en la mayoría de casos",
+    "Que BM25 resulta superior y conviene descartar por completo los vectores",
+    "Que el conjunto de consultas tiene errores graves en la relevancia base",
+    "Gana mucho en pocas, pierde poco en muchas; el intervalo cruza cero"
    ],
    "correcta": 3,
    "explicacion": "El promedio escondía que, para la mitad de las consultas, la híbrida es peor."
@@ -36,10 +36,10 @@
   {
    "pregunta": "En paráfrasis, la densa saca 0.55 y la híbrida 0.38. ¿Por qué?",
    "opciones": [
-    "Por azar",
-    "La híbrida no usa la densa",
-    "BM25 mete ruido en el ranking fusionado cuando no hay palabras en común",
-    "Por la latencia"
+    "Por variación aleatoria entre las dos corridas del experimento de prueba",
+    "Porque el modo híbrido desactiva internamente la componente semántica",
+    "BM25 mete ruido en el ranking cuando no hay palabras clave en común",
+    "Por un exceso de latencia que truncó los resultados antes de ordenarlos"
    ],
    "correcta": 2,
    "explicacion": "Fusionar no es sumar lo mejor de cada uno."
@@ -47,10 +47,10 @@
   {
    "pregunta": "«Desarrollador backend que no use Java» devuelve primero a quienes usan Java. ¿Qué tipo de fallo es?",
    "opciones": [
-    "De embeddings",
+    "De embeddings insuficientes para distinguir lenguajes cercanos entre sí",
     "De entender la consulta: la negación no existe para BM25 ni para el embedder",
-    "De latencia",
-    "De datos"
+    "De latencia excesiva en el filtrado posterior de tecnologías principales",
+    "De datos inconsistentes en el esquema del índice principal de perfiles"
    ],
    "correcta": 1,
    "explicacion": "Ningún embedder mejor lo arregla; hace falta extraer la exclusión (Módulo 2)."
@@ -58,10 +58,10 @@
   {
    "pregunta": "¿Qué sugiere el desglose por tipo?",
    "opciones": [
-    "Que cada tipo de consulta necesita un modo distinto: decidir según la consulta",
-    "Usar siempre la híbrida",
-    "Usar siempre BM25",
-    "Nada"
+    "Elegir el modo de recuperación según cada tipo de consulta",
+    "Activar siempre la fusión híbrida como único modo universal",
+    "Priorizar BM25 puro para todas las consultas técnicas del sistema",
+    "Nada concluyente mientras el tamaño del set sea inferior a cien"
    ],
    "correcta": 0,
    "explicacion": "Eso es routing, el tema del Módulo 2."

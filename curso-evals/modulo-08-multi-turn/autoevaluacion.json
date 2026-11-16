@@ -4,9 +4,9 @@
    "pregunta": "¿Cuál de estos fallos NO aparece evaluando turnos sueltos?",
    "opciones": [
     "Aplicar un requisito que el usuario ya cambió",
-    "Una respuesta con un dato falso",
-    "Un error de formato",
-    "Una respuesta lenta"
+    "Generar una respuesta con un dato completamente inventado",
+    "Entregar un objeto con errores de formato en el esquema",
+    "Devolver una respuesta con latencia superior al límite esperado"
    ],
    "correcta": 0,
    "explicacion": "Recordar de más, olvidar o mezclar usuarios solo se ven evaluando la conversación."
@@ -14,10 +14,10 @@
   {
    "pregunta": "Todas las respuestas fueron correctas (18/18). ¿Dónde estaba el fallo?",
    "opciones": [
-    "En ninguna parte",
-    "En el guardrail",
-    "En la búsqueda",
-    "En el estado: la memoria guardó dos requisitos contradictorios"
+    "En ninguna parte: 18/18 garantiza comportamiento correcto",
+    "En el guardrail final que omitió revisar las citas",
+    "En la capa de búsqueda híbrida al ordenar resultados",
+    "En el estado: guardó dos requisitos contradictorios"
    ],
    "correcta": 3,
    "explicacion": "En un sistema con memoria, el estado es parte de la salida."
@@ -25,10 +25,10 @@
   {
    "pregunta": "¿Por qué un fallo de estado es peligroso aunque la respuesta del turno sea correcta?",
    "opciones": [
-    "No es peligroso",
-    "Porque ocupa espacio",
+    "En realidad no implica riesgo mientras el usuario reciba bien el turno",
+    "Porque los registros acumulados terminan llenando el almacén de contexto",
     "Porque puede salir en cualquier conversación futura, cuando se recupere el recuerdo viejo",
-    "Porque es lento"
+    "Porque obliga a reindexar los embeddings incrementando la latencia de red"
    ],
    "correcta": 2,
    "explicacion": "Es un fallo latente: el eval de respuestas lo da por bueno hasta el turno que lo saque a la luz."
@@ -36,10 +36,10 @@
   {
    "pregunta": "El fallo de memoria apareció en 1 de 2 corridas. ¿Qué implica?",
    "opciones": [
-    "Que es irrelevante",
-    "Que es ocasional: con una sola corrida, la mitad de las veces no lo habrías visto",
-    "Que el chequeo falla",
-    "Que hay que borrar la memoria"
+    "Que resulta irrelevante al ocurrir menos de la mitad de las veces",
+    "Es ocasional: con una corrida, la mitad de las veces no lo ves",
+    "Que la función de aserción presenta un bug de sincronización temporal",
+    "Que conviene desactivar por completo la memoria persistente en la app"
    ],
    "correcta": 1,
    "explicacion": "Las conversaciones también se repiten: los fallos de varios turnos suelen ser ocasionales."
@@ -47,10 +47,10 @@
   {
    "pregunta": "La única conversación fallida con usuario simulado, ¿de quién fue culpa?",
    "opciones": [
-    "Del simulador: inventó un requisito («vigente») que no estaba en su personaje",
-    "Del asistente",
-    "Del CV",
-    "De la red"
+    "Del simulador: inventó un requisito fuera de su personaje",
+    "Del asistente por ignorar un filtro implícito del diálogo",
+    "De la hoja de vida usada porque omitía fechas laborales clave",
+    "De un error de red que descartó uno de los mensajes intermedios"
    ],
    "correcta": 0,
    "explicacion": "El asistente respondió con honestidad. Por eso hay que leer las conversaciones fallidas antes de contarlas."
@@ -58,10 +58,10 @@
   {
    "pregunta": "¿Qué validación le faltó al simulador?",
    "opciones": [
-    "Que hablara español",
-    "Que terminara rápido",
-    "Ninguna",
-    "Que no añadiera nada más allá de su personaje (no solo que revelara su requisito)"
+    "Verificar que redactara todas las preguntas en español neutro",
+    "Limitar la duración de los turnos para concluir rápidamente",
+    "Ninguna validación extra era necesaria tras revisar el prompt",
+    "Que no añadiera nada fuera de su personaje al interactuar"
    ],
    "correcta": 3,
    "explicacion": "Como el generador del Módulo 3: hay que comprobar que hace lo que se pide, y solo eso."

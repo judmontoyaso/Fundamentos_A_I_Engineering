@@ -1,21 +1,19 @@
-// Correos transaccionales (verificación de cuenta, confirmación de compra) por la API de Resend.
-// Sin RESEND_API_KEY y CORREO_REMITENTE no se envía nada: la app funciona igual, solo que sin avisos
-// y con las cuentas de correo y contraseña sin verificar.
+// Correos transaccionales (verificación de cuenta, recuperación de clave, confirmación de compra) por Resend.
+// Sin RESEND_API_KEY y CORREO_REMITENTE no se envía nada: la app funciona igual, sin avisos por correo.
 import "server-only";
+import { CONTACTO_SITIO, NOMBRE_SITIO, urlSitioPublico } from "./sitio";
 import type { Pedido } from "./tipos";
 
 const CLAVE = process.env.RESEND_API_KEY;
-const REMITENTE = process.env.CORREO_REMITENTE; // p. ej.  IA en Producción <hola@tudominio.com>
-const SITIO = process.env.NEXT_PUBLIC_NOMBRE_SITIO ?? "IA en Producción";
+const REMITENTE = process.env.CORREO_REMITENTE; // p. ej. IA en Producción <hola@tudominio.com>
+const SITIO = NOMBRE_SITIO;
 
 export const correoActivo = Boolean(CLAVE && REMITENTE);
 
 /** URL pública del sitio para los enlaces de los correos que no nacen de una petición (p. ej. un webhook). */
 export function urlSitio(): string {
-  const fija = process.env.SITIO_URL?.replace(/\/$/, "");
-  if (fija) return fija;
-  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-  return vercel ? `https://${vercel}` : "";
+  const u = urlSitioPublico();
+  return u.startsWith("http://localhost") ? "" : u;
 }
 
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
@@ -26,10 +24,18 @@ type Mensaje = { para: string; asunto: string; texto: string; html: string };
 export async function enviarCorreo(m: Mensaje): Promise<boolean> {
   if (!correoActivo) return false;
   try {
+    const body: Record<string, unknown> = {
+      from: REMITENTE,
+      to: [m.para],
+      subject: m.asunto,
+      text: m.texto,
+      html: m.html,
+    };
+    if (CONTACTO_SITIO) body.reply_to = CONTACTO_SITIO;
     const r = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { Authorization: `Bearer ${CLAVE}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from: REMITENTE, to: [m.para], subject: m.asunto, text: m.texto, html: m.html }),
+      body: JSON.stringify(body),
     });
     if (!r.ok) console.error(`[correo] ${r.status}: ${(await r.text()).slice(0, 300)}`);
     return r.ok;
@@ -47,7 +53,7 @@ function plantilla(titulo: string, parrafos: string[], boton?: { texto: string; 
     : "";
   return `<div style="font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:520px;margin:0 auto;padding:24px;color:#111827">
     <h1 style="font-size:20px;margin:0 0 16px">${esc(titulo)}</h1>${cuerpo}${cta}
-    <p style="margin:24px 0 0;font-size:13px;color:#6b7280">${esc(SITIO)}</p></div>`;
+    <p style="margin:24px 0 0;font-size:13px;color:#6b7280">${esc(SITIO)}${CONTACTO_SITIO ? ` · ${esc(CONTACTO_SITIO)}` : ""}</p></div>`;
 }
 
 export function enviarVerificacion(para: string, nombre: string | undefined, enlace: string): Promise<boolean> {
@@ -61,6 +67,20 @@ export function enviarVerificacion(para: string, nombre: string | undefined, enl
       "Confirma que este correo es tuyo. El enlace vale 48 horas.",
       `Si no creaste una cuenta en ${esc(SITIO)}, ignora este mensaje: sin tu confirmación la cuenta queda sin verificar.`,
     ], { texto: "Confirmar mi correo", url: enlace }),
+  });
+}
+
+export function enviarRecuperacion(para: string, nombre: string | undefined, enlace: string): Promise<boolean> {
+  const saludo = nombre ? `Hola, ${nombre}.` : "Hola.";
+  return enviarCorreo({
+    para,
+    asunto: `Restablece tu contraseña en ${SITIO}`,
+    texto: `${saludo}\n\nRecibimos una solicitud para cambiar la contraseña de tu cuenta.\nAbre este enlace (vale 1 hora):\n${enlace}\n\nSi no pediste cambiar tu contraseña, ignora este mensaje.`,
+    html: plantilla("Restablece tu contraseña", [
+      esc(saludo),
+      "Recibimos una solicitud para asignar una nueva contraseña a tu cuenta. Este enlace vale 1 hora.",
+      "Si no fuiste tú, puedes ignorar este mensaje con tranquilidad.",
+    ], { texto: "Elegir nueva contraseña", url: enlace }),
   });
 }
 

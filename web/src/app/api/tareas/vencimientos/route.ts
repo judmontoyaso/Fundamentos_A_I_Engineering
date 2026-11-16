@@ -1,11 +1,7 @@
 // Tarea programada: avisa por correo a quienes se les vence el acceso en N días.
-//
-// La app no tiene reloj propio; la llama un programador externo (n8n, cron de Vercel, GitHub Actions...)
-// UNA VEZ AL DÍA:
-//     POST /api/tareas/vencimientos            Authorization: Bearer <TAREAS_SECRET>
-//     POST /api/tareas/vencimientos?dias=7     (por defecto avisa a 3 días)
-// Cada llamada cubre los accesos que vencen dentro del día número N contado desde hoy (UTC), así que con una
-// llamada diaria cada acceso recibe un solo aviso. Llamarla dos veces el mismo día lo repite.
+// Compatible con:
+// - Programador externo (n8n, GitHub Actions): POST /api/tareas/vencimientos?dias=3  Authorization: Bearer <TAREAS_SECRET>
+// - Vercel Cron: GET /api/tareas/vencimientos?dias=3 con Authorization: Bearer <CRON_SECRET>
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { cubre, vigente } from "@/lib/acceso";
@@ -17,14 +13,14 @@ import { store } from "@/lib/store";
 export const dynamic = "force-dynamic";
 
 function autorizado(req: Request): boolean {
-  const secreto = process.env.TAREAS_SECRET;
-  if (!secreto) return false; // sin secreto configurado la tarea no existe
+  const secreto = process.env.TAREAS_SECRET || process.env.CRON_SECRET;
+  if (!secreto) return false;
   const a = Buffer.from(req.headers.get("authorization") ?? "");
   const b = Buffer.from(`Bearer ${secreto}`);
   return a.length === b.length && timingSafeEqual(a, b);
 }
 
-export async function POST(req: Request) {
+async function ejecutar(req: Request) {
   if (!autorizado(req)) return new NextResponse(null, { status: 404 });
   if (!correoActivo) return NextResponse.json({ ok: false, motivo: "correo sin configurar" }, { status: 503 });
 
@@ -40,7 +36,6 @@ export async function POST(req: Request) {
   let omitidos = 0;
 
   for (const a of porVencer) {
-    // Si ya renovó (tiene otro acceso vigente que cubre lo mismo y vence después), no hay nada que avisar.
     const otros = await store.accesos(a.userId);
     const renovado = otros.some((o) => o.id !== a.id && vigente(o) && (o.alcance === "todo" || cubre(o, a.alcance)) && (o.hasta === null || o.hasta > a.hasta!));
     if (!a.email || renovado) {
@@ -67,3 +62,6 @@ export async function POST(req: Request) {
 
   return NextResponse.json({ ok: true, dias, revisados: porVencer.length, enviados, omitidos });
 }
+
+export const POST = ejecutar;
+export const GET = ejecutar;

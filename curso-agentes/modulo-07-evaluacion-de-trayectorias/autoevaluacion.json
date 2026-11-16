@@ -3,56 +3,56 @@
     {
       "pregunta": "¿Por qué evaluar únicamente el resultado final (Outcome) es insuficiente para auditar un agente en producción?",
       "opciones": [
-        "Porque el resultado final nunca se puede comparar contra una lista de referencia como terna_correcta.",
-        "Porque un agente puede acertar la terna por azar tras dar rodeos costosos o saltarse verificaciones obligatorias.",
-        "Porque las métricas como precisión, recall y F1 solo están definidas para problemas de clasificación binaria.",
-        "Porque el resultado final no forma parte del objeto JSON que devuelve la herramienta entregar_terna."
+        "Porque un agente puede acertar por azar dando rodeos costosos o saltando verificaciones.",
+        "Porque la salida final jamás puede contrastarse con una lista esperada como terna_correcta.",
+        "Porque las métricas clásicas como precisión, recall y F1 solo aplican a clasificación binaria.",
+        "Porque el dictamen final queda excluido del objeto JSON que devuelve la función entregar_terna."
       ],
-      "correcta": 1,
+      "correcta": 0,
       "explicacion": "En 01_metricas_trayectoria.py vimos cómo una corrida puede parecer corta o acertar parcialmente mientras viola políticas al no llamar a verificar_elegibilidad."
     },
     {
       "pregunta": "¿Qué mide exactamente la métrica pass^k (pass-hat-k) introducida en el benchmark τ-bench frente a pass@k?",
       "opciones": [
-        "pass@k mide la latencia media en k pasos y pass^k mide el costo monetario multiplicado por k.",
-        "pass@k exige que fallen los k intentos y pass^k exige que acierte únicamente el último intento.",
-        "pass@k mide la probabilidad de acertar al menos 1 de k intentos; pass^k mide la probabilidad de acertar TODOS los k intentos.",
-        "Ambas métricas calculan exactamente el mismo valor cuando la probabilidad de éxito por corrida es menor a 1."
+        "pass@k mide la latencia promedio en k turnos y pass^k mide el gasto monetario multiplicado por k.",
+        "pass@k exige que fallen los primeros k intentos y pass^k exige acertar únicamente el último intento.",
+        "Ambas métricas calculan exactamente el mismo porcentaje cuando la tasa por corrida es menor a uno.",
+        "pass@k exige acertar al menos 1 de k corridas; pass^k exige acertar todas las k corridas."
       ],
-      "correcta": 2,
+      "correcta": 3,
       "explicacion": "En producción importa la consistencia: pass^k exige que las k ejecuciones salgan bien, revelando la fragilidad que pass@k esconde."
     },
     {
       "pregunta": "En 02_pass_k_vs_pass_hat_k.py, para el agente sin guarda de estado (p_descuido=0.25), ¿qué ocurre al pasar de k=1 a k=5?",
       "opciones": [
-        "Tanto pass@k como pass^k suben desde 0.312 hasta alcanzar 0.938 en k=5.",
-        "Tanto pass@k como pass^k caen desde 0.312 hasta llegar a 0.000 en k=5.",
-        "pass@k se mantiene constante en 0.500 mientras que pass^k sube hasta 1.000.",
-        "pass@k sube de 0.312 a 0.938 (parece excelente), pero pass^k se desploma de 0.312 a 0.000."
+        "Tanto pass@k como pass^k ascienden desde 0.312 hasta alcanzar exactamente 0.938 en k=5.",
+        "pass@k sube de 0.312 a 0.938, mientras pass^k cae desde 0.312 hasta 0.000.",
+        "Tanto pass@k como pass^k caen desde 0.312 hasta tocar 0.000 simultáneamente en k=5.",
+        "pass@k permanece invariable en 0.500 mientras pass^k sube de forma progresiva hasta 1.000."
       ],
-      "correcta": 3,
+      "correcta": 1,
       "explicacion": "Con una tasa de éxito por corrida cercana al 31 %, en 5 intentos es casi seguro acertar alguna vez (pass@5 = 93.8 %), pero imposible acertar 5 veces seguidas (pass^5 = 0.0 %)."
     },
     {
       "pregunta": "¿Por qué en 02_pass_k_vs_pass_hat_k.py se calcula pass^k dentro de cada vacante usando combinatoria comb(c, k) / comb(n, k) y luego se promedia entre vacantes?",
       "opciones": [
-        "Porque τ-bench evalúa la consistencia por tarea individual y promedia después; elevar la media global sesgaría el resultado.",
-        "Porque la función comb de Python solo acepta un máximo de dos tareas por cada archivo de evaluación.",
-        "Para que el valor numérico de pass^k sea siempre mayor que el valor de pass@k en cualquier conjunto de datos.",
-        "Porque las vacantes VAC-101 y VAC-102 tienen exactamente los mismos candidatos elegibles en el ATS."
+        "Porque la librería estándar math de Python limita comb() a un máximo de dos tareas por archivo.",
+        "Para garantizar que el resultado numérico de pass^k supere siempre al de pass@k en cualquier suite.",
+        "Porque τ-bench mide consistencia por tarea antes de promediar; elevar la media global sesgaría.",
+        "Porque las vacantes VAC-101 y VAC-102 comparten exactamente la misma lista de candidatos elegibles."
       ],
-      "correcta": 0,
+      "correcta": 2,
       "explicacion": "Por la desigualdad de Jensen, el promedio de las consistencias por tarea E[p_i^k] no es igual a elevar al exponente k el promedio global (E[p_i])^k."
     },
     {
       "pregunta": "¿Cómo logra el agente con invariantes alcanzar pass^5 = 1.000 en ambas vacantes del benchmark?",
       "opciones": [
-        "Eliminando las validaciones de enfriamiento e inglés para que cualquier candidato sea aceptado como válido.",
-        "Trasladando las reglas críticas y la verificación obligatoria al controlador determinista fuera del azar del modelo.",
-        "Ejecutando cincuenta llamadas ocultas al modelo en cada turno y eligiendo la respuesta más frecuente.",
-        "Reemplazando los nombres de los candidatos por números aleatorios antes de llamar a entregar_terna."
+        "Desactivando las reglas de enfriamiento e inglés para aceptar como válido a todo candidato hallado.",
+        "Ejecutando cincuenta llamadas paralelas en cada paso y eligiendo por votación mayoritaria el dictamen.",
+        "Sustituyendo los identificadores reales de los candidatos por índices aleatorios antes del cierre final.",
+        "Moviendo reglas críticas y verificación obligatoria al controlador determinista fuera del LLM."
       ],
-      "correcta": 1,
+      "correcta": 3,
       "explicacion": "Cuando el controlador impone las invariantes de estado y delega las reglas exactas a herramientas deterministas, la varianza estocástica deja de corromper el resultado."
     }
   ]

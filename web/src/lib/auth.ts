@@ -55,6 +55,12 @@ export const crearTokenVerificacion = (uid: string, email: string) =>
 export const leerTokenVerificacion = (t: string | null | undefined) =>
   leerDatos<{ uid: string; email: string; exp: number }>("ver", t);
 
+/** Enlace de restablecimiento de contraseña: lo firma el servidor y vale 1 hora. */
+export const crearTokenRecuperacion = (uid: string, email: string) =>
+  firmarDatos("rec", { uid, email: email.toLowerCase(), exp: Date.now() + 3600_000 });
+export const leerTokenRecuperacion = (t: string | null | undefined) =>
+  leerDatos<{ uid: string; email: string; exp: number }>("rec", t);
+
 /** ¿La cuenta guardada con este id nació de un correo comprobado? Solo esas pueden recibir otra identidad. */
 async function identidadVerificada(id: string, email: string): Promise<boolean> {
   if (id.startsWith("google-oauth2|")) return true; // Google responde por el correo
