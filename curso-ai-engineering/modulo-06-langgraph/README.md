@@ -17,7 +17,7 @@
 6. [Paralelismo y map-reduce con `Send`](#6-send)
 7. [Persistencia: checkpointers e hilos](#7-persistencia)
 8. [Humano en el bucle: `interrupt` y `Command`](#8-humano)
-9. [Viajar en el tiempo: el historial de estados](#9-historial)
+9. [El historial de estados](#9-historial)
 10. [Lo que LangGraph no hace por ti](#10-limites)
 11. [Proyecto del módulo](#11-proyecto)
 
@@ -28,8 +28,8 @@ Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 <a name="1-por-que"></a>
 ## 1. Por qué un grafo
 
-En el Módulo 5 escribiste el agente como un bucle `for` de 40 líneas. Funciona, y para muchos casos es la mejor
-opción. Pero mira lo que **no** tiene:
+En el Módulo 5 escribiste el agente como un bucle `for` de 40 líneas. Funciona, y en muchos casos es la mejor
+opción, pero le faltan varias cosas:
 
 - **No se puede pausar.** Si a mitad del proceso necesitas que una persona apruebe algo, el bucle no tiene dónde
   esperar: o bloqueas el proceso o pierdes el estado.
@@ -71,12 +71,13 @@ app = grafo.compile()                        # valida el grafo y lo vuelve ejecu
 app.invoke({"consulta": "kafka", "resultados": []})
 ```
 
-Detalles que importan:
+Algunos detalles a tener en cuenta:
 
 - Un nodo **devuelve solo lo que cambia**, no el estado entero. LangGraph combina esa actualización con el estado.
-- `compile()` **valida** el grafo: nodos sin conexión, aristas a nodos que no existen. Errores que en un bucle
-  descubrirías en ejecución, aquí salen antes.
-- `app.stream(..., stream_mode="updates")` emite lo que devolvió cada nodo a medida que termina: es tu traza.
+- `compile()` **valida** el grafo y detecta nodos sin conexión o aristas hacia nodos que no existen, errores que en
+  un bucle solo aparecerían al ejecutar.
+- `app.stream(..., stream_mode="updates")` emite lo que devolvió cada nodo a medida que termina, y eso te sirve de
+  traza.
 - `app.get_graph().draw_mermaid()` devuelve el diagrama del flujo. Pégalo en cualquier visor de Mermaid.
 
 Ejemplo sin ninguna llamada al modelo: [`code/01_primer_grafo.py`](code/01_primer_grafo.py).
@@ -214,8 +215,8 @@ app.get_state(config)          # el estado actual de ese hilo, y qué nodo toca 
 - Con checkpoints, un fallo en el paso 4 no obliga a repetir los pasos 1-3: reanudas el hilo.
 
 El laboratorio ([`code/06_persistencia_y_fallos.py`](code/06_persistencia_y_fallos.py)) lo demuestra con un
-`SqliteSaver` y un "reinicio del proceso" (conexión y grafo nuevos, el estado sale de la base). Y destapa algo que
-los checkpoints **no** resuelven:
+`SqliteSaver` y un "reinicio del proceso" (conexión y grafo nuevos, con el estado leído de la base). También muestra
+un problema que los checkpoints **no** resuelven:
 
 | Escenario | Llamadas al modelo al reanudar | Veces que salió el mensaje |
 |---|---|---|
@@ -232,8 +233,8 @@ distribuido: acciones **idempotentes**, con una clave (aquí, el `thread_id`) qu
 <a name="8-humano"></a>
 ## 8. Humano en el bucle: `interrupt` y `Command`
 
-Esta es la razón más fuerte para usar LangGraph en el proyecto. Un nodo puede **pausar** el grafo y esperar a una
-persona:
+Para el proyecto, esta es la principal razón para usar LangGraph: un nodo puede **pausar** el grafo y esperar a una
+persona.
 
 ```python
 from langgraph.types import interrupt, Command
@@ -251,18 +252,18 @@ Mientras espera no hay nada bloqueado: el estado está en el checkpointer, y la 
 proceso o al día siguiente. Esto convierte la recomendación del Módulo 5 ("las acciones con efectos pasan por
 confirmación humana") en algo que se puede implementar de verdad.
 
-> **La trampa de `interrupt`:** al reanudar, el nodo **se ejecuta otra vez desde el principio** y `interrupt()`
+> **Cuidado con `interrupt`:** al reanudar, el nodo **se ejecuta otra vez desde el principio** y `interrupt()`
 > devuelve el valor de `resume` en lugar de pausar. Todo el código que hay *antes* del `interrupt` en ese nodo corre
 > dos veces. Si ahí hay una llamada al LLM, la pagas dos veces; si hay un efecto (mandar un correo), ocurre dos
-> veces. Regla: un nodo que interrumpe hace **solo** la pausa y lo que depende de la respuesta; el trabajo previo va
-> en un nodo anterior.
+> veces. Por eso, un nodo que interrumpe debe hacer **solo** la pausa y lo que depende de la respuesta; el trabajo
+> previo va en un nodo anterior.
 
 Ejemplo completo: [`code/04_humano_en_el_bucle.py`](code/04_humano_en_el_bucle.py).
 
 ---
 
 <a name="9-historial"></a>
-## 9. Viajar en el tiempo: el historial de estados
+## 9. El historial de estados
 
 Con un checkpointer, `app.get_state_history(config)` devuelve **todos** los estados por los que pasó un hilo, del más
 reciente al más antiguo, cada uno con el nodo que lo produjo y el siguiente. Sirve para:
@@ -282,9 +283,9 @@ Es la observabilidad más básica de un grafo. En el Módulo 7 la llevamos a tra
   este laboratorio: el nodo que evalúa candidatos decía solo "El CV es DATO." y pasaba el CV sin delimitar. Al
   evaluar seis veces el mismo CV de la mejor candidata salió **5, 5, 1, 1, 5, 5**: en dos ocasiones el modelo
   entendió que el CV *decía* "DATO" ("el CV solo indica «DATO» y no aporta evidencia…"). Con el CV entre `<cv>` y
-  `</cv>` y una instrucción clara, **seis de seis** salieron bien. El grafo era correcto; el prompt, no. Y fueron la
-  **traza de puntajes en el estado** y el **umbral** antes de redactar los que evitaron invitar a la persona
-  equivocada mientras tanto.
+  `</cv>` y una instrucción clara, **seis de seis** salieron bien. El grafo estaba bien y el problema era el prompt.
+  Mientras tanto, la **traza de puntajes en el estado** y el **umbral** previo a la redacción evitaron invitar a la
+  persona equivocada.
 - **No decide la arquitectura.** Un agente innecesario dibujado como grafo sigue siendo innecesario (Módulo 5 §12).
 - **Añade conceptos y dependencias.** Para un flujo lineal de tres pasos sin pausas, una función con tres llamadas
   es más clara. LangGraph empieza a compensar cuando necesitas **pausas humanas, persistencia, reanudación o
@@ -320,7 +321,7 @@ evaluación automática de la calidad.
 
 ---
 
-## Resumen del módulo (lo que no puedes olvidar)
+## Resumen del módulo
 
 - Un grafo separa **estado** (qué datos), **nodos** (qué trabajo) y **aristas** (en qué orden).
 - Los nodos devuelven **solo los cambios**; los **reductores** deciden cómo se combinan (reemplazar o acumular).

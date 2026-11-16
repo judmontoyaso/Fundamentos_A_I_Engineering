@@ -1,8 +1,8 @@
 # Módulo 4 · BM25, búsqueda híbrida y Reciprocal Rank Fusion
 
 > **Objetivo:** entender la búsqueda **léxica** (BM25) por dentro, saber cuándo le gana a la semántica, y combinar
-> las dos en una **búsqueda híbrida** con **Reciprocal Rank Fusion (RRF)**, implementada de punta a punta en Qdrant
-> y **medida** contra cada búsqueda por separado.
+> las dos en una **búsqueda híbrida** con **Reciprocal Rank Fusion (RRF)**, implementada completa en Qdrant y
+> **medida** frente a cada búsqueda por separado.
 >
 > **Pieza del proyecto:** el buscador de CVs pasa a ser híbrido. Encuentra a quien escribió "AWS" cuando la consulta
 > dice "AWS" (léxica) y también a quien escribió "Kafka y Flink" cuando la consulta dice "streaming" (semántica).
@@ -18,7 +18,7 @@
 7. [Reciprocal Rank Fusion](#7-rrf)
 8. [Variantes: RRF ponderado y DBSF](#8-variantes)
 9. [BM25 como vector disperso](#9-dispersos)
-10. [Híbrida de punta a punta en Qdrant](#10-qdrant)
+10. [La búsqueda híbrida completa en Qdrant](#10-qdrant)
 11. [Después de fusionar: re-ranking](#11-rerank)
 12. [Medir: léxica vs. semántica vs. híbrida](#12-medir)
 13. [Proyecto del módulo](#13-proyecto)
@@ -30,8 +30,8 @@ Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 <a name="1-falla-semantica"></a>
 ## 1. Dónde falla la búsqueda semántica
 
-En el Módulo 2 la búsqueda semántica brilló: encontró a la candidata de "Kafka y Flink" con una consulta sobre
-"streaming" sin una sola palabra en común. Pero en el laboratorio también viste su punto débil: con un modelo pequeño,
+En el Módulo 2 la búsqueda semántica encontró a la candidata de "Kafka y Flink" con una consulta sobre "streaming",
+sin ninguna palabra en común. En el mismo laboratorio también apareció su punto débil: con un modelo pequeño,
 una PM que tenía "datos" en sus áreas **empató** con la experta en streaming. Los embeddings comprimen el significado
 en unos cientos de números, y en esa compresión se pierde lo **exacto**:
 
@@ -43,14 +43,14 @@ en unos cientos de números, y en esa compresión se pierde lo **exacto**:
 - **Coincidencia literal que el usuario espera:** quien busca "LangGraph" quiere ver CVs que dicen "LangGraph",
   no CVs "parecidos a orquestación de agentes".
 
-Para todo eso existe una técnica de los años 90 que sigue invicta en su terreno: la búsqueda **léxica** con **BM25**.
+Para estos casos sigue siendo la mejor opción una técnica de los años 90: la búsqueda **léxica** con **BM25**.
 
 ---
 
 <a name="2-lexica"></a>
 ## 2. Búsqueda léxica: el índice invertido
 
-La búsqueda léxica compara **términos**, no significados. Su estructura central es el **índice invertido**, el mismo
+La búsqueda léxica compara **términos** y no significados. Su estructura central es el **índice invertido**, el mismo
 de un buscador web o del índice al final de un libro: para cada término, la lista de documentos que lo contienen.
 
 ```
@@ -59,9 +59,9 @@ de un buscador web o del índice al final de un libro: para cada término, la li
 "sap"    -> [cv_4]
 ```
 
-Buscar "kafka aws" es leer dos listas y combinarlas: no hay que comparar la consulta contra cada documento, por eso
-escala a miles de millones de documentos. La pregunta interesante no es *cuáles* documentos contienen los términos
-(eso lo da el índice), sino **en qué orden** mostrarlos. Ahí entra BM25.
+Buscar "kafka aws" consiste en leer dos listas y combinarlas, sin comparar la consulta contra cada documento, y por
+eso escala a miles de millones de documentos. Saber qué documentos contienen los términos es fácil gracias al índice;
+lo que requiere más trabajo es decidir **en qué orden** mostrarlos, y para eso sirve BM25.
 
 ---
 
@@ -80,12 +80,11 @@ IDF(q) = ln( (N − n(q) + 0.5) / (n(q) + 0.5) + 1 )
 ```
 
 Donde `f(q,D)` es cuántas veces aparece el término en el documento, `|D|` la longitud del documento, `avgdl` la
-longitud media, `N` el número de documentos y `n(q)` en cuántos aparece el término. Tres ideas, cada una con su
-razón de ser:
+longitud media, `N` el número de documentos y `n(q)` en cuántos aparece el término. La fórmula combina tres ideas:
 
 **1. IDF: los términos raros pesan más.** "de" aparece en todos los CVs: no distingue a nadie, su IDF es casi 0.
-"Flink" aparece en uno: si la consulta lo pide, ese CV es casi seguro relevante. El IDF es lo que hace que BM25
-"entienda" qué palabra de tu consulta importa.
+"Flink" aparece en uno, así que si la consulta lo pide, ese CV es casi seguro relevante. El IDF es lo que le
+permite a BM25 distinguir qué palabras de la consulta importan.
 
 **2. Saturación (`k1`): repetir un término rinde cada vez menos.** Si el documento tiene la longitud media, el
 factor de frecuencia vale `f·(k1+1)/(f+k1)`. Con el valor típico `k1 = 1.2`:
@@ -101,16 +100,16 @@ contra documentos que repiten palabras para posicionarse (*keyword stuffing*).
 más palabras y por azar más coincidencias. Con `b = 0.75` (típico), el denominador crece con `|D|/avgdl` y penaliza
 a los documentos más largos que la media. Con `b = 0` no hay normalización; con `b = 1`, es completa.
 
-> Implementar BM25 te lleva 30 líneas y es la mejor forma de entenderlo. Está hecho de cero, comentado, en
+> Implementar BM25 toma unas 30 líneas y es una muy buena forma de entenderlo. Está hecho de cero, comentado, en
 > [`code/01_bm25_desde_cero.py`](code/01_bm25_desde_cero.py). Fíjate en que **no hay ningún modelo**: BM25 no se
 > entrena, no usa GPU y es totalmente explicable (sabes exactamente por qué un documento quedó primero).
 
 ---
 
 <a name="4-tokenizar"></a>
-## 4. Tokenizar en español: la mitad del trabajo
+## 4. Tokenizar en español
 
-BM25 compara términos, así que **qué cuenta como término** decide todo. Un tokenizador ingenuo (`texto.split()`)
+BM25 compara términos, así que **la forma de definir qué es un término** determina buena parte del resultado. Un tokenizador ingenuo (`texto.split()`)
 convierte "Python," "python" y "PYTHON" en tres términos distintos. Lo mínimo para español:
 
 1. **Minúsculas.**
@@ -121,8 +120,8 @@ convierte "Python," "python" y "PYTHON" en tres términos distintos. Lo mínimo 
 5. **Opcional, *stemming*:** reducir "desarrollador", "desarrollo", "desarrollando" a una raíz común ("desarroll").
    Sube el recall y a veces mezcla palabras que no tienen nada que ver. Mídelo antes de dejarlo puesto.
 
-La consulta y los documentos deben pasar **por el mismo tokenizador**. Es la trampa número uno de la búsqueda
-léxica: indexar con un análisis y buscar con otro.
+La consulta y los documentos deben pasar **por el mismo tokenizador**. Indexar con un análisis y buscar con otro es
+el error más común en la búsqueda léxica.
 
 ---
 
@@ -138,32 +137,33 @@ léxica: indexar con un análisis y buscar con otro.
 | Términos que el modelo nunca vio | **BM25** | Un término desconocido para el modelo sigue siendo un término |
 | Explicar por qué salió un resultado | **BM25** | Puedes señalar los términos que coincidieron |
 
-No compiten: **fallan en lugares distintos**. Cuando dos métodos se equivocan en casos distintos, combinarlos suele
-ser mejor que cualquiera de los dos. Esa es toda la tesis de la búsqueda híbrida.
+Las dos búsquedas **fallan en casos distintos**, y cuando dos métodos se equivocan en situaciones diferentes,
+combinarlos suele dar mejores resultados que usar cualquiera de los dos por separado. En eso se basa la búsqueda
+híbrida.
 
 ---
 
 <a name="6-hibrida"></a>
 ## 6. Búsqueda híbrida: el problema de combinar puntajes
 
-La idea obvia es sumar los puntajes: `final = puntaje_bm25 + puntaje_coseno`. No funciona, porque **están en escalas
-incomparables**:
+Lo primero que se le ocurre a cualquiera es sumar los puntajes, `final = puntaje_bm25 + puntaje_coseno`, pero no
+funciona porque **están en escalas que no se pueden comparar**:
 
 - BM25 no tiene techo: 12.4 en una colección, 3.1 en otra, según el largo de la consulta y la rareza de los términos.
 - El coseno vive en `[-1, 1]`, y en la práctica casi siempre entre 0.2 y 0.9.
 
 Sumados, BM25 aplasta al coseno. El arreglo habitual es **normalizar** (por ejemplo min-max, llevar cada lista a
-`[0, 1]`) y luego hacer una suma ponderada `α·léxica + (1−α)·semántica`. Esto tiene nombre propio —**Relative Score
-Fusion** (RSF), así se llama en Weaviate— y conviene sabérselo, porque es con lo que te vas a topar en la
-documentación de los motores. Funciona, pero es frágil:
+`[0, 1]`) y luego hacer una suma ponderada `α·léxica + (1−α)·semántica`. Este método se conoce como **Relative Score
+Fusion** (RSF), que es el nombre que usa Weaviate, y aparece con frecuencia en la documentación de los motores de
+búsqueda. Funciona, pero es frágil:
 
 - Min-max **exagera diferencias diminutas**. Si los cosenos son 0.82, 0.80 y 0.79, tras normalizar quedan 1.0, 0.33 y
   0.0: una diferencia de 0.03 se convirtió en una de 1.0.
 - Un solo valor atípico deforma toda la escala.
 - `α` hay que calibrarlo, y el valor bueno cambia con cada colección y cada tipo de consulta.
 
-Hay una forma de combinar que **ignora los puntajes** y usa solo el orden. Es más simple, no hay que calibrar nada, y
-en la práctica es muy difícil de superar.
+Existe otra forma de combinar que **ignora los puntajes** y usa solo el orden. Es más simple, no requiere calibración
+y en la práctica da muy buenos resultados.
 
 ---
 
@@ -187,7 +187,7 @@ Un documento suma `1/(k + puesto)` por cada lista donde aparece. Ejemplo con dos
 | D | — | 3 | 1/63 = 0.01587 |
 
 Orden final: **A, C, B, D**. Los documentos que **ambos** buscadores ponen arriba ganan con claridad, y lo que
-encuentra uno solo queda detrás pero no se pierde. Por qué funciona tan bien:
+encuentra uno solo queda detrás, pero no se pierde. Funciona bien por tres razones:
 
 - **Inmune a la escala:** solo usa puestos. Da igual que BM25 dé 12.4 y el coseno 0.8.
 - **Sin calibración:** `k = 60` funciona razonablemente en casi cualquier colección. Lo que hace `k` es suavizar: con
@@ -225,11 +225,12 @@ Implementación de cero y comparación con la suma normalizada en [`code/03_rrf.
 
 ### Cuándo sí quieres volver a los puntajes
 
-RRF es la opción por defecto porque descarta la escala de los puntajes, que es frágil, y se queda con el orden. Pero esa
-misma virtud es su límite: **para RRF, el primero gana lo mismo si arrasó o si ganó por un pelo.** Si en una consulta
-el mejor resultado saca coseno 0.91 y el segundo 0.44, el ranking dice "1, 2" y RRF no se entera de ese abismo.
+RRF es la opción por defecto porque descarta la escala de los puntajes, que es frágil, y se queda con el orden. Esa
+misma característica es también su límite: **para RRF, el primer puesto vale lo mismo si ganó con mucha ventaja o por
+muy poco.** Si en una consulta el mejor resultado tiene coseno 0.91 y el segundo 0.44, el ranking dice "1, 2" y RRF
+no registra esa diferencia tan grande.
 
-Hay tres casos donde esa información vale y conviene fusionar por puntaje (RSF o DBSF) en vez de por rango:
+Hay tres casos en los que esa información importa y conviene fusionar por puntaje (RSF o DBSF) en lugar de por rango:
 
 - **Quieres un umbral.** "No muestres nada por debajo de X" o "si nada pasa de X, responde que no encontraste" solo
   se puede escribir sobre un puntaje. Un rango siempre tiene un primer puesto, aunque todos los candidatos sean malos.
@@ -238,9 +239,9 @@ Hay tres casos donde esa información vale y conviene fusionar por puntaje (RSF 
 - **Las dos ramas son de calidad muy distinta y lo sabes.** Si tu BM25 es ruido salvo en siglas, el puntaje te deja
   descontarlo con continuidad; el rango lo trata como un voto entero.
 
-Fuera de esos casos, empieza con RRF. Y si usas RSF, normaliza sobre un **top-k amplio** (el mismo para las dos
-ramas) y no sobre los 5 que vas a mostrar: min-max sobre pocos resultados es justo donde más exagera, como muestra el
-ejemplo de 0.82 / 0.80 / 0.79 de la §6.
+En los demás casos, empieza con RRF. Si usas RSF, normaliza sobre un **top-k amplio**, el mismo para las dos ramas,
+y no solo sobre los 5 que vas a mostrar, porque min-max sobre pocos resultados es donde más exagera las diferencias,
+como en el ejemplo de 0.82 / 0.80 / 0.79 de la §6.
 
 ---
 
@@ -267,12 +268,12 @@ Dos detalles prácticos:
   en cada ejecución (por seguridad), y si lo usas, tu índice deja de coincidir con tus consultas al reiniciar.
 - **Vectores dispersos aprendidos (SPLADE y similares):** un modelo decide qué términos poner y con qué peso, incluso
   términos que *no* están en el texto pero son relevantes (para "Kafka" puede añadir "streaming"). Son un punto medio
-  entre BM25 y los embeddings. Vale la pena conocerlos; para empezar, BM25 es más simple, rápido y explicable.
+  entre BM25 y los embeddings. Conviene conocerlos, aunque para empezar BM25 es más simple, rápido y explicable.
 
 ---
 
 <a name="10-qdrant"></a>
-## 10. Híbrida de punta a punta en Qdrant
+## 10. La búsqueda híbrida completa en Qdrant
 
 Qdrant guarda **varios vectores con nombre** en el mismo punto, así que cada CV lleva su vector denso y su vector BM25.
 La consulta híbrida usa la **Query API**: dos *prefetch* (uno por buscador) y una fusión.
@@ -321,8 +322,8 @@ consulta y el documento **juntos**) es mucho más preciso, pero cuesta mucho má
 híbrida (barata) -> top 50  ->  re-ranker (caro) -> top 5  ->  LLM (Módulo 3)
 ```
 
-Solo pagas el re-ranker sobre 50 documentos, no sobre toda la colección. Mide si te compensa: si la híbrida ya pone
-lo relevante en el top 5, el re-ranker solo añade latencia.
+Así el re-ranker solo procesa 50 documentos y no toda la colección. Mide si vale la pena, porque si la híbrida ya
+pone lo relevante en el top 5, el re-ranker solo agrega latencia.
 
 El laboratorio ([`code/06_reranking.py`](code/06_reranking.py)) usa como re-ranker un LLM que lee los 6 candidatos de
 la híbrida junto con la consulta y los reordena. Sobre el set del §12:
@@ -332,10 +333,10 @@ la híbrida junto con la consulta y los reordena. Sobre el set del §12:
 | Híbrida | 0.95 | 0.91 | ~0.2 s |
 | Híbrida + re-ranking con LLM | **1.00** | **1.00** | ~5.2 s |
 
-Resolvió justo lo que la híbrida no podía: deshizo el empate simétrico de "ISO 27001" (§7) y, en "AWS", subió al
+Resolvió los dos casos que la híbrida no podía resolver: deshizo el empate simétrico de "ISO 27001" (§7) y, en "AWS", subió al
 primer puesto el CV que dice "Amazon Web Services", porque el modelo conoce esa equivalencia y ni BM25 ni el
-embedding pequeño la conocían. El precio son unas 25 veces más de latencia y una llamada por consulta. Dos cosas a
-tener en cuenta: el re-ranker **solo reordena** lo que recibe (si el relevante no está entre los candidatos, no lo
+embedding pequeño la conocían. A cambio, la latencia es unas 25 veces mayor y hay una llamada al modelo por
+consulta. Hay dos cosas a tener en cuenta: el re-ranker **solo reordena** lo que recibe (si el relevante no está entre los candidatos, no lo
 rescata), y el código **valida** su salida (ids inventados, repetidos o perdidos) antes de usarla.
 
 ---
@@ -343,8 +344,8 @@ rescata), y el código **valida** su salida (ids inventados, repetidos o perdido
 <a name="12-medir"></a>
 ## 12. Medir: léxica vs. semántica vs. híbrida
 
-Todo lo anterior es teoría hasta que lo mides en **tus** consultas. Con el set etiquetado del Módulo 2 (`recall@k`,
-`MRR`), corre las tres búsquedas sobre las mismas consultas y compáralas:
+Para saber cuál funciona mejor en tu caso hay que medirlo con **tus** consultas. Con el conjunto etiquetado del
+Módulo 2 (`recall@k`, `MRR`), corre las tres búsquedas sobre las mismas consultas y compáralas:
 
 | Búsqueda | recall@3 | MRR |
 |---|---|---|
@@ -353,12 +354,11 @@ Todo lo anterior es teoría hasta que lo mides en **tus** consultas. Con el set 
 | Híbrida (RRF) | ? | ? |
 
 Lo esperable es que la híbrida **no sea peor que la mejor de las dos** en el total y que gane en las consultas
-mixtas. Lo que **no** debes esperar es que gane en todas: en una consulta puramente léxica, BM25 solo puede ser igual
+mixtas, pero no que gane en todas: en una consulta puramente léxica, BM25 solo puede ser igual
 o mejor. El laboratorio [`code/05_comparar_busquedas.py`](code/05_comparar_busquedas.py) imprime la tabla real y el
 desglose por consulta, para que veas **dónde** gana y pierde cada una.
 
-> Si tu tabla dice que la híbrida es peor que una de las dos, no lo escondas: mira qué consultas pierde. Suele
-> deberse a un tokenizador malo para BM25 (§4) o a un `limit` de *prefetch* demasiado bajo, que deja fuera candidatos
+> Si tu tabla muestra que la híbrida es peor que una de las dos, revisa qué consultas pierde. Suele deberse a un tokenizador malo para BM25 (§4) o a un `limit` de *prefetch* demasiado bajo, que deja fuera candidatos
 > buenos antes de fusionar.
 
 ### Lo que salió en el corpus del laboratorio (8 CVs, 11 consultas, modelo local MiniLM)
@@ -369,16 +369,16 @@ desglose por consulta, para que veas **dónde** gana y pierde cada una.
 | Semántica | 0.95 | 0.91 | 1.00 |
 | Híbrida (RRF) | 0.95 | 0.91 | 1.00 |
 
-Lectura honesta:
+Cómo leer estos resultados:
 
-- **BM25 se hunde en las paráfrasis** ("experiencia con streaming", "aprendizaje automático"): no comparte ni un
-  término con el CV correcto, así que no devuelve nada. Es exactamente la debilidad de la §5.
-- **La híbrida empata con la semántica, no la supera.** Con 8 documentos, el top-3 ya es casi la mitad de la
-  colección: es un examen fácil para la semántica. Y donde la híbrida debía ganar ("ISO 27001"), se produjo un
+- **BM25 falla en las paráfrasis** ("experiencia con streaming", "aprendizaje automático") porque no comparte ningún
+  término con el CV correcto y no devuelve nada, que es la debilidad descrita en la §5.
+- **La híbrida empata con la semántica sin superarla.** Con 8 documentos, el top-3 ya es casi la mitad de la
+  colección, así que la prueba es fácil para la búsqueda semántica. Y donde la híbrida debía ganar ("ISO 27001"), se produjo un
   **empate simétrico** que RRF no puede romper (§7).
 - **Nadie encuentra a Diego con "AWS"** (su CV dice "Amazon Web Services"): BM25 no puede por diseño, y el modelo
-  pequeño no conoce la equivalencia. La híbrida no puede rescatar lo que ningún buscador trajo. Un modelo de
-  embeddings mejor, o un sinónimo en el tokenizador (`aws -> amazon web services`), sí.
+  pequeño no conoce la equivalencia. La híbrida no puede recuperar algo que ninguno de los dos buscadores trajo; un
+  modelo de embeddings mejor o un sinónimo en el tokenizador (`aws -> amazon web services`) sí lo resolverían.
 
 Esto no quiere decir que la híbrida no sirva. **El beneficio aparece con colecciones grandes y consultas difíciles**,
 y que solo lo sabrás midiendo sobre tus datos. Con miles de CVs, el top-3 es una fracción mínima y los errores de cada
@@ -405,7 +405,7 @@ Criterios de la rúbrica:
 - La consulta y los documentos pasan por **el mismo tokenizador**.
 - Los índices del vector disperso son **estables** entre ejecuciones (hash determinista).
 - La fusión es **RRF** y puedes explicar qué hace `k`.
-- Tienes la **tabla de los tres modos** y la interpretas con honestidad, incluidas las consultas donde la híbrida no
+- Tienes la **tabla de los tres modos** y la interpretas completa, incluidas las consultas en las que la híbrida no
   gana.
 
 En el **Módulo 5** dejamos de tratar la búsqueda como una llamada aislada: la convertimos en una **herramienta** dentro
@@ -413,11 +413,12 @@ de un *workflow* o de un agente que decide cuándo buscar, con qué filtros y qu
 
 ---
 
-## Resumen del módulo (lo que no puedes olvidar)
+## Resumen del módulo
 
 - La semántica pierde lo **exacto**: siglas, códigos, nombres raros, versiones. BM25 lo conserva.
 - **BM25 = IDF** (los términos raros pesan) **+ saturación** (repetir rinde poco) **+ normalización por longitud**.
-- En búsqueda léxica, **el tokenizador es la mitad del resultado**, y consulta y documento deben compartirlo.
+- En la búsqueda léxica **el tokenizador pesa mucho en el resultado**, y la consulta y los documentos deben usar el
+  mismo.
 - Sumar puntajes de escalas distintas no funciona; **RRF combina por puesto** y no necesita calibración.
 - BM25 es un **vector disperso**: Qdrant aplica el IDF y fusiona con la Query API (`prefetch` + RRF).
 - La híbrida no gana siempre: **mide los tres modos** y lee el desglose por consulta.
