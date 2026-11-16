@@ -19,7 +19,7 @@ export default function Privacidad() {
     <Sitio>
       <div className="pagina md">
         <h1>Política de privacidad</h1>
-        <p className="muted">Última actualización: {new Date().getFullYear()}</p>
+        <p className="muted">Última actualización: 16 de noviembre de 2026</p>
 
         <h2>Qué datos guardamos</h2>
         <ul>
@@ -38,7 +38,7 @@ export default function Privacidad() {
         <p>Usamos una cookie de sesión para mantenerte dentro de tu cuenta y guardamos en tu navegador tu preferencia de tema claro u oscuro. No usamos cookies publicitarias.</p>
 
         <h2>Tus derechos</h2>
-        <p>Puedes pedir conocer, corregir o eliminar tus datos, y cerrar tu cuenta, escribiendo a {CONTACTO} desde el correo registrado. Los registros de compra pueden conservarse el tiempo que exija la ley.</p>
+        <p>Puedes pedir conocer, corregir o eliminar tus datos, y cerrar tu cuenta, escribiendo a {CONTACTO} desde el correo registrado. Los registros de compra pueden conservarse el tiempo que exija la ley. Tratamos tus datos conforme a la Ley 1581 de 2012 de protección de datos personales de Colombia, y si consideras que no atendimos bien tu solicitud puedes acudir a la Superintendencia de Industria y Comercio.</p>
 
         <h2>Responsable del tratamiento</h2>
         {TITULAR ? (

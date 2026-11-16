@@ -412,3 +412,14 @@ a { color: inherit; }
 .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 :root .planes .plan-destacado a.btn.primary { background: var(--bg); border-color: var(--bg); color: var(--fg); }
 .cupon-input::placeholder { text-transform: none; letter-spacing: 0; }
+
+/* Controles nativos con la tipografía del sitio */
+button, input, select, textarea { font-family: inherit; }
+.logo-marca { border: 1px solid rgba(15, 95, 82, .35); box-shadow: 0 2px 10px rgba(15, 23, 42, .35); }
+/* Modo oscuro: la traza y el logo necesitan un borde para separarse del fondo */
+:root[data-theme="dark"] .traza { border: 1px solid #26332e; }
+:root[data-theme="dark"] .logo-marca { box-shadow: 0 0 0 1px rgba(92, 196, 168, .45); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .traza { border: 1px solid #26332e; }
+  :root:not([data-theme="light"]) .logo-marca { box-shadow: 0 0 0 1px rgba(92, 196, 168, .45); }
+}

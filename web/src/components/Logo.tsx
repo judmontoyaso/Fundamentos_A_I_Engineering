@@ -9,7 +9,7 @@ export function Logo({ size = 36, className = "", priority = false }: { size?: n
       width={size}
       height={size}
       priority={priority}
-      className={className}
+      className={`logo-marca${className ? ` ${className}` : ""}`}
       style={{
         width: size,
         height: size,
@@ -17,8 +17,6 @@ export function Logo({ size = 36, className = "", priority = false }: { size?: n
         objectFit: "cover",
         flexShrink: 0,
         display: "block",
-        border: "1px solid rgba(15, 95, 82, 0.35)",
-        boxShadow: "0 2px 10px rgba(15, 23, 42, 0.35)",
       }}
     />
   );

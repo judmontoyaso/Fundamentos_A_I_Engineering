@@ -20,7 +20,7 @@ export default function Terminos() {
     <Sitio>
       <div className="pagina md">
         <h1>Términos de uso y política de reembolso</h1>
-        <p className="muted">Última actualización: {new Date().getFullYear()}</p>
+        <p className="muted">Última actualización: 16 de noviembre de 2026</p>
 
         <h2>Qué compras</h2>
         <p>Acceso personal en línea a los cursos de este sitio: lecciones, ejercicios, autoevaluaciones y el código descargable. El plan mensual da acceso por 30 días, el anual por 365 días, y la compra de un curso da acceso a ese curso sin fecha de vencimiento mientras el sitio esté en funcionamiento.</p>
@@ -35,7 +35,7 @@ export default function Terminos() {
         <p>Los ejemplos que llaman a modelos de lenguaje se ejecutan con tu propia cuenta del proveedor que elijas. Esos costos no están incluidos y no los controlamos.</p>
 
         <h2>Reembolsos</h2>
-        <p>Puedes pedir el reembolso completo dentro de los 7 días siguientes a la compra escribiendo a {CONTACTO} desde el correo de tu cuenta. Al reembolsar se retira el acceso asociado a ese pago. Pasado ese plazo no hay reembolsos parciales por tiempo no usado. Esta política no limita los derechos que te dé la ley de protección al consumidor de tu país.</p>
+        <p>Puedes pedir el reembolso completo dentro de los 7 días siguientes a la compra escribiendo a {CONTACTO} desde el correo de tu cuenta. Al reembolsar se retira el acceso asociado a ese pago. Pasado ese plazo no hay reembolsos parciales por tiempo no usado. Esta política no limita los derechos que te da la ley. En Colombia aplica el Estatuto del Consumidor (Ley 1480 de 2011), incluido el derecho de retracto en compras por internet, y si compras desde otro país conservas los derechos que te reconozca su legislación.</p>
 
         <h2>Contenido y garantías</h2>
         <p>El material es educativo. Los proveedores, modelos, precios y librerías cambian con frecuencia: actualizamos el contenido, pero no garantizamos que cada ejemplo funcione sin ajustes con versiones futuras de herramientas de terceros.</p>
