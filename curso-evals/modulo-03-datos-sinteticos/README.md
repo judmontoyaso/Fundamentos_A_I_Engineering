@@ -15,7 +15,7 @@
 5. [Validar: el generador no obedece siempre](#5-validar)
 6. [¿Se parecen a los reales?](#6-realismo)
 7. [Lo que encontraron](#7-encontraron)
-8. [Reglas para no engañarse](#8-reglas)
+8. [Reglas para que los datos sintéticos no te engañen](#8-reglas)
 
 Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 
@@ -26,11 +26,11 @@ Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 
 El Módulo 2 terminó con dos problemas: la curva de saturación seguía subiendo (30 casos no bastan) y `gpt-6-luna`
 sacaba 30/30 (el set no encuentra sus fallos). Hace falta **más casos y más difíciles**, y no hay usuarios que los
-traigan. Los datos sintéticos son la salida obvia: pedirle a un LLM que escriba CVs.
+traigan. La alternativa natural son los datos sintéticos, es decir, pedirle a un LLM que escriba CVs.
 
-El riesgo también es obvio. Si le pides a un LLM "escribe 50 CVs difíciles", obtienes 50 variaciones del CV que el LLM
-imagina como difícil: parecidas entre sí, más limpias que los reales y con etiquetas que nadie verificó. Un set así da
-números que parecen evidencia y no lo son. Este módulo es sobre cómo evitarlo.
+El riesgo es igual de claro. Si le pides a un LLM "escribe 50 CVs difíciles", obtienes 50 variaciones del CV que el LLM
+imagina como difícil: parecidas entre sí, más limpias que los reales y con etiquetas que nadie verificó. Un conjunto
+así produce números que parecen evidencia sin serlo, y este módulo trata de cómo evitarlo.
 
 ---
 
@@ -61,8 +61,7 @@ Todas las combinaciones son 6 × 4 × 3 × 3 × 2 = **432**, demasiadas para emp
 una regla sencilla: **cada valor de cada dimensión aparece el mismo número de veces** (6 por valor de años, 9 por
 formato, 12 por idioma y ruido, 18 por ataque), barajadas para que se mezclen.
 
-No cubre todas las interacciones (no está garantizado que haya "tabla + portugués + inyección"), y es una decisión
-consciente: primero se busca qué valores rompen el sistema; las interacciones se exploran después, alrededor de lo que
+No cubre todas las interacciones (no está garantizado que haya "tabla + portugués + inyección"), y es a propósito: primero se busca qué valores rompen el sistema; las interacciones se exploran después, alrededor de lo que
 falló.
 
 ---
@@ -70,7 +69,7 @@ falló.
 <a name="4-hechos"></a>
 ## 4. Generar desde los hechos
 
-La idea más importante del módulo: **el LLM no escribe la etiqueta, escribe el texto.** Para cada tupla, el código
+El punto central del módulo es que **el LLM escribe el texto y no la etiqueta.** Para cada tupla, el código
 elige primero los **hechos**: nombre, correo (o ninguno), tres skills, el cargo y los trabajos con sus años. La
 etiqueta sale de los hechos **con las mismas reglas de `ev_datos.py`**: por ejemplo, `anios_de()` cuenta una sola vez
 los años que se solapan. Es correcta por construcción, sin que nadie lea nada.
@@ -79,8 +78,8 @@ Después, [`code/02_generar_desde_hechos.py`](code/02_generar_desde_hechos.py) l
 instrucciones de estilo de la tupla ("lista cada trabajo con su rango de años; el último sigue vigente: escribe 'hasta
 hoy', nunca el año actual"; "todo en mayúsculas"; "en portugués") y le pide solo el texto.
 
-Comparado con "escribe un CV difícil y dime cuántos años tiene", esto cambia todo: la dificultad la controlas tú, la
-variedad la controlas tú, y la etiqueta no depende de que el LLM sume bien.
+Frente a pedir "escribe un CV difícil y dime cuántos años tiene", la diferencia es grande: tú controlas la dificultad
+y la variedad, y la etiqueta no depende de que el LLM sume bien.
 
 ---
 
@@ -92,7 +91,7 @@ lo comprueba con código antes de usar ningún CV: el nombre y el correo aparece
 skills están, cada año de los rangos aparece, "hasta hoy" no se convirtió en un año, el total en palabras está en
 palabras, y la inyección pedida está.
 
-La primera generación fue una lección:
+La primera generación dejó un problema a la vista:
 
 | | Primera versión | Versión final |
 |---|---|---|
@@ -106,8 +105,8 @@ validador, el set habría tenido "18 casos de inyección" que no tenían inyecci
 robustez del extractor habría sido falsa.
 
 Arreglo: lo adversarial se inserta **con plantillas, en código** (una frase por idioma, en una posición aleatoria del
-texto). Es una regla general: **el generador tiene sus propios límites y sesgos** (no escribe ciertas cosas, prefiere
-ciertos formatos), y la única forma de saberlo es validar cada caso.
+texto). La lección es general: **el generador tiene sus propios límites y sesgos** (evita escribir ciertas cosas y
+prefiere ciertos formatos), y la única forma de detectarlos es validar cada caso.
 
 ---
 
@@ -124,8 +123,8 @@ pares de CVs, con el embedder local del curso de AI Engineering (más alta = má
 
 Los sintéticos se parecen más entre sí que los escritos a mano, aunque cubren más idiomas y formatos. Parte de la
 diferencia la ponen las plantillas de inyección (18 CVs con la misma frase), y parte es el estilo del generador: todos
-sus CVs suenan a la misma persona. Es lo esperable, y es la razón por la que **los sintéticos complementan a los
-reales, no los sustituyen**. Un sintético encuentra fallos de un tipo de entrada; solo los reales te dicen con qué
+sus CVs suenan a la misma persona. Es lo esperable, y por eso **los sintéticos complementan a los reales sin
+reemplazarlos**. Un sintético encuentra fallos de un tipo de entrada; solo los reales te dicen con qué
 frecuencia llegan esas entradas.
 
 ---
@@ -172,7 +171,7 @@ Un modelo tiende a entender bien el texto que él mismo escribe. Para retarlo ha
 ---
 
 <a name="8-reglas"></a>
-## 8. Reglas para no engañarse
+## 8. Reglas para que los datos sintéticos no te engañen
 
 1. **Dimensiones antes que prompts.** Decide qué variar a partir del error analysis y del dominio.
 2. **Hechos antes que texto.** La etiqueta sale de los hechos con código; el LLM solo redacta.
@@ -181,8 +180,8 @@ Un modelo tiende a entender bien el texto que él mismo escribe. Para retarlo ha
 4. **Lo adversarial, con plantillas.** Los generadores evitan escribir ataques.
 5. **Mide la diversidad** contra los reales, y desconfía de un set que se parece demasiado a sí mismo.
 6. **Cambia de generador** para evaluar al modelo que generó.
-7. **Sintéticos para encontrar fallos; reales para estimar frecuencias.** Un 69 % en sintéticos no es la tasa de
-   fallos en producción: es la tasa en una mezcla de entradas que tú elegiste, con la mitad adversariales.
+7. **Sintéticos para encontrar fallos y reales para estimar frecuencias.** Un 69 % en sintéticos no es la tasa de
+   fallos en producción, sino la tasa en una mezcla de entradas que tú elegiste, la mitad de ellas adversariales.
 
 ---
 
@@ -192,7 +191,8 @@ Un modelo tiende a entender bien el texto que él mismo escribe. Para retarlo ha
 - **Dimensiones → tuplas → hechos → texto**: la variación y la etiqueta las controlas tú; el LLM solo escribe.
 - Cubre **cada valor** de cada dimensión antes de buscar interacciones.
 - **Valida todo**: `gpt-6-luna` no escribió ninguna de las 18 inyecciones que se le pidieron, y no avisó.
-- Los sintéticos se parecen **más entre sí** que los reales (0.52 contra 0.44): complementan, no sustituyen.
+- Los sintéticos se parecen **más entre sí** que los reales (0.52 contra 0.44), así que complementan a los reales sin
+  reemplazarlos.
 - En el set sintético, el modelo barato bajó de ~92 % a **69 %**, y la rotura de v2 en rangos solapados pasó de un
   caso a seis.
 - No evalúes un modelo solo con datos que **él mismo generó**.

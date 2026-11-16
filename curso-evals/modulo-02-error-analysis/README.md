@@ -24,13 +24,13 @@ Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 <a name="1-por-que"></a>
 ## 1. Por qué antes que cualquier métrica
 
-La tentación es abrir un catálogo de métricas y elegir las que suenan bien: *faithfulness*, *relevancy*, *toxicity*.
-El problema es que una métrica genérica mide un fallo genérico, y tu sistema tiene fallos concretos. Si mides lo que
-no falla, el número sale bien y el sistema sigue roto.
+Es tentador abrir un catálogo de métricas y elegir las que suenan bien, como *faithfulness*, *relevancy* o
+*toxicity*. El problema es que una métrica genérica mide un fallo genérico, mientras que tu sistema tiene fallos
+concretos, y si mides algo que no falla, el número sale bien aunque el sistema siga fallando en otra parte.
 
-El **error analysis** invierte el orden: primero lees salidas reales hasta entender cómo falla el sistema, después
-cuentas cada tipo de fallo, y solo para los que importan escribes un eval. Es lento la primera vez y es, con
-diferencia, la actividad con más retorno de todo el curso.
+El **error analysis** cambia el orden: primero lees salidas reales hasta entender cómo falla el sistema, después
+cuentas cada tipo de fallo y solo para los que importan escribes un eval. La primera vez es lento, pero es la
+actividad que más rinde en todo el curso.
 
 ---
 
@@ -45,7 +45,8 @@ texto del CV ─► extraer (FichaCV) ─► clasificar nivel (junior / semi-sen
 ```
 
 Para la ficha hay etiquetas (Módulo 1). Para el nivel y el perfil **no hay**: nadie escribió cuál es el nivel
-correcto de cada candidato ni cuál es el perfil bueno. No se puede calcular una exactitud. Solo se puede leer.
+correcto de cada candidato ni cuál es el perfil bueno, así que no se puede calcular una exactitud y la única opción
+es leer las salidas.
 
 Cada paso tiene su span en la traza: cuando un error aparece en el perfil, la traza dice si nació ahí o si venía de la
 extracción.
@@ -63,7 +64,7 @@ una ficha de lectura: el CV, lo extraído, el nivel con su razón y el perfil. L
 - **Sin categorías todavía.** Si empiezas con una lista de categorías, solo ves lo que ya esperabas.
 - **Anota el primer error aguas arriba.** Si los años salen mal y por eso el nivel sale mal, el problema es la
   extracción; el nivel solo lo hereda.
-- **"ok" también es una nota.** Saber qué funciona es la mitad del análisis.
+- **"ok" también es una nota**, porque saber qué funciona es parte del análisis.
 
 Las salidas exactas que se leyeron al escribir el curso están en
 [`comun/m2_salidas_revisadas.jsonl`](../comun/m2_salidas_revisadas.jsonl) y las notas en
@@ -74,7 +75,7 @@ Las salidas exactas que se leyeron al escribir el curso están en
 - #11: "el perfil incluye 'Contacto: ricardo.salas@mail.com'".
 - #26: "el perfil menciona 'graduada 2010': deja inferir la edad".
 
-El dato más importante del módulo sale aquí: el eval del Módulo 1 sacaba 27-28 de 30 fichas perfectas con este mismo
+De aquí sale el hallazgo principal del módulo: el eval del Módulo 1 daba 27-28 de 30 fichas perfectas con este mismo
 modelo. **Los fallos graves no estaban en la ficha**, que era lo único que se medía, sino en los dos pasos que nadie
 medía.
 
@@ -98,11 +99,11 @@ cuenta y ordena:
 | Nombre sin normalizar | extracción | 1 | 2 | 2 |
 | Relleno genérico | perfil | 1 | 1 | 1 |
 
-Tres lecturas:
+De la tabla se pueden sacar tres conclusiones:
 
-- **El fallo más frecuente es de especificación, no del modelo.** Nadie definió qué es senior. El modelo improvisa un
-  criterio distinto en cada caso.
-- **La prioridad es una guía, no una fórmula.** Un perfil que inventa una certificación puede hacer que contraten a la
+- **El fallo más frecuente viene de la especificación y no del modelo.** Nadie definió qué es senior, así que el
+  modelo improvisa un criterio distinto en cada caso.
+- **La prioridad orienta, pero no se aplica de forma mecánica.** Un perfil que inventa una certificación puede hacer que contraten a la
   persona equivocada: aunque salga en el puesto 3, nadie lo dejaría para después.
 - **La curva de saturación aún sube.** Las categorías distintas vistas tras leer 5, 10, 15, 20, 25 y 30 casos fueron
   4, 5, 5, 6, 7 y 8: la última apareció en el caso #26. Con 30 casos todavía no se ha visto todo. La regla práctica es
@@ -117,17 +118,18 @@ Agrupar 25 notas es mecánico; agrupar 500 no. [`code/03_agrupar_con_llm.py`](co
 **solo las notas** (leer sigue siendo trabajo de una persona) y compara su agrupación con la manual mediante el índice
 de Rand (de todos los pares de notas, la fracción que las dos agrupaciones tratan igual).
 
-En dos ejecuciones dio **0.95 y 0.97**: casi la misma agrupación. Las diferencias son las interesantes:
+En dos ejecuciones dio **0.95 y 0.97**, es decir, casi la misma agrupación. Lo más útil está en las diferencias:
 
 - **Juntó "el perfil inventa" con "relleno genérico"** ("contenido no sustentado o genérico"). Suena razonable, pero
   una categoría es gravedad 3 y la otra gravedad 1: fusionarlas infla la gravedad del relleno o diluye la de los
-  inventos. **Las fronteras de una categoría son una decisión de prioridad**, no de vocabulario.
+  inventos. **Dónde se traza el límite de una categoría es una decisión de prioridad**, más que de vocabulario.
 - **Juntó el contacto con el año de grado** ("exposición de datos personales"). Es defendible: los dos son privacidad.
 - **Separó por síntoma lo que la persona agrupó por causa**: el error propagado del #19 quedó en "cálculo de años" y
   el del #23 en "inconsistencia entre skills y perfil".
 
-Conclusión: el LLM ahorra el trabajo mecánico y propone buenos nombres, pero **revisa cada frontera** antes de contar.
-Y nunca le dejes la lectura: si el LLM escribe las notas, solo encuentras los fallos que el LLM sabe reconocer.
+En resumen, el LLM ahorra el trabajo mecánico y propone buenos nombres, pero conviene **revisar cada límite entre
+categorías** antes de contar. La lectura, en cambio, debe hacerla una persona, porque si el LLM escribe las notas solo
+aparecen los fallos que el LLM sabe reconocer.
 
 ---
 
@@ -149,9 +151,10 @@ Un eval nuevo **se valida antes de usarlo**: ¿encuentra lo mismo que la persona
 | Contacto en el perfil | #4, #11, #16, #22 | los mismos | ninguna |
 | Nivel según la regla | 9 casos | 6 casos | +#19, +#22, +#26 |
 
-Las tres diferencias valen más que las coincidencias:
+Las tres diferencias son más instructivas que las coincidencias:
 
-- **#26 (8 años, semi-senior): el chequeo tenía razón y la persona no lo vio.** Leer cansa; el código no.
+- **#26 (8 años, semi-senior): el chequeo tenía razón y la persona no lo vio.** Leer 30 casos cansa, y el código no
+  se distrae.
 - **#19: el chequeo marca como fallo de nivel un error que nació en la extracción** (5 años en vez de 7). Detecta bien,
   pero atribuye al paso equivocado. Por eso la revisión humana anota el paso de origen.
 - **#22 ("analista junior de SQL", 3 años): el sistema dijo junior y la regla dice semi-senior.** Al leerlo, la
@@ -171,7 +174,7 @@ contacto, sin datos que dejen inferir la edad y sin cualidades no escritas) se c
 | Nivel según la regla | 8/30 fallan | **1/30** (#19: el error de extracción, que v2 no toca) |
 | Sin contacto en el perfil | 1/30 | **0/30** |
 
-Y una advertencia que la tabla esconde: en las salidas revisadas, v1 ponía contacto en **4** perfiles; en esta
+Hay además una advertencia que la tabla no muestra: en las salidas revisadas, v1 ponía contacto en **4** perfiles; en esta
 corrida nueva, en **1**. Es el mismo sistema. La frecuencia de un fallo medida en una sola corrida de 30 casos es una
 estimación con mucho ruido: sirve para priorizar, no para afirmar "el 13 % de los perfiles filtra contactos".
 

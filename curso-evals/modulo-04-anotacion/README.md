@@ -8,7 +8,7 @@
 
 Índice:
 
-1. [El eval es tan bueno como sus etiquetas](#1-etiquetas)
+1. [Un eval depende de sus etiquetas](#1-etiquetas)
 2. [La tarea y la guía](#2-tarea)
 3. [Tu turno: anotar](#3-anotar)
 4. [Medir el acuerdo: por qué no basta el porcentaje](#4-kappa)
@@ -21,16 +21,17 @@ Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 ---
 
 <a name="1-etiquetas"></a>
-## 1. El eval es tan bueno como sus etiquetas
+## 1. Un eval depende de sus etiquetas
 
 Todo lo anterior supuso que las etiquetas eran correctas. En el Módulo 1 se dijo que el #30 (mesero 2012-2015,
 frontend 2015-2023) tiene 11 años de experiencia, y `gpt-4o-mini` "falló" al decir 8. ¿Falló, o aplicó un criterio
 distinto igual de razonable? Si otra persona hubiera etiquetado 8, ese caso no mediría al modelo: mediría a quién le
 tocó etiquetar.
 
-Para los campos exactos (correo, nombre) el problema es pequeño. Para los juicios ("¿este perfil se puede enviar?")
-es enorme, y es justo donde más se necesita un eval. La pregunta del módulo: **¿dos personas razonables, con la misma
-guía, etiquetarían igual?** Si no, el eval mide ruido.
+Para los campos exactos (correo, nombre) el problema es pequeño, pero en los juicios ("¿este perfil se puede
+enviar?") es grande, y es justo donde más se necesita un eval. La pregunta del módulo es si **dos personas
+razonables, con la misma guía, etiquetarían igual**. Si no lo hacen, el eval mide sobre todo diferencias de
+criterio.
 
 ---
 
@@ -48,7 +49,7 @@ atributo protegido o si contradice el CV. Y dice qué **sí pasa**: el relleno q
 Las etiquetas del autor del curso están en [`comun/m4_etiquetas_autor.py`](../comun/m4_etiquetas_autor.py): **8 de 30
 no pasan**, y cuatro se marcaron como **dudosos** en el momento de etiquetar (el #9 "experto en Jenkins", el #20 "base
 técnica sólida", el #25 "recién graduado", el #5 "enfoque en mejora continua"). Anotar la duda es tan importante como
-la etiqueta: dice dónde la guía no alcanza.
+la etiqueta, porque muestra dónde la guía no es suficiente.
 
 ---
 
@@ -78,8 +79,8 @@ otra. [`code/03_paradoja_del_kappa.py`](code/03_paradoja_del_kappa.py) lo muestr
 | Fallos frecuentes | 50 de 100 cada uno | 90 % | **0.80** |
 | Fallos raros | 5 de 100 cada uno, **ninguno en común** | 90 % | **−0.05** |
 
-En la segunda pareja, los dos dicen "pasa" en casi todo y **no coinciden en ningún fallo**. El 90 % sale gratis: dos
-anotadores que no leen y dicen "pasa" al azar el 95 % de las veces también coinciden en ~89 %.
+En la segunda pareja, los dos dicen "pasa" en casi todo y **no coinciden en ningún fallo**. Ese 90 % se obtiene casi
+sin esfuerzo: dos anotadores que no leen y dicen "pasa" al azar el 95 % de las veces también coinciden en ~89 %.
 
 El **kappa de Cohen** corrige eso: compara el acuerdo observado con el que se esperaría **por azar** dadas las
 proporciones de cada anotador. `kappa = (acuerdo observado − acuerdo por azar) / (1 − acuerdo por azar)`. 1 es acuerdo
@@ -93,23 +94,23 @@ uno.
 ## 5. Lo que pasó con los anotadores LLM
 
 Mientras no hay una segunda persona, el laboratorio usa anotadores LLM (`gpt-6-luna`) para ver qué le hace la guía al
-acuerdo. **No sustituyen a una persona** (el Módulo 5 trata a un LLM como juez y explica cómo calibrarlo); aquí
-sirven de lupa. Cada anotador se corrió dos veces:
+acuerdo. **No reemplazan a una persona** (el Módulo 5 trata a un LLM como juez y explica cómo calibrarlo); aquí sirven
+para examinar la guía. Cada anotador se corrió dos veces:
 
 | Anotador | "No pasa" (autor: 8) | Acuerdo | Kappa |
 |---|---|---|---|
 | LLM con guía vaga ("¿es un buen perfil?") | 7 y 6 | 83 % y 73 % | **0.56 y 0.26** |
 | LLM con la guía completa (v2) | 25 y 24 | 43 % y 47 % | **0.14 y 0.17** |
 
-Dos sorpresas:
+Hubo dos resultados inesperados:
 
 - **La guía vaga dio resultados muy distintos en dos corridas** (kappa 0.56 y 0.26). Sin criterio escrito, el juicio
   cambia de una vez a otra, igual que cambiaría entre dos personas.
-- **La guía completa hundió el acuerdo.** El LLM pasó a rechazar 25 de 30 perfiles. ¿Por qué? Sus razones: "afirma
+- **La guía completa redujo mucho el acuerdo.** El LLM pasó a rechazar 25 de 30 perfiles. ¿Por qué? Sus razones: "afirma
   **especialización** en Terraform y Kubernetes, que el CV no especifica", "afirma **dominio** de Python", "el CV no dice
   que sea **experto** en Jenkins". La guía prohibía "una cualidad específica que el CV no dice", y el LLM la aplicó a
   la letra. El autor, en cambio, dejaba pasar "especialista en..." como lenguaje normal de un perfil, y solo dudó en el
-  #9 ("experto"). **La guía permitía las dos lecturas**: el desacuerdo destapó una frontera que nadie había decidido.
+  #9 ("experto"). **La guía permitía las dos lecturas**, y el desacuerdo dejó ver un límite que nadie había decidido.
 
 ---
 
@@ -129,8 +130,8 @@ set (guía v4). Resultado, dos corridas por versión:
 | **v3 (con la aclaración)** | 16-17 | **0.35 - 0.48** |
 | v4 (aclaración + 4 ejemplos) | 18-19 | 0.35 - 0.39 |
 
-- **La aclaración ayudó**: el kappa pasó de 0.11-0.23 a 0.35-0.48. Una sola frase sobre la frontera correcta movió
-  más que cualquier otra cosa.
+- **La aclaración ayudó**: el kappa pasó de 0.11-0.23 a 0.35-0.48. Una sola frase sobre el límite correcto tuvo más
+  efecto que cualquier otro cambio.
 - **Los ejemplos no añadieron nada medible.** Es un resultado contrario a lo que suele recomendarse, y es el que salió:
   con dos corridas por versión, la diferencia entre v3 y v4 queda dentro de lo que varía entre corridas.
 - **El LLM sigue siendo más estricto que el autor**, y siempre en la misma dirección: coincide en los 8 "no pasa" del
@@ -142,7 +143,8 @@ Dos reglas del proceso:
 
 - **No se resuelve votando ni dándole la razón al más experto.** Se resuelve decidiendo la frontera y escribiéndola. A
   veces la decisión obliga a cambiar las etiquetas de quien escribió la guía.
-- **Cada cambio de la guía se mide**, con repeticiones. Una guía "mejorada" que no sube el acuerdo no mejoró nada.
+- **Cada cambio de la guía se mide**, con repeticiones, porque una guía "mejorada" que no sube el acuerdo en realidad
+  no mejoró.
 
 ---
 
@@ -150,9 +152,9 @@ Dos reglas del proceso:
 ## 7. Cómo organizar la anotación
 
 - **Empieza con una sola persona experta en el dominio** que etiquete y escriba la guía mientras etiqueta. En un equipo
-  pequeño, esa persona suele ser quien entiende al usuario, no quien escribió el código.
-- **Mide el acuerdo con una segunda persona sobre 30-50 casos** antes de escalar. Si el kappa es bajo, el problema es la
-  guía, no las personas.
+  pequeño, esa persona suele ser quien entiende al usuario, más que quien escribió el código.
+- **Mide el acuerdo con una segunda persona sobre 30-50 casos** antes de escalar. Si el kappa es bajo, lo más
+  probable es que el problema esté en la guía y no en las personas.
 - **Anota la duda y la razón**, no solo la etiqueta.
 - **Etiqueta a ciegas**: sin ver la salida de otro anotador ni la del sistema "bueno".
 - **Re-etiqueta cuando cambie la guía**, al menos los casos afectados.
@@ -168,10 +170,10 @@ Dos reglas del proceso:
 - **Anota la duda**: marca dónde no alcanza la guía.
 - El **porcentaje de acuerdo engaña** con fallos raros; usa el **kappa de Cohen** y mira cuántos fallos marcó cada uno.
 - Una **guía vaga** dio kappas de 0.56 y 0.26 en dos corridas: el criterio cambia de una vez a otra.
-- Una **guía estricta** aplicada a la letra hundió el acuerdo (0.14): la frontera "¿'especialista en' es inventar?" no
+- Una **guía estricta** aplicada a la letra bajó mucho el acuerdo (0.14): la frontera "¿'especialista en' es inventar?" no
   estaba decidida.
-- **Cada desacuerdo es una regla que falta**: decide, escribe, re-mide. Aquí una aclaración subió el kappa a 0.35-0.48 y
+- **Cada desacuerdo señala una regla que falta**: se decide, se escribe y se vuelve a medir. Aquí una aclaración subió el kappa a 0.35-0.48 y
   los ejemplos no añadieron nada.
-- Un LLM puede servir de lupa, **no** de segunda persona.
+- Un LLM sirve para examinar la guía, pero **no** reemplaza a una segunda persona.
 
 Sigue con [`ejercicios.md`](ejercicios.md).

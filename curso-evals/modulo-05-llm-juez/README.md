@@ -10,7 +10,7 @@
 
 1. [Cuándo hace falta un juez](#1-cuando)
 2. [Un set con la respuesta conocida](#2-set)
-3. [TPR y TNR, no exactitud](#3-metricas)
+3. [TPR y TNR en lugar de exactitud](#3-metricas)
 4. [Mejorar el juez en desarrollo](#4-desarrollo)
 5. [Medirlo una vez en prueba](#5-prueba)
 6. [La tasa real cuando el juez se equivoca](#6-corregida)
@@ -25,15 +25,15 @@ Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 
 El Módulo 2 dejó tres fallos graves del pipeline. Dos se comprueban con código (el contacto, con una expresión
 regular; el nivel, con una regla). El tercero no: **saber si un perfil inventa algo exige leer el CV y el perfil y
-compararlos**. Para eso, un LLM como juez.
+compararlos**, y para eso se usa un LLM como juez.
 
-Tres decisiones antes de escribirlo:
+Antes de escribirlo hay que tomar tres decisiones:
 
-- **Un juez por fallo, no un juez de "calidad".** "¿Inventa algo que el CV no dice?" es una pregunta que se puede
-  calibrar; "¿es un buen perfil?" no (Módulo 4: la guía vaga dio kappas de 0.56 y 0.26 en dos corridas).
+- **Un juez por fallo, en lugar de un juez general de "calidad".** "¿Inventa algo que el CV no dice?" es una pregunta
+  que se puede calibrar; "¿es un buen perfil?" no (Módulo 4: la guía vaga dio kappas de 0.56 y 0.26 en dos corridas).
 - **Respuesta binaria.** Por las mismas razones que en la anotación.
-- **El juez se trata como un clasificador**, con sus errores medidos. Un juez sin calibrar es una opinión con formato
-  JSON.
+- **El juez se trata como un clasificador**, con sus errores medidos. Si no se calibra, no hay forma de saber cuánto
+  acierta.
 
 ---
 
@@ -58,7 +58,7 @@ independiente.
 ---
 
 <a name="3-metricas"></a>
-## 3. TPR y TNR, no exactitud
+## 3. TPR y TNR en lugar de exactitud
 
 Un juez se equivoca de dos formas, y cuestan distinto:
 
@@ -71,7 +71,7 @@ Por eso se miden por separado:
 - **TNR** (especificidad): de los que no inventan, cuántos deja pasar.
 
 La exactitud mezcla las dos y depende de la proporción de cada clase en el set: con un 5 % de invenciones, un juez que
-dice siempre "no inventa" tiene un 95 % de exactitud y no sirve para nada.
+dice siempre "no inventa" tiene un 95 % de exactitud y no detecta ningún problema.
 
 ---
 
@@ -87,8 +87,8 @@ dice siempre "no inventa" tiene un 95 % de exactitud y no sirve para nada.
 | v2 | La definición de la guía del Módulo 4 y la lista de afirmaciones **antes** del veredicto | 100 % · 100 % | 50 % · 50 % |
 | v3 | v2 + "lo que se deduce del cargo o de una tecnología no es inventar" | 100 % · 100 % · 100 % | **86 % · 64 % · 93 %** |
 
-- **El juez nunca deja pasar una invención** (TPR del 100 % en todas las corridas). Su problema es el contrario: es un
-  **paranoico**. v1 rechazó casi todos los perfiles correctos ("el perfil afirma que está orientada a construir
+- **El juez nunca deja pasar una invención** (TPR del 100 % en todas las corridas). Su problema es el contrario: es
+  **demasiado estricto**, y v1 rechazó casi todos los perfiles correctos ("el perfil afirma que está orientada a construir
   soluciones end-to-end, algo que el CV no especifica").
 - **v2 sale de la guía del Módulo 4**, ya trabajada con los desacuerdos, y de pedir la lista de afirmaciones antes del
   veredicto. La mitad de los falsos "inventa" desaparecieron.
@@ -117,8 +117,8 @@ señal clara de que el prompt se haya ajustado a los casos de desarrollo. Si hub
 sería esa, y el arreglo no es "seguir mejorando el prompt con el set de prueba", porque entonces ya no tienes set de
 prueba.
 
-El intervalo es optimista: las tres corridas repiten los mismos ítems y no son independientes. El tamaño que de verdad
-manda son los 15 ítems que inventan y los 12 que no.
+El intervalo es optimista, porque las tres corridas repiten los mismos ítems y no son independientes. El tamaño de
+muestra que cuenta en realidad son los 15 ítems que inventan y los 12 que no.
 
 ---
 
@@ -126,7 +126,7 @@ manda son los 15 ítems que inventan y los 12 que no.
 ## 6. La tasa real cuando el juez se equivoca
 
 El juez se usa para lo que se construyó: estimar cuántos perfiles del pipeline inventan. Si el juez marca un 23 %,
-**¿la tasa real es 23 %?** No: parte de esas marcas son falsas alarmas (el TNR es 81 %, así que se equivoca en ~1 de
+**¿la tasa real es 23 %?** No necesariamente, porque parte de esas marcas son falsas alarmas (el TNR es 81 %, así que se equivoca en ~1 de
 cada 5 perfiles correctos) y alguna invención se le escapa.
 
 Si se conocen el TPR y el TNR, la **estimación de Rogan-Gladen** corrige la tasa observada `p`:
@@ -144,12 +144,12 @@ perfiles del pipeline del Módulo 2:
 | v1 | 7 / 30 (23 %) | **5 %** | 0 % - 30 % |
 | v2 | 4 / 30 (13 %) | **0 %** | 0 % - 14 % |
 
-Tres lecturas:
+El resultado deja tres conclusiones:
 
-- **La mayoría de las marcas eran falsas alarmas.** Con un TNR del 81 %, un juez paranoico produce un ~19 % de marcas
-  aunque ningún perfil invente. Reportar "el 23 % de los perfiles inventan" habría sido falso.
+- **La mayoría de las marcas eran falsas alarmas.** Con un TNR del 81 %, un juez tan estricto produce un ~19 % de
+  marcas aunque ningún perfil invente. Reportar "el 23 % de los perfiles inventan" habría sido falso.
 - **No se puede afirmar que v2 invente menos que v1.** Los intervalos se solapan casi por completo. El juez es útil
-  para **encontrar** perfiles que revisar, no para medir con precisión una diferencia así con 30 perfiles.
+  para **encontrar** perfiles que revisar, pero no para medir con precisión una diferencia así con 30 perfiles.
 - **Para estrechar el intervalo** hacen falta más perfiles juzgados y, sobre todo, un juez con mejor TNR: el término
   `TPR + TNR − 1` del denominador amplifica cualquier incertidumbre cuando el juez es flojo.
 
@@ -159,7 +159,8 @@ Tres lecturas:
 ## 7. Sesgos y cuidados
 
 - **El razonamiento antes del veredicto.** v2 pide la lista de afirmaciones antes de decidir, y el veredicto sale de
-  ella. Pedir el veredicto primero y la razón después produce una justificación del veredicto, no un juicio.
+  ella. Si se pide primero el veredicto y después la razón, el modelo justifica una decisión ya tomada en lugar de
+  razonarla.
 - **Un juez juzgando a su propio modelo.** Un modelo tiende a aprobar el texto que él mismo escribiría (en el Módulo 3,
   `gpt-6-luna` entendió perfecto los CVs que había escrito). Si puedes, usa como juez un modelo distinto del que generó.
 - **En comparaciones por pares** (¿A o B es mejor?), los jueces prefieren la primera posición o la respuesta más
@@ -173,13 +174,13 @@ Tres lecturas:
 
 ## Resumen del módulo
 
-- Un juez es un **clasificador**: se calibra, o es solo una opinión con formato JSON.
+- Un juez es un **clasificador** y hay que calibrarlo para saber cuánto acierta.
 - **Un juez por fallo**, con respuesta binaria.
 - Construye el set de calibración **desde los hechos** (invenciones insertadas por código) y sepáralo **por CV** en
   desarrollo y prueba.
-- Mide **TPR y TNR**, no exactitud.
+- Mide **TPR y TNR** en lugar de exactitud.
 - Mejora el prompt **leyendo sus errores en desarrollo**; mídelo **una sola vez** en prueba.
-- Aquí el juez no dejaba pasar invenciones y era **paranoico**: TNR de 0-7 % (v1) a 64-93 % (v3) en desarrollo y 81 %
+- Aquí el juez no dejaba pasar invenciones y era **demasiado estricto**: TNR de 0-7 % (v1) a 64-93 % (v3) en desarrollo y 81 %
   en prueba.
 - Con un juez imperfecto, **corrige la tasa** (Rogan-Gladen) e informa el intervalo: un 23 % observado era un 5 %
   estimado [0-30 %].

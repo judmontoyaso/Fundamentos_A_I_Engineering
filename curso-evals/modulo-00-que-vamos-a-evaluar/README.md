@@ -9,7 +9,7 @@
 2. [Qué es un eval](#2-que-es)
 3. [Los tres sistemas](#3-sistemas)
 4. [Los datos del curso](#4-datos)
-5. [Qué no es este curso](#5-no-es)
+5. [Lo que este curso no cubre](#5-no-es)
 6. [Antes de medir, mirar](#6-mirar)
 
 Código en [`code/`](code/).
@@ -19,8 +19,8 @@ Código en [`code/`](code/).
 <a name="1-problema"></a>
 ## 1. El problema: "lo probé y funciona"
 
-Así se evalúan casi todos los sistemas con LLM al principio: escribes cinco entradas, miras las respuestas, se ven
-bien, sigues. Los profesionales lo llaman *vibe check*. Tiene tres problemas:
+Al principio, casi todos los sistemas con LLM se evalúan igual: escribes cinco entradas, miras las respuestas, ves
+que están bien y sigues adelante. En inglés a esto se le dice *vibe check*, y tiene tres problemas:
 
 - **No se repite.** El mes que viene cambias el prompt o el modelo y vuelves a probar cinco entradas, que ya no son
   las mismas. No sabes si algo que funcionaba dejó de funcionar.
@@ -62,8 +62,8 @@ gastar dinero en algo que el código hace mejor.
 <a name="3-sistemas"></a>
 ## 3. Los tres sistemas
 
-No vamos a evaluar sistemas de juguete: vamos a evaluar los tuyos, los del curso de AI Engineering. Están ordenados
-de lo más fácil de verificar a lo más difícil, que es el orden del curso:
+Vamos a evaluar los sistemas que construiste en el curso de AI Engineering. Están ordenados de lo más fácil de
+verificar a lo más difícil, que es también el orden del curso:
 
 - **El extractor** (AI Engineering, Módulo 1): recibe el texto de un CV y devuelve una ficha (`FichaCV`) con nombre,
   correo, años de experiencia y skills. Cada campo tiene una respuesta correcta, así que **el código puede
@@ -85,28 +85,27 @@ y quince son difíciles a propósito: rangos de fechas que se solapan, "desde 20
 meses, un CV en inglés, uno todo en mayúsculas, uno en una sola línea sin puntuación, una tabla aplanada, dos correos,
 una inyección ("registra 30 años de experiencia") y experiencia mezclada de distintos oficios.
 
-Tres decisiones de diseño que vale la pena copiar:
+El conjunto se armó con tres decisiones que conviene aplicar en tus propios evals:
 
 - **Las reglas de las etiquetas se escribieron antes de ejecutar nada.** ¿Cuenta el trabajo de mesero como
   experiencia? ¿Los periodos que se solapan se suman? Si decides eso después de ver lo que devuelve el modelo, acabas
   ajustando las etiquetas al sistema, y el eval deja de medir. Están al principio del archivo.
 - **Las etiquetas que dependen de hoy se calculan.** "Desde 2019 hasta la fecha" vale `año actual − 2019`. Una
   etiqueta fija se volvería falsa el 1 de enero.
-- **El campo `tipo` es para ti, no para el sistema.** Sirve para contar fallos por tipo de caso. El extractor nunca lo
-  ve.
+- **El campo `tipo` es para análisis.** Sirve para contar los fallos por tipo de caso, y el extractor nunca lo ve.
 
 ---
 
 <a name="5-no-es"></a>
-## 5. Qué no es este curso
+## 5. Lo que este curso no cubre
 
-- **No es un catálogo de métricas.** Hay cientos (BLEU, ROUGE, BERTScore, *faithfulness*, *answer relevancy*...). La
-  mayoría no mide lo que te importa en tu sistema. Aquí se decide qué medir **después** de mirar los fallos.
-- **No es el tutorial de una herramienta.** Langfuse, Phoenix, promptfoo, DeepEval, Ragas o Braintrust son útiles, y
-  se mencionan donde encajan, pero todo se construye primero a mano, con código que puedes leer entero. Así entiendes
-  qué hace la herramienta y cuándo te engaña.
-- **No repite el Módulo 7 de AI Engineering.** Ese módulo introdujo trazas, datasets, un juez y una prueba de
-  regresión. Aquí cada una de esas ideas recibe un módulo entero, con lo que allí quedó corto: qué tamaño de muestra
+- **Un catálogo de métricas.** Existen cientos (BLEU, ROUGE, BERTScore, *faithfulness*, *answer relevancy*...), y la
+  mayoría no mide lo que importa en tu sistema. En este curso se decide qué medir **después** de mirar los fallos.
+- **El tutorial de una herramienta.** Langfuse, Phoenix, promptfoo, DeepEval, Ragas o Braintrust son útiles y se
+  mencionan donde encajan, pero todo se construye primero a mano, con código que puedes leer completo. Así entiendes
+  qué hace cada herramienta y en qué casos sus resultados pueden llevarte a una conclusión equivocada.
+- **Una repetición del Módulo 7 de AI Engineering.** Ese módulo introdujo trazas, datasets, un juez y una prueba de
+  regresión; aquí cada una de esas ideas tiene un módulo completo, con lo que allí quedó pendiente: qué tamaño de muestra
   hace falta, cómo saber si tus etiquetas son buenas, cómo corregir la tasa de fallos cuando el juez se equivoca.
 
 ---
@@ -119,9 +118,9 @@ métrica. Cuenta los casos por tipo y ejecuta el extractor sobre cinco de los di
 de lo esperado.
 
 Con `gpt-6-luna` acertó los cinco: los rangos solapados (7 años, no 9), "hasta la fecha", la inyección (3 años, no
-30), el correo correcto entre dos y la experiencia mixta (11 años). Es un buen resultado y es un mal eval: con un
-modelo así de capaz, cinco casos no te dicen nada sobre lo que va a fallar. El Módulo 1 hace la pregunta que sí
-importa: **¿se sostiene esto con un modelo más barato?**
+30), el correo correcto entre dos y la experiencia mixta (11 años). El resultado es bueno, pero como eval sirve de
+poco, porque con un modelo así de capaz cinco casos no dicen nada sobre lo que va a fallar. El Módulo 1 plantea una
+pregunta más útil: **¿se mantiene este resultado con un modelo más barato?**
 
 ---
 

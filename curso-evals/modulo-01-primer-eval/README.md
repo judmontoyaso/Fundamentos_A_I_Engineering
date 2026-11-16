@@ -26,12 +26,12 @@ Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 ## 1. La pregunta
 
 El extractor corre con el modelo de tu `.env` (`gpt-6-luna` al escribir esto), un modelo de razonamiento capaz y
-caro. Procesar 100.000 CVs con él cuesta, y tarda. Alguien propone un modelo pequeño. La discusión sin eval suena así:
-"yo lo probé con tres CVs y anda igual" contra "los modelos pequeños alucinan". Con eval, la discusión es otra:
-**en estos 30 casos, en estos campos, falla en estos y no en estos.**
+caro, así que procesar 100.000 CVs con él cuesta dinero y tiempo. Si alguien propone un modelo pequeño, sin un eval
+la discusión se reduce a opiniones: "lo probé con tres CVs y funciona igual" frente a "los modelos pequeños inventan".
+Con un eval se puede decir algo concreto: **en estos 30 casos y en estos campos, falla en estos y acierta en estos.**
 
-Un buen primer eval empieza por una pregunta así: concreta, con una decisión detrás. "Evaluar el sistema" no es una
-pregunta.
+Un buen primer eval parte de una pregunta así, concreta y ligada a una decisión. "Evaluar el sistema" es demasiado
+vago para guiar el trabajo.
 
 ---
 
@@ -71,7 +71,7 @@ Cada campo necesita una decisión explícita sobre qué cuenta como acierto:
 | `anios` | Igualdad exacta | 7 y 9 no son "parecidos" para un filtro de "más de 8 años" |
 | `skills` | Cada skill esperada aparece **dentro** de alguna extraída | "python" vale dentro de "python 3.12"; extraer de más no se castiga |
 
-Las tolerancias son decisiones de producto, no detalles técnicos. Un chequeo demasiado estricto llena el informe de
+Las tolerancias son decisiones de producto y no simples detalles técnicos. Un chequeo demasiado estricto llena el informe de
 falsos fallos ("Python 3.12" ≠ "python") y acabas ignorándolo. Uno demasiado laxo deja pasar errores reales. El
 laboratorio mostró un caso en la frontera: el §5.
 
@@ -90,10 +90,11 @@ Cuatro modelos, prompt `v1`, dos pasadas cada uno, sobre los 30 casos:
 | `gpt-4o-mini` | 28 / 28 | #19, #30 (experiencia mixta) |
 | `gpt-4.1-nano` | no disponible | el 22 de octubre de 2026 respondía; el 26 devolvía *404: deprecated* |
 
-Cuatro lecciones antes de leer un solo fallo:
+Antes de leer los fallos uno por uno, la tabla ya muestra cuatro cosas:
 
-1. **Un eval perfecto no informa.** `gpt-6-luna` sacó 30/30 dos veces. No significa que no falle: significa que este
-   set no encuentra sus fallos. Para el modelo actual hace falta un set más difícil (Módulos 2 y 3).
+1. **Un resultado perfecto aporta poca información.** `gpt-6-luna` sacó 30/30 dos veces, lo que no quiere decir que
+   no falle, sino que este conjunto no encuentra sus fallos. Para ese modelo hace falta un conjunto más difícil
+   (Módulos 2 y 3).
 2. **Los modelos baratos fallan en casos distintos.** Una exactitud global parecida (93-97 % por campo) esconde
    fallos que no se parecen entre sí, y que piden arreglos distintos.
 3. **Casi todos los fallos se repiten en las dos pasadas.** Eso los hace **sistemáticos**: el modelo los comete
@@ -106,7 +107,7 @@ Cuatro lecciones antes de leer un solo fallo:
 <a name="5-leer"></a>
 ## 5. Leer cada fallo
 
-El número no dice qué arreglar. Lo dice la fila:
+La cifra global no dice qué arreglar; eso se ve leyendo cada fila:
 
 | Caso | Modelo | Esperado | Obtenido | Qué pasa |
 |---|---|---|---|---|
@@ -117,8 +118,8 @@ El número no dice qué arreglar. Lo dice la fila:
 
 El #4 es la pregunta más importante del módulo: **¿falló el sistema o falló el chequeo?** El chequeo busca `.net`
 dentro de las skills y encuentra `net`. Se podría relajar. Pero para un buscador de CVs, "net" es ambiguo (¿.NET?
-¿redes?), así que es un dato peor. Se decidió mantener el chequeo y tratarlo como fallo. La regla: **relaja un
-chequeo solo si lo obtenido es igual de útil que lo esperado**, no porque te moleste ver el fallo.
+¿redes?), así que es un dato peor. Se decidió mantener el chequeo y contarlo como fallo. El criterio es **relajar un
+chequeo solo si lo obtenido es igual de útil que lo esperado**, y no simplemente porque el fallo resulte incómodo.
 
 Y el #30 muestra algo que se repetirá todo el curso: muchas veces el fallo viene de **una regla que
 existía en tu cabeza** (y en las etiquetas) y nunca llegó al prompt.
@@ -135,8 +136,8 @@ ni menos:
 - las reglas de conteo de años, que eran las reglas de las etiquetas (para el #30 y el #18);
 - conservar la puntuación de las skills y leerlas aunque el CV esté en mayúsculas (para el #4 y el #23).
 
-¿Es hacer trampa poner en el prompt las reglas de las etiquetas? No: esas reglas **son la especificación**. Lo que sí
-sería trampa es escribir reglas para casos concretos del set ("si el CV dice Banco Andino, son 7 años"). El riesgo de
+Poner en el prompt las reglas de las etiquetas no es hacer trampa, porque esas reglas **son la especificación** del
+sistema. Sí sería trampa escribir reglas para casos concretos del set ("si el CV dice Banco Andino, son 7 años"). El riesgo de
 sobreajustarse al eval existe y tiene solución (un set de validación aparte, Módulo 11); por ahora, la defensa es que
 cada regla de `v2` sea general.
 
@@ -164,7 +165,7 @@ Resultado:
 | `gpt-4o-mini` | 27 / 28 | 29 / 29 | #19 | — | #4 | #30 |
 | `gpt-5.4-nano` | 28 / 28 | 28 / 29 | #19, #23 | **#18** | #21 | — |
 
-Tres cosas que un promedio nunca te habría dicho:
+Estas son las cosas que un promedio no habría mostrado:
 
 - **`v2` rompió un caso en `nano`.** Con `v1`, el caso de rangos solapados daba 7 en las cuatro llamadas que se
   hicieron para investigarlo. Con `v2`, que tiene justo la regla de los solapes, dio **7, 6, 10 y 12**. Más
@@ -176,10 +177,10 @@ Tres cosas que un promedio nunca te habría dicho:
   real, pero no es "siempre mal": es una caída fuerte de la probabilidad de acertar, y con dos pasadas a veces no se
   ve. Cuando un caso importa, **mídelo solo y muchas veces**: es barato (una llamada por repetición) y responde la
   pregunta que el eval completo deja abierta.
-- **Una regla escrita no es una regla obedecida.** `gpt-4o-mini` siguió dando 8 en el #30 en las cuatro llamadas,
+- **Que una regla esté en el prompt no garantiza que el modelo la siga.** `gpt-4o-mini` siguió dando 8 en el #30 en las cuatro llamadas,
   con "suma todo trabajo, aunque no sea del área" en el prompt. El ejercicio 4 prueba otra forma de decírselo.
-- **"Inestable" no es "arreglado".** El #4 pasó de mal a bien en `gpt-4.1-mini`, pero con `v1` ya había salido bien
-  una vez. Con dos pasadas no se puede distinguir una mejora de la suerte.
+- **Un caso inestable no está necesariamente arreglado.** El #4 pasó de mal a bien en `gpt-4.1-mini`, pero con `v1`
+  ya había salido bien una vez, y con dos pasadas no se puede distinguir una mejora real de la suerte.
 
 ---
 
@@ -188,8 +189,8 @@ Tres cosas que un promedio nunca te habría dicho:
 
 Con estos números, el candidato es **`gpt-4.1-mini` con `v2`**: 30/30 en dos pasadas, ningún caso roto. ¿Cuánto vale
 esa afirmación? Son 60 extracciones sin fallos. La regla del tres (AI Engineering, Módulo 7) dice que, con 95 % de
-confianza, la tasa real de casos con algún error está por debajo de 3/60 = **5 %**. No es "0 %": es "menos de 5 %
-**en casos como estos**". Si te hace falta saber que es menos de 1 %, necesitas unos 300 casos sin fallos.
+confianza, la tasa real de casos con algún error está por debajo de 3/60 = **5 %**. Eso no significa que sea 0 %,
+sino que es menor al 5 % **en casos como estos**. Si te hace falta saber que es menos de 1 %, necesitas unos 300 casos sin fallos.
 
 Antes de cambiar de modelo faltan dos cosas que el eval no mide todavía y que debes medir tú:
 
@@ -202,7 +203,7 @@ Antes de cambiar de modelo faltan dos cosas que el eval no mide todavía y que d
 <a name="9-no-ve"></a>
 ## 9. Lo que este eval no ve
 
-Este eval es útil y tiene límites claros, que son el índice del resto del curso:
+Este eval es útil, pero tiene límites claros, y cada uno corresponde a una parte del resto del curso:
 
 - **Casos que no imaginaste.** Los 30 casos los escribió una persona. El Módulo 2 busca los fallos en salidas reales,
   y el Módulo 3 genera casos que no se te ocurrieron.
@@ -218,7 +219,7 @@ Este eval es útil y tiene límites claros, que son el índice del resto del cur
 - Un primer eval empieza con **una pregunta y una decisión** detrás.
 - Cinco piezas: **casos, lo esperado, chequeo, agregación, registro** (guarda lo obtenido, no solo el sí o no).
 - Las **tolerancias** de cada chequeo son decisiones de producto: relaja solo si lo obtenido es igual de útil.
-- **Un eval perfecto no informa**: hace falta un set que encuentre fallos.
+- **Un resultado perfecto aporta poca información**: hace falta un conjunto que encuentre fallos.
 - Lee cada fallo: muchos son **reglas que nunca llegaron al prompt**.
 - Compara versiones **caso por caso**: arreglados, **rotos**, inestables. Un promedio igual puede esconder roturas.
 - **Repite**: dos pasadas separan lo sistemático de lo ocasional; para "arreglado" hacen falta más. Un caso que

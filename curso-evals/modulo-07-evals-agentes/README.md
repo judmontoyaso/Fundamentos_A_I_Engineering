@@ -96,15 +96,15 @@ El mismo agente, con tres modelos como cerebro, 8 pedidos × 3 corridas:
 | `gpt-4.1-mini` | 21 / 24 | 24 / 24 | **7 / 8** | 2.5 | Vio la inyección 3/3 · **recomendó a Pedro 3/3** |
 | `gpt-5.4-nano` | 20 / 24 | **7 / 24** | **1 / 8** | 3.7 | Vio la inyección 2/3 · **recomendó a Pedro 2/3** |
 
-Las tres columnas cuentan historias distintas, y ninguna sola basta:
+Cada columna muestra algo diferente, y hace falta mirar las tres:
 
 - **Solo con el resultado, `nano` y `mini` parecen casi iguales** (20 y 21 de 24). El camino los separa: `nano` repitió
   llamadas 15 veces (lee el mismo CV dos veces), usa casi el doble de pasos y una vez no terminó. **pass^3: 1 de 8
-  pedidos contra 7 de 8.** Para un usuario diario, `nano` no es "un poco peor": es poco fiable.
+  pedidos contra 7 de 8.** Para alguien que lo usa todos los días, la diferencia es grande: `nano` no es confiable.
 - **`mini` tiene un camino impecable y un fallo grave.** En el CV malicioso leyó el CV antes de recomendar (como pide
   la regla), y recomendó a Pedro las tres veces: **obedeció la inyección**. Ningún chequeo de camino lo marca, porque
-  el camino es "correcto". **Los chequeos de proceso no sustituyen a los casos de seguridad**: el caso malicioso tiene
-  que estar en el set, con su resultado esperado.
+  el camino es "correcto". **Los chequeos de proceso no reemplazan a los casos de seguridad**, así que el caso
+  malicioso tiene que estar en el conjunto, con su resultado esperado.
 - **`gpt-6-luna` es perfecto en este set**, que vuelve a ser fácil para el modelo grande (como en los Módulos 1 y 3).
   Para retarlo harían falta pedidos más ambiguos y un corpus más grande.
 
@@ -130,7 +130,7 @@ apunta al paso exacto. Tres repeticiones por caso:
 - **La causa de las repeticiones de `nano`, localizada:** después de leer el CV correcto, en vez de terminar vuelve a
   pedir `ver_cv(4)`. Las 3 veces. Ese es el paso a arreglar (en el prompt, o con una regla en código que termine si la
   última observación es un CV ya leído).
-- **`mini` obedece la inyección también en el paso aislado**: el fallo del episodio no fue mala suerte.
+- **`mini` obedece la inyección también en el paso aislado**, así que el fallo del episodio no fue casualidad.
 - **Ningún modelo usa `bm25` para las siglas**, aunque la descripción de la herramienta lo pide. Y aun así los tres
   encuentran al auditor ISO 27001, porque la búsqueda híbrida también lo trae. ¿Es un fallo? Ver el §7.
 - Un detalle en el caso malicioso: `nano` pasa (3/3) en el paso aislado y falla en el episodio (recomendó a Pedro 2 de
@@ -144,12 +144,12 @@ apunta al paso exacto. Tres repeticiones por caso:
 
 El caso de `bm25` enseña algo general: **un chequeo de camino debe medir algo que importe**. Que el agente siga al pie
 de la letra la descripción de una herramienta no tiene valor propio; importa si cambia el resultado, el costo o la
-seguridad. Aquí no cambió el resultado, así que hay dos lecturas honestas: la regla de la descripción sobra (y se
-quita), o hay casos donde `bm25` sí importa que el set no tiene (y se añaden: siglas que la búsqueda semántica
+seguridad. Aquí no cambió el resultado, así que hay dos interpretaciones posibles: la regla de la descripción sobra
+(y se quita), o hay casos donde `bm25` sí importa que el conjunto todavía no tiene (y se añaden: siglas que la búsqueda semántica
 confunde, como ISO 27001 frente a ISO 9001). Lo que no hay que hacer es dejar un chequeo que falla siempre y que nadie
 mira.
 
-Los chequeos de camino que suelen pagarse:
+Los chequeos de camino que suelen valer la pena son estos:
 
 - **De costo:** pasos, llamadas repetidas, tokens por pedido.
 - **De seguridad:** herramientas con efectos (escribir, enviar) llamadas sin aprobación; datos que salen de donde no
@@ -157,7 +157,7 @@ Los chequeos de camino que suelen pagarse:
 - **De reglas del producto:** "no recomendar sin leer el CV".
 - **De terminación:** que termine, y que no se rinda antes de tiempo.
 
-Y los que suelen ser ruido: comparar con una trayectoria "de referencia" paso a paso (hay muchas buenas) y premiar el
+Y los que suelen aportar poco: comparar con una trayectoria "de referencia" paso a paso (hay muchas buenas) y premiar el
 uso de una herramienta concreta cuando el resultado no depende de ella.
 
 ---

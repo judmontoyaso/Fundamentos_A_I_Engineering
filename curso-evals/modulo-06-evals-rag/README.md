@@ -14,7 +14,7 @@
 4. [La recuperación, sola](#4-recuperacion)
 5. [El oráculo: la generación, sola](#5-oraculo)
 6. [El diagnóstico de cada pregunta](#6-diagnostico)
-7. [Fiel no es correcta](#7-fiel)
+7. [Una respuesta fiel puede ser incorrecta](#7-fiel)
 8. [Las métricas de las herramientas](#8-herramientas)
 
 Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
@@ -25,7 +25,7 @@ Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 ## 1. Dos sistemas en uno
 
 Un RAG son dos sistemas encadenados: una **búsqueda** que elige qué documentos ver y un **generador** que responde
-con lo que ve. Cuando la respuesta sale mal, la pregunta que decide todo es cuál de los dos falló:
+con lo que ve. Cuando la respuesta sale mal, lo primero es averiguar cuál de los dos falló:
 
 - Si la búsqueda no trajo el documento correcto, ningún prompt lo arregla.
 - Si lo trajo y la respuesta salió mal, cambiar la búsqueda no ayuda.
@@ -105,8 +105,8 @@ recuperado y con el oráculo) y lo repite dos veces:
 | **Sistema** (recuperación real) | 32 / 40 (80 %) |
 
 Con el contexto correcto, el generador acierta todo, incluidas las dos agregaciones y las dos abstenciones. **Los 8
-fallos del sistema son de recuperación.** Esta tabla te ahorra una semana de ajustar el prompt del generador, que no
-tiene nada que arreglar.
+fallos del sistema son de recuperación.** Con esta tabla te ahorras días de ajustar el prompt del generador, que en
+este caso funciona bien.
 
 ---
 
@@ -129,7 +129,7 @@ eso, en un RAG, es un fallo aunque la respuesta sea correcta).
 ---
 
 <a name="7-fiel"></a>
-## 7. Fiel no es correcta
+## 7. Una respuesta fiel puede ser incorrecta
 
 La métrica más usada para evaluar un RAG es la **fidelidad** (*faithfulness*): ¿todo lo que afirma la respuesta está en
 los documentos que recibió? [`code/03_fiel_no_es_correcta.py`](code/03_fiel_no_es_correcta.py) la mide con un juez y
@@ -143,14 +143,14 @@ la cruza con la corrección:
 **Las 4 respuestas incorrectas eran fieles.** Un eval de solo fidelidad habría dado 20 de 20. Y no todas valen lo
 mismo:
 
-- "Sin información: ninguno de los CVs menciona pruebas automatizadas" es fiel, incorrecta y **honesta**: el usuario
-  sabe que no encontró nada y puede reformular.
+- "Sin información: ninguno de los CVs menciona pruebas automatizadas" es fiel e incorrecta, pero **transparente**: el
+  usuario sabe que no encontró nada y puede reformular la pregunta.
 - "Gabriel Rojas tiene más años de experiencia: 5 años" es fiel a los 3 CVs que vio, incorrecta y **dañina**: afirma
   algo sobre *todos* los candidatos habiendo visto tres. El juez de fidelidad no lo detecta, porque el número 5 sí está
   en el contexto.
 
 Un eval de RAG necesita tres medidas: **recuperación** (por qué falla), **corrección** (si sirve) y **fidelidad** (si
-inventa). Cualquiera de las tres sola te engaña.
+inventa). Cualquiera de ellas por separado puede llevar a una conclusión equivocada.
 
 ---
 
@@ -181,7 +181,7 @@ lo que convierte una medida gratis y exacta (¿está el CV 13 en el top 3?) en u
 - El **oráculo** aísla la generación: con el contexto correcto acertó 40/40, así que **todos** los fallos eran de
   recuperación.
 - Hay preguntas que un RAG con k fijo **no puede** responder (las agregaciones).
-- **Fiel no es correcta**: las 4 respuestas incorrectas eran fieles a su contexto; una de ellas afirmaba algo falso
+- **Una respuesta fiel puede ser incorrecta**: las 4 respuestas incorrectas eran fieles a su contexto; una de ellas afirmaba algo falso
   sobre todo el corpus.
 
 Sigue con [`ejercicios.md`](ejercicios.md).
