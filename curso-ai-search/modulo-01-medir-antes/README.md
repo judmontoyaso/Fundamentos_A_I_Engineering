@@ -4,7 +4,7 @@
 > graduada, y aprender a decidir si una versión le gana a otra de verdad.
 >
 > **Lo que te llevas:** la línea base de tres modos de búsqueda en 41 consultas, los fallos leídos uno por uno y una
-> comparación pareada que muestra por qué un promedio puede mentir.
+> comparación pareada que muestra cómo un promedio puede llevar a una conclusión equivocada.
 
 Índice:
 
@@ -24,8 +24,8 @@ Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 ## 1. La línea base
 
 Cada técnica de este curso se va a comparar contra algo. Ese algo es la **línea base**: el buscador tal como está, medido
-con el set de consultas del Módulo 0, guardado por consulta y por modo (`salida/linea_base.jsonl`). Sin ella, "mejoró"
-no significa nada.
+con el conjunto de consultas del Módulo 0, guardado por consulta y por modo (`salida/linea_base.jsonl`). Sin ella no
+hay forma de saber si un cambio mejoró algo.
 
 El buscador ([`comun/as_buscador.py`](../comun/as_buscador.py)) indexa el texto completo de los 119 CVs y busca en tres
 modos, todos con piezas del curso de AI Engineering: BM25, densa (MiniLM multilingüe) e híbrida (RRF de las dos).
@@ -42,8 +42,8 @@ modos, todos con piezas del curso de AI Engineering: BM25, densa (MiniLM multili
 | **MRR** | ¿En qué puesto aparece el primer CV con relevancia 2? | Lo que ve quien solo mira el primer resultado |
 
 nDCG suma la ganancia de cada resultado (`2^rel − 1`: 3 para un 2, 1 para un 1) dividida por el logaritmo de su
-puesto, y la normaliza por la del orden ideal. Un 1 vale: un CV que cumple el rol pero no el nivel no es inútil, pero
-vale menos que uno que cumple todo. Recall y MRR, en cambio, solo cuentan los 2.
+puesto, y la normaliza por la del orden ideal. Un 1 también suma, porque un CV que cumple el rol pero no el nivel
+sigue siendo útil, aunque valga menos que uno que cumple todo. Recall y MRR, en cambio, solo cuentan los 2.
 
 ---
 
@@ -78,12 +78,12 @@ corridas, y las diferencias son las del sistema.
 | MRR | 0.67 | 0.62 | 0.69 | |
 | ms por consulta | 0.6 | 14.5 | 14.4 | |
 
-Tres lecturas:
+La tabla deja tres conclusiones:
 
 - **BM25 es muy fuerte aquí.** Los CVs del curso nombran sus tecnologías y sus cargos: si la consulta usa las mismas
   palabras, BM25 acierta (1.00 en tecnología). La densa con un embedder pequeño queda atrás en casi todo.
 - **La densa solo gana donde no hay palabras en común**: paráfrasis (0.55 contra 0.00), en inglés y liderazgo.
-- **La híbrida no es "lo mejor de los dos".** En paráfrasis baja de 0.55 (densa) a 0.38: BM25 mete ruido en el ranking
+- **La híbrida no reúne lo mejor de las dos.** En paráfrasis baja de 0.55 (densa) a 0.38: BM25 mete ruido en el ranking
   fusionado. En tecnología baja de 1.00 (BM25) a 0.91: la densa mete ruido en el otro sentido. Su total es el mejor
   por poco, y el §6 dice cuánto vale ese "por poco".
 
@@ -95,8 +95,8 @@ Tres lecturas:
 [`code/02_leer_los_fallos.py`](code/02_leer_los_fallos.py) muestra, para la peor consulta de cada tipo, los 5 primeros
 resultados con su relevancia y sus hechos. Algunos:
 
-- **"Alguien que automatice despliegues y administre contenedores"** → los cinco primeros son **QA automation**. El falso
-  amigo "automat" (automation, automatizadas) engaña a BM25 y al embedder a la vez. Ningún ingeniero DevOps en el top 5.
+- **"Alguien que automatice despliegues y administre contenedores"** → los cinco primeros son **QA automation**. La raíz
+  "automat" (automation, automatizadas) confunde a BM25 y al embedder a la vez. Ningún ingeniero DevOps en el top 5.
 - **"Ingeniero de datos senior"** → tres **analistas de datos senior** antes que el primer ingeniero de datos. El
   buscador entiende "datos" y "muchos años", pero no que "ingeniero de datos" es un rol, y no sabe que senior significa
   7 años o más: el nivel no está escrito en los CVs.
@@ -124,12 +124,12 @@ diferencia:
 | Densa contra BM25 | 12 | 28 | 1 | −0.115 | [−0.256, +0.034] | no se distingue |
 | Híbrida contra densa | 28 | 6 | 7 | +0.132 | [+0.034, +0.228] | **mejor** |
 
-La primera fila es la lección del módulo: **la híbrida pierde en el doble de consultas de las que gana**, y aun así su
+La primera fila es la más importante del módulo: **la híbrida pierde en el doble de consultas de las que gana**, y aun así su
 media es mayor, porque gana por mucho en pocas (paráfrasis: +0.38 de media) y pierde por poco en muchas (tecnología:
 −0.09; numérica: −0.22). El intervalo incluye el cero: con 41 consultas no se puede afirmar que sea mejor.
 
-Elegir "la de mayor promedio" habría escondido que, para la mitad de los reclutadores, la híbrida es peor. Lo que dice
-el desglose es otra cosa: **no hay un modo mejor; hay tipos de consulta que necesitan cosas distintas**. Eso apunta a
+Elegir el modo con el mayor promedio habría ocultado que, para la mitad de los reclutadores, la híbrida es peor. El
+desglose muestra otra cosa: **no hay un modo mejor para todo, sino tipos de consulta que necesitan cosas distintas**. Eso apunta a
 decidir el modo según la consulta (Módulo 2: *routing*).
 
 ---
@@ -153,7 +153,7 @@ decidir el modo según la consulta (Módulo 2: *routing*).
 - **nDCG@10** usa la relevancia graduada; recall@10 y MRR solo cuentan los 2.
 - Medir la búsqueda sola es **gratis y determinista**: sin LLM, sin ruido entre corridas.
 - **BM25 es fuerte** con un corpus que nombra sus tecnologías; la densa solo gana sin palabras en común.
-- **La híbrida no suma lo mejor de los dos**: pierde frente a BM25 en 20 de 41 consultas, y su media mayor no se
+- **La híbrida no reúne lo mejor de las dos**: pierde frente a BM25 en 20 de 41 consultas, y su media mayor no se
   distingue del cero.
 - **Los peores fallos son de entender la consulta**: rol, nivel, filtros y negación.
 

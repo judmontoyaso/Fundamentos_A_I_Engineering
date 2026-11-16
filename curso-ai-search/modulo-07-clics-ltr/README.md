@@ -9,7 +9,7 @@
 
 Índice:
 
-1. [Los clics son datos, y están torcidos](#1-clics)
+1. [Los clics son datos con sesgo](#1-clics)
 2. [Un usuario simulado](#2-simular)
 3. [Learning to rank, cuatro veces](#3-ltr)
 4. [Lo que pasó](#4-resultados)
@@ -22,16 +22,16 @@ Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 ---
 
 <a name="1-clics"></a>
-## 1. Los clics son datos, y están torcidos
+## 1. Los clics son datos con sesgo
 
 Hasta aquí, cada mejora se midió contra relevancias **calculadas desde los hechos**. En producción nadie te las da. Lo
-que sí hay, gratis y a montones, son los **clics** de los reclutadores: a quién abrieron, a quién guardaron. Es la
-señal más barata que existe y la más tentadora para entrenar un ranker.
+que sí hay, gratis y en grandes cantidades, son los **clics** de los reclutadores: a quién abrieron y a quién
+guardaron. Es la señal más barata disponible, y por eso resulta muy atractiva para entrenar un ranker.
 
-El problema: **un clic no dice "esto es relevante", dice "lo vi y me gustó"**. Y lo que está arriba se ve mucho más
-que lo que está abajo. Si entrenas con clics crudos, el modelo aprende que lo bueno es "lo que ya estaba arriba", y el
-buscador se convierte en un espejo de sí mismo. Es el **sesgo de posición**. Hay otro peor, el de **selección**: de lo
-que no se mostró no hay clics, ni buenos ni malos (§6).
+El problema es que **un clic no indica que algo sea relevante, sino que el usuario lo vio y le interesó**, y lo que
+está arriba se ve mucho más que lo que está abajo. Si entrenas con clics sin corregir, el modelo aprende que lo bueno
+es lo que ya estaba arriba y el buscador termina reforzando su propio orden. Este es el **sesgo de posición**. Hay otro
+más difícil de corregir, el de **selección**: de lo que no se mostró no hay clics, ni buenos ni malos (§6).
 
 ---
 
@@ -49,15 +49,15 @@ en la posición** (PBM), el más usado para razonar sobre clics:
 
 Producción es el top 10 de la búsqueda híbrida del Módulo 1. Cada una de 26 consultas recibe 60 sesiones: unos 2.500
 clics. La tasa de clic por posición sale 57% · 28% · 20% · 14% · 11% · 9% · 7% · 4% · 6% · 3%. La caída es mucho más
-fuerte que la diferencia de calidad entre posiciones: casi toda es θ.
+fuerte que la diferencia de calidad entre posiciones, así que casi toda se debe a θ.
 
 Con una simulación conoces la verdad (θ y la relevancia), y por eso puedes medir si un método la recupera. Con clics
 reales no se puede, y por eso conviene empezar así.
 
-> Un error que cometí al escribir el laboratorio, y que vale la pena contar: "producción" en la simulación era la
+> Al escribir el laboratorio cometí un error que conviene contar: "producción" en la simulación era la
 > fusión de los top 10 de cada buscador (hasta 20 CVs), y la feature de posición y la evaluación usaban el top 10 de
 > la fusión completa. Los números salían razonables y estaban mal. Ahora una sola función, `produccion()`, define lo que
-> ve el reclutador. **Cuando dos partes de un experimento calculan "lo mismo", que sea con el mismo código.**
+> ve el reclutador. **Cuando dos partes de un experimento calculan lo mismo, deben usar el mismo código.**
 
 ---
 
@@ -77,14 +77,14 @@ inversa de la posición en producción, la fracción de requisitos del parser qu
 
 **IPS** (*inverse propensity scoring*) es la corrección estándar. Si un CV en la posición k recibe clics con
 probabilidad θ_k·γ, dividir cada clic por θ_k deja γ en esperanza: lo que el clic decía del CV, sin lo que decía del
-lugar. El precio es varianza: los clics de abajo son pocos y pesan mucho.
+lugar. A cambio aumenta la varianza, porque los clics de abajo son pocos y pesan mucho.
 
-Los dos oráculos no son un sistema que puedas construir: son **reglas de medir**. La distancia entre el ingenuo y el
+Los dos oráculos no son sistemas que puedas construir; sirven como **referencias para medir**. La distancia entre el ingenuo y el
 oráculo es lo que cuesta el sesgo de posición; la distancia entre los dos oráculos, lo que cuesta el de selección.
 
 Se evalúa en las 15 consultas que **no** estaban en los logs, con la relevancia verdadera, y se repite con **10
-particiones** distintas de entrenamiento y prueba. Con 15 consultas de prueba, una sola partición engaña: la primera
-que corrí le daba 0.94 a IPS, y la media es 0.88.
+particiones** distintas de entrenamiento y prueba. Con 15 consultas de prueba, una sola partición puede dar una idea
+equivocada: la primera que corrí le daba 0.94 a IPS, y la media es 0.88.
 
 ---
 
@@ -115,11 +115,11 @@ nDCG@10 en prueba, media de 10 particiones:
 | Filtros suaves (Módulo 2, escritos a mano) | 0.90 | 0.81 – 0.98 |
 | LTR oráculo (todos) | 0.92 | 0.87 – 0.97 |
 
-Tres lecturas:
+Los resultados dejan tres conclusiones:
 
 - **IPS supera al ingenuo** (0.88 contra 0.82, en 8 de las 10 particiones) y se acerca al oráculo que usa los mismos
   pares. Corregir la posición vale 6 puntos.
-- **El ingenuo también mejora a producción** (0.69 → 0.82): los clics traen información aunque estén torcidos.
+- **El ingenuo también mejora a producción** (0.69 → 0.82), porque los clics traen información aunque tengan sesgo.
 - **Más clics no ayudan.** Con 5, 60 o 300 sesiones por consulta, IPS da 0.873, 0.875 y 0.881. El límite no es la
   cantidad de datos sino **qué** datos hay: solo de los 10 CVs que se mostraron.
 
@@ -154,8 +154,8 @@ Y lo que importa, el ranker resultante, según la θ que use IPS (media de 10 pa
 | equivocada (1/k, más empinada que la real) | 0.858 |
 | plana (= no corregir, el ingenuo) | 0.824 |
 
-La estimada rinde como la verdadera (la diferencia es ruido de la simulación). Una θ equivocada corrige a medias.
-**Medirla es barato.**
+La estimada rinde como la verdadera (la diferencia es ruido de la simulación), mientras que una θ equivocada solo
+corrige en parte. **Medir θ cuesta poco.**
 
 ---
 
@@ -171,13 +171,14 @@ parecerse a la consulta, y los que llegaron solo por parecerse, sin cumplir los 
 Pero el modelo ordena a los 119, y entre los 119 la mayoría ni siquiera tiene el rol: el oráculo con todos los CVs le
 da al rol 0.469. **Un modelo entrenado con lo que se mostró aprende reglas que solo valen para lo que se mostró.**
 
-Eso es el sesgo de selección, y cuesta (0.90 → 0.92) lo que ningún volumen de clics recupera. Las salidas cuestan:
+Eso es el sesgo de selección, y su costo (0.90 frente a 0.92) no se recupera con más clics. Las formas de reducirlo
+tienen su propio costo:
 
-- **Explorar**: mostrar de vez en cuando, en una posición baja, un candidato que el ranker no habría puesto. Cuesta un
-  poco de calidad (como los intercambios del §5) y compra datos de lo que hoy es invisible. Al azar compra poco
-  (ejercicio 4); se explora con candidatos **prometedores**.
+- **Explorar**: mostrar de vez en cuando, en una posición baja, un candidato que el ranker no habría puesto. Se pierde
+  un poco de calidad (como con los intercambios del §5) y a cambio se obtienen datos de lo que hoy nunca se muestra.
+  Explorar al azar aporta poco (ejercicio 4); conviene hacerlo con candidatos **prometedores**.
 - **Entrenar con lo que sí sabes de todos**: un conjunto de evaluación etiquetado (Módulos 0 y 1) cubre CVs que nadie
-  mostró. Unos cientos de etiquetas buenas valen más que miles de clics de lo mismo.
+  mostró. Unos cientos de etiquetas buenas aportan más que miles de clics sobre los mismos candidatos.
 - **Buenas features**: lo que el parser y las fichas de los Módulos 2 y 3 ya extraen. Los filtros suaves, escritos a
   mano con esas features, empatan con el oráculo de los mostrados sin un solo clic.
 
@@ -190,8 +191,8 @@ Y el ciclo: si el ranker se reentrena siempre con los clics del anterior, lo que
 
 La simulación tiene un sesgo de posición limpio y un usuario que no se cansa. Los logs reales traen más:
 
-- **Sesgo de confianza**: el usuario hace más clic arriba no solo porque mira más, sino porque cree que el buscador
-  sabe. La θ estimada con intercambios lo absorbe en parte.
+- **Sesgo de confianza**: el usuario hace más clic arriba no solo porque mira más, sino porque confía en el orden del
+  buscador. La θ estimada con intercambios lo absorbe en parte.
 - **El clic no es la meta**: en reclutamiento, la señal valiosa es "lo entrevisté" o "lo contraté", rara y tardía. Los
   clics son un sustituto barato y ruidoso. Usa la señal más cercana a la meta de la que tengas suficiente cantidad.
 - **Presentación**: un CV con foto o con un titular llamativo atrae más clics sin ser más relevante (la γ depende de
@@ -204,13 +205,13 @@ La simulación tiene un sesgo de posición limpio y un usuario que no se cansa. 
 
 ## Resumen del módulo
 
-- Un clic dice **"lo vi y me gustó"**: mezcla relevancia y posición.
+- Un clic indica que el usuario **lo vio y le interesó**, así que mezcla relevancia y posición.
 - El LTR entrenado con clics crudos **aprende el sesgo**: su mayor peso fue la posición en producción.
 - **IPS** pesa cada clic por 1/θ_k: 0.82 → **0.88** de nDCG@10.
 - θ se **estima con intercambios**, a un costo mínimo, y rinde como la verdadera.
-- **IPS corrige la posición, no la selección**: el 39% de los CVs muy relevantes nunca se muestra, y un modelo
+- **IPS corrige la posición pero no la selección**: el 39% de los CVs muy relevantes nunca se muestra, y un modelo
   entrenado con lo mostrado aprende reglas que solo valen ahí (oráculo 0.90 contra 0.92 con todos los CVs).
-- Más clics no mueven el resultado; **otros datos** sí: explorar, o etiquetas de lo que nadie mostró.
+- Más clics no mueven el resultado, pero **otros datos** sí: explorar, o etiquetar lo que nadie mostró.
 - Evalúa siempre también **contra tu conjunto etiquetado**, no solo contra clics.
 
 Sigue con [`ejercicios.md`](ejercicios.md).

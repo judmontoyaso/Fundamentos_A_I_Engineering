@@ -23,7 +23,7 @@ Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 <a name="1-preguntas"></a>
 ## 1. Preguntas que no son de similitud
 
-El Módulo 5 terminó con una conclusión incómoda: con todo el corpus en el contexto, el LLM perdía candidatos de las
+El Módulo 5 terminó con una conclusión poco alentadora: con todo el corpus en el contexto, el LLM perdía candidatos de las
 listas y se desviaba al contar. Y una búsqueda tampoco sirve para "¿cuántos juniors hay?": no hay un documento que se
 parezca a esa pregunta. Hay preguntas que **no son de similitud**:
 
@@ -45,9 +45,9 @@ Para eso existen las bases de datos.
 `candidatos` (rol, años, nivel, ciudad, remoto, inglés, liderazgo), `skills`, `certificaciones` y `trabajos`.
 
 Hubo que extraer dos datos que el índice **no guardaba**: el nombre y la **empresa** de cada trabajo. Para buscar no
-hacían falta; para relaciones, sí. Es la tercera vez en el curso que aparece la misma lección (certificaciones en el
-Módulo 8 de Evals, duraciones en el Módulo 11 de Evals): **lo que no se extrae no existe para el sistema**, y lo que
-hay que extraer depende de las preguntas que vas a responder. Se extrajo con el mismo modelo y coincidió con los hechos
+hacían falta, pero para las relaciones sí. Es la tercera vez que aparece este problema (las certificaciones en el
+Módulo 8 de Evals y las duraciones en el Módulo 11): **un dato que no se extrae no está disponible para el sistema**, y
+lo que hay que extraer depende de las preguntas que vas a responder. Se extrajo con el mismo modelo y coincidió con los hechos
 en 119 de 119 CVs.
 
 ---
@@ -70,7 +70,7 @@ WHERE ct.nombre = 'Tomás Duarte' AND c.id <> ct.id
   AND tomas.inicio < COALESCE(otro.fin, 2026);
 ```
 
-Una base de grafos (Neo4j, o grafos en Postgres) paga cuando los recorridos son largos y variables ("colegas de
+Una base de grafos (Neo4j, o grafos en Postgres) vale la pena cuando los recorridos son largos y variables ("colegas de
 colegas de colegas") o cuando el grafo es enorme. Con un salto o dos, SQL alcanza. Y un buscador por vectores no puede
 responderlo: no hay ningún texto que diga "Tomás coincidió con estas 31 personas".
 
@@ -121,13 +121,14 @@ Los dos fallos de la primera versión no fueron errores de SQL:
 
 La versión 2 **documenta el esquema** (qué significa `lidera`, qué es "coincidir") y acierta la relación. La cuenta de
 liderazgo sigue fallando, ahora por otra razón: la consulta es la correcta (`WHERE lidera = 1`) y devuelve 17, pero los
-hechos dicen 18. Una ficha del índice se equivocó en el liderazgo (el 118 de 119 del Módulo 2). **SQL es exacto sobre
-los datos, y los errores de los datos pasan intactos.** Es el techo del Módulo 3 otra vez, en otra parte del sistema.
+hechos dicen 18. Una ficha del índice se equivocó en el liderazgo (el 118 de 119 del Módulo 2). **SQL calcula con
+exactitud sobre los datos que tiene, y si los datos traen errores, el resultado los reproduce.** Es el mismo límite
+del Módulo 3, en otra parte del sistema.
 
 Dos lecciones para texto a SQL:
 
-- **Un esquema sin documentar es una guía de anotación ambigua** (Módulo 4 de Evals): el modelo elige una lectura
-  razonable que no es la tuya. Documenta el significado de cada columna y las definiciones del negocio.
+- **Un esquema sin documentar se comporta como una guía de anotación ambigua** (Módulo 4 de Evals): el modelo elige una
+  lectura razonable que puede no coincidir con la tuya. Documenta el significado de cada columna y las definiciones del negocio.
 - **Evalúa la consulta Y los datos**: una cuenta mal puede venir de la consulta o del índice. Mirar el SQL generado
   separa las dos causas.
 
@@ -154,7 +155,8 @@ respuesta**, no solo por la etiqueta. El error caro sería el contrario (mandar 
 
 ## Resumen del módulo
 
-- **Cuentas, listas exactas, máximos y relaciones no son de similitud**: se consultan, no se buscan.
+- **Cuentas, listas exactas, máximos y relaciones no son preguntas de similitud**: se resuelven con una consulta y no
+  con una búsqueda.
 - Para preguntas nuevas hace falta **extraer datos nuevos** (aquí, la empresa de cada trabajo).
 - Las relaciones son un **grafo**, y con uno o dos saltos un JOIN alcanza.
 - **Texto a SQL seguro**: el LLM ve solo el esquema, la conexión es de solo lectura y el código formatea la respuesta.

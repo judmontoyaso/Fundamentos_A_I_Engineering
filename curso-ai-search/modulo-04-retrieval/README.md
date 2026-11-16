@@ -3,8 +3,8 @@
 > **Objetivo:** medir las tres técnicas clásicas para mejorar la recuperación (un **reranker**, **late interaction** y
 > **afinar el embedder**) contra la alternativa simple, y descubrir cuándo valen la pena.
 >
-> **Lo que te llevas:** un reranker con LLM que paga sobre la búsqueda base y no sobre la entendida, una late interaction
-> sin entrenar que deja atrás a la densa, y un embedder afinado evaluado con un holdout que destapa lo que aprende.
+> **Lo que te llevas:** un reranker con LLM que mejora la búsqueda base pero no la entendida, una late interaction sin
+> entrenar que supera a la densa, y un embedder afinado evaluado con un holdout que muestra lo que aprende de verdad.
 
 Índice:
 
@@ -13,7 +13,7 @@
 3. [El reranker depende de lo que hay antes](#3-depende)
 4. [Late interaction](#4-late)
 5. [Afinar el embedder](#5-afinar)
-6. [La trampa de evaluarlo](#6-trampa)
+6. [Cómo evaluarlo sin inflar el resultado](#6-trampa)
 7. [Qué elegir](#7-elegir)
 
 Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
@@ -72,9 +72,9 @@ Comparación pareada consulta a consulta:
 Sobre la búsqueda entendida, **no se distingue del ruido**: arregla la exclusión (0.63 → 0.88) y la numérica (0.67 →
 0.80), y empeora rol + ciudad (0.86 → 0.79). Y cuesta 20 llamadas por consulta, unos 5 segundos la primera vez.
 
-La lección generaliza: **el valor de una técnica depende de lo que ya hace el sistema**. El reranker y el parser
-arreglan cosas parecidas (entender nivel, idioma, rol), así que el segundo que llega aporta poco. Una técnica que en un
-artículo "sube 12 puntos" puede subir 2 en tu sistema. Por eso se mide en tu sistema, no en el de otro.
+Esto se aplica en general: **el valor de una técnica depende de lo que ya hace el sistema**. El reranker y el parser
+resuelven cosas parecidas (entender nivel, idioma y rol), así que el que llega segundo aporta poco. Una técnica que en
+un artículo sube 12 puntos puede subir 2 en tu sistema, y por eso hay que medirla en tu propio sistema.
 
 ---
 
@@ -87,7 +87,8 @@ de ColBERT) guarda un vector por **token** y puntúa con **MaxSim**: para cada t
 del CV; la nota es la suma.
 
 [`code/02_late_interaction.py`](code/02_late_interaction.py) lo hace con **el mismo MiniLM**, sin entrenar ni descargar
-nada: sus vectores por token, en vez del promedio. No es ColBERT (que se entrena para esto), es su idea medida aquí:
+nada: usa sus vectores por token en lugar del promedio. No es ColBERT, que se entrena para esto, sino su idea aplicada
+y medida aquí:
 
 | Tipo | densa | **MaxSim** | híbrida (densa) | híbrida (MaxSim) |
 |---|---|---|---|---|
@@ -125,12 +126,12 @@ Evaluado con los mismos 119 CVs: la densa pasa de **0.55 a 0.73**.
 ---
 
 <a name="6-trampa"></a>
-## 6. La trampa de evaluarlo
+## 6. Cómo evaluarlo sin inflar el resultado
 
-Ese 0.73 tiene trampa: el modelo se entrenó **con los mismos CVs** con los que se evalúa. Aprendió a reconocer esos 119
+Ese 0.73 está inflado, porque el modelo se entrenó **con los mismos CVs** con los que se evalúa. Aprendió a reconocer esos 119
 documentos concretos. En producción llegan CVs nuevos cada día.
 
-Para medirlo honestamente, se entrena **sin** los CVs de cuatro roles (seguridad, móvil, QA, cloud) y se evalúa en las 11
+Para medirlo de forma justa, se entrena **sin** los CVs de cuatro roles (seguridad, móvil, QA, cloud) y se evalúa en las 11
 consultas cuyos relevantes son de esos roles:
 
 | Consulta (roles no vistos al entrenar) | densa base | afinada |
@@ -143,7 +144,7 @@ consultas cuyos relevantes son de esos roles:
 | (las otras seis) | | sin cambios o ±0.05 |
 | **Media de las 11** | 0.75 | 0.84 |
 
-Generaliza en parte: con roles que no vio, la búsqueda por tecnología mejora mucho. Pero **la paráfrasis empeora**
+Generaliza solo en parte: con roles que no vio, la búsqueda por tecnología mejora mucho. Pero **la paráfrasis empeora**
 (0.64 → 0.24): las plantillas de entrenamiento nombran siempre tecnologías y roles, así que el modelo aprendió a
 buscar por esas palabras y desaprendió algo de lo que sabía hacer con descripciones. **Un embedder afinado aprende lo que
 le enseñan tus pares, también sus sesgos.** Si las consultas reales tienen paráfrasis, los pares de entrenamiento

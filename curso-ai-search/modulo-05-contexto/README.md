@@ -24,8 +24,8 @@ Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 <a name="1-tentacion"></a>
 ## 1. La tentación del contexto largo
 
-Los 119 CVs del curso ocupan unos 10.000 tokens: caben de sobra en el contexto de cualquier modelo actual. La tentación
-es obvia: **¿para qué buscar, si se le puede dar todo al modelo?** Sin recuperación no hay recall que perder, ni
+Los 119 CVs del curso ocupan unos 10.000 tokens y caben de sobra en el contexto de cualquier modelo actual, lo que
+lleva a una pregunta natural: **¿para qué buscar, si se le puede dar todo al modelo?** Sin recuperación no hay recall que perder, ni
 filtros que fallen, ni ranking que ordenar mal.
 
 Las objeciones habituales son el costo (diez veces más tokens por pregunta), la latencia y que los modelos "se pierden"
@@ -43,8 +43,8 @@ desde los hechos:
 - **Cuentas:** "¿Cuántos candidatos han liderado equipos?" (18), "¿Cuántos son junior?" (20).
 - **Máximos:** "¿Quién es el analista de datos con más años de experiencia?".
 
-Una respuesta es correcta solo si la lista es **exacta** (ni uno de más, ni uno de menos) o la cuenta es exacta. Es una
-vara alta a propósito: para un reclutador, una lista a la que le falta un candidato es una lista con un candidato
+Una respuesta es correcta solo si la lista es **exacta** (ni uno de más, ni uno de menos) o la cuenta es exacta. El
+criterio es exigente a propósito, porque para un reclutador una lista a la que le falta alguien significa un candidato
 perdido.
 
 ---
@@ -95,7 +95,7 @@ tokens y algo menos de latencia. Mirando pregunta por pregunta:
 La idea de *context engineering* más común es compactar: en vez de los textos, una línea por candidato con lo esencial.
 Bajó los tokens a la mitad (5.000) y **no mejoró los aciertos** (5 y 5). Las listas siguieron perdiendo candidatos y las
 cuentas siguieron desviándose. El problema no era el ruido de los textos: era pedirle al modelo que recorra 119
-elementos sin saltarse ninguno. Compactar ahorra dinero; no le da al modelo una capacidad que no tiene.
+elementos sin saltarse ninguno. Compactar ahorra dinero, pero no le da al modelo una capacidad que no tiene.
 
 ---
 
@@ -118,8 +118,8 @@ diferencias son ruido). Lo que sí hubo es una pérdida **pareja**: alrededor de
 apareció, estuviera donde estuviera, y solo 11 de 20 listas salieron exactas (6 de 20 en otra corrida). El problema de este modelo con este
 contexto es la **exhaustividad**, no la posición.
 
-Es la razón de medir los efectos famosos en tu sistema: el efecto existe en otros modelos y otras tareas, y aquí no
-apareció. Si hubieras reordenado el contexto para poner lo importante en los extremos, habrías arreglado un problema que
+Por eso conviene medir en tu sistema los efectos más citados: este efecto existe en otros modelos y otras tareas,
+pero aquí no apareció. Si hubieras reordenado el contexto para poner lo importante en los extremos, habrías arreglado un problema que
 no tenías y dejado el que sí tenías.
 
 ---

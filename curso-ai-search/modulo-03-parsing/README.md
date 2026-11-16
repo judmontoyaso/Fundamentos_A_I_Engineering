@@ -1,7 +1,7 @@
 # Módulo 3 · El parsing le pone techo a todo el RAG
 
 > **Objetivo:** medir cuánta información se pierde **antes** de buscar, cuando los CVs llegan como PDFs reales (a dos
-> columnas o escaneados), y saber qué arreglo de la ingesta paga y cuál no.
+> columnas o escaneados), y saber qué arreglos de la ingesta valen la pena y cuáles no.
 >
 > **Lo que te llevas:** 119 PDFs en tres formatos, tres formas de parsearlos, la medición de los hechos que sobreviven,
 > de las fichas que salen y de la búsqueda que resulta, y la prueba de que el techo depende del extractor.
@@ -26,7 +26,7 @@ Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 
 Todo lo que el sistema hace después (las fichas, el índice, el parser, el ranking) trabaja sobre el **texto que salió
 de la ingesta**. Si un dato se perdió al leer el PDF, no hay reranker ni prompt que lo recupere. La calidad del parsing
-es el **techo** de todo lo demás.
+pone el **límite máximo** a todo lo demás.
 
 En los Módulos 1 y 2 el texto era perfecto: los CVs venían como texto plano y la extracción del índice coincidía con
 los hechos en 119 de 119. En la práctica, los CVs llegan en PDF, y no todos los PDFs tienen texto.
@@ -90,9 +90,9 @@ CV, ¿qué fracción aparece en el texto parseado?
 | Dos columnas | 100 % | 100 % | 100 % | 100 % |
 | Escaneado | **0 %** | 100 % | 100 % | 100 % |
 
-El escaneado sin OCR lo pierde **todo**, y sin ningún error: el documento se indexa, solo que vacío. En dos columnas,
-todos los hechos **están**, pero desordenados. Una medida de "¿aparece la palabra?" no ve el desorden: hay que medir
-aguas abajo.
+El escaneado sin OCR lo pierde **todo**, sin que aparezca ningún error: el documento se indexa, pero vacío. En dos
+columnas, todos los hechos **están**, aunque desordenados. Una medida que solo comprueba si aparece cada palabra no
+detecta el desorden, así que hay que medir en las etapas siguientes.
 
 ---
 
@@ -125,8 +125,9 @@ Fichas correctas (de 39 CVs escaneados):
 | Con OCR | 39 | 39 | 39 | 39 | 39 | 39 |
 
 Una trampa en esa tabla: con un documento vacío, la ficha "acierta" remoto en 27 casos y el inglés en 8, solo porque
-el valor por defecto (no remoto, sin inglés) coincide con el hecho. **Un acierto por defecto no es un acierto**: cuenta
-los campos vacíos aparte, o la exactitud de una ingesta rota parece aceptable.
+el valor por defecto (no remoto, sin inglés) coincide con el hecho. **Un campo que acierta por su valor por defecto no
+demuestra nada**, así que hay que contar los campos vacíos aparte; de lo contrario, una ingesta rota parece tener una
+exactitud aceptable.
 
 En dos columnas, `gpt-6-luna` extrajo bien las 40 fichas con el texto intercalado: 40 de 40 en todos los campos.
 
@@ -139,8 +140,8 @@ La búsqueda:
 | Con OCR | 0.89 |
 | Columnas + OCR | 0.89 |
 
-Un tercio de los CVs escaneados sin OCR le quita 17 puntos a la búsqueda. Ninguna técnica de los módulos que siguen
-recupera esos puntos: los CVs escaneados no tienen nada que encontrar.
+Que un tercio de los CVs sean escaneados sin OCR le quita 17 puntos a la búsqueda, y ninguna técnica de los módulos
+siguientes los recupera, porque esos CVs no tienen texto en el que buscar.
 
 ---
 
@@ -157,9 +158,9 @@ repitió la extracción de las 40 fichas a dos columnas con `gpt-5.4-nano`, dos 
 | Columnas | 39 · 38 | 40 · 40 |
 
 Con el texto intercalado, el modelo barato pierde tecnologías: una línea "python" metida entre "Barranquilla" y
-"Experiencia:" ya no parece parte de una lista. La lectura por columnas recupera casi todo. Es decir: **un buen
-extractor tapa un mal parsing, y uno barato no**. Si vas a bajar el costo de la extracción (Módulo 9), arregla antes la
-ingesta.
+"Experiencia:" ya no parece parte de una lista. La lectura por columnas recupera casi todo. En otras palabras, **un buen
+extractor compensa un mal parsing y uno barato no**, así que si vas a bajar el costo de la extracción (Módulo 9),
+conviene arreglar antes la ingesta.
 
 ---
 
@@ -179,12 +180,12 @@ ingesta.
 
 ## Resumen del módulo
 
-- El parsing es el **techo**: lo que se pierde al leer no lo recupera nada después.
+- El parsing pone el **límite máximo**: lo que se pierde al leer no se recupera después.
 - Sin OCR, los escaneados se indexan **vacíos y sin error**: la búsqueda cayó de 0.89 a **0.72**. Con OCR, volvió a
   0.89.
 - El desorden de dos columnas **no se ve contando palabras** (100 % de hechos presentes): hay que medir aguas abajo.
 - Con `gpt-6-luna`, el texto intercalado no hizo daño; con `gpt-5.4-nano`, perdió tecnologías (35-37 de 40), y leer por
   columnas lo arregló. **El techo depende del extractor.**
-- **Un acierto por defecto no es un acierto**: un documento vacío "acertó" remoto en 27 de 39.
+- **Un acierto por el valor por defecto no demuestra nada**: un documento vacío "acertó" remoto en 27 de 39.
 
 Sigue con [`ejercicios.md`](ejercicios.md).

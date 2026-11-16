@@ -5,7 +5,7 @@
 
 Índice:
 
-1. [Qué es este curso y qué no es](#1-que-es)
+1. [De qué trata este curso](#1-que-es)
 2. [El buscador, ahora con usuarios](#2-usuarios)
 3. [El corpus: 119 CVs desde los hechos](#3-corpus)
 4. [Las consultas: relevancia calculada, no opinada](#4-consultas)
@@ -16,14 +16,14 @@ Código en [`code/`](code/).
 ---
 
 <a name="1-que-es"></a>
-## 1. Qué es este curso y qué no es
+## 1. De qué trata este curso
 
-Es un curso sobre **mejorar** una búsqueda que ya funciona. No enseña a construir un RAG (eso fue el curso de AI
-Engineering) ni a evaluar en general (el de Evals): usa los dos. Cada módulo tiene la misma forma: una pregunta sobre
+Este curso trata de **mejorar** una búsqueda que ya funciona. Construir un RAG se vio en el curso de AI Engineering y
+evaluar en general, en el de Evals; aquí se usan los dos. Cada módulo tiene la misma forma: una pregunta sobre
 el buscador, una medición, una técnica, otra medición, y una decisión: la técnica se queda o se quita.
 
-No es un catálogo de técnicas. *Rerankers*, *late interaction*, *learning to rank* o contexto largo aparecen cuando una
-medición dice que hacen falta, y se miden contra la alternativa simple.
+Las técnicas no se presentan como un catálogo: *rerankers*, *late interaction*, *learning to rank* o contexto largo
+aparecen cuando una medición muestra que hacen falta, y se comparan con la alternativa simple.
 
 ---
 
@@ -89,7 +89,7 @@ hechos**. Para "ingeniero de datos senior": 2 si el rol es ingeniero de datos y 
 pero el nivel no; 0 si no. Así se pueden medir métricas graduadas (nDCG, Módulo 1) sin que nadie lea 119 CVs por
 consulta, y las reglas se pueden cambiar y recalcular.
 
-Tiene un costo, y conviene decirlo: la relevancia calculada es tan buena como las reglas. "¿Un arquitecto cloud sirve
+Tiene una limitación que conviene tener presente: la relevancia calculada depende de la calidad de las reglas. "¿Un arquitecto cloud sirve
 para 'alguien que automatice despliegues'?" se decidió que sí, con relevancia 1. Otra persona podría decir 0. Lo que
 enseñó el Módulo 4 de Evals vale aquí: las reglas están escritas y se pueden discutir.
 
@@ -114,6 +114,6 @@ Si alguno te suena lejano, repasa el módulo correspondiente antes de seguir.
 - Este curso **mejora** una búsqueda que ya funciona, midiendo cada cambio.
 - **119 CVs desde los hechos**, validados; el nivel **no** está escrito, sale de los años.
 - **41 consultas de 12 tipos**, con relevancia graduada **calculada en código** desde los hechos.
-- La relevancia calculada es tan buena como sus reglas, y las reglas están escritas.
+- La relevancia calculada depende de sus reglas, y por eso las reglas están escritas y se pueden revisar.
 
 Sigue con el [Módulo 1](../modulo-01-medir-antes/README.md).

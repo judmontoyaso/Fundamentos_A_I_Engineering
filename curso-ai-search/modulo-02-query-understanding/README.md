@@ -25,8 +25,8 @@ Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 
 Los peores fallos de la línea base no eran de similitud. "Desarrollador backend que no use Java" ponía primero a
 quienes usan Java; "ingeniero de datos senior" traía analistas de datos; "alguien que automatice despliegues" traía
-QA automation. Las consultas contienen **estructura** (un rol, un nivel, una negación, una ciudad) que un ranking por
-parecido de textos no ve. Este módulo la extrae.
+QA automation. Las consultas tienen una **estructura** (un rol, un nivel, una negación, una ciudad) que un ranking por
+parecido de textos no capta, y este módulo se encarga de extraerla.
 
 ---
 
@@ -48,7 +48,7 @@ estructurada (el Módulo 1 de AI Engineering, aplicado a la consulta en vez de a
 Algunas consultas, tal como las entendió:
 
 - "alguien que automatice despliegues y administre contenedores" → `roles: [ingeniero devops]`, texto "Ingeniero DevOps
-  que automatice despliegues…". El falso amigo "automat" desaparece.
+  que automatice despliegues…". La confusión con "automat" desaparece.
 - "senior data engineer" → `roles: [ingeniero de datos]`, `nivel: senior`, `anios_minimos: 7`, texto "ingeniero de
   datos". Traducido y con el nivel convertido en un filtro.
 - "desarrollador backend que no use Java" → `skills_excluidas: [java]`, texto "desarrollador backend": la negación sale
@@ -77,9 +77,9 @@ remoto, inglés y skills, y en 118 de 119 en liderazgo. Con documentos reales no
 | **filtros duros** | Solo los CVs que cumplen **todos** los filtros, ordenados por la híbrida reescrita. Si ninguno cumple, sin filtros |
 | **filtros suaves** | Todos los CVs, ordenados primero por **cuántos** filtros cumplen y después por la híbrida reescrita |
 
-La diferencia entre duros y suaves es la decisión central del módulo. Un filtro duro es exacto cuando acierta y
-catastrófico cuando falla: si el parser o el índice se equivocan en un dato, el candidato correcto **desaparece**. Uno
-suave deja a los que cumplen arriba y a los demás después, donde todavía se pueden encontrar.
+Elegir entre filtros duros y suaves es la decisión central del módulo. Un filtro duro es exacto cuando acierta, pero
+cuando falla el costo es alto: si el parser o el índice se equivocan en un dato, el candidato correcto **desaparece**.
+Uno suave deja arriba a los que cumplen y a los demás después, donde todavía se pueden encontrar.
 
 ---
 
@@ -114,7 +114,7 @@ Contra la base, consulta a consulta:
 | duros | 19 | 11 | +0.15 | [+0.06, +0.26] |
 | **suaves** | **26** | **3** | **+0.21** | **[+0.11, +0.30]** |
 
-Lecturas:
+Conclusiones:
 
 - **Entender la consulta es la mejora más grande del curso hasta ahora**, y la primera cuyo intervalo no incluye el
   cero. Las paráfrasis, la abreviatura y el inglés quedan prácticamente resueltos.
@@ -127,10 +127,11 @@ Lecturas:
 - **Lo que no se arregla**: la exclusión (0.63) y la numérica (0.67) siguen siendo los tipos más bajos, por la misma
   taxonomía y porque "recién egresado de desarrollo" se reescribió como "perfil de desarrollo" sin ningún rol. Y en
   liderazgo, los suaves (0.66) quedaron por debajo de la base (0.80). La causa, leída en el ranking: para "líder técnico
-  de un equipo de datos" el parser eligió `roles: ['otro']` en vez de los roles de datos. El único filtro útil quedó
+  de un equipo de datos" el parser eligió `roles: ['otro']` en lugar de los roles de datos. El único filtro útil quedó
   "lidera", que subió a líderes de **cualquier** rol (desarrolladores) por encima de los analistas de datos (0.89 → 0.46
   en esa consulta). La otra consulta de liderazgo, en cambio, mejoró (0.72 → 0.86). Un primer diagnóstico escrito para
-  este manual culpaba a la ingesta; leer el ranking lo desmintió: el índice marcaba bien el liderazgo (118 de 119).
+  este manual culpaba a la ingesta, pero al leer el ranking se vio que el índice marcaba bien el liderazgo (118 de
+  119).
 
 ---
 
@@ -147,7 +148,7 @@ sin caché con tres modelos:
 | `gpt-5.4-nano` | 0.90 | **1.1 s** | 1.6 s |
 
 **Entender una consulta corta es una tarea fácil**: el modelo más barato rinde igual que el más capaz, con un tercio de
-la latencia. Aun así, 1.1 s frente a los ~15 ms de la búsqueda sin parser es setenta veces más. Formas habituales de
+la latencia. Aun así, 1.1 s frente a los ~15 ms de la búsqueda sin parser es unas setenta veces más. Formas habituales de
 pagarlo menos:
 
 - **Caché por consulta normalizada**: los reclutadores repiten consultas ("kubernetes", "data engineer senior").
@@ -166,7 +167,7 @@ paráfrasis). Con el parser, esa necesidad casi desaparece: la reescritura convi
 nombre del rol, que BM25 y la híbrida resuelven bien, y los filtros resuelven el resto. Enrutar entre modos de búsqueda
 sería otra decisión que puede fallar, para ganar poco.
 
-El routing que sí aparece es otro: **qué consultas no son de búsqueda**. "¿Cuántos candidatos senior hay en Cali?" o
+El routing que sí hace falta es otro: **separar las consultas que no son de búsqueda**. "¿Cuántos candidatos senior hay en Cali?" o
 "¿quién tiene más años de experiencia?" no piden un ranking, piden una cuenta o un máximo. Para esas, el parser ya tiene
 todo lo necesario (los filtros) y la respuesta es una consulta sobre las fichas, no un ranking. Es el Módulo 6.
 
@@ -182,6 +183,6 @@ todo lo necesario (los filtros) y la respuesta es una consulta sobre las fichas,
 - Un **filtro duro** convierte cualquier desacuerdo de taxonomía o error del índice en un candidato **perdido**.
 - Un **parser barato** rinde igual (0.90) con un tercio de la latencia; aun así cuesta ~1 s por consulta: cachea y usa
   atajos.
-- El routing útil no es entre modos de búsqueda, sino entre **buscar y contar** (Módulo 6).
+- El routing útil separa **buscar de contar** (Módulo 6), más que elegir entre modos de búsqueda.
 
 Sigue con [`ejercicios.md`](ejercicios.md).
