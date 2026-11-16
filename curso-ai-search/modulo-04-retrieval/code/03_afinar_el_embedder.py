@@ -46,7 +46,9 @@ def entrenar(cvs: list[dict], destino: pathlib.Path, lote: int = 16, escala: flo
     import torch
     from sentence_transformers import SentenceTransformer
     torch.manual_seed(7)
-    m = SentenceTransformer(BASE)
+    # En CPU: tarda poco más de un minuto y reproduce los números del manual. Si la librería eligiera la GPU sola,
+    # los lotes (creados en CPU) y el modelo quedarían en dispositivos distintos y el entrenamiento fallaría.
+    m = SentenceTransformer(BASE, device="cpu")
     m.train()
     opt = torch.optim.AdamW(m.parameters(), lr=2e-5)
     datos = pares(cvs, random.Random(7))

@@ -20,6 +20,12 @@ from importlib import import_module
 
 from pydantic import BaseModel, Field
 
+# Los cursos de Evals y AI Search buscan con el embedder local del Módulo 2 de AI Engineering (MiniLM multilingüe):
+# es gratis, no necesita clave y es el que produjo los resultados de los manuales. Para usar la API, define
+# EMB_BACKEND=openai (y EMB_MODEL) en tu entorno; estas líneas solo fijan el valor cuando no lo has definido.
+os.environ.setdefault("EMB_BACKEND", "local")
+os.environ.setdefault("EMB_MODEL", "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
+
 COMUN = pathlib.Path(__file__).resolve().parent
 CURSO = COMUN.parent
 RAIZ = CURSO.parent
@@ -101,8 +107,26 @@ def guardar_jsonl(nombre: str, filas: list[dict]) -> pathlib.Path:
     return ruta
 
 
-def leer_jsonl(nombre: str) -> list[dict]:
+# Qué script genera cada archivo intermedio de salida/, para avisar con claridad si todavía no existe.
+PRODUCTORES = {
+    "extractor_v1.jsonl": "modulo-01-primer-eval/code/01_primer_eval.py",
+    "sinteticos.jsonl": "modulo-03-datos-sinteticos/code/02_generar_desde_hechos.py",
+    "sinteticos_validos.jsonl": "modulo-03-datos-sinteticos/code/03_validar_sinteticos.py",
+    "juez_calibracion.json": "modulo-05-llm-juez/code/03_medir_en_prueba.py",
+}
+
+
+def requerir(nombre: str) -> pathlib.Path:
+    """Devuelve la ruta de un archivo de salida/ o termina con un mensaje que dice qué script lo genera."""
     ruta = SALIDA / nombre
+    if not ruta.exists():
+        origen = PRODUCTORES.get(nombre, "el laboratorio anterior de este módulo")
+        raise SystemExit(f"Falta salida/{nombre}. Lo genera {origen} (curso de Evals); córrelo primero.")
+    return ruta
+
+
+def leer_jsonl(nombre: str) -> list[dict]:
+    ruta = requerir(nombre)
     return [json.loads(l) for l in ruta.read_text(encoding="utf-8").splitlines() if l.strip()]
 
 

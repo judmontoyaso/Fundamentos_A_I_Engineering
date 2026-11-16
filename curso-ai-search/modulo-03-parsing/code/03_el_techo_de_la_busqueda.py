@@ -35,7 +35,7 @@ def ficha_ok(f: dict, h: dict) -> dict[str, bool]:
 
 if __name__ == "__main__":
     ev.CACHE["activa"] = True
-    parseos = json.loads((ac.SALIDA / "parseos.json").read_text(encoding="utf-8"))
+    parseos = json.loads(ac.requerir("parseos.json").read_text(encoding="utf-8"))
     referencia = json.loads((dd.DOCS / "referencia.json").read_text(encoding="utf-8"))
     corpus = {"referencia": {i: r["texto"] for i, r in referencia.items()}, **parseos}
     hechos = {cv["id"]: cv["hechos"] for cv in ac.cvs()}

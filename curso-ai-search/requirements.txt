@@ -7,3 +7,5 @@ numpy
 qdrant-client>=1.10
 sentence-transformers
 pytest
+pymupdf
+scikit-learn

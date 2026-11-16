@@ -150,7 +150,8 @@ const NO_ZIP = new Set(["autoevaluacion.json", "curso.json"]);
 
 function archivosDeCodigo(dir, rel = "", out = {}) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (e.name.startsWith(".") || e.name === "__pycache__" || e.name === "node_modules") continue;
+    // salida/ la generan los scripts en la máquina de cada quien (resultados, cachés, modelos afinados): nunca va al .zip.
+    if (e.name.startsWith(".") || e.name === "__pycache__" || e.name === "node_modules" || e.name === "salida") continue;
     const abs = path.join(dir, e.name);
     const r = rel ? `${rel}/${e.name}` : e.name;
     if (e.isDirectory()) archivosDeCodigo(abs, r, out);

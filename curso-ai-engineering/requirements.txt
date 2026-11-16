@@ -11,3 +11,8 @@ matplotlib
 qdrant-client>=1.10
 langgraph
 pytest
+pymupdf
+tiktoken
+jinja2
+mcp>=2
+langgraph-checkpoint-sqlite

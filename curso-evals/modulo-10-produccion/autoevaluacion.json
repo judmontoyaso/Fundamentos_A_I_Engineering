@@ -14,9 +14,9 @@
   {
    "pregunta": "Los chequeos vieron 9 de 11 errores sin falsas alarmas. ¿Por qué tanto?",
    "opciones": [
-    "Porque emplean expresiones regulares muy sofisticadas por dominio",
-    "Por pura coincidencia estadística dentro de una muestra reducida",
-    "Porque invocan un modelo juez auxiliar en cada petición recibida",
+    "Porque usan expresiones regulares muy elaboradas, ajustadas a cada formato de CV del dominio",
+    "Por coincidencia estadística: con una muestra tan pequeña, el resultado puede salir alto por azar",
+    "Porque cada chequeo invoca un modelo juez auxiliar que revisa la salida en cada petición",
     "Porque el error típico (sumar rangos solapados) violaba una invariante: más años de los que caben en las fechas"
    ],
    "correcta": 3,

@@ -91,10 +91,10 @@
   {
    "pregunta": "Con el modelo principal (p50 3.6 s), un presupuesto de 3 s y un cortacircuitos dieron nDCG 0.690. ¿Por qué?",
    "opciones": [
-    "Por una caída simultánea completa en la infraestructura del proveedor",
+    "Por una caída completa del proveedor que coincidió justo con la ventana de la simulación",
     "El presupuesto cortaba la mayoría de los parseos y el cortacircuitos tomó la lentitud por fallo y apagó el parser",
-    "Por un error lógico en el algoritmo de ordenamiento híbrido posterior",
-    "Porque la caché local devolvió entradas obsoletas durante la prueba"
+    "Por un error lógico en el ordenamiento de la búsqueda híbrida que se aplica después del parser",
+    "Porque la caché local devolvió parseos obsoletos de una versión anterior del prompt durante la prueba"
    ],
    "correcta": 1,
    "explicacion": "Presupuestos y cortacircuitos se calibran contra la distribución real de latencias."

@@ -41,7 +41,7 @@ def perfiles(version: str) -> list[dict]:
 
 
 if __name__ == "__main__":
-    cal = json.loads((ev.SALIDA / "juez_calibracion.json").read_text(encoding="utf-8"))
+    cal = json.loads(ev.requerir("juez_calibracion.json").read_text(encoding="utf-8"))
     tpr, tnr = cal["vp"] / (cal["vp"] + cal["fn"]), cal["vn"] / (cal["vn"] + cal["fp"])
     pos = [1] * cal["vp"] + [0] * cal["fn"]          # juicios del juez sobre ítems que inventan (1 = acierta)
     neg = [1] * cal["vn"] + [0] * cal["fp"]          # juicios sobre ítems que no inventan (1 = acierta)

@@ -36,10 +36,10 @@
   {
    "pregunta": "¿Por qué el guardrail de salida debe recibir también los requisitos que el reclutador dio antes?",
    "opciones": [
-    "No debe recibirlos para mantener el verificador aislado",
-    "Para acelerar la verificación sin consultar el historial completo",
+    "No debe recibirlos, porque un verificador aislado del historial es más fiable y más fácil de auditar",
+    "Para acelerar la verificación, ya que así no tiene que consultar el historial completo de la conversación",
     "Porque si solo ve los CVs, marca como invención un requisito recordado y manda a revisión una respuesta correcta",
-    "Para aplicar filtros de descarte antes de armar la respuesta"
+    "Para aplicar los filtros de descarte del reclutador antes de que se arme la respuesta final"
    ],
    "correcta": 2,
    "explicacion": "La verificación de fidelidad debe conocer todas las fuentes legítimas de la respuesta: los CVs y lo que dijo el usuario."

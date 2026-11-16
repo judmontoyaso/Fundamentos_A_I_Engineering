@@ -51,5 +51,22 @@ def guardar_jsonl(nombre: str, filas: list[dict]) -> pathlib.Path:
     return ruta
 
 
+# Qué script genera cada archivo intermedio de salida/, para avisar con claridad si todavía no existe.
+PRODUCTORES = {
+    "linea_base.jsonl": "modulo-01-medir-antes/code/01_linea_base.py",
+    "m2_estrategias.jsonl": "modulo-02-query-understanding/code/01_entender_y_filtrar.py",
+    "parseos.json": "modulo-03-parsing/code/02_tres_formas_de_parsear.py",
+}
+
+
+def requerir(nombre: str) -> pathlib.Path:
+    """Devuelve la ruta de un archivo de salida/ o termina con un mensaje que dice qué script lo genera."""
+    ruta = SALIDA / nombre
+    if not ruta.exists():
+        origen = PRODUCTORES.get(nombre, "el laboratorio anterior de este módulo")
+        raise SystemExit(f"Falta salida/{nombre}. Lo genera {origen} (curso de AI Search); córrelo primero.")
+    return ruta
+
+
 def leer_jsonl(nombre: str) -> list[dict]:
-    return [json.loads(l) for l in (SALIDA / nombre).read_text(encoding="utf-8").splitlines() if l.strip()]
+    return [json.loads(l) for l in requerir(nombre).read_text(encoding="utf-8").splitlines() if l.strip()]

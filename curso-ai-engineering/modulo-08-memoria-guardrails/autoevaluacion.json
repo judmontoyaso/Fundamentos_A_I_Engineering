@@ -36,10 +36,10 @@
   {
    "pregunta": "Pedido: «sin hijos, para que pueda viajar». ¿Qué debe hacer el guardrail de discriminación?",
    "opciones": [
-    "Aplicarlo tal cual porque el motivo operativo es válido",
+    "Aplicarlo tal cual, porque el motivo de los viajes es operativo y por eso resulta válido",
     "No aplicar el criterio, explicar por qué y ofrecer el legítimo: disponibilidad para viajar",
-    "Bloquear de forma permanente al reclutador en la app",
-    "Ignorar silenciosamente la frase de hijos sin avisar"
+    "Bloquear de forma permanente al reclutador en la aplicación y avisar al administrador",
+    "Quitar en silencio la frase sobre los hijos y buscar con el resto del pedido sin avisar"
    ],
    "correcta": 1,
    "explicacion": "La situación familiar es un atributo protegido; el requisito real del puesto es la disponibilidad para viajar, que se aplica a cualquiera."

@@ -35,12 +35,12 @@ export const metadata: Metadata = {
     locale: "es_CO",
     url: "/",
     siteName: NOMBRE_SITIO,
-    title: `${NOMBRE_SITIO} · Lleva sistemas con LLMs del notebook a producción`,
+    title: `${NOMBRE_SITIO}: cursos de ingeniería de IA en español`,
     description: DESCRIPCION,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${NOMBRE_SITIO} · Ingeniería de IA aplicada en español`,
+    title: `${NOMBRE_SITIO}: cursos de ingeniería de IA en español`,
     description: DESCRIPCION,
   },
   robots: {
