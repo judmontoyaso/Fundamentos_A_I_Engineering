@@ -4,45 +4,45 @@ Intenta cada uno antes de ver la solución (al final, colapsadas).
 
 ---
 
-### Ejercicio 1 — La métrica correcta
+### Ejercicio 1. La métrica correcta
 Corre [`code/04_similitud.py`](code/04_similitud.py). Explica con tus palabras por qué el `dot` entre `corto` y
 `largo` sale "inflado" frente al coseno, y en qué caso real de CVs eso te daría un ranking equivocado.
 
-### Ejercicio 2 — Semántica vence a léxica
+### Ejercicio 2. Semántica vence a léxica
 Corre [`code/06_embeddings_reales.py`](code/06_embeddings_reales.py). Cambia la consulta por una tuya cuyo candidato
 ideal **no comparta palabras** con el CV. ¿Gana el documento correcto? Ahora rompe la búsqueda semántica: escribe
 dos documentos que a un humano le parezcan opuestos pero que el modelo ponga cercanos. ¿Por qué pasa?
 
-### Ejercicio 3 — Matryoshka (costo vs. calidad)
+### Ejercicio 3. Matryoshka (costo vs. calidad)
 En `06`, observa el ranking al truncar a 512, 256 y 128 dims. ¿A partir de qué dimensión cambia el top-1? Calcula
 cuánta RAM ahorrarías en 1 millón de vectores al pasar de dim completa a 512 (float32 = 4 bytes/componente).
 
-### Ejercicio 4 — Query vs. documento
+### Ejercicio 4. Query vs. documento
 Busca la tarjeta del modelo de embeddings que uses. ¿Pide prefijos distintos para query y documento (p. ej.
 `"query:"` / `"passage:"`)? Añádelos en `06` y mide si el ranking mejora. Si tu modelo no los usa, explica por qué
 igual importa saberlo.
 
-### Ejercicio 5 — Qdrant a mano
+### Ejercicio 5. Qdrant a mano
 Con [`code/09_qdrant_basico.py`](code/09_qdrant_basico.py) corriendo, agrega 5 CVs más al array `docs`. Luego haz 3
 consultas y para cada una anota el `score` del primer resultado. ¿Qué rango de `score` separa "claramente relevante"
 de "dudoso" en tu caso? (No hay número universal; se calibra por dominio.)
 
-### Ejercicio 6 — Recrear = perder
+### Ejercicio 6. Recrear = perder
 En `09`, cambia `Distance.COSINE` por `Distance.EUCLID` **sin** normalizar los vectores y vuelve a buscar. ¿Cambia
 el ranking? Ahora normaliza los vectores antes de subirlos y repite con EUCLID. ¿Qué observas y por qué (pista: §4)?
 
-### Ejercicio 7 — Eval de retrieval
+### Ejercicio 7. Eval de retrieval
 Con [`code/11_eval_retrieval.py`](code/11_eval_retrieval.py), arma un set de **10 consultas reales** sobre tus CVs,
 etiqueta a mano los relevantes, corre tu buscador del proyecto y calcula `recall@5` y `MRR`. Guarda el número: es tu
 línea base. En el Módulo 3 lo tienes que superar con chunking.
 
-### Ejercicio 8 — Proyecto
+### Ejercicio 8. Proyecto
 Completa [`code/10_indexar_cvs.py`](code/10_indexar_cvs.py): (a) usa el modelo `CV` de Pydantic del Módulo 1 en vez
 del dataclass de juguete; (b) añade caché de embeddings por `hash(texto+modelo)`; (c) prueba dos versiones de
-`texto_para_embedding` —una que incluya solo skills y otra que incluya todo— y mide con el Ejercicio 7 cuál da mejor
+`texto_para_embedding`, una que incluya solo skills y otra que incluya todo, y mide con el Ejercicio 7 cuál da mejor
 `recall@5`. Documenta qué texto indexado funcionó mejor y tu hipótesis de por qué.
 
-### Ejercicio 9 — Elige tu modelo de embeddings
+### Ejercicio 9. Elige tu modelo de embeddings
 Ejecuta [`code/12_elegir_modelo.py`](code/12_elegir_modelo.py). Añade a `CONSULTAS` cinco paráfrasis tuyas con su
 candidato correcto y vuelve a correr. Para cada modelo anota recall@1, MRR, tiempo y **qué consultas falla**. ¿Cambia
 algo E5 con y sin prefijos? ¿Te quedarías con el modelo local o con el de la API, y por qué?
@@ -58,7 +58,7 @@ cualquier cosa sale inflado aunque la *dirección* (el significado) sea la misma
 relevante. El coseno, al mirar solo el ángulo, lo evita. Por eso coseno es el default.
 
 **2.** Normalmente gana el documento correcto (ese es el punto del módulo). Para "romperlo": el modelo a veces acerca
-textos que comparten **tema/forma** aunque signifiquen lo opuesto — p. ej. "me encantó la película" y "odié la
+textos que comparten **tema/forma** aunque signifiquen lo opuesto: p. ej. "me encantó la película" y "odié la
 película" quedan *cercanos* porque hablan de lo mismo con estructura parecida; el embedding de propósito general
 captura *aboutness* (de qué trata), no siempre *polaridad*. Lección: los embeddings codifican similitud temática, y
 el matiz (negación, sentimiento) puede perderse. Para eso están los re-rankers y la búsqueda híbrida (Módulo 4).
@@ -81,7 +81,7 @@ el mismo orden de vecinos (solo cambia la escala del score). Confirma la regla d
 métrica + normalización con lo que el modelo espera.
 
 **7.** No hay solución "correcta": el entregable es el *número* y el set etiquetado. Si tu `recall@5` es, digamos,
-0.6, significa que en 4 de cada 10 consultas el candidato bueno no está en el top 5 — mucho margen, que el chunking
+0.6, significa que en 4 de cada 10 consultas el candidato bueno no está en el top 5: mucho margen, que el chunking
 del Módulo 3 debería cerrar.
 
 **8.** Hipótesis típica: incluir skills **y** cargos suele ganar frente a solo skills, porque da más contexto

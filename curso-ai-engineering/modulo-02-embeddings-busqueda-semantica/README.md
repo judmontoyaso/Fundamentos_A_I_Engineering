@@ -1,6 +1,6 @@
 # Módulo 2 · Embeddings y búsqueda semántica
 
-> **Objetivo:** entender qué es un vector embedding —geometría del significado—, cómo se mide la similitud entre
+> **Objetivo:** entender qué es un vector embedding, geometría del significado, cómo se mide la similitud entre
 > dos textos, cómo se almacenan y buscan a escala en una *vector database*, y montar tu primera búsqueda semántica
 > sobre los CVs que estructuraste en el Módulo 1.
 >
@@ -55,7 +55,7 @@ un **vector**. Ahí entran los embeddings.
 Un **embedding** es una lista de números —un vector— que representa un trozo de texto (una palabra, una frase, un
 CV entero) como un **punto en un espacio de muchas dimensiones** (típicamente 384, 768, 1536, 3072…).
 
-La magia no está en los números en sí, sino en **cómo están colocados los puntos**: el modelo de embeddings se
+Los números por separado no dicen mucho; lo que importa es **cómo quedan colocados los puntos**: el modelo de embeddings se
 entrena para que **textos con significado parecido queden cerca** en ese espacio, y textos con significado distinto
 queden lejos. "Perro" y "cachorro" caen casi en el mismo lugar; "perro" y "ecuación diferencial" caen en extremos
 opuestos.
@@ -107,7 +107,7 @@ Dos consecuencias que debes interiorizar ya:
 
 Tienes dos vectores. ¿Qué tan parecidos son? Tres métricas, y elegir bien evita bugs silenciosos.
 
-**Similitud coseno** — mide el **ángulo** entre los vectores, ignora su longitud. Es la más usada en NLP:
+**Similitud coseno**: mide el **ángulo** entre los vectores, ignora su longitud. Es la más usada en NLP:
 
 ```
 cos(a, b) = (a · b) / (|a| · |b|)      ∈ [-1, 1]   (1 = misma dirección)
@@ -117,7 +117,7 @@ Por qué el ángulo y no la magnitud: en texto, la *longitud* del vector suele c
 frecuencia o el largo del texto, que **no** queremos que dominen la similitud. El *significado* vive en la
 **dirección**. Dos CVs, uno de 1 página y otro de 3, sobre lo mismo, deben salir similares: el coseno lo logra.
 
-**Producto punto (dot product)** — como el coseno pero **sin normalizar**: tiene en cuenta la magnitud.
+**Producto punto (dot product)**: como el coseno pero **sin normalizar**: tiene en cuenta la magnitud.
 
 ```
 dot(a, b) = a · b
@@ -126,7 +126,7 @@ dot(a, b) = a · b
 Clave operativa: **si tus vectores ya están normalizados** (longitud 1), entonces `dot == coseno`, y el producto
 punto es más barato de calcular. Muchos modelos devuelven vectores ya normalizados; en ese caso usa `dot` en la DB.
 
-**Distancia euclidiana (L2)** — la distancia "en línea recta" entre los puntos:
+**Distancia euclidiana (L2)**: la distancia "en línea recta" entre los puntos:
 
 ```
 L2(a, b) = sqrt( Σ (aᵢ - bᵢ)² )       (0 = idénticos; mayor = más lejos)
@@ -137,7 +137,7 @@ normalizados, L2 y coseno dan el **mismo ranking** (orden de vecinos), así que 
 
 > **La trampa #1 de principiante:** elegir una métrica en la vector DB distinta a la que el modelo de embeddings
 > espera. Si el modelo fue entrenado/normalizado para coseno y tú configuras la colección con L2 sin normalizar,
-> los resultados degradan de forma sutil —no explota, solo recupera peor— y pierdes horas. **Regla: usa la métrica
+> los resultados degradan de forma sutil, no explota, solo recupera peor, y pierdes horas. **Regla: usa la métrica
 > que recomiende la tarjeta del modelo** (casi siempre coseno o dot sobre vectores normalizados). Ver
 > [`code/04_similitud.py`](code/04_similitud.py).
 
@@ -242,14 +242,14 @@ actualización, sharding y cuantización (comprimir vectores para que quepan má
 
 Opciones comunes y en una frase:
 
-- **Qdrant** — open-source en Rust, rápido, excelente filtrado por payload, fácil de correr local (Docker) o en la
+- **Qdrant**: open-source en Rust, rápido, excelente filtrado por payload, fácil de correr local (Docker) o en la
   nube. Es la que usamos: buen balance didáctico y de producción.
-- **pgvector** — extensión de PostgreSQL. Si **ya** tienes Postgres y volúmenes moderados, es lo más simple: tus
+- **pgvector**: extensión de PostgreSQL. Si **ya** tienes Postgres y volúmenes moderados, es lo más simple: tus
   vectores viven junto a tus datos relacionales, una sola base que operar.
-- **Milvus / Weaviate** — potentes a gran escala, más piezas que operar.
-- **FAISS / hnswlib** — librerías, no bases de datos: velocidad pura en memoria, sin persistencia/filtrado/servidor.
+- **Milvus / Weaviate**: potentes a gran escala, más piezas que operar.
+- **FAISS / hnswlib**: librerías, no bases de datos: velocidad pura en memoria, sin persistencia/filtrado/servidor.
   Perfectas para prototipos o como motor embebido.
-- **Pinecone** — servicio gestionado (SaaS): no operas nada, pagas por ello.
+- **Pinecone**: servicio gestionado (SaaS): no operas nada, pagas por ello.
 
 Criterios: ¿necesitas **filtrado** por metadata rico? (sí, para CVs). ¿Prefieres **gestionado o self-hosted**?
 ¿**Privacidad** (datos personales → self-hosted)? ¿Escala (miles vs. mil millones)? Para el proyecto, **Qdrant local
@@ -317,7 +317,7 @@ El ejemplo completo y ejecutable está en [`code/09_qdrant_basico.py`](code/09_q
 Ahora conectamos los dos módulos. En el Módulo 1 convertiste cada PDF en un objeto `CV` estructurado. Aquí:
 
 1. Construyes un **texto representativo** del CV para embedear (no el PDF crudo: un resumen de los campos que importan
-   para buscar — skills, cargos, áreas). *Qué* texto embedeas decide *qué* se puede encontrar.
+   para buscar: skills, cargos, áreas). *Qué* texto embedeas decide *qué* se puede encontrar.
 2. Lo embedeas con tu modelo.
 3. Lo subes a Qdrant con **payload = los campos estructurados del `CV`** (nivel, áreas, años), para poder filtrar.
 
@@ -338,7 +338,7 @@ literal. Diseñar ese texto (qué incluir, qué omitir) es tan importante como e
 *chunking* en el Módulo 3.
 
 Luego una consulta en lenguaje natural ("alguien senior que sepa de streaming de datos") se embedea y Qdrant devuelve
-los CVs cuyo texto-índice está más cerca — recuperando a la persona de Kafka/Flink de la §1, que la búsqueda léxica
+los CVs cuyo texto-índice está más cerca: recuperando a la persona de Kafka/Flink de la §1, que la búsqueda léxica
 no veía.
 
 ---

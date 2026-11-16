@@ -8,7 +8,7 @@ Curso práctico de 9 módulos sobre los bloques fundamentales de la ingeniería 
 
 ## El caso conductor
 
-Construimos el asistente técnico de un **taller de talento de ingeniería**: dado un repositorio de **30 perfiles de candidatos** (con habilidades, experiencia, proyectos, ubicación, senioridad y notas de entrevistas) y **8 vacantes abiertas**, el sistema debe ayudar a un líder técnico a encontrar, comparar y justificar qué candidatos encajan mejor con cada vacante — con trazabilidad, memoria de las preferencias del líder y límites claros sobre qué puede y qué no puede afirmar.
+Construimos el asistente técnico de un **taller de talento de ingeniería**: dado un repositorio de **30 perfiles de candidatos** (con habilidades, experiencia, proyectos, ubicación, senioridad y notas de entrevistas) y **8 vacantes abiertas**, el sistema debe ayudar a un líder técnico a encontrar, comparar y justificar qué candidatos encajan mejor con cada vacante: con trazabilidad, memoria de las preferencias del líder y límites claros sobre qué puede y qué no puede afirmar.
 
 ---
 

@@ -5,25 +5,25 @@ Intenta cada uno antes de ver la solución (al final, colapsadas). Corre los lab
 
 ---
 
-### Ejercicio 1 — Un escaneo peor
+### Ejercicio 1. Un escaneo peor
 Cambia en `01` la resolución del escaneo de 110 a 60 dpi y añade una rotación pequeña (por ejemplo, rasteriza con una
 matriz `pymupdf.Matrix(1, 1).prerotate(2)`). Borra `salida/ocr.json` y repite `02` y `03`. ¿Cuántos hechos sobreviven al
 OCR? ¿Cuánto baja la búsqueda?
 
-### Ejercicio 2 — Una tabla
+### Ejercicio 2. Una tabla
 Añade un cuarto formato: la experiencia en una tabla de tres columnas (cargo | empresa | años) dibujada con líneas.
 ¿Qué devuelve `get_text()`? ¿Y `page.find_tables()`? ¿Qué ingesta recupera mejor los años?
 
-### Ejercicio 3 — Detectar los documentos vacíos
+### Ejercicio 3. Detectar los documentos vacíos
 Escribe un chequeo de ingesta que, sin conocer los hechos, marque los documentos con riesgo: sin texto, con muy poco
 texto para un CV, o con líneas cortas que alternan temas (señal de columnas). ¿Cuántos de los 119 marca? ¿Coinciden con
 los formatos difíciles?
 
-### Ejercicio 4 — Los aciertos por defecto
+### Ejercicio 4. Los aciertos por defecto
 Rehace la tabla de fichas del escaneado ingenuo contando solo los campos donde la ficha **no** está vacía (o no es el
 valor por defecto). ¿Qué queda de los 27 aciertos de remoto?
 
-### Ejercicio 5 — ¿Cuánto cuesta el OCR?
+### Ejercicio 5. ¿Cuánto cuesta el OCR?
 Con las trazas del laboratorio 02, suma los tokens de las 39 llamadas de OCR y compáralos con los de las 119 extracciones
 de fichas. ¿Qué parte del costo de la ingesta es OCR? ¿Cómo lo bajarías si la mitad de tus CVs fueran escaneados?
 

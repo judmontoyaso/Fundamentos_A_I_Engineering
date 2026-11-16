@@ -2,7 +2,7 @@
 
 ---
 
-### Ejercicio 1 — ¿Por qué `NOMBRES_EXPUESTOS` en el servidor MCP no incluye `enviar_oferta`?
+### Ejercicio 1. ¿Por qué `NOMBRES_EXPUESTOS` en el servidor MCP no incluye `enviar_oferta`?
 Revisa `NOMBRES_EXPUESTOS` en `code/01_servidor_mcp_ats.py`. En `comun/ag_comun.py` existen 7 herramientas, pero el servidor MCP de preselección solo expone 5 en `tools/list` (omite `agendar_entrevista` y `enviar_oferta`). ¿Qué principio de seguridad aplica aquí y qué ocurre si el modelo intenta invocar `ats_enviar_oferta` vía `tools/call`?
 
 <details>
@@ -13,7 +13,7 @@ Aplica el **principio de mínimo privilegio por perfil de servidor MCP**: un age
 
 ---
 
-### Ejercicio 2 — Filtrar herramientas en el cliente cuando un servidor MCP expone decenas
+### Ejercicio 2. Filtrar herramientas en el cliente cuando un servidor MCP expone decenas
 Si conectas tu agente a un servidor MCP corporativo que devuelve 45 herramientas en `tools/list`, ¿por qué no debes pasar las 45 definiciones directamente al parámetro `tools` del modelo en cada llamada?
 
 <details>
@@ -26,7 +26,7 @@ Por dos razones medidas en producción:
 
 ---
 
-### Ejercicio 3 — Exponer las vacantes como resources
+### Ejercicio 3. Exponer las vacantes como resources
 Añade al servidor los métodos `resources/list` y `resources/read` con URIs `ats://vacantes/VAC-101`. Declara la
 capacidad `resources` en `initialize`. ¿En qué se diferencia que el cliente lea la vacante como resource a que el
 modelo llame `obtener_vacante`?
@@ -42,7 +42,7 @@ una tool la decide el modelo. Para datos que siempre hacen falta, el resource ah
 
 ---
 
-### Ejercicio 4 — Portar el servidor al SDK oficial
+### Ejercicio 4. Portar el servidor al SDK oficial
 Reescribe `01_servidor_mcp_ats.py` con el SDK oficial (`pip install mcp`) y conecta el cliente con `mcp.Client`. ¿Qué
 desaparece de tu código y qué tienes que seguir haciendo tú?
 

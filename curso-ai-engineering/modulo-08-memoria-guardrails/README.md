@@ -156,7 +156,7 @@ skills/
   preguntar_vacante.md       # qué falta preguntar cuando la vacante viene incompleta
 ```
 
-El agente carga **el que corresponda a la tarea** —no todos, que es el error caro— y lo pone en su prompt. Lo que
+El agente carga **el que corresponda a la tarea**, no todos, que es el error caro, y lo pone en su prompt. Lo que
 cambia con eso: editar un procedimiento es editar un `.md`, revisable en un *pull request* por alguien que no
 programa, y la prueba de regresión del Módulo 7 §10 aplica igual, porque un `skill` es un prompt con versión.
 
@@ -171,11 +171,11 @@ en control de versiones para poder ver qué cambió y volver atrás.
 Montar las cinco operaciones de §4 a mano, como hace el laboratorio, es lo que te enseña dónde están las decisiones.
 Para producción hay piezas hechas:
 
-- **Mem0** — la más usada como capa de memoria suelta. Le pasas los mensajes y se encarga de extraer los hechos,
+- **Mem0**: la más usada como capa de memoria suelta. Le pasas los mensajes y se encarga de extraer los hechos,
   deduplicarlos y resolver contradicciones (el "actualizar" de §4, que es la operación que todos subestiman), con
   almacenamiento vectorial detrás y una API de `add` / `search` por usuario.
-- **El *store* de LangGraph** — si ya estás en LangGraph, no añade dependencia y te deja el control del esquema.
-- **Zep, Letta** — servicios con su propio modelo de memoria; Letta (antes MemGPT) viene de la idea de que el agente
+- **El *store* de LangGraph**: si ya estás en LangGraph, no añade dependencia y te deja el control del esquema.
+- **Zep, Letta**: servicios con su propio modelo de memoria; Letta (antes MemGPT) viene de la idea de que el agente
   administre su propia ventana de contexto.
 
 Dos cosas antes de adoptar una: **decide tú qué se guarda**, porque la extracción automática de hechos sobre CVs
@@ -228,8 +228,8 @@ De lo más barato a lo más caro, y en ese orden:
      instantáneas, deterministas y se prueban con una tabla de casos. Si el dato tiene patrón, esto es todo lo que
      necesitas.
    - **NER** (*reconocimiento de entidades nombradas*) para lo que no la tiene: **nombres de personas**, empresas y
-     ciudades. "Laura Restrepo" no encaja en ninguna regex sin encajar también medio diccionario. Un modelo de NER
-     —spaCy en español, o un modelo pequeño de Hugging Face— etiqueta esos tramos y te deja reemplazarlos por
+     ciudades. "Laura Restrepo" no encaja en ninguna regex sin encajar también medio diccionario. Un modelo de NER,
+    spaCy en español, o un modelo pequeño de Hugging Face, etiqueta esos tramos y te deja reemplazarlos por
      `[PERSONA]`. Con CVs esto no es opcional: el nombre es el dato personal principal, y es justo el que la regex
      no ve.
 

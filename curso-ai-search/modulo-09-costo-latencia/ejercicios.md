@@ -5,24 +5,24 @@ sus parámetros y correrlo cuantas veces quieras.
 
 ---
 
-### Ejercicio 1 — ¿Cuánto ahorra una caché de parseos?
+### Ejercicio 1. ¿Cuánto ahorra una caché de parseos?
 Supón 1.000 pedidos: la mitad son las 41 consultas del curso, repartidas al azar, y la otra mitad son consultas que no
 se repiten nunca. ¿Qué fracción de los pedidos sale de la caché? ¿Cuánto baja el costo del parser? ¿Qué cambia si
 normalizas la consulta (minúsculas, sin tildes, espacios) antes de buscarla en la caché?
 
-### Ejercicio 2 — Calibrar el presupuesto
+### Ejercicio 2. Calibrar el presupuesto
 Con el modelo principal, prueba presupuestos de 3, 4, 5.6 (su p95) y 8 s en la estrategia de respaldo. ¿Dónde deja de
 mejorar el nDCG, y por qué?
 
-### Ejercicio 3 — La política del reranker, en producción
+### Ejercicio 3. La política del reranker, en producción
 La política del §4 usa la salida del parser. ¿Qué pasa con ella si el parser falla y el sistema cae al respaldo? ¿Y
 si el parser se equivoca y no detecta una exclusión?
 
-### Ejercicio 4 — Probar antes de servir
+### Ejercicio 4. Probar antes de servir
 51 de los 84 errores fueron "falta la clave". Escribe una comprobación de arranque para el servicio del buscador: qué
 verifica, qué hace si falla y cuánto cuesta correrla.
 
-### Ejercicio 5 — Tu factura
+### Ejercicio 5. Tu factura
 Define en `.env` los precios de tu cuenta para los dos modelos y corre el laboratorio 01. ¿Cuánto cuestan 1.000
 consultas con cada configuración? ¿Cuánto cuesta la política del §4 comparada con el reranker siempre?
 

@@ -37,7 +37,7 @@ La distinción que más sirve en la práctica es la de Anthropic en *Building ef
   redacta), pero no decide el orden.
 - En un **agente**, el LLM fija el camino. El código solo ejecuta lo que el modelo pide y le devuelve el resultado.
 
-La diferencia no es de sofisticación, es de **quién controla el flujo**. Y ese control tiene precio: cada decisión que
+Lo que separa a uno del otro es **quién controla el flujo**, y ese control tiene precio: cada decisión que
 le das al modelo es una decisión que puede salir mal, que hay que pagar en tokens y que hay que poder auditar después.
 
 Este curso enseña a construir el código que rodea al modelo: el **controlador**. Es lo que decide qué se ejecuta de
@@ -93,7 +93,7 @@ controlador detecta y corrige errores a mitad de camino). Los dos efectos son el
 
 - **Quitar pasos de decisión al modelo** (módulos 1 y 2): cada decisión que pasa a código deja de multiplicar.
 - **Detectar y corregir** (módulos 1, 2 y 6): errores accionables, invariantes de estado y políticas que bloquean.
-- **Medir** (módulo 7): no con una corrida que salió bien, sino con la probabilidad de que salgan bien *todas*.
+- **Medir** (módulo 7): estimar la probabilidad de que salgan bien *todas* las corridas, en vez de fiarse de una que salió bien.
 
 Además del acierto, cada paso cuesta **latencia** (una llamada al modelo tarda entre 0,5 y varios segundos) y
 **tokens**: en un bucle, el historial completo se reenvía en cada vuelta, así que el costo de entrada crece más rápido

@@ -2,7 +2,7 @@
 
 ---
 
-### Ejercicio 1 — Por qué promediar `pass^k` por tarea no es igual a elevar el promedio global
+### Ejercicio 1. Por qué promediar `pass^k` por tarea no es igual a elevar el promedio global
 En `code/02_pass_k_vs_pass_hat_k.py` calculamos `estimar_pass_hat_k(n, c, k)` **dentro de cada vacante** y luego promediamos entre `VAC-101` y `VAC-102`. Imagina que tienes 2 tareas: en la Tarea A tu agente acierta `8/8` veces (`100 %`) y en la Tarea B acierta `0/8` veces (`0 %`). La tasa global promedio es `p = 0.50`. ¿Cuánto vale $(0.50)^3$ frente al promedio real de `pass^3` por tarea?
 
 <details>
@@ -19,7 +19,7 @@ La desigualdad de Jensen ($\mathbb{E}[p_i^k] \ge (\mathbb{E}[p_i])^k$) explica p
 
 ---
 
-### Ejercicio 2 — Penalizar la eficiencia cuando se violan invariantes
+### Ejercicio 2. Penalizar la eficiencia cuando se violan invariantes
 Modifica `evaluar_corrida` en `code/01_metricas_trayectoria.py` para que si `violaciones_politica_sin_verificar` no está vacía o `exact_match` es `False`, `eficiencia_trayectoria` sea automáticamente `0.0` (evitando que un agente que se salta pasos obligatorios parezca «más eficiente que el óptimo»).
 
 <details>
@@ -36,7 +36,7 @@ eficiencia = (
 
 ---
 
-### Ejercicio 3 — Intervalo para pass^k
+### Ejercicio 3. Intervalo para pass^k
 Con 8 corridas y 3 éxitos, `pass^1 = 0,375`. Calcula un intervalo de confianza del 95 % para la tasa de éxito con el
 método de Wilson. ¿Cuántas corridas necesitarías para que el intervalo mida menos de ±10 puntos?
 
@@ -51,7 +51,7 @@ promedio.
 
 ---
 
-### Ejercicio 4 — Acciones no autorizadas como métrica
+### Ejercicio 4. Acciones no autorizadas como métrica
 Añade a `evaluar_corrida` la métrica `acciones_no_autorizadas`: llamadas a herramientas de nivel 2 sin aprobación.
 Usa una corrida del escenario sin defensas del módulo 6. ¿Qué dice la evaluación si solo miras exactitud?
 

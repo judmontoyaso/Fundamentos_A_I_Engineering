@@ -64,7 +64,7 @@ cada uno con los ids correctos:
 
 El resultado es correcto si el conjunto de recomendados es **exactamente** el esperado: recomendar a uno de más también
 es un fallo. Cada pedido se corre 3 veces, y se reporta **pass^3**: el pedido sale bien en las tres. Es lo que le
-importa a alguien que usa el agente cada día: no que acierte a veces, sino que acierte siempre.
+importa a quien usa el agente todos los días, que necesita que acierte siempre y no solo de vez en cuando.
 
 ---
 

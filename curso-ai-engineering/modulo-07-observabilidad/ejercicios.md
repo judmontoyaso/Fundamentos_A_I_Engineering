@@ -5,46 +5,46 @@ Intenta cada uno antes de ver la solución (al final, colapsadas). Se hacen con 
 
 ---
 
-### Ejercicio 1 — Traza tu propio flujo
+### Ejercicio 1. Traza tu propio flujo
 En un script nuevo (o al final de `01`), envuelve el agente del Módulo 5 en una traza: abre `tz.nueva_traza("agente")` y, dentro, un
 `tz.span(...)` por cada paso del bucle. Imprime el árbol con `tz.arbol(...)`. ¿Qué paso es el más lento? ¿Cuántos
 tokens de entrada reenvía el último paso en comparación con el primero?
 
-### Ejercicio 2 — Enmascarado
+### Ejercicio 2. Enmascarado
 Llama a `tz.enmascarar()` con un CV que tenga un correo, un teléfono colombiano con espacios (`+57 300 123 4567`), uno
 con guiones (`300-123-4567`) y un número que **no** es teléfono (`ISO 27001`, `2016-2020`). ¿Cuál enmascara de más o
 de menos? Ajusta las expresiones regulares y vuelve a probar.
 
-### Ejercicio 3 — Precios y proyección
+### Ejercicio 3. Precios y proyección
 Busca los precios actuales de tu modelo en la página de tu proveedor y ponlos en `.env`
 (`PRECIO_ENTRADA_USD_1M`, `PRECIO_SALIDA_USD_1M`, `PRECIO_CACHE_USD_1M`). Ejecuta `01` y `02`.
 ¿Cuánto cuestan 1000 pedidos? ¿Qué parte de ese costo es razonamiento?
 
-### Ejercicio 4 — Casos más difíciles
+### Ejercicio 4. Casos más difíciles
 El dataset de `03` salió perfecto. Añade 5 casos que creas que van a fallar (por ejemplo: dos correos, años de
 experiencia contradictorios, experiencia en meses, un CV desordenado en una sola línea, un nombre en mayúsculas).
 Define lo esperado **antes** de ejecutar. ¿Cuántos fallan? ¿Algún fallo es en realidad una etiqueta discutible?
 
-### Ejercicio 5 — Comparar dos prompts de extracción
+### Ejercicio 5. Comparar dos prompts de extracción
 `evaluar_extraccion()` acepta otro prompt. Prueba uno más corto ("Extrae los datos.") con
 `evaluar_extraccion("Extrae los datos.", "extraccion-v0")` y compara la exactitud por campo con la del prompt v1.
 ¿Qué campo se resiente primero?
 
-### Ejercicio 6 — Calibra tú el juez
+### Ejercicio 6. Calibra tú el juez
 Añade a `CASOS` de `04` seis casos tuyos (tres fieles y tres no fieles, con al menos uno sutil). Etiquétalos **antes**
 de ejecutar el juez. ¿Coincide contigo? En cada desacuerdo, lee la razón del juez y decide: ¿estaba mal el juez o tu
 etiqueta?
 
-### Ejercicio 7 — Más poder en la regresión
+### Ejercicio 7. Más poder en la regresión
 En `05`, sube `EJECUCIONES` a 8. ¿Aparece algún fallo de la versión v1? Calcula cuántas ejecuciones harían falta para
 que la probabilidad de no ver ningún fallo de un problema que ocurre 1 de cada 3 veces sea menor que 1 %.
 
-### Ejercicio 8 — Proyecto
+### Ejercicio 8. Proyecto
 Instrumenta el grafo de selección del Módulo 6 (`04_humano_en_el_bucle.py`): un span por nodo, tokens en cada llamada
 al LLM y el `thread_id` del grafo como atributo de la traza. Genera el informe de `02` sobre 5 vacantes y escribe tres
 conclusiones accionables (qué optimizarías primero y por qué, con números).
 
-### Ejercicio 9 — ¿Se sostiene la recomendación?
+### Ejercicio 9. ¿Se sostiene la recomendación?
 `06_comparar_modelos.py` recomienda un modelo por tarea con una sola pasada. Repite la comparación tres veces y anota,
 por modelo, la exactitud y los casos que fallan en cada pasada. ¿Los fallos son siempre los mismos casos o cambian?
 Después añade la fecha de hoy al prompt de extracción (`PROMPT_V1 + "\nHoy es 2026-10-22."`) y vuelve a correr

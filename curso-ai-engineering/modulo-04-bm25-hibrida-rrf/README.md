@@ -225,7 +225,7 @@ Implementación de cero y comparación con la suma normalizada en [`code/03_rrf.
 
 ### Cuándo sí quieres volver a los puntajes
 
-RRF es el default porque tira a la basura la parte frágil —la escala— y se queda con la robusta —el orden—. Pero esa
+RRF es la opción por defecto porque descarta la escala de los puntajes, que es frágil, y se queda con el orden. Pero esa
 misma virtud es su límite: **para RRF, el primero gana lo mismo si arrasó o si ganó por un pelo.** Si en una consulta
 el mejor resultado saca coseno 0.91 y el segundo 0.44, el ranking dice "1, 2" y RRF no se entera de ese abismo.
 
@@ -380,7 +380,7 @@ Lectura honesta:
   pequeño no conoce la equivalencia. La híbrida no puede rescatar lo que ningún buscador trajo. Un modelo de
   embeddings mejor, o un sinónimo en el tokenizador (`aws -> amazon web services`), sí.
 
-La moraleja no es "la híbrida no sirve": es que **el beneficio aparece con colecciones grandes y consultas difíciles**,
+Esto no quiere decir que la híbrida no sirva. **El beneficio aparece con colecciones grandes y consultas difíciles**,
 y que solo lo sabrás midiendo sobre tus datos. Con miles de CVs, el top-3 es una fracción mínima y los errores de cada
 buscador por separado cuestan mucho más.
 

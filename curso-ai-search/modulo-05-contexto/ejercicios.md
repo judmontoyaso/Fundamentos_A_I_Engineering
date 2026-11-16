@@ -5,22 +5,22 @@ corrida completa son decenas de miles de tokens. Reduce las preguntas mientras p
 
 ---
 
-### Ejercicio 1 — El tamaño justo
+### Ejercicio 1. El tamaño justo
 Añade "top 10", "top 25" y "top 40" a `01`. Dibuja (o imprime) aciertos y tokens contra k. ¿Dónde está el punto en que
 añadir más CVs deja de ayudar?
 
-### Ejercicio 2 — Pedirle que sea exhaustivo
+### Ejercicio 2. Pedirle que sea exhaustivo
 Cambia el prompt del contexto largo para pedir exhaustividad de forma explícita ("revisa cada CV uno por uno; antes de
 responder, lista los que cumplen con su número de CV"). ¿Mejoran las listas? ¿Cuántos tokens de salida cuesta?
 
-### Ejercicio 3 — Un modelo barato con todo el corpus
+### Ejercicio 3. Un modelo barato con todo el corpus
 Repite `01` con `gpt-5.4-nano` como generador. ¿Cuánto cae el contexto largo? ¿Y el top 15?
 
-### Ejercicio 4 — Las cuentas con código
+### Ejercicio 4. Las cuentas con código
 Responde las tres preguntas de cuenta con código sobre `as_fichas` (por ejemplo, `sum(f["lidera"] for f in fichas.values())`).
 ¿Aciertan? ¿Cuánto tarda y cuánto cuesta frente al contexto largo?
 
-### Ejercicio 5 — Una pregunta que sí necesite contexto largo
+### Ejercicio 5. Una pregunta que sí necesite contexto largo
 Escribe una pregunta que obligue a leer muchos CVs con atención y no se pueda responder con filtros (por ejemplo,
 "¿qué combinación de tecnologías es la más frecuente entre los ingenieros de datos?"). ¿Qué contexto gana ahí?
 

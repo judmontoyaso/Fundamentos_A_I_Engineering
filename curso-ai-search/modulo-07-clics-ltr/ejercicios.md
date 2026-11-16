@@ -7,25 +7,25 @@ la partición.
 
 ---
 
-### Ejercicio 1 — Quita la feature de posición
+### Ejercicio 1. Quita la feature de posición
 Entrena los modelos sin `1/posicion_produccion`. Antes de correrlo, apuesta: ¿el ingenuo mejora o empeora? Después
 mira sus pesos. ¿Dónde se fue el sesgo?
 
-### Ejercicio 2 — Usuarios más o menos exigentes
+### Ejercicio 2. Usuarios más o menos exigentes
 Cambia la atracción de los no relevantes de 0.08 a 0.0 (nadie abre lo que no sirve) y después a 0.3 (un reclutador que
 abre casi todo). ¿Cómo cambian el ingenuo y IPS?
 
-### Ejercicio 3 — La varianza de IPS
+### Ejercicio 3. La varianza de IPS
 Fija la partición 0 y cambia solo la semilla de los clics (`semilla_clics`), 20 veces, con 5 y con 60 sesiones por
 consulta. Compara la desviación estándar del nDCG de IPS con la del ingenuo. ¿Por qué el rango entre **particiones**
 no mostraba esta diferencia?
 
-### Ejercicio 4 — Explorar al azar
+### Ejercicio 4. Explorar al azar
 Supón que en el 10% de las sesiones reemplazas el resultado 10 por un CV elegido al azar entre los puestos 11 y 40 de
 producción. Sin correr nada, calcula: con 60 sesiones por consulta, ¿qué fracción de los CVs relevantes invisibles
 recibe al menos un clic? Después impleméntalo y compruébalo.
 
-### Ejercicio 5 — Recortar el peso
+### Ejercicio 5. Recortar el peso
 Un clic en la posición 10 pesa ~8 veces uno en la 1. Recorta la propensión: usa `max(θ_k, τ)` con τ = 0.2, 0.4 y 0.6.
 ¿Qué pasa con el nDCG de IPS? ¿Hacia qué modelo tiende cuando τ crece?
 

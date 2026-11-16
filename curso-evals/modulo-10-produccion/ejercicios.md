@@ -5,25 +5,25 @@ Intenta cada uno antes de ver la solución (al final, colapsadas). El laboratori
 
 ---
 
-### Ejercicio 1 — Un chequeo sin referencia para el nivel
+### Ejercicio 1. Un chequeo sin referencia para el nivel
 Para el pipeline del Módulo 2 no hay etiqueta de nivel en producción. Escribe un chequeo sin referencia que marque un
 nivel sospechoso (por ejemplo, "senior" cuando el CV dice "junior" o "practicante", o "junior" con 10 años o más).
 Mídelo contra la revisión del Módulo 2: ¿cuántos de los 6 casos de "nivel sin criterio" ve?
 
-### Ejercicio 2 — Vigilar la mezcla de entradas
+### Ejercicio 2. Vigilar la mezcla de entradas
 Calcula para cada día de `01` la proporción de CVs que no están en español (por ejemplo, contando palabras frecuentes
 de cada idioma). ¿Se ve el drift del día 3 en las entradas? ¿Con qué p, usando la misma cola binomial?
 
-### Ejercicio 3 — ¿Cuándo vale la cascada?
+### Ejercicio 3. ¿Cuándo vale la cascada?
 Con los números del laboratorio 02 y los precios de tu cuenta, calcula el costo de las tres políticas para 100.000 CVs
 al mes. ¿Cuánto cuesta cada error evitado al pasar del barato a la cascada? ¿Y de la cascada al siempre caro?
 
-### Ejercicio 4 — Un juez sobre una muestra
+### Ejercicio 4. Un juez sobre una muestra
 Toma una muestra del 20 % de los perfiles de un día (pipeline del Módulo 2) y pásales el juez v3 del Módulo 5. Con su
 TPR y TNR, estima la tasa de invenciones del día con su intervalo. ¿Qué tamaño de muestra necesitarías para que el
 intervalo tenga menos de ±10 puntos?
 
-### Ejercicio 5 — Del monitoreo al set
+### Ejercicio 5. Del monitoreo al set
 De todos los casos con alerta de los tres días, elige los que añadirías al set de evaluación del Módulo 1 y escribe su
 etiqueta. ¿Qué tipos de caso estaban poco representados en el set original?
 

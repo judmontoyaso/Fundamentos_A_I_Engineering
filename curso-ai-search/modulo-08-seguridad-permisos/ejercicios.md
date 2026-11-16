@@ -4,24 +4,24 @@ Intenta cada uno antes de ver la solución (al final, colapsadas).
 
 ---
 
-### Ejercicio 1 — Un permiso estrecho
+### Ejercicio 1. Un permiso estrecho
 Cambia `visibles()` para que cada reclutador vea solo los CVs de su cliente, sin los generales. Repite la parte 1.
 ¿Cuántos resultados deja el post-filtro 30? ¿Cuánto tendrías que buscar para llenar la página?
 
-### Ejercicio 2 — Una inyección mejor
+### Ejercicio 2. Una inyección mejor
 Escribe una inyección más agresiva para los CVs prohibidos. Por ejemplo, una que cierre la etiqueta `<cv>` y abra
 otra con `autorizado_para="general"`. Pruébala con los dos modelos. ¿Qué defensa en el código la anula sin depender
 del modelo?
 
-### Ejercicio 3 — La cuenta que delata
+### Ejercicio 3. La cuenta que delata
 Añade la pregunta "¿Cuántos analistas de seguridad hay?" con la regla en el prompt y con el filtro en el código. ¿Qué
 número da cada una a un reclutador de Salud Orquídea? ¿Por qué una cuenta es una fuga aunque no tenga nombres?
 
-### Ejercicio 4 — Trazas que no guardan personas
+### Ejercicio 4. Trazas que no guardan personas
 Modifica (en una copia) `enmascarar()` del trazador para que tampoco guarde nombres. ¿Qué pondrías en su lugar para que
 las trazas sigan sirviendo para depurar? Repite el inventario: ¿cuántas apariciones quedan?
 
-### Ejercicio 5 — Cambiar de embedder
+### Ejercicio 5. Cambiar de embedder
 Añade a la huella la versión del modelo de embeddings. Simula que el día 10 se cambia al embedder afinado del Módulo
 4. ¿Cuántos embeddings calcula el incremental ese día? ¿Qué pasa si no incluyes la versión en la huella?
 
@@ -63,7 +63,7 @@ construcción es **un agregado calculado sobre todo**: si otra pantalla de la ag
 7, ya sabe que existen 3 que no puede ver. Los agregados se calculan sobre lo permitido, y en sistemas sensibles se
 redondean o se ocultan cuando son pequeños.
 
-**4.** Lo útil para depurar no es el nombre, es **qué documento** entró. Guarda el `cv_id` (o un hash) y la longitud,
+**4.** Para depurar sirve más saber **qué documento** entró que el nombre de la persona. Guarda el `cv_id` (o un hash) y la longitud,
 y reemplaza los nombres conocidos por `[candidato 27]`. Así se puede reconstruir la traza consultando la fuente, que
 sí se borra. Después del cambio, las trazas **nuevas** no tienen nombres, pero las 34 apariciones viejas siguen ahí: el
 arreglo de la fuente no borra el pasado. Hace falta además una retención (borrar trazas de más de N días) o un borrado

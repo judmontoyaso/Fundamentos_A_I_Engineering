@@ -4,53 +4,53 @@ Intenta cada uno antes de ver la solución (al final, colapsadas).
 
 ---
 
-### Ejercicio 1 — Las familias en tu propio texto
+### Ejercicio 1. Las familias en tu propio texto
 Corre [`code/01_chunking_estrategias.py`](code/01_chunking_estrategias.py) con un CV tuyo. Compara chunking fijo
 (sin y con overlap) contra el recursivo y el de secciones. ¿Cuál parte menos ideas por la mitad? ¿Dónde se nota el
 overlap?
 
-### Ejercicio 2 — El tamaño importa
+### Ejercicio 2. El tamaño importa
 Con el chunk fijo, prueba `tam = 80, 200, 500`. Para cada tamaño: ¿los chunks tienen un solo tema o varios? Escribe
 una consulta específica ("liderazgo de equipos") y razona con cuál tamaño la recuperarías mejor y por qué (precisión
 vs. contexto).
 
-### Ejercicio 3 — Chunking semántico
+### Ejercicio 3. Chunking semántico
 Corre [`code/02_semantic_chunking.py`](code/02_semantic_chunking.py) (necesita embedder). Mete un párrafo que mezcle
 tres temas sin saltos de línea. ¿Los separa en las fronteras correctas? Baja y sube `umbral_percentil` (10, 25, 50) y
 observa cómo cambia el número de chunks.
 
-### Ejercicio 4 — Pre-filtrado con metadata
+### Ejercicio 4. Pre-filtrado con metadata
 Con [`code/03_metadata_filtering.py`](code/03_metadata_filtering.py) y Qdrant corriendo, haz la misma consulta con y
 sin filtro `nivel="senior"`. Confirma que el conjunto recuperado cambia. Luego añade un filtro por `area` y comprueba
 que combinan (AND). ¿Por qué pre-filtrar es mejor que buscar en todo y filtrar después?
 
-### Ejercicio 5 — RAG de punta a punta
+### Ejercicio 5. RAG de punta a punta
 Corre [`code/04_rag_minimo.py`](code/04_rag_minimo.py) (Qdrant + API key). Haz tres preguntas: una que el contexto sí
 responde, una que no (verifica que **se abstiene**), y una que mezcle dos candidatos (verifica que **cita** a cada
 uno). ¿La respuesta inventa algo? ¿Las citas son correctas?
 
-### Ejercicio 6 — Diagnóstico retrieval vs. generación
+### Ejercicio 6. Diagnóstico retrieval vs. generación
 Provoca los dos fallos del §10: (a) baja `k=1` y haz una pregunta cuyo chunk relevante no sea el #1 → fallo de
 **retrieval**; (b) con `k=5` quita del `SYSTEM` la frase "Responde SOLO con la información del CONTEXTO" y haz una
 pregunta ajena a los CVs → fallo de **generación** (alucina). Describe cómo se ven distintos.
 
-### Ejercicio 7 — Evaluación
+### Ejercicio 7. Evaluación
 Con [`code/05_eval_rag.py`](code/05_eval_rag.py) arma 10 preguntas sobre tus CVs, etiqueta los chunks relevantes, y
 calcula `context_recall`. Si tienes API, calcula `faithfulness` de 5 respuestas. ¿El recall bajo explica alguna
 respuesta mala?
 
-### Ejercicio 8 — Proyecto
+### Ejercicio 8. Proyecto
 Monta el RAG del §12 sobre 10-15 CVs: chunking estructural con metadata, índice en Qdrant, `responder(pregunta,
 filtro)` con anclaje + abstención + cita. Prueba una pregunta con pre-filtrado por nivel. Mide `recall@5` y revisa
 `faithfulness` a mano en 10 preguntas. Documenta: ¿qué cambió tu `recall` al pasar de "un vector por CV" (Módulo 2) a
 "chunks por sección" (este módulo)?
 
-### Ejercicio 9 — ¿Mejora o ruido?
+### Ejercicio 9. ¿Mejora o ruido?
 En [`code/06_contextual_retrieval.py`](code/06_contextual_retrieval.py), sube `REPETICIONES` a 5 y anota el MRR de
 cada repetición para el contexto largo y el breve. Calcula la media y el rango (máximo − mínimo). ¿La diferencia con
 la línea base es mayor que el rango? Escribe la conclusión en una frase que no exagere.
 
-### Ejercicio 10 — Citas que no son literales
+### Ejercicio 10. Citas que no son literales
 En [`code/07_rag_citas_verificadas.py`](code/07_rag_citas_verificadas.py), cambia la instrucción para que el modelo
 "resuma la evidencia" en lugar de citarla literalmente. ¿Cuántas afirmaciones pasan ahora `verificar()`? Después
 relaja `verificar()` para aceptar citas que compartan el 80 % de las palabras con alguna frase del CV. ¿Qué ganas y qué

@@ -5,23 +5,23 @@ medir su latencia real, desactívala.
 
 ---
 
-### Ejercicio 1 — Reranker de lista
+### Ejercicio 1. Reranker de lista
 Cambia el reranker puntual por uno de **lista**: una sola llamada que recibe los 20 CVs y devuelve el orden (como el
 reranker del Módulo 4 de AI Engineering). Mide nDCG, llamadas y latencia sobre la base. ¿Qué ganas y qué pierdes?
 
-### Ejercicio 2 — ¿Cuántos reordenar?
+### Ejercicio 2. ¿Cuántos reordenar?
 Prueba `TOP` = 10, 20 y 40 sobre la base. ¿Sube la paráfrasis con 40? ¿Cuánto cuesta cada opción?
 
-### Ejercicio 3 — MaxSim sin las palabras vacías
+### Ejercicio 3. MaxSim sin las palabras vacías
 MaxSim suma un término por cada token de la consulta, incluidos "de", "que" y "con". Quita de la consulta los tokens
 de palabras vacías (o los de menos de 3 letras) antes de sumar. ¿Cambia el total? ¿Qué tipos mejoran?
 
-### Ejercicio 4 — Pares con paráfrasis
+### Ejercicio 4. Pares con paráfrasis
 Añade a `pares()` plantillas que describan el rol sin nombrarlo (por ejemplo, un diccionario rol → descripción: "quien
 automatice despliegues" para devops). Vuelve a entrenar en el holdout. ¿Se recupera "quien haga pruebas automatizadas
 de software"? ¿Hiciste trampa? (Pista: ¿se parecen tus descripciones a las consultas de prueba?)
 
-### Ejercicio 5 — El embedder afinado en la híbrida
+### Ejercicio 5. El embedder afinado en la híbrida
 Usa el modelo afinado (en `salida/minilm_afinado`) como embedder de la híbrida y de los filtros suaves. ¿Sube algo sobre
 0.89?
 

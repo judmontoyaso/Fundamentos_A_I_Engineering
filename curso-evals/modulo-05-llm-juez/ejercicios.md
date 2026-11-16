@@ -5,24 +5,24 @@ guarda `03`.
 
 ---
 
-### Ejercicio 1 — Veredicto primero
+### Ejercicio 1. Veredicto primero
 Crea un `v3b` igual a `v3` pero con el campo `inventa` **antes** de `afirmaciones` en el schema. Córrelo tres veces en
 desarrollo. ¿Cambian el TPR y el TNR? ¿Las afirmaciones que lista justifican el veredicto o lo contradicen?
 
-### Ejercicio 2 — Otro modelo como juez
+### Ejercicio 2. Otro modelo como juez
 Calibra el juez v3 con `gpt-4.1-mini` (pasa `modelo=` en `juzgar()`) en desarrollo y en prueba. ¿Es más o menos
 paranoico? Con su TPR y su TNR, ¿cambia la tasa corregida de los perfiles v1?
 
-### Ejercicio 3 — ¿Qué invenciones se escapan?
+### Ejercicio 3. ¿Qué invenciones se escapan?
 Cuenta los aciertos del juez por `origen` (real, insertada obvia, sutil, numérica) en las tres corridas de prueba.
 ¿Detecta igual las numéricas ("12 años" en vez de 9) que las obvias? ¿Qué harías para detectar mejor las que se le
 escapan?
 
-### Ejercicio 4 — Rogan-Gladen a mano
+### Ejercicio 4. Rogan-Gladen a mano
 Un juez con TPR 90 % y TNR 80 % marca el 30 % de 200 perfiles. Calcula la tasa corregida. ¿Qué pasaría con la
 estimación si el TNR fuera 55 %?
 
-### Ejercicio 5 — Tus etiquetas como verdad
+### Ejercicio 5. Tus etiquetas como verdad
 Si anotaste en el Módulo 4, usa tus etiquetas en lugar de las del autor para los 30 perfiles reales (los "no pasa" por
 invención). ¿Cambian el TPR y el TNR del juez en los ítems reales?
 

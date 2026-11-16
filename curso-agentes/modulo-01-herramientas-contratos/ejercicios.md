@@ -2,7 +2,7 @@
 
 ---
 
-### Ejercicio 1 — Normalización silenciosa vs. rechazo con sugerencia
+### Ejercicio 1. Normalización silenciosa vs. rechazo con sugerencia
 En `ejecutar_herramienta_ats` (`comun/ag_comun.py`), cuando el modelo envía `"Evaluacion de LLM"`, la herramienta devuelve `{"ok": False, "sugerencias": ...}` y el modelo gasta 1 paso extra en reintentar. ¿Cuándo conviene **normalizar silenciosamente** la entrada dentro de la herramienta (sin devolver error) y cuándo conviene **rechazar y pedir confirmación**?
 
 <details>
@@ -14,7 +14,7 @@ En `ejecutar_herramienta_ats` (`comun/ag_comun.py`), cuando el modelo envía `"E
 
 ---
 
-### Ejercicio 2 — Añadir filtro `modalidad` con validación Poka-Yoke
+### Ejercicio 2. Añadir filtro `modalidad` con validación Poka-Yoke
 Modifica una copia local de `buscar_candidatos` para que acepte un parámetro opcional `solo_remoto: bool = False`. Si es `True`, debe filtrar únicamente candidatos con `c["remoto"] == True`. Comprueba cuántos candidatos devuelve para `["Python", "SQL", "RAG", "Evaluación de LLMs"]` con `max_aspiracion_usd=8000` cuando `solo_remoto=True` frente a `False`.
 
 <details>
@@ -25,7 +25,7 @@ Con `max_aspiracion_usd=8000` y `solo_remoto=False` entran 5 candidatos (`CAND-0
 
 ---
 
-### Ejercicio 3 — Modo estricto del proveedor
+### Ejercicio 3. Modo estricto del proveedor
 Activa el modo estricto de OpenAI en los esquemas (`"strict": true` dentro de `function`). ¿Qué tienes que cambiar en
 los esquemas del ATS para que la API los acepte? ¿Qué validaciones sigues necesitando en tu código?
 
@@ -41,7 +41,7 @@ vacante esté abierta.
 
 ---
 
-### Ejercicio 4 — Paginación en la búsqueda
+### Ejercicio 4. Paginación en la búsqueda
 `buscar_candidatos` devuelve todos los resultados. Con 300 candidatos sería un volcado. Añade `limite` (por defecto 5,
 máximo 15) y `pagina`, y devuelve `total`, `mostrando` y `hay_mas`. ¿Cómo debería decidir el modelo si pide otra
 página o afina los filtros?

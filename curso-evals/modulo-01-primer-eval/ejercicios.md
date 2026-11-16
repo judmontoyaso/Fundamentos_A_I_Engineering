@@ -6,33 +6,33 @@ cambiar el modelo candidato, pon `MODELO_BARATO` en tu `.env`, o asigna
 
 ---
 
-### Ejercicio 1 — Tus cinco casos
+### Ejercicio 1. Tus cinco casos
 Añade a `CVS` de [`comun/ev_datos.py`](../comun/ev_datos.py) cinco CVs que creas que van a fallar (por ejemplo:
 experiencia en "año y medio", dos trabajos simultáneos a tiempo parcial, un nombre con partícula como "de la Torre",
 un CV en portugués, skills escritas como "ML/IA"). **Escribe lo esperado antes de ejecutar** y aplica las reglas del
 principio del archivo. Corre `01` con el modelo barato. ¿Cuántos fallan? ¿Alguno te obligó a inventar una regla nueva?
 
-### Ejercicio 2 — Un chequeo más estricto
+### Ejercicio 2. Un chequeo más estricto
 Cambia en `comparar_ficha()` el chequeo de skills para exigir que la lista extraída sea **igual** a la esperada
 (mismo conjunto). Corre `01` con `gpt-6-luna`. ¿Cuántos "fallos" aparecen? ¿Cuántos son errores reales del sistema?
 
-### Ejercicio 3 — ¿Se confirma la rotura?
+### Ejercicio 3. ¿Se confirma la rotura?
 Con `gpt-5.4-nano`, sube `REPETICIONES` a 4 en `02`. ¿El #18 sigue "roto" o pasa a "inestable"? ¿Qué pasa con el #21?
 Antes de ejecutar, escribe qué esperas.
 
-### Ejercicio 4 — Decírselo de otra forma
+### Ejercicio 4. Decírselo de otra forma
 `gpt-4o-mini` ignoró "suma todo trabajo, aunque no sea del área" en el #30. Crea un prompt `v3` sin esa frase y, en
 su lugar, cambia la **descripción del campo** en `FichaCV`:
 `Field(description="años de experiencia laboral total, sumando TODOS los trabajos, también los de otras áreas")`.
 ¿Arregla el #30? ¿Rompe algo?
 
-### Ejercicio 5 — ¿Cuánto cuesta cada opción?
+### Ejercicio 5. ¿Cuánto cuesta cada opción?
 Las trazas guardan los tokens de cada llamada. Escribe un script que, para la última corrida de cada modelo, sume
 tokens de entrada, de salida y de razonamiento (`ev.tz.spans(trace_id)`, atributos `tokens_*`). Con los precios de tu
 cuenta, calcula el costo de 100.000 extracciones con `gpt-6-luna` y con el candidato. ¿Qué parte del costo del modelo
 grande es razonamiento?
 
-### Ejercicio 6 — Un v3 que no rompa a nano
+### Ejercicio 6. Un v3 que no rompa a nano
 Escribe un prompt `v3` que arregle el #19 y el #23 en `gpt-5.4-nano` **sin** romper el #18. Pista: el #18 iba bien con
 `v1`. ¿Qué parte de `v2` lo empeoró? Pruébalo con `02` (cambia las versiones que compara).
 

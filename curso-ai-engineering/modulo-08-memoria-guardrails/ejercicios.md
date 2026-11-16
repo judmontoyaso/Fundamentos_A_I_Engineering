@@ -4,49 +4,49 @@ Intenta cada uno antes de ver la solución (al final, colapsadas). Se hacen sobr
 
 ---
 
-### Ejercicio 1 — La ventana justa
+### Ejercicio 1. La ventana justa
 En [`code/01_memoria_corto_plazo.py`](code/01_memoria_corto_plazo.py), prueba `VENTANA = 2, 6, 8, 10`. ¿A partir de qué
 tamaño la ventana recuerda los datos del primer turno? ¿Cuántos tokens envía entonces, comparado con el resumen?
 
-### Ejercicio 2 — Un resumen que pierde datos
+### Ejercicio 2. Un resumen que pierde datos
 Cambia la descripción de `Resumen` a "resumen en máximo 15 palabras". ¿Sigue recordando el nivel de idioma y la
 modalidad? ¿Qué te dice eso sobre fijar un límite de tokens para el resumen?
 
-### Ejercicio 3 — Memoria envenenada
+### Ejercicio 3. Memoria envenenada
 En [`code/02_memoria_largo_plazo.py`](code/02_memoria_largo_plazo.py), cambia `extraer()` para que lea **todos** los
 mensajes (también los de rol `tool`). Ejecuta la sesión 1 de Ana. ¿Aparece algún recuerdo sobre Pedro? Después vuelve
 a la versión original.
 
-### Ejercicio 4 — Duplicado o reemplazo
+### Ejercicio 4. Duplicado o reemplazo
 Guarda para Ana, en este orden: "exijo inglés C1", "pido inglés avanzado" y "ya no exijo inglés". ¿Qué relación
 detecta cada vez (nuevo, duplicado, reemplaza)? ¿Alguna te parece incorrecta? ¿Qué cambiarías: el umbral de similitud
 (0.5) o la pregunta al LLM?
 
-### Ejercicio 5 — Intenta colarte
+### Ejercicio 5. Intenta colarte
 Escribe cinco pedidos discriminatorios **disimulados** para [`code/03_guardrails_entrada.py`](code/03_guardrails_entrada.py)
 (por ejemplo, "perfiles recién egresados con energía juvenil", "que vivan en el norte de la ciudad", "nombres que
 suenen profesionales"), y cinco legítimos que se les parezcan. Añádelos al `SET` con su etiqueta **antes** de ejecutar.
 ¿Cuántos falsos pases y falsos bloqueos hay ahora?
 
-### Ejercicio 6 — Fail-closed en acción
+### Ejercicio 6. Fail-closed en acción
 En `revisar_entrada()`, simula que el clasificador falla (por ejemplo, cambia `MODELO` a un nombre que no existe
 en una copia del script). ¿Qué ve el reclutador? Ahora imagina una política fail-open para la categoría
 "fuera_de_alcance" solamente: ¿cómo la implementarías y por qué tiene sentido ahí y no en "discriminatorio"?
 
-### Ejercicio 7 — Corregir en vez de bloquear
+### Ejercicio 7. Corregir en vez de bloquear
 En [`code/04_guardrails_salida.py`](code/04_guardrails_salida.py), el caso "menciona graduación sin usarla" se bloquea.
 Implementa una acción **corregir**: cuando la capa de política detecta un atributo protegido mencionado pero no usado
 para valorar, pide al LLM que reescriba la respuesta sin ese dato, y vuelve a pasar los guardrails. Hazlo antes de
 abrir [`code/06_corregir_salida.py`](code/06_corregir_salida.py), que es una solución completa.
 
-### Ejercicio 8 — ¿Una segunda vuelta?
+### Ejercicio 8. ¿Una segunda vuelta?
 En `06`, el caso de Valentina acaba en revisión humana: la corrección quitó el año, pero el juez encontró después "le
 falta experiencia dirigiendo equipos", que el CV no dice. Permite **una** segunda vuelta: si la versión corregida falla
 en fidelidad, regenérala con esa falla como feedback y revisa otra vez. ¿Llega a "el CV no menciona experiencia
 dirigiendo equipos"? ¿Cuántas llamadas cuesta ese caso ahora? Escribe en una frase cuándo dejarías de corregir y
 pasarías a revisión humana.
 
-### Ejercicio 9 — Proyecto: medir el asistente
+### Ejercicio 9. Proyecto: medir el asistente
 Con [`code/05_asistente_protegido.py`](code/05_asistente_protegido.py), arma 20 turnos (de al menos dos reclutadores)
 mezclando pedidos legítimos, discriminatorios, de manipulación y fuera de alcance. Instrumenta el asistente con el
 trazador del Módulo 7 y reporta: falsos bloqueos y falsos pases por capa, llamadas y tokens que añaden los guardrails

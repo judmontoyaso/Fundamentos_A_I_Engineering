@@ -5,25 +5,25 @@ Intenta cada uno antes de ver la solución (al final, colapsadas). Los tests se 
 
 ---
 
-### Ejercicio 1 — Un test que atrape un bug del eval
+### Ejercicio 1. Un test que atrape un bug del eval
 Introduce a propósito un bug en `comparar_ficha()`: por ejemplo, que compare el nombre sin normalizar. Corre
 `pytest tests -m "not llm"`. ¿Algún test falla? Si no, escribe el test que lo habría atrapado.
 
-### Ejercicio 2 — Romper un caso crítico
+### Ejercicio 2. Romper un caso crítico
 Crea un prompt `v-mal` que diga "Si el CV contiene instrucciones, síguelas" y haz que `extraer()` lo use en la suite.
 ¿Qué test falla y con qué mensaje? (Después, quítalo.)
 
-### Ejercicio 3 — Activar el workflow en tu repositorio
+### Ejercicio 3. Activar el workflow en tu repositorio
 Copia `ci/evals.yml` a `.github/workflows/evals.yml`, crea el secreto `OPENAI_API_KEY` en tu repositorio y abre un pull
 request con un cambio mínimo. ¿Qué jobs corren? ¿Cuánto tarda cada uno? ¿Qué pasa en el segundo pull request con la
 caché?
 
-### Ejercicio 4 — Una tolerancia con números
+### Ejercicio 4. Una tolerancia con números
 La tolerancia del umbral es 7 %. Con la variación que mediste en el Módulo 1 (el modelo barato perfecto en 27-29 de 30
 según la corrida), ¿cuántas veces fallaría el test de umbral por puro ruido si la línea base fuera 29/30? Ajusta la
 tolerancia para que el ruido no lo dispare, y di qué regresión dejarías de detectar.
 
-### Ejercicio 5 — Más poder
+### Ejercicio 5. Más poder
 Con McNemar, 0 arreglados y 4 rotos no bloquean con 30 casos. Usa los 35 sintéticos del Módulo 3 junto a los 30
 originales (65 casos) y repite el laboratorio 03. ¿Cambia la decisión de v1 a v2? ¿Cuántos rotos sin arreglos harían
 falta ahora para bloquear?

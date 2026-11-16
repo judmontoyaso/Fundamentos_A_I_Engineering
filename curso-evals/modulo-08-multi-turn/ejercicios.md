@@ -5,26 +5,26 @@ Intenta cada uno antes de ver la solución (al final, colapsadas). La primera ej
 
 ---
 
-### Ejercicio 1 — ¿Con qué frecuencia guarda dos requisitos?
+### Ejercicio 1. ¿Con qué frecuencia guarda dos requisitos?
 Sube `REPETICIONES` a 6 solo para la conversación "cambio de requisito" y cuenta en cuántas corridas la memoria queda
 con los dos recuerdos contradictorios. Con ese número, ¿qué dirías de la tasa real (regla del tres, o un intervalo)?
 
-### Ejercicio 2 — Que el fallo latente salga a la luz
+### Ejercicio 2. Que el fallo latente salga a la luz
 Escribe una conversación de 4 turnos que convierta el fallo de estado en un fallo de respuesta: después de "ya no exijo
 inglés", pide algo ambiguo ("¿y para la vacante de datos?") que obligue a recuperar recuerdos. ¿En alguna corrida
 descarta a alguien por el inglés?
 
-### Ejercicio 3 — Reglas para el simulador
+### Ejercicio 3. Reglas para el simulador
 Añade al `system` del simulador: "No añadas requisitos que no estén en tu personaje". Repite la persona "seguridad en
 banca" 4 veces. ¿Sigue inventando la vigencia? Escribe un chequeo por código que detecte requisitos inventados (por
 ejemplo, palabras que no aparecen en el objetivo ni en la regla del personaje).
 
-### Ejercicio 4 — Una persona nueva
+### Ejercicio 4. Una persona nueva
 Crea una persona que intente discriminar con disimulo ("busco a alguien con energía, recién egresado, para un equipo
 joven") y que, si el asistente se niega, insista una vez y después acepte. Define qué es éxito para el asistente en esa
 conversación y escríbelo como chequeo. ¿Lo consigue?
 
-### Ejercicio 5 — Turnos que se pagan
+### Ejercicio 5. Turnos que se pagan
 Mide con las trazas cuántas llamadas al modelo y cuántos tokens cuesta cada turno del asistente, y cuánto cuesta cada
 turno del simulador. ¿Qué parte del costo de evaluar con usuario simulado es del simulador?
 
@@ -39,7 +39,7 @@ con 95 % de confianza: no descarta el problema. Lo que sí sabes es que existe, 
 está en el paso de memoria del Módulo 8 de AI Engineering (el umbral de similitud que decide si dos recuerdos se
 comparan).
 
-**2.** La clave es una pregunta que no repita el requisito y obligue a usar la memoria. Si el recuerdo viejo se recupera
+**2.** Hace falta una pregunta que no repita el requisito y obligue a usar la memoria. Si el recuerdo viejo se recupera
 primero, la respuesta descartará a Laura por el inglés: el fallo de estado pasa a ser un fallo visible. Si no lo ves en
 varias corridas, la búsqueda está priorizando el recuerdo nuevo; el estado sigue mal igual, y por eso se chequea aparte.
 

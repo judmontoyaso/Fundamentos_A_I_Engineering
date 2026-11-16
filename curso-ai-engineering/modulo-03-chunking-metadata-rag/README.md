@@ -85,8 +85,8 @@ temáticamente puros, pero cuesta más (embedea para decidir los cortes). Vale l
 temas sin estructura clara.
 
 **4. Consciente del documento (document-aware / contextual).** Aprovechas el formato del documento: Markdown por
-encabezados, código por funciones, un PDF por sus secciones y tablas. Variante moderna muy potente: **contextual
-retrieval** — antes de embedear cada chunk, le antepones una o dos frases generadas por un LLM que lo sitúan en el
+encabezados, código por funciones, un PDF por sus secciones y tablas. Una variante reciente que funciona muy bien es el **contextual
+retrieval**: antes de embedear cada chunk, le antepones una o dos frases generadas por un LLM que lo sitúan en el
 documento ("Este fragmento es de la sección Experiencia del CV de Laura, sobre su rol como Tech Lead"). Eso le
 devuelve al chunk el contexto que perdió al separarlo. Cuánto ayuda **depende**, y medirlo tiene una trampa que el
 laboratorio ([`code/06_contextual_retrieval.py`](code/06_contextual_retrieval.py)) deja a la vista. Sobre los 10 CVs
@@ -138,7 +138,7 @@ Dos formas, según cuánto quieras devolver:
 - **Traer los vecinos.** Devuelves el chunk ganador más los k anteriores y posteriores del mismo documento. Barato y
   suele bastar: le devuelve al fragmento su frase anterior y su frase siguiente. Necesitas guardar el orden del chunk
   dentro del documento, un entero en el payload.
-- **Traer la unidad completa.** Devuelves la sección entera —o el documento— a la que pertenece el chunk. Da el
+- **Traer la unidad completa.** Devuelves la sección entera, o el documento, a la que pertenece el chunk. Da el
   contexto más limpio y es lo natural cuando partiste por estructura: el chunk vive en "Experiencia", devuelves
   "Experiencia". Cuesta más tokens de contexto, así que vigila §9.
 
@@ -191,8 +191,8 @@ No adivines: decide por el **tipo de documento** y confirma con el eval (§11).
 Para el proyecto (CVs), empieza **estructural por secciones** (Experiencia, Educación, Skills), con un chunk por
 entrada de experiencia. Es lo que mejor casa con las preguntas que recibirás.
 
-Las dos últimas filas no son alternativas a las otras cinco, son otra cosa: el LLM-based compra calidad de corte con
-dinero, y el jerárquico no cambia dónde cortas sino **qué devuelves**. Puedes montar el jerárquico encima de la
+Las dos últimas filas funcionan de otra manera que las cinco anteriores: el LLM-based paga con dinero una mejor calidad
+de corte, y el jerárquico mantiene los cortes y cambia **lo que devuelves**. Puedes montar el jerárquico encima de la
 estrategia que ya tengas sin tocar los cortes.
 
 ---

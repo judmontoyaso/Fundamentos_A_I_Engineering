@@ -184,7 +184,7 @@ el modelo corrige. Lo vemos en detalle más abajo.
 <a name="5-response-models"></a>
 ## 5. Diseñar buenos response models
 
-Un response model no es solo tipos; es cómo *guías* al modelo. Herramientas de Pydantic que debes dominar:
+Además de definir tipos, el response model es la forma de *guiar* al modelo. Estas son las herramientas de Pydantic que más vas a usar:
 
 ```python
 from pydantic import BaseModel, Field
@@ -232,11 +232,11 @@ client = instructor.from_openai(OpenAI(base_url="http://localhost:11434/v1", api
 
 **Modos (`mode`):** Instructor sabe pedir structured output de varias formas:
 
-- `TOOLS` — finge una llamada a función (function calling) cuyos argumentos son tu schema. Es el default de
+- `TOOLS`: finge una llamada a función (function calling) cuyos argumentos son tu schema. Es el default de
   `from_openai`.
-- `JSON_SCHEMA` — usa el `response_format` nativo de *structured outputs*: el proveedor restringe la generación al
+- `JSON_SCHEMA`: usa el `response_format` nativo de *structured outputs*: el proveedor restringe la generación al
   schema (el nivel "hard" de la §2). Es el que usa este curso.
-- `JSON` / `MD_JSON` — pide JSON por prompt (o dentro de un bloque markdown). Para modelos sin tool calling ni
+- `JSON` / `MD_JSON`: pide JSON por prompt (o dentro de un bloque markdown). Para modelos sin tool calling ni
   structured outputs, típicamente modelos locales.
 
 **Por qué el curso usa `JSON_SCHEMA` y no el default:** los modelos de *razonamiento* (por ejemplo la familia
@@ -266,16 +266,16 @@ lo justo. No optimices el costo antes de que la tarea funcione.
 <a name="7-formas"></a>
 ## 7. Formas de extracción
 
-Todas son el mismo truco —cambiar el `response_model`— con distinto tipo. Ejemplos ejecutables en
+Todas son el mismo truco, cambiar el `response_model`, con distinto tipo. Ejemplos ejecutables en
 [`code/07_formas.py`](code/07_formas.py).
 
-**Listas** — extraer varias entidades de un texto:
+**Listas**: extraer varias entidades de un texto:
 
 ```python
 response_model=list[Persona]     # "De este párrafo saca todas las personas"
 ```
 
-**Clasificación con Enum** — meter un documento en una de N categorías cerradas:
+**Clasificación con Enum**: meter un documento en una de N categorías cerradas:
 
 ```python
 from enum import Enum
@@ -288,14 +288,14 @@ class Clasificacion(BaseModel):
     area: Area
 ```
 
-**Multi-etiqueta** — varias categorías a la vez:
+**Multi-etiqueta**: varias categorías a la vez:
 
 ```python
 class ClasificacionMulti(BaseModel):
     areas: list[Area]            # un perfil full-stack+datos lleva dos
 ```
 
-**Estructuras nested** — un objeto dentro de otro, en una sola llamada:
+**Estructuras nested**: un objeto dentro de otro, en una sola llamada:
 
 ```python
 class Direccion(BaseModel):
@@ -315,7 +315,7 @@ p.direccion.ciudad
 Por qué nested importa: evitas dos llamadas (una para la persona, otra para la dirección) y evitas el trabajo de
 "pegar" resultados. El modelo mantiene la **coherencia** entre partes porque ve todo el contexto a la vez.
 
-**Optional y `Maybe`** — manejar lo que puede faltar sin romper:
+**Optional y `Maybe`**: manejar lo que puede faltar sin romper:
 
 ```python
 from typing import Optional
@@ -375,7 +375,7 @@ Aquí está el músculo que diferencia un juguete de un sistema. Pydantic valida
 mundo real tienen reglas *semánticas* que un tipo no captura. Pydantic te deja escribir validadores, e Instructor
 usa sus errores para **reintentar**.
 
-**Field validators** — reglas sobre un campo:
+**Field validators**: reglas sobre un campo:
 
 ```python
 from pydantic import BaseModel, field_validator
@@ -391,7 +391,7 @@ class Candidato(BaseModel):
         return v.lower()
 ```
 
-**Model validators** — reglas que cruzan varios campos:
+**Model validators**: reglas que cruzan varios campos:
 
 ```python
 from pydantic import model_validator
@@ -407,7 +407,7 @@ class Rango(BaseModel):
         return self
 ```
 
-**El loop de retry** — lo esencial:
+**El loop de retry**: lo esencial:
 
 ```python
 candidato = client.chat.completions.create(
@@ -436,8 +436,8 @@ casi siempre acierta al segundo intento, porque recibió feedback preciso y acci
 <a name="10-json-valido-equivocado"></a>
 ## 10. Un JSON válido puede estar equivocado
 
-Lección incómoda y crucial: **que el JSON valide no significa que sea correcto.** `{"anios_experiencia": 7}` es un
-entero perfecto. Pero si el CV decía 2, es un dato *sintácticamente válido y semánticamente falso* — el peor tipo de
+Hay que tener presente que **un JSON válido puede traer datos incorrectos.** `{"anios_experiencia": 7}` es un
+entero perfecto. Pero si el CV decía 2, es un dato *sintácticamente válido y semánticamente falso*: el peor tipo de
 error, porque pasa callado por todas tus validaciones de tipo.
 
 Defensas, en orden de fuerza:
@@ -454,8 +454,8 @@ Defensas, en orden de fuerza:
 3. **Confianza y abstención:** un campo `confianza: float` y una política de "si <0.7, marca para revisión humana".
 4. **Evals** (Módulo 7): mides tasa de acierto contra un set etiquetado. Lo que no mides, no mejora.
 
-La moraleja: la validación de tipos es el piso, no el techo. El dato correcto se defiende con **evidencia, coherencia
-y medición**, no con fe en el modelo.
+La validación de tipos es solo el primer control. Para confiar en un dato hacen falta además **evidencia, coherencia y
+medición**.
 
 ---
 
@@ -483,7 +483,7 @@ Hay tres mundos:
 
 **Citaciones resaltadas con PyMuPDF:** un patrón muy útil para CVs es extraer el dato *y su ubicación* (bounding box)
 para resaltarlo en la UI. Pides al modelo la cita textual, buscas esa cita en el PDF con `page.search_for(cita)`, y
-obtienes el rectángulo para dibujar un highlight. Así el usuario *ve de dónde salió* cada dato — y tú tienes
+obtienes el rectángulo para dibujar un highlight. Así el usuario *ve de dónde salió* cada dato, y tú tienes
 verificación de evidencia (§10) gratis. Ejemplo en [`code/11_pdf.py`](code/11_pdf.py).
 
 **Lo que midió el laboratorio** (el script genera sus propios PDFs: uno con texto, uno con tabla y uno escaneado):
@@ -555,7 +555,7 @@ clave = hashlib.sha256((texto + schema_json + modelo).encode()).hexdigest()
 ```
 
 Así, cambiar un campo invalida solo lo necesario. (Además, muchos proveedores tienen *prompt caching* del lado
-servidor que abarata los tokens de entrada repetidos —el system prompt y el schema— casi gratis; actívalo.)
+servidor que abarata los tokens de entrada repetidos, el system prompt y el schema, casi gratis; actívalo.)
 
 **3. Paraleliza.** Procesar 1.000 CVs en serie es esperar 1.000 latencias. Lánzalos concurrentes con límite:
 

@@ -4,45 +4,45 @@ Intenta cada uno antes de ver la solución (al final, colapsadas).
 
 ---
 
-### Ejercicio 1 — BM25 a mano
+### Ejercicio 1. BM25 a mano
 Con [`code/01_bm25_desde_cero.py`](code/01_bm25_desde_cero.py), calcula a mano (con calculadora) el puntaje de la
 consulta "kafka" para el primer CV. Necesitas `N`, `n("kafka")`, `f`, `|D|` y `avgdl`; imprímelos desde el objeto
 `BM25`. Comprueba que tu número coincide con el que devuelve `puntaje()`.
 
-### Ejercicio 2 — Los hiperparámetros
+### Ejercicio 2. Los hiperparámetros
 En el mismo script, prueba `k1 = 0.5, 1.2, 3.0` y `b = 0, 0.75, 1`. ¿Qué pasa con la consulta "python" (un CV la
 repite cinco veces) en cada caso? Explica qué controla cada parámetro con tus palabras.
 
-### Ejercicio 3 — El tokenizador decide
+### Ejercicio 3. El tokenizador decide
 Quita la normalización de tildes de `tokenizar()` y busca "programacion" (sin tilde) en un CV que dice "programación".
 Luego quita las excepciones técnicas y busca "C#". ¿Qué se rompe en cada caso? Añade una regla de sinónimos
 `aws -> amazon web services` y comprueba si Diego aparece en la consulta "AWS" del laboratorio.
 
-### Ejercicio 4 — RRF y el parámetro k
+### Ejercicio 4. RRF y el parámetro k
 Con [`code/03_rrf.py`](code/03_rrf.py), construye dos rankings donde un documento sea 1º en una lista y no aparezca
 en la otra, y otro documento sea 3º en ambas. ¿Cuál gana con `k = 1`? ¿Y con `k = 60`? ¿Qué preferencia expresa cada
 valor de `k`?
 
-### Ejercicio 5 — Suma normalizada vs. RRF
+### Ejercicio 5. Suma normalizada vs. RRF
 En `03_rrf.py`, cambia los puntajes de coseno para que haya un valor atípico (por ejemplo `{"C": 0.95, "A": 0.41,
 "D": 0.40}`). ¿Cómo cambia el orden de la suma normalizada con `α = 0.5`? ¿Y el de RRF? ¿Por qué?
 
-### Ejercicio 6 — El empate simétrico
+### Ejercicio 6. El empate simétrico
 En el laboratorio, la consulta "ISO 27001" empata en RRF. Rómpelo de dos maneras: (a) con un RRF ponderado hecho por
 ti (usa `rrf(..., pesos=[...])` de `03_rrf.py` sobre los ids de cada búsqueda), y (b) cambiando la consulta a "ISO
 27001 auditor". ¿Cuál de las dos soluciones es más honesta para un buscador real?
 
-### Ejercicio 7 — Prefetch y candidatos
+### Ejercicio 7. Prefetch y candidatos
 En [`code/04_hibrida_qdrant.py`](code/04_hibrida_qdrant.py), baja `candidatos` a 1 y vuelve a correr
 [`code/05_comparar_busquedas.py`](code/05_comparar_busquedas.py). ¿Qué le pasa al recall de la híbrida? Explica por
 qué un `limit` de *prefetch* demasiado bajo perjudica a la fusión.
 
-### Ejercicio 8 — Proyecto
+### Ejercicio 8. Proyecto
 Monta la búsqueda híbrida del §13 sobre tus chunks de CV del Módulo 3. Arma 12 consultas etiquetadas (4 exactas, 4
 paráfrasis, 4 mixtas), corre los tres modos y escribe tres párrafos: dónde gana BM25, dónde gana la semántica y si la
 híbrida compensa en **tu** colección. Si no compensa, di por qué.
 
-### Ejercicio 9 — ¿Cuándo vale la pena un reranker?
+### Ejercicio 9. ¿Cuándo vale la pena un reranker?
 En [`code/06_reranking.py`](code/06_reranking.py), cambia `CANDIDATOS`, el tamaño del top que se reordena (por ejemplo, 4, 6 y 10), y
 anota recall@3, MRR y segundos por consulta. Después responde con tus números: si tu sistema muestra 10 resultados a
 una persona, ¿pondrías el reranker? ¿Y si pasa 3 fragmentos a un LLM?

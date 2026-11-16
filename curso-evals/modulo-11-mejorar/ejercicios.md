@@ -5,24 +5,24 @@ Intenta cada uno antes de ver la solución (al final, colapsadas). El holdout so
 
 ---
 
-### Ejercicio 1 — ¿Cuánto varía la misma versión?
+### Ejercicio 1. ¿Cuánto varía la misma versión?
 Corre `02` tres veces solo con v2 (deja `VERSIONES = ["v2"]`) y anota desarrollo y holdout en cada una. ¿Cuál es el
 rango? Con ese rango, ¿qué diferencia mínima entre dos versiones te creerías?
 
-### Ejercicio 2 — Las skills en mayúsculas
+### Ejercicio 2. Las skills en mayúsculas
 El #23 ("SAS, R." en un CV todo en mayúsculas) falla en casi todas las versiones. Lee sus salidas, escribe una
 hipótesis y un cambio (en el prompt, o en código: por ejemplo, pasar el CV a minúsculas antes de extraer las skills).
 Mídelo en el #23 solo, 6 veces, y después en todo el desarrollo. ¿Rompe algo?
 
-### Ejercicio 3 — v5 con el modelo grande
+### Ejercicio 3. v5 con el modelo grande
 Corre v1 y v5 con `gpt-6-luna` en desarrollo y holdout. ¿Gana algo v5 con un modelo que ya sumaba bien? ¿Cuesta más
 tokens el schema de hechos?
 
-### Ejercicio 4 — Pasar v5 por la suite del Módulo 9
+### Ejercicio 4. Pasar v5 por la suite del Módulo 9
 Haz que la suite del Módulo 9 pruebe v5 (casos críticos y umbral). ¿Pasa los críticos? Usa la regla de McNemar del
 laboratorio 03 del Módulo 9 para decidir entre v2 y v5 en el holdout. ¿Bloquea, pasa o pasa con aviso?
 
-### Ejercicio 5 — Un holdout de verdad
+### Ejercicio 5. Un holdout de verdad
 El holdout de este módulo son sintéticos escritos por un LLM. Escribe 10 CVs a mano con formatos que ninguno de los
 dos sets tenga (por ejemplo, fechas como "mar 2018 - jun 2021", CVs larguísimos, dos idiomas mezclados), etiquétalos y
 mide v2 y v5. ¿Se mantiene la ventaja de v5?

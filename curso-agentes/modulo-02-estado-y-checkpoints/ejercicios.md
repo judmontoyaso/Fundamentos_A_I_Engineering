@@ -2,7 +2,7 @@
 
 ---
 
-### Ejercicio 1 — Bloquear `agendar_entrevista` para candidatos no verificados
+### Ejercicio 1. Bloquear `agendar_entrevista` para candidatos no verificados
 En `code/01_maquina_de_estados.py`, `validar_transicion` protege `entregar_terna`. Extiende `validar_transicion` para que también bloquee cualquier llamada a `agendar_entrevista(vacante_id, candidato_id, fecha)` si `candidato_id` no figura en `self.verificados` con valor `True`.
 
 <details>
@@ -20,7 +20,7 @@ if herramienta == "agendar_entrevista":
 
 ---
 
-### Ejercicio 2 — ¿Qué debe formar parte de la clave de idempotencia?
+### Ejercicio 2. ¿Qué debe formar parte de la clave de idempotencia?
 Si dos ejecuciones distintas (una en enero y otra en junio para otro proceso de selección) llaman a `consultar_ficha_candidato("CAND-01")`, ¿deberían compartir la misma clave de idempotencia? ¿Por qué `EjecutorConCheckpoint` guarda `cache_idempotencia` **dentro** del checkpoint de la ejecución actual?
 
 <details>
@@ -31,7 +31,7 @@ Porque la idempotencia protege contra **reintentos involuntarios dentro de una m
 
 ---
 
-### Ejercicio 3 — Caída entre el efecto y el guardado
+### Ejercicio 3. Caída entre el efecto y el guardado
 En `02_checkpoints_e_idempotencia.py`, el checkpoint se guarda al final de cada paso. Simula una caída justo después
 de ejecutar `agendar_entrevista` y antes de guardar. ¿Qué pasa al reanudar? ¿Cómo lo evitarías?
 
@@ -47,7 +47,7 @@ pago exigen una clave de idempotencia al crear cobros.
 
 ---
 
-### Ejercicio 4 — Devolver el bloqueo al modelo en lugar de corregirlo
+### Ejercicio 4. Devolver el bloqueo al modelo en lugar de corregirlo
 Cambia la guarda de `01_maquina_de_estados.py` para que, al bloquear la entrega, devuelva el error al modelo en vez de
 verificar en código. Corre con `p_descuido=1.0` y con `p_descuido=0.3`. Compara pasos y resultado.
 

@@ -96,8 +96,8 @@ Cuatro lecciones antes de leer un solo fallo:
    set no encuentra sus fallos. Para el modelo actual hace falta un set más difícil (Módulos 2 y 3).
 2. **Los modelos baratos fallan en casos distintos.** Una exactitud global parecida (93-97 % por campo) esconde
    fallos que no se parecen entre sí, y que piden arreglos distintos.
-3. **Casi todos los fallos se repiten en las dos pasadas.** Eso los hace **sistemáticos**: no es mala suerte, es algo
-   que el modelo hace así. Lo ocasional (el #18 de `nano`, una vez de dos) se trata distinto (§7).
+3. **Casi todos los fallos se repiten en las dos pasadas.** Eso los hace **sistemáticos**: el modelo los comete
+   de forma consistente. Lo ocasional (el #18 de `nano`, una vez de dos) se trata distinto (§7).
 4. **Los modelos se retiran.** Un eval que nombra un modelo tiene fecha de caducidad. Fija versiones
    (`gpt-4.1-mini-2025-04-14`) y vuelve a correrlo cuando el proveedor cambie algo.
 
@@ -120,7 +120,7 @@ dentro de las skills y encuentra `net`. Se podría relajar. Pero para un buscado
 ¿redes?), así que es un dato peor. Se decidió mantener el chequeo y tratarlo como fallo. La regla: **relaja un
 chequeo solo si lo obtenido es igual de útil que lo esperado**, no porque te moleste ver el fallo.
 
-Y el #30 muestra algo que se repetirá todo el curso: muchas veces el fallo no es del modelo sino de **una regla que
+Y el #30 muestra algo que se repetirá todo el curso: muchas veces el fallo viene de **una regla que
 existía en tu cabeza** (y en las etiquetas) y nunca llegó al prompt.
 
 ---

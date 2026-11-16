@@ -2,7 +2,7 @@
 
 ---
 
-### Ejercicio 1 — Por qué limitar `max_workers` ante APIs de LLMs
+### Ejercicio 1. Por qué limitar `max_workers` ante APIs de LLMs
 En `code/02_map_reduce_cvs.py` usamos `ThreadPoolExecutor(max_workers=8)`. Si tuvieras que evaluar `500` candidatos contra una vacante usando `ModeloOpenAI`, ¿qué pasaría si lanzaras `max_workers=500` simultáneamente y cómo debes dimensionar la concurrencia?
 
 <details>
@@ -15,7 +15,7 @@ $$\text{Concurrencia máxima segura} = \min\left(\frac{\text{RPM límite}}{60 / 
 
 ---
 
-### Ejercicio 2 — Cuándo NO usar subagentes en paralelo
+### Ejercicio 2. Cuándo NO usar subagentes en paralelo
 Menciona un caso dentro de nuestro flujo de reclutamiento donde dos pasos **no** se puedan ejecutar en paralelo con `map`.
 
 <details>
@@ -26,7 +26,7 @@ Cuando existe una **dependencia de datos secuencial** o un **recurso compartido 
 
 ---
 
-### Ejercicio 3 — La cuenta de tokens: monolito contra orquestador
+### Ejercicio 3. La cuenta de tokens: monolito contra orquestador
 Con 8 candidatos de 4.000 tokens cada uno, system prompt y esquemas de 1.000 tokens, dictámenes de 50 tokens y un
 agente monolítico que lee las fichas una a una (11 pasos para 4 candidatos, 19 para 8), estima los tokens de entrada
 de cada diseño.
@@ -44,7 +44,7 @@ prefijo repetido en cada trabajador haría ganar al monolito.
 
 ---
 
-### Ejercicio 4 — Un trabajador que falla
+### Ejercicio 4. Un trabajador que falla
 Haz que `subagente_evaluador` lance una excepción para `CAND-03` una de cada dos veces. ¿Qué devuelve hoy el
 orquestador? Cámbialo para que reintente una vez y, si vuelve a fallar, marque al candidato como "no evaluado".
 

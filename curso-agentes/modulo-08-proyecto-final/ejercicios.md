@@ -2,7 +2,7 @@
 
 ---
 
-### Ejercicio 1 — Añadir un caso 7 a la suite de CI: rechazo sin aprobador humano
+### Ejercicio 1. Añadir un caso 7 a la suite de CI: rechazo sin aprobador humano
 En `code/02_suite_eval_agente.py`, añade un séptimo caso de prueba (`bloqueo_sin_firma_humana`) que instancie `AgenteReclutadorProduccion("VAC-101", aprobador_humano=None)` con `crear_modelo(agenda=True)` y compruebe que:
 1. La terna final sigue siendo exacta (`["CAND-01", "CAND-03"]`).
 2. `len(r["entrevistas_firmadas"]) == 0` (ninguna entrevista se agendó sin firma).
@@ -22,7 +22,7 @@ pruebas.append({
 
 ---
 
-### Ejercicio 2 — Correr toda la suite con un modelo real (`ModeloOpenAI`)
+### Ejercicio 2. Correr toda la suite con un modelo real (`ModeloOpenAI`)
 Define `OPENAI_API_KEY` en tu terminal y ejecuta `python modulo-08-proyecto-final/code/02_suite_eval_agente.py`. Compara los tokens de entrada y salida de `gpt-4.1-mini` en los casos 1 y 2 frente a los del modelo simulado, y luego fuerza el modo simulado para los tests adversariales (`AGENTE_SIMULADO=1`).
 
 <details>
@@ -41,7 +41,7 @@ python curso-agentes/modulo-08-proyecto-final/code/02_suite_eval_agente.py
 
 ---
 
-### Ejercicio 3 — Pausa real en lugar de firma configurada
+### Ejercicio 3. Pausa real en lugar de firma configurada
 Reemplaza `aprobador_humano` por la pausa del módulo 6: el agente se detiene antes de cada `agendar_entrevista`,
 guarda el estado y termina. Una función `resolver(ejecucion_id, decision)` lo reanuda. Ajusta la suite para que
 compruebe que sin decisión no se agenda nada.
@@ -57,7 +57,7 @@ debe haber una entrevista con el revisor registrado. Los pasos óptimos cambian:
 
 ---
 
-### Ejercicio 4 — Un caso nuevo desde un incidente
+### Ejercicio 4. Un caso nuevo desde un incidente
 Inventa un incidente: un candidato con `ultimo_contacto_dias = 90` exactos entra en la terna y la reclutadora dice que
 no debía. Conviértelo en un caso de la suite antes de tocar el código. ¿La regla actual lo deja pasar?
 

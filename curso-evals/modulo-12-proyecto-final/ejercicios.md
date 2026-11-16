@@ -18,13 +18,13 @@ Termina tu informe **antes** de abrir la solución.
 
 ---
 
-### Ejercicio 1 — El informe
+### Ejercicio 1. El informe
 Escribe el informe de una página del README (§4).
 
-### Ejercicio 2 — La suite
+### Ejercicio 2. La suite
 Convierte tus hallazgos en tests (Módulo 9): casos críticos que no pueden fallar nunca y un umbral por campo.
 
-### Ejercicio 3 — Un chequeo sin referencia
+### Ejercicio 3. Un chequeo sin referencia
 Escribe al menos un chequeo que, sin etiquetas, habría detectado en producción alguno de los fallos que encontraste.
 
 ---

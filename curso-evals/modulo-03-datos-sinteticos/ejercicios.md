@@ -5,26 +5,26 @@ valida y `04` evalúa sobre `salida/sinteticos_validos.jsonl`.
 
 ---
 
-### Ejercicio 1 — Una dimensión nueva
+### Ejercicio 1. Una dimensión nueva
 Añade a `DIMENSIONES` una dimensión que creas que puede romper el extractor (por ejemplo "fechas": `2018-2021` /
 `ene 2018 - mar 2021` / `03/2018 - 06/2021`). Haz que `hechos()` y las instrucciones de `02` la usen, y que `03` la
 valide. ¿Qué valor falla más?
 
-### Ejercicio 2 — Interacciones
+### Ejercicio 2. Interacciones
 El muestreo cubre cada valor, no cada combinación. Toma los dos valores que más fallaron con `nano` (rangos solapados y
 portugués) y genera 12 CVs que los combinen. ¿Falla más la combinación que cada valor por separado?
 
-### Ejercicio 3 — Otro generador
+### Ejercicio 3. Otro generador
 Genera los CVs con `gpt-4.1-mini` en vez de `gpt-6-luna` (pasa `modelo=` a `llm_trazado` en `generar()`). Valida y
 evalúa `gpt-6-luna` sobre ellos. ¿Sigue sacando 35/35? ¿Cambia la diversidad?
 
-### Ejercicio 4 — Una regla de código para valores absurdos
+### Ejercicio 4. Una regla de código para valores absurdos
 Algunos fallos fueron absurdos: 14 años para "14 meses", 15 años para dos trabajos entre 2011 y 2016. Escribe una
 comprobación en código que, a partir de los años que aparecen en el texto, marque como sospechoso un
 `anios_experiencia` imposible (más años que los que hay entre el primer y el último año mencionados, o más que hoy menos
 el primer año). ¿Cuántos fallos de `nano` habría atrapado?
 
-### Ejercicio 5 — ¿Cuántos sintéticos hacen falta?
+### Ejercicio 5. ¿Cuántos sintéticos hacen falta?
 Con `nano` v1, los rangos solapados fallaron 4 de 6. Calcula, con la regla del tres o con un intervalo, qué puedes decir
 de la tasa real de fallo en ese valor con 6 casos. ¿Cuántos casos necesitarías para distinguir "falla la mitad de las
 veces" de "falla 2 de cada 3"?

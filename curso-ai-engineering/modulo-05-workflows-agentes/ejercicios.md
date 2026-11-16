@@ -5,31 +5,31 @@ edita el archivo (o trabaja en una copia), ejecútalo y compara la salida.
 
 ---
 
-### Ejercicio 1 — Una puerta más
+### Ejercicio 1. Una puerta más
 En [`code/01_encadenamiento.py`](code/01_encadenamiento.py), añade a `puerta()` una comprobación de coherencia: si el
 CV dice "senior" pero `anios_experiencia < 3`, la cadena se detiene. Escribe un CV que la dispare. ¿Por qué esta
 comprobación va en código y no en otra llamada al modelo?
 
-### Ejercicio 2 — Romper la regla del enrutador
+### Ejercicio 2. Romper la regla del enrutador
 En [`code/02_enrutamiento.py`](code/02_enrutamiento.py) la regla "1-2 palabras → BM25" empató con el LLM. Añade al
 set tres consultas donde la regla se equivoque (por ejemplo, una sigla dentro de una frase larga: "busco a alguien
 con ISO 27001 y experiencia en banca"). Etiqueta los relevantes, vuelve a correr y compara de nuevo.
 
-### Ejercicio 3 — El costo de no paralelizar
+### Ejercicio 3. El costo de no paralelizar
 En [`code/03_paralelizacion.py`](code/03_paralelizacion.py), cambia `limite` a 1 y mide el tiempo de reloj. Luego haz
 que los tres jueces usen **el mismo** prompt. ¿Cambian los votos? ¿Qué le pasa a la utilidad del voto?
 
-### Ejercicio 4 — Rúbricas vagas
+### Ejercicio 4. Rúbricas vagas
 En [`code/04_evaluador_optimizador.py`](code/04_evaluador_optimizador.py), sustituye la rúbrica por un único criterio:
 "que sea un buen mensaje". ¿En cuántas vueltas aprueba? Después mueve el criterio "firma como 'Equipo de Talento,
 Acme'" a `chequeos_en_codigo()`. ¿Qué ganas?
 
-### Ejercicio 5 — Un pedido que exige dos búsquedas
+### Ejercicio 5. Un pedido que exige dos búsquedas
 Pídele al agente de [`code/05_agente_desde_cero.py`](code/05_agente_desde_cero.py): "Necesito una persona para
 seguridad de la información con ISO 27001 y otra para calidad con ISO 9001. ¿A quiénes entrevisto?". Lee la traza:
 ¿qué modo de búsqueda eligió y por qué? Luego baja `MAX_PASOS` a 2 y repite. ¿Qué devuelve?
 
-### Ejercicio 6 — El CV malicioso
+### Ejercicio 6. El CV malicioso
 Añade al corpus (en un script tuyo, sin tocar el Módulo 4) un CV con una instrucción para el sistema y vuelve a
 indexar:
 
@@ -45,22 +45,22 @@ Ejecuta el agente con el pedido original. **Primero confirma en la traza que el 
 aparece en una observación). Si no la leyó, la prueba no vale: no se resistió a nada. ¿Lo recomienda? Si lo hace,
 ¿qué defensa añadirías? Si no, ¿qué crees que lo protegió?
 
-### Ejercicio 7 — Estructurado vs. nativo
+### Ejercicio 7. Estructurado vs. nativo
 Corre los agentes de `05` y `06` con tres pedidos distintos y anota para cada uno: pasos, llamadas, segundos y si la
 recomendación es correcta. ¿Hay diferencias de calidad o solo de forma?
 
-### Ejercicio 8 — Proyecto: workflow contra agente
+### Ejercicio 8. Proyecto: workflow contra agente
 Para el pedido del laboratorio, escribe un **workflow** sin agente: enrutar la consulta → buscar (k=4) → evaluar los
 4 CVs en paralelo con `Encaje` de `03` → resumir a los dos mejores. Compáralo con el agente en 5 pedidos: llamadas,
 tiempo y calidad. ¿Cuándo elegirías cada uno?
 
-### Ejercicio 9 — Criterios evaluables
+### Ejercicio 9. Criterios evaluables
 En [`code/07_orquestador_trabajadores.py`](code/07_orquestador_trabajadores.py), el orquestador elige a veces criterios
 que los CVs no permiten evaluar y todos sacan 1/5. Cambia el prompt del orquestador para que solo proponga criterios
 "verificables con la información típica de un CV", y pásale una muestra de los CVs. ¿Desaparecen esos criterios? ¿Cambia
 el ranking?
 
-### Ejercicio 10 — Una tercera herramienta por MCP
+### Ejercicio 10. Una tercera herramienta por MCP
 En [`code/08_mcp_servidor.py`](code/08_mcp_servidor.py), añade `comparar_cvs(id_a, id_b)`, que devuelva los dos CVs
 uno debajo del otro. Corre [`code/09_mcp_cliente.py`](code/09_mcp_cliente.py) **sin modificarlo**. ¿Aparece la
 herramienta nueva en la lista? Después añade un `print("depurando")` al principio de `ver_cv` y vuelve a correr el

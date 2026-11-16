@@ -4,24 +4,24 @@ Intenta cada uno antes de ver la solución (al final, colapsadas). El 1 es el m�
 
 ---
 
-### Ejercicio 1 — Tu acuerdo con el autor
+### Ejercicio 1. Tu acuerdo con el autor
 Etiqueta los 30 perfiles en **Anotar (tu turno)**, sin mirar `m4_etiquetas_autor.py`. Corre `01`. ¿Cuál es tu kappa
 con el autor? ¿En qué perfiles difieren? Para cada desacuerdo, lee tu nota y la del autor: ¿es una frontera de la guía,
 un descuido de alguno de los dos o una diferencia de criterio legítima?
 
-### Ejercicio 2 — ¿Quién se parece más a quién?
+### Ejercicio 2. ¿Quién se parece más a quién?
 Con tus etiquetas, compara también tu acuerdo con el anotador LLM con guía v3 (adapta `comparar()` para que use tus
 etiquetas como referencia). ¿Estás más cerca del autor o del LLM? ¿Qué dice eso de la frontera "frases de orientación"?
 
-### Ejercicio 3 — Escribe la guía v5
+### Ejercicio 3. Escribe la guía v5
 A partir de tus desacuerdos con el autor (o, si no anotaste, de los del LLM con v3), escribe una aclaración más para la
 guía. Pruébala con el anotador LLM dos veces. ¿Sube el kappa? ¿Cambia el número de "no pasa"?
 
-### Ejercicio 4 — Kappa a mano
+### Ejercicio 4. Kappa a mano
 Dos anotadores etiquetan 20 perfiles. A dice "no pasa" en 4, B en 6, y coinciden en 3 de esos "no pasa". Calcula sin
 código el acuerdo observado, el acuerdo esperado por azar y el kappa.
 
-### Ejercicio 5 — Una escala del 1 al 5
+### Ejercicio 5. Una escala del 1 al 5
 Cambia el anotador LLM para que puntúe cada perfil del 1 al 5 en vez de sí o no, y córrelo dos veces. ¿Cuántos perfiles
 reciben la misma puntuación en las dos corridas? ¿Y si conviertes la escala en sí o no (4-5 = pasa)?
 

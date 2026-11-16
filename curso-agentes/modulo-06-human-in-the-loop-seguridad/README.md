@@ -115,8 +115,9 @@ puede devolver un esquema cerrado: años como entero, inglés de una lista, habi
 tiene herramientas trabaja sobre ese esquema y nunca ve el texto crudo. Es el patrón *Dual LLM* que propuso Simon
 Willison en 2023; CaMeL (Google DeepMind, 2025) lo lleva más lejos separando el flujo de control del flujo de datos.
 En el laboratorio, `extraer_hechos_cv` hace ese papel con código (copia los campos tipados y quita los bloques entre
-corchetes); en un sistema real sería una llamada al LLM sin herramientas con salida validada por esquema. Lo que
-protege no es la expresión regular sino que **la salida es un esquema cerrado** en el que no cabe una instrucción.
+corchetes); en un sistema real sería una llamada al LLM sin herramientas con salida validada por esquema. La
+protección viene de que **la salida es un esquema cerrado** en el que no cabe una instrucción; la expresión regular es un
+detalle.
 
 **2. Mínimo privilegio.** El agente de preselección no necesita emitir ofertas, así que `enviar_oferta` no está entre
 sus herramientas. Lo que no está en la lista no se puede llamar, y el controlador rechaza cualquier llamada a una
@@ -175,4 +176,4 @@ Todo esto puede sumar como capa de detección y monitoreo, pero ninguno reemplaz
 - [ ] Las invariantes de las acciones críticas se comprueban en código antes de ejecutar.
 - [ ] La suite de evaluación incluye casos de inyección (módulos 7 y 8).
 
-En el siguiente módulo medimos todo esto: no una corrida, sino la probabilidad de que salgan bien todas.
+En el siguiente módulo medimos todo esto con la probabilidad de que salgan bien todas las corridas de una tarea.

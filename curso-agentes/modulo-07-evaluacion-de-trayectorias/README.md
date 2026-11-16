@@ -1,7 +1,7 @@
 # Módulo 7 · Evaluar agentes: trayectorias, pass@k y pass^k
 
-> **Objetivo:** medir un agente como se usa en producción: no si una corrida salió bien, sino qué tan seguido salen
-> bien todas, y por el camino correcto.
+> **Objetivo:** medir un agente como se usa en producción, es decir, qué tan seguido salen bien todas las corridas de
+> una tarea y si llegan al resultado por el camino correcto.
 >
 > **Lo que te llevas:** métricas de resultado y de trayectoria, la diferencia entre `pass@k` y `pass^k` con sus
 > estimadores, y un experimento en el que un agente con `pass@5 = 0,94` tiene `pass^5 = 0`.

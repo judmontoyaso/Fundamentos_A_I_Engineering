@@ -4,23 +4,23 @@ Intenta cada uno antes de ver la solución (al final, colapsadas). Todos se hace
 
 ---
 
-### Ejercicio 1 — nDCG a mano
+### Ejercicio 1. nDCG a mano
 Una consulta tiene 2 CVs con relevancia 2 y 1 con relevancia 1. El buscador devuelve, en orden: un 1, un 0, un 2, un 2.
 Calcula el nDCG@4.
 
-### Ejercicio 2 — Ponderar la fusión
+### Ejercicio 2. Ponderar la fusión
 RRF trata igual a BM25 y a la densa. Cambia `ranking()` para que BM25 pese el doble (suma `2 / (60 + puesto)` para BM25).
 ¿Sube el total? ¿Qué pasa con las paráfrasis?
 
-### Ejercicio 3 — Otro embedder
+### Ejercicio 3. Otro embedder
 Cambia la variable de entorno `EMB_MODEL` por `intfloat/multilingual-e5-small` (y añade los prefijos `query: ` y
 `passage: ` en `as_buscador`) o usa el backend de OpenAI. Re-mide la línea base. ¿Qué tipos mejoran?
 
-### Ejercicio 4 — Tus propias consultas
+### Ejercicio 4. Tus propias consultas
 Añade a `as_consultas.py` cinco consultas como las escribiría un reclutador de tu empresa, con su función de relevancia.
 ¿En qué tipo caen? ¿Cómo les va con la línea base?
 
-### Ejercicio 5 — El promedio que miente
+### Ejercicio 5. El promedio que miente
 Con `linea_base.jsonl`, calcula la mediana de la diferencia de nDCG entre la híbrida y BM25, y no solo la media. ¿Qué
 signo tiene? ¿Qué te dice que la media y la mediana tengan signos distintos?
 

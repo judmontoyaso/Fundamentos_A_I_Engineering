@@ -114,8 +114,8 @@ cambio en tu código. Aparte, programa una corrida periódica con el modelo real
 <a name="5-falta"></a>
 ## 5. Qué falta para producción
 
-El proyecto enseña la arquitectura. Para ponerlo detrás de usuarios reales faltan piezas que no son de agentes sino de
-servicios:
+El proyecto enseña la arquitectura. Para ponerlo detrás de usuarios reales faltan piezas propias de cualquier servicio
+en producción:
 
 - **Persistencia**: checkpoints en Postgres o Redis por `ejecucion_id` (módulo 2), no en memoria.
 - **Pausa real para aprobación**, con una interfaz que muestre la propuesta como en el módulo 6, y expiración de las
