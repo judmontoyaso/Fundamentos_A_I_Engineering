@@ -69,6 +69,12 @@ export function supabase(url: string, claveServicio: string, esquema: string): S
       const r = await q<Filas>(db.from("progreso").select("item_id, hecho").eq("user_id", userId));
       return Object.fromEntries(r.map((x) => [x.item_id, x.hecho]));
     },
+    async fechaCompletado(userId, itemIds) {
+      if (!itemIds.length) return null;
+      const r = await q<Filas>(db.from("progreso").select("actualizado").eq("user_id", userId).eq("hecho", true)
+        .in("item_id", itemIds).order("actualizado", { ascending: false }).limit(1));
+      return r[0]?.actualizado ? new Date(r[0].actualizado).toISOString().slice(0, 10) : null;
+    },
     async marcar(userId, itemId, hecho) {
       await q(db.from("progreso").upsert({ user_id: userId, item_id: itemId, hecho, actualizado: new Date().toISOString() },
         { onConflict: "user_id,item_id" }));

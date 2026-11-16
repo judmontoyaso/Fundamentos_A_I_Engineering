@@ -2,8 +2,8 @@
 // Marco del lector: barra lateral con el temario, barra superior con el progreso, y el contenido.
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Monitor, Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Check, CircleHelp, Code, Download, Lock, Menu, Monitor, Moon, PenLine, Sun } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/Logo";
 import type { CursoNav, GrupoNav, Progreso } from "@/lib/tipos";
 
@@ -28,6 +28,22 @@ export function Shell({ cursos, inicios, cursoId, grupos, actual, progreso, abie
   const router = useRouter();
   const [lateral, setLateral] = useState(false);
   const [tema, setTema] = useState<Tema>("system");
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const avanceRef = useRef<HTMLDivElement>(null);
+
+  // Avance de lectura de la lección actual: se escribe directo en el estilo para no re-renderizar al hacer scroll.
+  useEffect(() => {
+    const el = scrollRef.current;
+    const barra = avanceRef.current;
+    if (!el || !barra) return;
+    const pintar = () => {
+      const total = el.scrollHeight - el.clientHeight;
+      barra.style.transform = `scaleX(${total > 0 ? Math.min(1, el.scrollTop / total) : 0})`;
+    };
+    pintar();
+    el.addEventListener("scroll", pintar, { passive: true });
+    return () => el.removeEventListener("scroll", pintar);
+  }, [actual]);
 
   useEffect(() => {
     try {
@@ -81,19 +97,23 @@ export function Shell({ cursos, inicios, cursoId, grupos, actual, progreso, abie
               <div className="nav-group" key={g.grupo}>
                 <span className="glabel">
                   <span>{g.grupo}</span>
-                  {email && <small className={gCompleto ? "g-ok" : ""}>{gCompleto ? "✓" : `${gHechos}/${g.items.length}`}</small>}
+                  {email && (
+                    <small className={gCompleto ? "g-ok" : ""} aria-label={`${gHechos} de ${g.items.length} completadas`}>
+                      {gCompleto ? <Check size={13} strokeWidth={3} aria-hidden /> : `${gHechos}/${g.items.length}`}
+                    </small>
+                  )}
                 </span>
                 {g.items.map((it) => (
                   <Link key={it.id} href={`/leer/${it.id}`} prefetch={false}
                         className={"nav-item" + (it.id === actual ? " active" : "") + (progreso[it.id] ? " done" : "")}
                         aria-current={it.id === actual ? "page" : undefined}>
-                    <span className="tick">✓</span>
+                    <span className="tick" aria-hidden><Check size={11} strokeWidth={3.2} /></span>
                     <span>{it.titulo}</span>
-                    {!abierto && !it.gratis ? <span className="kind lock" title="Incluido en los planes">🔒</span>
+                    {!abierto && !it.gratis ? <span className="kind lock" title="Incluido en los planes"><Lock size={13} aria-label="De pago" /></span>
                       : !abierto && it.gratis ? <span className="kind">gratis</span>
-                      : it.tipo === "quiz" ? <span className="kind">?</span>
-                      : it.tipo === "anotar" ? <span className="kind">✎</span>
-                      : it.tipo === "lab" ? <span className="kind">{"</>"}</span> : null}
+                      : it.tipo === "quiz" ? <span className="kind" title="Autoevaluación"><CircleHelp size={14} aria-hidden /></span>
+                      : it.tipo === "anotar" ? <span className="kind" title="Ejercicio de etiquetado"><PenLine size={14} aria-hidden /></span>
+                      : it.tipo === "lab" ? <span className="kind" title="Código"><Code size={14} aria-hidden /></span> : null}
                   </Link>
                 ))}
               </div>
@@ -103,7 +123,7 @@ export function Shell({ cursos, inicios, cursoId, grupos, actual, progreso, abie
             className="nav-item nav-zip"
             href={abierto ? `/descargar/${cursoId}` : `/descargar/${cursoId}?muestra=1`}
           >
-            <span className="tick">↓</span>
+            <span className="tick zip" aria-hidden><Download size={12} /></span>
             <span>{abierto ? "Descargar código completo (.zip)" : "Descargar muestra gratis (.zip)"}</span>
           </a>
         </nav>
@@ -111,11 +131,13 @@ export function Shell({ cursos, inicios, cursoId, grupos, actual, progreso, abie
 
       <main className="main">
         <header className="topbar">
-          <button className="menu-btn" onClick={() => setLateral(!lateral)} aria-label="Temario">☰</button>
+          <button className="menu-btn" onClick={() => setLateral(!lateral)} aria-label="Abrir el temario" aria-expanded={lateral}>
+            <Menu size={18} aria-hidden />
+          </button>
           <div className="progress-wrap">
             <div className="progress-top">
               <span>{titulo}</span>
-              {email ? <span><b>{pct} %</b> completado, {hechos} de {items.length}</span> : <span>Vista previa gratuita</span>}
+              {email ? <span><b>{pct} %</b><span className="solo-ancho"> completado, {hechos} de {items.length}</span></span> : <span>Vista previa gratuita</span>}
             </div>
             <div className="bar"><span style={{ width: `${email ? pct : 0}%` }} /></div>
           </div>
@@ -128,9 +150,10 @@ export function Shell({ cursos, inicios, cursoId, grupos, actual, progreso, abie
             {tema === "light" ? <Sun size={16} aria-hidden /> : tema === "dark" ? <Moon size={16} aria-hidden /> : <Monitor size={16} aria-hidden />}
           </button>
           {!abierto && <Link className="tbtn cta" href="/#planes">Ver planes</Link>}
-          {email ? <Link className="tbtn" href="/cuenta">Mi cuenta</Link> : <a className="tbtn" href={urlEntrar}>Entrar</a>}
+          {email ? <Link className="tbtn solo-ancho" href="/cuenta">Mi cuenta</Link> : <a className="tbtn solo-ancho" href={urlEntrar}>Entrar</a>}
+          <div className="avance-leccion" aria-hidden><div ref={avanceRef} /></div>
         </header>
-        <div className="scroll" key={actual}>
+        <div className="scroll" key={actual} ref={scrollRef}>
           <div className="reader">{children}</div>
         </div>
       </main>

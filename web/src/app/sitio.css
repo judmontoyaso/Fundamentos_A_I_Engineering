@@ -21,7 +21,7 @@ a { color: inherit; }
 .lightbox img { max-width: min(95vw, 82rem); max-height: 82vh; width: auto; height: auto; border-radius: 12px; border: 1px solid rgba(255, 255, 255, .16); box-shadow: 0 24px 60px rgba(0, 0, 0, .5); cursor: default; }
 .md pre { position: relative; margin: 1.3em 0; padding: .95rem 1rem; background: var(--code-bg); color: var(--code-fg); border: 1px solid var(--border); border-radius: 11px; overflow-x: auto; font-size: .82rem; line-height: 1.6; }
 .md pre code { font-size: inherit; background: none; border: 0; padding: 0; }
-.md pre .copiar { position: absolute; top: .45rem; right: .45rem; font: .68rem "IBM Plex Mono", monospace; background: rgba(255, 255, 255, .08); color: #cbd3e1; border: 1px solid rgba(255, 255, 255, .14); border-radius: 7px; padding: .25em .6em; cursor: pointer; opacity: 0; transition: opacity .15s; }
+.md pre .copiar { position: absolute; top: .45rem; right: .45rem; font: 500 .74rem "IBM Plex Sans", system-ui, sans-serif; background: rgba(255, 255, 255, .08); color: #cbd3e1; border: 1px solid rgba(255, 255, 255, .14); border-radius: 7px; padding: .25em .6em; cursor: pointer; opacity: 0; transition: opacity .15s; }
 .md pre:hover .copiar, .md pre .copiar:focus-visible { opacity: 1; }
 @media (hover: none) { .md pre .copiar { opacity: 1; } }
 .hljs-comment, .hljs-quote { color: #6f7b91; font-style: italic; }
@@ -35,7 +35,7 @@ a { color: inherit; }
 
 /* ---------- Muro de pago ---------- */
 .muro { margin: 8vh auto 0; max-width: 34rem; padding: 2rem; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; text-align: center; }
-.muro .candado { font-size: 1.6rem; }
+.muro .candado { display: inline-grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%; background: var(--accent-soft); color: var(--accent); }
 .muro h1 { font-size: 1.35rem; margin: .4rem 0 .3rem; text-wrap: balance; }
 .muro p { color: var(--muted); margin: .4rem 0 1.2rem; }
 .muro .acciones { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; }
@@ -242,74 +242,76 @@ a { color: inherit; }
 .auth-sep::before, .auth-sep::after { content: ""; flex: 1; height: 1px; background: var(--border); }
 
 /* ---------- Certificado verificable (/certificado/[codigo]) ---------- */
-.cert-bar { display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
-.cert-hoja {
-  position: relative;
-  background: radial-gradient(circle at 50% 0%, rgba(15, 95, 82, 0.07), transparent 62%),
-              radial-gradient(circle at 100% 100%, rgba(5, 150, 105, 0.07), transparent 55%),
-              var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 1.8rem;
-  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, .28);
-  /* Un diploma no se reacomoda: mide siempre 1120 px y CertEscala lo reduce entero en pantallas angostas. */
-  width: 1120px;
-  box-sizing: border-box;
-}
+/* La hoja es papel: mismos colores en modo claro y oscuro, y mismas medidas en cualquier pantalla. */
+.cert-estado { display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; justify-content: space-between; margin-bottom: 1.6rem; }
+.cert-estado-texto { max-width: 38rem; }
+.cert-veredicto { display: inline-flex; align-items: center; gap: .45rem; margin: 0 0 .25rem; font: 700 1.35rem "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -.02em; color: var(--ok); }
+.cert-veredicto.ejemplo { color: var(--accent); }
+.cert-resumen { margin: 0; color: var(--muted); }
+.cert-acciones { display: flex; flex-wrap: wrap; gap: .5rem; }
+.btn.con-icono { display: inline-flex; align-items: center; gap: .4rem; }
+
 .cert-escala { width: 100%; overflow: hidden; }
-.cert-hoja .cert-nombre { font-size: 3.1rem; }
-.cert-hoja .cert-curso { font-size: 1.9rem; }
-.cert-borde {
-  position: relative;
-  border: 2px solid var(--border);
-  outline: 1px solid rgba(15, 95, 82, 0.28);
-  outline-offset: -7px;
-  border-radius: 12px;
-  padding: 2.8rem;
-  display: grid;
-  gap: 1.9rem;
+.cert-hoja {
+  --papel: #fbfcfa; --tinta: #14201c; --verde: #0f5f52; --gris: #5d6b65; --filete: #c9d6cf;
+  width: 1120px; height: 792px; box-sizing: border-box; padding: 22px;
+  background: var(--papel); color: var(--tinta);
+  border-radius: 4px; box-shadow: 0 1px 2px rgba(20, 32, 28, .08), 0 28px 60px -30px rgba(20, 32, 28, .45);
 }
-.cert-esquina { position: absolute; width: 22px; height: 22px; border-color: var(--accent); border-style: solid; pointer-events: none; opacity: .75; }
-.cert-esquina.tl { top: 12px; left: 12px; border-width: 2px 0 0 2px; }
-.cert-esquina.tr { top: 12px; right: 12px; border-width: 2px 2px 0 0; }
-.cert-esquina.bl { bottom: 12px; left: 12px; border-width: 0 0 2px 2px; }
-.cert-esquina.br { bottom: 12px; right: 12px; border-width: 0 2px 2px 0; }
+.cert-marco {
+  height: 100%; box-sizing: border-box; padding: 40px 64px 36px;
+  border: 1.5px solid var(--verde); outline: 1px solid var(--filete); outline-offset: -9px;
+  display: grid; grid-template-rows: auto 1fr auto;
+}
+.cert-cabecera { display: flex; justify-content: space-between; align-items: flex-start; }
+.cert-marca { display: flex; align-items: center; gap: 14px; }
+.cert-marca b { display: block; font: 700 21px "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -.02em; color: var(--tinta); }
+.cert-marca span { font-size: 14px; color: var(--gris); }
+.cert-numero { margin: 0; text-align: right; font-size: 12.5px; color: var(--gris); display: grid; gap: 2px; }
+.cert-numero code { font-size: 13px; color: var(--tinta); font-weight: 600; }
 
-.cert-cabecera { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 1.25rem; }
-.cert-marca { display: flex; align-items: center; gap: .9rem; }
-.cert-inst { display: block; font: 600 .66rem "IBM Plex Mono", monospace; letter-spacing: .14em; color: var(--accent); margin-bottom: .1rem; }
-.cert-marca b { display: block; font-size: 1.18rem; letter-spacing: -.02em; }
-.cert-marca span { font-size: .8rem; color: var(--muted); }
-.cert-sello-box { display: flex; align-items: center; gap: .7rem; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: .55rem .85rem; }
-.cert-medalla { width: 38px; height: 38px; border-radius: 10px; background: rgba(5, 150, 105, 0.12); color: var(--ok); display: grid; place-items: center; }
-.cert-sello { text-align: left; font-family: "IBM Plex Mono", monospace; }
-.cert-sello span { display: block; font-size: .64rem; letter-spacing: .1em; color: var(--ok); font-weight: 700; }
-.cert-sello code { font-size: .82rem; font-weight: 600; color: var(--fg); }
+.cert-cuerpo { align-self: center; text-align: center; }
+.cert-tipo { margin: 0; font: 600 30px/1.1 "Newsreader", Georgia, serif; color: var(--verde); letter-spacing: -.01em; }
+.cert-otorgado, .cert-por { margin: 18px 0 6px; font: italic 400 18px "Newsreader", Georgia, serif; color: var(--gris); }
+.cert-hoja .cert-nombre { margin: 0 auto; font: 500 62px/1.08 "Newsreader", Georgia, serif; letter-spacing: -.015em; color: var(--tinta); max-width: 880px; padding-bottom: 14px; border-bottom: 1px solid var(--filete); display: inline-block; min-width: 520px; }
+.cert-hoja .cert-curso { margin: 0 auto; font: 700 31px/1.15 "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -.025em; color: var(--verde); max-width: 800px; text-wrap: balance; }
+.cert-detalle { margin: 12px 0 0; font-size: 15px; color: var(--gris); }
 
-.cert-cuerpo { text-align: center; max-width: 50rem; margin: 0 auto; }
-.cert-pre { text-transform: uppercase; letter-spacing: .14em; font: 500 .72rem "IBM Plex Mono", monospace; color: var(--muted); margin: 0 0 .5rem; }
-.cert-nombre { font-family: "Newsreader", Georgia, serif; font-size: clamp(2rem, 4.4vw, 3.1rem); font-weight: 600; letter-spacing: -.02em; margin: 0; line-height: 1.12; }
-.cert-divisor { width: 6rem; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); margin: .75rem auto .9rem; }
-.cert-texto { color: var(--muted); font-size: .96rem; margin: 0 auto .55rem; max-width: 56ch; line-height: 1.55; }
-.cert-curso { font-size: clamp(1.35rem, 2.6vw, 1.9rem); color: var(--accent); margin: .35rem 0 1.25rem; letter-spacing: -.02em; }
-.cert-temas { display: flex; flex-wrap: wrap; gap: .42rem; justify-content: center; }
-.cert-chip { font-size: .74rem; background: var(--bg); border: 1px solid var(--border); border-radius: 999px; padding: .28em .78em; }
-.cert-chip b { font-family: "IBM Plex Mono", monospace; color: var(--accent); margin-right: .25rem; }
+.cert-pie { display: grid; grid-template-columns: 1fr auto 1fr 1.25fr; gap: 32px; align-items: end; }
+.cert-firma, .cert-fecha { display: grid; gap: 6px; justify-items: start; }
+.cert-firma-trazo { font: italic 400 25px "Newsreader", Georgia, serif; color: var(--tinta); white-space: nowrap; }
+.cert-fecha-valor { font: 500 18px "Newsreader", Georgia, serif; color: var(--tinta); white-space: nowrap; }
+.cert-linea { width: 100%; min-width: 170px; height: 1px; background: var(--tinta); opacity: .55; }
+.cert-pie-etq { font-size: 12.5px; color: var(--gris); }
+.cert-sello { align-self: center; color: var(--verde); }
+.cert-sello svg { display: block; }
+.cert-verifica { display: flex; align-items: flex-end; gap: 12px; justify-self: end; }
+.cert-qr { width: 74px; height: 74px; flex: none; }
+.cert-qr svg { width: 100%; height: 100%; display: block; }
+.cert-verifica div { display: grid; gap: 3px; }
+.cert-verifica code { font-size: 11.5px; color: var(--tinta); white-space: nowrap; }
+.cert-verifica .cert-dominio { font-size: 11.5px; color: var(--gris); white-space: nowrap; }
 
-.cert-pie { display: grid; grid-template-columns: 1fr 1fr 1.25fr; gap: 1.2rem; align-items: end; border-top: 1px solid var(--border); padding-top: 1.35rem; font-size: .84rem; }
-.cert-etiqueta { display: block; font: 500 .66rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); margin-bottom: .18rem; }
-.cert-firma-trazo { font-family: "Newsreader", Georgia, serif; font-style: italic; font-size: 1.18rem; color: var(--fg); opacity: .9; padding-bottom: .25rem; }
-.cert-firma-linea { width: 12rem; height: 1px; background: var(--border); margin-bottom: .45rem; }
-.cert-qr-bloque { display: flex; align-items: center; gap: .75rem; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: .55rem .7rem; }
-.cert-qr-svg { width: 68px; height: 68px; border-radius: 8px; overflow: hidden; flex-shrink: 0; background: #fff; padding: 3px; border: 1px solid var(--border); }
-.cert-qr-svg svg { width: 100%; height: 100%; display: block; }
+.cert-info { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem 3.5rem; margin-top: 2.6rem; }
+.cert-info h2 { margin: 0 0 .7rem; font-size: 1.25rem; }
+.cert-info p { color: var(--muted); margin: 0 0 1rem; max-width: 52ch; }
+.cert-modulos { margin: 0; padding-left: 1.4rem; display: grid; gap: .35rem; }
+.cert-modulos li::marker { color: var(--accent); font-weight: 600; }
+@media (max-width: 760px) {
+  .cert-info { grid-template-columns: minmax(0, 1fr); }
+  .cert-acciones { width: 100%; }
+  .cert-acciones .btn { flex: 1 1 auto; justify-content: center; }
+}
 
 @media print {
   .sitio-top, .sitio-pie, .no-print { display: none !important; }
   .pagina.cert-wrap { max-width: 100%; padding: 0; margin: 0; }
-  .cert-hoja { box-shadow: none; border: none; padding: 0; zoom: 1 !important; width: 100%; }
+  /* 1120 x 792 px cabe exacto en una hoja A4 horizontal (297 x 210 mm) sin márgenes. */
+  .cert-hoja { box-shadow: none; border-radius: 0; zoom: 1 !important; }
   .cert-escala { height: auto !important; overflow: visible; }
-  @page { size: landscape; margin: 10mm; }
+  .cert-info, .toaster, [data-sonner-toaster] { display: none !important; }
+  html, body { background: #fff !important; }
+  @page { size: A4 landscape; margin: 0; }
 }
 
 

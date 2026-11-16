@@ -1,6 +1,7 @@
 // Página pública de verificación, descarga PDF en alta definición e impresión de certificado.
 import type { Metadata } from "next";
 import { NOMBRE_SITIO, urlSitioPublico } from "@/lib/sitio";
+import { BadgeCheck } from "lucide-react";
 import Link from "next/link";
 import QRCode from "qrcode";
 import { CertEscala } from "@/components/CertEscala";
@@ -8,7 +9,7 @@ import { ImprimirBtn } from "@/components/ImprimirBtn";
 import { Logo } from "@/components/Logo";
 import { Sitio } from "@/components/Sitio";
 import { verificarCertificado } from "@/lib/certificado";
-import { gruposDe } from "@/lib/contenido";
+import { gruposDe, itemsDe } from "@/lib/contenido";
 
 export async function generateMetadata({
   params,
@@ -22,7 +23,7 @@ export async function generateMetadata({
     ? "Ejemplo de certificado verificable"
     : "Certificado verificable de finalización";
   const descripcion =
-    "Comprobante público verificable de curso completado con proyectos prácticos, código descargable y autoevaluación en IA en Producción.";
+    "Página pública para comprobar un certificado de finalización de curso de IA en Producción.";
   return {
     title: titulo,
     description: descripcion,
@@ -43,6 +44,7 @@ export async function generateMetadata({
 }
 export const dynamic = "force-dynamic";
 
+const FIRMA = process.env.NEXT_PUBLIC_AUTOR?.trim() || NOMBRE_SITIO;
 const limpio = (g: string) => g.replace(/^Módulo\s+\d+\s*[·:\-–—]\s*/i, "");
 
 export default async function PaginaCertificado({ params }: { params: Promise<{ codigo: string }> }) {
@@ -54,10 +56,10 @@ export default async function PaginaCertificado({ params }: { params: Promise<{ 
       <Sitio>
         <div className="pagina">
           <div className="caja">
-            <h1>Certificado no válido</h1>
+            <h1>Este certificado no es válido</h1>
             <p className="muted">
-              No pudimos verificar este código de certificado o el curso aún no tiene todas sus lecciones y
-              autoevaluaciones completadas.
+              El código no corresponde a ningún certificado emitido, o la cuenta todavía no ha completado todas las
+              unidades y autoevaluaciones del curso. Revisa que el enlace esté completo.
             </p>
             <p style={{ marginTop: "1rem" }}>
               <Link className="btn primary" href="/">Ir al inicio</Link>
@@ -78,136 +80,141 @@ export default async function PaginaCertificado({ params }: { params: Promise<{ 
     .map((g) => limpio(g.grupo));
 
   const baseUrl = urlSitioPublico().replace(/\/+$/, "");
-  const urlPublica = `${baseUrl}/certificado/${encodeURIComponent(codigo)}`;
+  const ruta = `/certificado/${cert.esEjemplo ? "ejemplo" : cert.idVerificacion}`;
+  const urlPublica = `${baseUrl}${ruta}`;
   const qrSvg = await QRCode.toString(urlPublica, {
     type: "svg",
-    margin: 1,
+    margin: 0,
     width: 96,
-    color: { dark: "#0f172a", light: "#ffffff" },
+    color: { dark: "#14201c", light: "#00000000" },
   });
 
   const linkedinUrl = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(
     cert.cursoTitulo,
-  )}&organizationName=${encodeURIComponent("IA en Producción")}&certUrl=${encodeURIComponent(
-    urlPublica,
-  )}&certId=${encodeURIComponent(cert.idVerificacion)}`;
+  )}&organizationName=${encodeURIComponent(NOMBRE_SITIO)}&issueYear=${cert.fecha.slice(0, 4)}&issueMonth=${Number(
+    cert.fecha.slice(5, 7),
+  )}&certUrl=${encodeURIComponent(urlPublica)}&certId=${encodeURIComponent(cert.idVerificacion)}`;
 
   return (
     <Sitio>
       <div className="pagina ancha cert-wrap">
-        <div className="cert-bar no-print">
-          <div>
-            <span className="estado ok">
-              {cert.esEjemplo ? "vista previa de ejemplo" : "credencial verificada criptográficamente"}
-            </span>
-            <span className="aviso" style={{ marginLeft: ".6rem" }}>
-              ID: <code className="ref">{cert.idVerificacion}</code>
-            </span>
+        <section className="cert-estado no-print" aria-label="Resultado de la verificación">
+          <div className="cert-estado-texto">
+            <p className={cert.esEjemplo ? "cert-veredicto ejemplo" : "cert-veredicto"}>
+              <BadgeCheck size={20} aria-hidden />
+              {cert.esEjemplo ? "Certificado de ejemplo" : "Certificado válido"}
+            </p>
+            <p className="cert-resumen">
+              {cert.esEjemplo
+                ? "Así se ve el certificado que recibes al terminar un curso. Los reales llevan el nombre de quien lo completó y un código único."
+                : `${cert.nombre} completó el curso ${cert.cursoTitulo} de ${NOMBRE_SITIO} el ${fechaTexto}.`}
+            </p>
           </div>
-          <div style={{ display: "flex", gap: ".5rem", flexWrap: "wrap", alignItems: "center" }}>
-            <ImprimirBtn idCertificado={cert.idVerificacion} celebrar={!cert.esEjemplo} />
+          <div className="cert-acciones">
+            <ImprimirBtn idCertificado={cert.idVerificacion} celebrar={!cert.esEjemplo} url={urlPublica} />
             {!cert.esEjemplo && (
               <a className="btn" href={linkedinUrl} target="_blank" rel="noopener noreferrer">
                 Añadir a LinkedIn
               </a>
             )}
-            <Link className="btn" href="/cuenta">Mi cuenta</Link>
           </div>
-        </div>
+        </section>
 
         <CertEscala>
-        <article id="certificado-diploma" className="cert-hoja">
-          <div className="cert-borde">
-            <div className="cert-esquina tl" aria-hidden="true" />
-            <div className="cert-esquina tr" aria-hidden="true" />
-            <div className="cert-esquina bl" aria-hidden="true" />
-            <div className="cert-esquina br" aria-hidden="true" />
-
-            <header className="cert-cabecera">
-              <div className="cert-marca">
-                <Logo size={54} />
-                <div>
-                  <span className="cert-inst">ACADEMIA DE INGENIERÍA APLICADA</span>
-                  <b>IA en Producción</b>
-                  <span>Formación profesional en IA</span>
+          <article id="certificado-diploma" className="cert-hoja" aria-label={`Certificado de ${cert.nombre}`}>
+            <div className="cert-marco">
+              <header className="cert-cabecera">
+                <div className="cert-marca">
+                  <Logo size={46} />
+                  <div>
+                    <b>{NOMBRE_SITIO}</b>
+                    <span>Formación profesional en IA</span>
+                  </div>
                 </div>
+                <p className="cert-numero">
+                  Certificado n.º
+                  <code>{cert.idVerificacion}</code>
+                </p>
+              </header>
+
+              <div className="cert-cuerpo">
+                <p className="cert-tipo">Certificado de finalización</p>
+                <p className="cert-otorgado">otorgado a</p>
+                <h1 className="cert-nombre">{cert.nombre}</h1>
+                <p className="cert-por">por completar el curso</p>
+                <h2 className="cert-curso">{cert.cursoTitulo}</h2>
+                <p className="cert-detalle">
+                  {cert.modulos} módulos, {cert.lecciones} unidades de estudio y {cert.quizzes} autoevaluaciones aprobadas
+                </p>
               </div>
 
-              <div className="cert-sello-box">
-                <div className="cert-medalla" aria-hidden="true">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M12 2L14.8 4.5L18.5 4.2L19.6 7.8L22.5 10.2L21 13.7L22 17.3L18.5 18.8L16.5 22L12.8 21.2L9.2 22L7.2 18.8L3.7 17.3L4.7 13.7L3.2 10.2L6.1 7.8L7.2 4.2L10.9 4.5L12 2Z"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
-                    />
-                    <path d="M8.5 12.2L10.9 14.6L15.8 9.7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <footer className="cert-pie">
+                <div className="cert-firma">
+                  <span className="cert-firma-trazo">{FIRMA}</span>
+                  <span className="cert-linea" />
+                  <span className="cert-pie-etq">Dirección académica, {NOMBRE_SITIO}</span>
+                </div>
+
+                <div className="cert-sello" aria-hidden="true">
+                  <svg viewBox="0 0 120 120" width="112" height="112">
+                    <defs>
+                      <path id="cert-arco" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" />
+                    </defs>
+                    <circle cx="60" cy="60" r="57" fill="none" stroke="#0f5f52" strokeWidth="1.5" />
+                    <circle cx="60" cy="60" r="33" fill="none" stroke="#0f5f52" strokeWidth="1" />
+                    <text fontSize="9" fill="#0f5f52" fontFamily="IBM Plex Sans, sans-serif" fontWeight="600">
+                      <textPath href="#cert-arco" textLength="268" lengthAdjust="spacing">IA EN PRODUCCIÓN · CERTIFICADO VERIFICABLE ·</textPath>
+                    </text>
+                    <path d="M47 61 l9 9 l18 -19" fill="none" stroke="#0f5f52" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
-                <div className="cert-sello">
-                  <span>CREDENCIAL OFICIAL VERIFICADA</span>
-                  <code>{cert.idVerificacion}</code>
+
+                <div className="cert-fecha">
+                  <span className="cert-fecha-valor">{fechaTexto}</span>
+                  <span className="cert-linea" />
+                  <span className="cert-pie-etq">Fecha de expedición</span>
                 </div>
-              </div>
-            </header>
 
-            <div className="cert-cuerpo">
-              <p className="cert-pre">Por medio del presente diploma se certifica que</p>
-              <h1 className="cert-nombre">{cert.nombre}</h1>
-              <div className="cert-divisor" aria-hidden="true" />
-              <p className="cert-texto">
-                ha completado satisfactoriamente el <b>100 %</b> de los manuales de arquitectura, laboratorios de
-                código ejecutable y las <b>{cert.quizzes} evaluaciones técnicas</b> de los{" "}
-                <b>{cert.modulos} módulos</b> del programa:
-              </p>
-              <h2 className="cert-curso">{cert.cursoTitulo}</h2>
-
-              <div className="cert-temas">
-                {modulosLista.map((m, i) => (
-                  <span key={m} className="cert-chip">
-                    <b>{String(i + 1).padStart(2, "0")}</b> {m}
-                  </span>
-                ))}
-              </div>
+                <div className="cert-verifica">
+                  <div className="cert-qr" dangerouslySetInnerHTML={{ __html: qrSvg }} />
+                  <div>
+                    <span className="cert-pie-etq">Verifica este certificado en</span>
+                    <span className="cert-dominio">{baseUrl.replace(/^https?:\/\//, "")}/certificado/</span>
+                    <code>{cert.esEjemplo ? "ejemplo" : cert.idVerificacion}</code>
+                  </div>
+                </div>
+              </footer>
             </div>
-
-            <footer className="cert-pie">
-              <div className="cert-firma-bloque">
-                <div className="cert-firma-trazo">IA en Producción · Dirección Académica</div>
-                <div className="cert-firma-linea" />
-                <span className="cert-etiqueta">Dirección Académica e Ingeniería</span>
-                <b>Comité Técnico · IA en Producción</b>
-              </div>
-
-              <div className="cert-meta-bloque">
-                <div>
-                  <span className="cert-etiqueta">Fecha de emisión</span>
-                  <b>{fechaTexto}</b>
-                </div>
-                <div style={{ marginTop: ".65rem" }}>
-                  <span className="cert-etiqueta">Rigor académico</span>
-                  <b>{cert.lecciones} unidades · {cert.quizzes} exámenes aprobados (100 %)</b>
-                </div>
-              </div>
-
-              <div className="cert-qr-bloque">
-                <div
-                  className="cert-qr-svg"
-                  dangerouslySetInnerHTML={{ __html: qrSvg }}
-                  title="Escanea para verificar autenticidad"
-                />
-                <div>
-                  <span className="cert-etiqueta">Verificación criptográfica (HMAC)</span>
-                  <b style={{ display: "block", fontSize: ".8rem" }}>Escanea el QR o visita:</b>
-                  <code className="ref" style={{ fontSize: ".72rem" }}>
-                    {`${baseUrl.replace(/^https?:\/\//, "")}/certificado/${cert.esEjemplo ? "ejemplo" : cert.idVerificacion}`}
-                  </code>
-                </div>
-              </div>
-            </footer>
-          </div>
-        </article>
+          </article>
         </CertEscala>
+
+        <section className="cert-info">
+          <div>
+            <h2>Qué cubre este curso</h2>
+            <ol className="cert-modulos">
+              {modulosLista.map((m) => (
+                <li key={m}>{m}</li>
+              ))}
+            </ol>
+          </div>
+          <div>
+            <h2>Cómo se comprueba</h2>
+            <p>
+              Esta página se genera en el momento a partir del progreso real de la cuenta en {NOMBRE_SITIO}. Si la
+              cuenta no hubiera completado todas las unidades y autoevaluaciones del curso, aquí aparecería que el
+              certificado no es válido.
+            </p>
+            <p>
+              El código <code>{cert.idVerificacion}</code> identifica a esta persona y este curso, y no se puede generar
+              sin acceso al servidor.
+            </p>
+            {cert.esEjemplo ? (
+              <Link className="btn primary" href="/#planes">Ver planes</Link>
+            ) : (
+              <Link className="btn" href={`/leer/${itemsDe(cert.cursoId)[0]?.id ?? ""}`}>Ver el curso</Link>
+            )}
+          </div>
+        </section>
       </div>
     </Sitio>
   );

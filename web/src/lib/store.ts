@@ -21,6 +21,8 @@ export interface Store {
   usuariosRecientes(n: number): Promise<UsuarioRegistrado[]>;
   eliminarUsuario(id: string): Promise<void>;
   progreso(userId: string): Promise<Progreso>;
+  /** Fecha (YYYY-MM-DD) de la última unidad marcada entre `itemIds`, o null si el almacén no la guarda. */
+  fechaCompletado(userId: string, itemIds: string[]): Promise<string | null>;
   marcar(userId: string, itemId: string, hecho: boolean): Promise<void>;
   etiquetas(userId: string, nbId: string): Promise<Etiquetas>;
   etiquetar(userId: string, nbId: string, itemId: string, label: boolean, nota: string): Promise<void>;
@@ -97,6 +99,12 @@ function pg(url: string): Store {
       await ok();
       const r = await sql`select item_id, hecho from progreso where user_id = ${userId}`;
       return Object.fromEntries(r.map((x) => [x.item_id, x.hecho]));
+    },
+    async fechaCompletado(userId, itemIds) {
+      await ok();
+      if (!itemIds.length) return null;
+      const r = await sql`select max(actualizado) as f from progreso where user_id = ${userId} and hecho and item_id in ${sql(itemIds)}`;
+      return r[0]?.f ? new Date(r[0].f).toISOString().slice(0, 10) : null;
     },
     async marcar(userId, itemId, hecho) {
       await ok();
@@ -243,6 +251,7 @@ function archivo(ruta: string): Store {
         .map((a) => ({ ...a, email: d.usuarios[a.userId]?.email ?? null }));
     },
     async progreso(userId) { return leer().progreso[userId] ?? {}; },
+    async fechaCompletado() { return null; },
     async marcar(userId, itemId, hecho) { mutar((d) => { (d.progreso[userId] ??= {})[itemId] = hecho; }); },
     async etiquetas(userId, nbId) { return leer().etiquetas[`${userId}::${nbId}`] ?? {}; },
     async etiquetar(userId, nbId, itemId, label, nota) { mutar((d) => { (d.etiquetas[`${userId}::${nbId}`] ??= {})[itemId] = { label, nota }; }); },

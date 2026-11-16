@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { Sitio } from "@/components/Sitio";
 import { cubre, vigente } from "@/lib/acceso";
 import { esAdmin, getUsuario, sesionCorreo, urlEntrar, urlSalir } from "@/lib/auth";
-import { cursoCompletado, emitirCodigoCertificado } from "@/lib/certificado";
+import { cursoCompletado, idCertificado } from "@/lib/certificado";
 import { curso, cursos, itemsDe } from "@/lib/contenido";
 import { correoActivo } from "@/lib/correo";
 import { PLANES } from "@/lib/planes";
@@ -84,7 +84,7 @@ export default async function Cuenta({ searchParams }: Props) {
           const abierto = admin || activos.some((a) => cubre(a, c.id));
           const sigue = lecciones.find((i) => !progreso[i.id] && (abierto || i.gratis)) ?? lecciones[0];
           const completo = cursoCompletado(c.id, progreso);
-          const certCodigo = completo ? emitirCodigoCertificado(usuario, c.id) : null;
+          const certCodigo = completo ? idCertificado(usuario.id, c.id) : null;
           return (
             <div className="caja cuenta-curso" key={c.id}>
               <div className="fila">

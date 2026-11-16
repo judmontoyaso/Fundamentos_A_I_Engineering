@@ -63,6 +63,9 @@ export async function verificarCertificado(codigo: string): Promise<{
       fecha: new Date().toISOString().slice(0, 10),
     };
   }
+  if (codigo.toUpperCase().startsWith("IAP-")) {
+    try { return await verificarIdCorto(codigo); } catch { return null; }
+  }
   const partes = codigo.split(".");
   if (partes.length !== 2) return null;
   const [payload, firma] = partes;
@@ -88,19 +91,46 @@ export async function verificarCertificado(codigo: string): Promise<{
   const progreso = await store.progreso(datos.u);
   if (!cursoCompletado(datos.c, progreso)) return null;
 
-  const items = itemsDe(datos.c);
-  const quizzes = items.filter((i) => i.tipo === "quiz").length;
-  const hashCorto = createHmac("sha256", secretoServidor()).update(`${datos.u}:${datos.c}`).digest("hex").slice(0, 10).toUpperCase();
+  return armar(datos.u, datos.c, datos.n, datos.f);
+}
 
+/** Identificador corto y estable de un certificado: IAP-<CURSO>-<10 hex>. Es el que va en el QR y en el PDF. */
+export function idCertificado(userId: string, cursoId: string): string {
+  const hash = createHmac("sha256", secretoServidor()).update(`${userId}:${cursoId}`).digest("hex").slice(0, 10).toUpperCase();
+  return `IAP-${cursoId.toUpperCase()}-${hash}`;
+}
+
+async function armar(userId: string, cursoId: string, nombre: string, fechaRespaldo: string) {
+  const infoCurso = curso(cursoId)!;
+  const items = itemsDe(cursoId);
+  // La fecha es la de la última unidad completada, así el certificado no cambia cada día que se abre.
+  const fecha = (await store.fechaCompletado(userId, items.map((i) => i.id)).catch(() => null)) ?? fechaRespaldo;
   return {
     valido: true,
-    idVerificacion: `IAP-${datos.c.toUpperCase()}-${hashCorto}`,
-    nombre: datos.n,
-    cursoId: datos.c,
+    idVerificacion: idCertificado(userId, cursoId),
+    nombre,
+    cursoId,
     cursoTitulo: infoCurso.titulo,
     modulos: infoCurso.modulos,
     lecciones: items.length,
-    quizzes,
-    fecha: datos.f,
+    quizzes: items.filter((i) => i.tipo === "quiz").length,
+    fecha,
   };
+}
+
+/** Resuelve un identificador corto buscando la cuenta cuyo HMAC coincide (comparación en tiempo constante). */
+async function verificarIdCorto(codigo: string) {
+  const m = /^IAP-([A-Z0-9-]+)-([0-9A-F]{10})$/.exec(codigo.toUpperCase());
+  if (!m) return null;
+  const cursoId = m[1].toLowerCase();
+  if (!curso(cursoId)) return null;
+  const buscado = Buffer.from(`IAP-${m[1]}-${m[2]}`);
+  for (const u of await store.usuariosRecientes(10000)) {
+    if (u.unidadesHechas === 0) continue;
+    const propio = Buffer.from(idCertificado(u.id, cursoId));
+    if (propio.length !== buscado.length || !timingSafeEqual(propio, buscado)) continue;
+    if (!cursoCompletado(cursoId, await store.progreso(u.id))) return null;
+    return armar(u.id, cursoId, u.nombre?.trim() || u.email.split("@")[0], new Date().toISOString().slice(0, 10));
+  }
+  return null;
 }

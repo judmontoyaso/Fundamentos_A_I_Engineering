@@ -9,6 +9,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
+import markedKatex from "marked-katex-extension";
 import hljs from "highlight.js";
 
 const WEB = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -85,6 +86,8 @@ function destino(href, prefijo) {
 function crearMarked(prefijo) {
   const m = new Marked(markedHighlight({ langPrefix: "hljs language-", highlight: resaltar }));
   m.setOptions({ gfm: true, breaks: false });
+  // Fórmulas $...$ y $$...$$ a HTML con KaTeX en tiempo de compilación (sin JavaScript en el navegador).
+  m.use(markedKatex({ throwOnError: false, output: "html", nonStandard: true }));
   m.use({
     renderer: {
       heading(text, level, raw) {

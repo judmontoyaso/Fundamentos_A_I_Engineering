@@ -1,5 +1,7 @@
 // El lector. Decide en el servidor si esta persona puede ver la lección; si no, el contenido ni se envía.
 import type { Metadata } from "next";
+import "katex/dist/katex.min.css";
+import { Lock } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Anotar } from "@/components/Anotar";
@@ -76,14 +78,16 @@ export default async function Leer({ params }: Props) {
   if (!permitido) {
     cuerpo = (
       <div className="muro">
-        <div className="candado" aria-hidden>🔒</div>
+        <div className="candado" aria-hidden><Lock size={22} /></div>
         <h1>{grupoActual && grupoActual !== "Inicio" ? grupoActual : it.titulo}</h1>
         <p>
-          Esta lección forma parte del contenido de pago.{" "}
-          {usuario ? "Tu cuenta todavía no tiene un plan que incluya este curso." : "Elige un plan o entra con tu cuenta si ya lo compraste."}
+          {usuario
+            ? `Esta lección es parte de ${cActual?.titulo ?? "este curso"}, y tu cuenta todavía no tiene un plan que lo incluya.`
+            : `Esta lección es parte de ${cActual?.titulo ?? "este curso"}. Elige un plan, o entra con tu cuenta si ya lo compraste.`}
         </p>
         <div className="acciones">
-          <Link className="btn primary" href="/#planes">Ver planes</Link>
+          <Link className="btn primary" href={`/comprar?plan=curso&curso=${it.curso}`}>Comprar este curso</Link>
+          <Link className="btn" href="/#planes">Ver todos los planes</Link>
           {!usuario && <a className="btn" href={entrar}>Ya tengo cuenta</a>}
           <Link className="btn" href={`/leer/${inicios[it.curso]}`}>Leer la muestra gratis</Link>
         </div>
