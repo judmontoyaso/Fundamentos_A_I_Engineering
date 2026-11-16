@@ -219,7 +219,11 @@ a { color: inherit; }
 .fila { display: flex; flex-wrap: wrap; gap: .6rem 1rem; align-items: center; justify-content: space-between; }
 .estado { font-size: .74rem; font-weight: 600; padding: .15em .6em; border-radius: 6px; border: 1px solid currentColor; }
 .estado.ok { color: var(--ok); } .estado.no { color: var(--err); } .estado.pend { color: var(--warn); }
-.form { display: grid; gap: .8rem; }
+.form { display: grid; gap: .8rem; grid-template-columns: minmax(0, 1fr); }
+.form select, .form input, .caja select { max-width: 100%; min-width: 0; }
+.caja .fila > div { min-width: 0; }
+.caja.fila .btn { white-space: normal; }
+@media (max-width: 520px) { .caja.fila > .btn, .caja.fila > button { width: 100%; text-align: center; } }
 .form label { display: grid; gap: .3rem; font-size: .82rem; color: var(--muted); }
 .form input, .form select { font: inherit; font-size: .95rem; color: var(--fg); background: var(--bg); border: 1px solid var(--border); border-radius: 9px; padding: .55rem .7rem; }
 .form .btn { justify-self: start; }

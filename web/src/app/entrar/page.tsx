@@ -52,7 +52,7 @@ export default async function Entrar({ searchParams }: Props) {
           <p className="aviso" style={{ marginBottom: "1.1rem" }}>
             {esRecuperar
               ? "Te enviaremos un enlace temporal para asignar una contraseña nueva a tu cuenta."
-              : `Guarda tu progreso en los ${cursos.length} cursos del catálogo, tus autoevaluaciones y tus certificados verificables.`}
+              : "Con tu cuenta guardamos tu avance en los cursos, las autoevaluaciones que apruebes y tus certificados."}
           </p>
 
           {sp.error && (

@@ -26,7 +26,7 @@ export default function Inicio() {
   const faqs = [
     {
       q: "¿Qué necesito saber antes de empezar?",
-      a: "Que programes en Python con cierta soltura y que hayas consumido alguna API. No hace falta que hayas trabajado antes con modelos de lenguaje ni con machine learning, porque eso se aprende en el primer curso.",
+      a: "Basta con que programes en Python con soltura y hayas trabajado alguna vez con una API. No necesitas experiencia previa con modelos de lenguaje ni con machine learning, porque los conceptos que hacen falta se explican desde el primer curso.",
     },
     {
       q: `¿En qué orden conviene hacer los ${lista.length} cursos?`,
@@ -131,10 +131,11 @@ export default function Inicio() {
           <div className="hero-texto">
             <h1>Aprende a construir sistemas con LLMs que funcionen fuera del notebook</h1>
             <p className="lead">
-              Son cuatro cursos en español que siguen un mismo proyecto de principio a fin, un buscador de candidatos
-              para procesos de selección. Lo vas armando en Python desde tu propio computador y, a medida que avanzas,
-              aprendes a evaluarlo, a mejorar lo que encuentra y a convertirlo en un agente que puedes dejar
-              trabajando con tranquilidad.
+              Lograr que un modelo de lenguaje responda bien en una demo es relativamente sencillo. Lo difícil empieza
+              cuando ese sistema tiene usuarios, datos reales y un presupuesto que cuidar. En estos cuatro cursos
+              recorremos ese camino con un mismo proyecto, un buscador de candidatos para procesos de selección, que
+              construyes en Python, evalúas con métricas, mejoras por partes y terminas convirtiendo en un agente en
+              el que se puede confiar.
             </p>
             <div className="acciones">
               <Link className="btn primary grande" href={`/leer/${primero}`}>
@@ -145,9 +146,9 @@ export default function Inicio() {
               </Link>
             </div>
             <p className="hero-nota">
-              El primer módulo de cada curso se puede leer gratis, sin tarjeta. En total hay {modulos} módulos y{" "}
-              {quizzes} autoevaluaciones, y al terminar cada curso recibes un certificado que se puede verificar en
-              línea.
+              Puedes empezar hoy con el primer módulo de cualquier curso, que es gratuito y no pide tarjeta. Entre los
+              cuatro cursos hay {modulos} módulos y {quizzes} autoevaluaciones, y cada curso que terminas te da un
+              certificado que se puede verificar en línea.
             </p>
           </div>
           <Traza />
@@ -159,26 +160,27 @@ export default function Inicio() {
           <div className="cabecera-seccion">
             <h2>Qué trae cada módulo</h2>
             <p>
-              Todos los módulos siguen el mismo recorrido. Primero lees el manual, después corres el código, luego
-              resuelves los ejercicios y al final respondes una autoevaluación corta para comprobar que entendiste.
+              Cada módulo está organizado como una clase. Primero viene el manual, que explica la técnica y cuándo
+              tiene sentido usarla; después el código, para que lo ejecutes y lo modifiques; luego los ejercicios, y al
+              final una autoevaluación corta que te muestra si el tema quedó claro.
             </p>
           </div>
           <ol className="pasos-modulo">
             <li>
               <h3>Manual</h3>
-              <p>Explica qué problema resuelve cada técnica, cuánto cuesta en tiempo y en dinero, y en qué casos conviene dejarla de lado. Viene con diagramas.</p>
+              <p>La explicación de cada técnica con diagramas, lo que cuesta en tiempo de respuesta y en dinero, y los casos en los que es mejor no usarla. Es la parte que vale la pena leer con calma.</p>
             </li>
             <li>
               <h3>Código</h3>
-              <p>Los scripts completos en Python. Puedes leerlos en la página o descargarlos y correrlos en tu computador con tu propia API key.</p>
+              <p>Los scripts completos en Python, comentados. Los puedes leer en la página o descargarlos y correrlos en tu computador con tu propia API key, que es como mejor se aprende.</p>
             </li>
             <li>
               <h3>Ejercicios</h3>
-              <p>Te piden modificar el sistema y medir qué cambió. Cada uno trae la solución explicada para que la compares con la tuya.</p>
+              <p>Problemas parecidos a los que aparecen en un proyecto real. Cambias algo del sistema, mides el efecto y luego comparas tu trabajo con la solución explicada.</p>
             </li>
             <li>
               <h3>Autoevaluación</h3>
-              <p>Unas cinco preguntas que se corrigen en el momento y explican la respuesta. Cuando las apruebas, el módulo queda terminado.</p>
+              <p>Cinco preguntas que plantean decisiones como las que tomarías en el trabajo. Cada respuesta se corrige en el momento con su explicación, y al aprobar el módulo queda terminado.</p>
             </li>
           </ol>
         </div>
@@ -189,8 +191,9 @@ export default function Inicio() {
           <div className="cabecera-seccion">
             <h2>Los cursos</h2>
             <p>
-              Los cuatro trabajan sobre el mismo sistema de reclutamiento, así que lo que construyes en uno te sirve en
-              el siguiente. Si ya tienes experiencia, también puedes comprar solo el que te interese.
+              Conviene tomarlos en orden, porque los cuatro trabajan sobre el mismo sistema de reclutamiento y cada uno
+              parte de lo que construiste en el anterior. Si ya tienes experiencia con alguno de estos temas, puedes
+              comprar solo el curso que necesitas.
             </p>
           </div>
           <ol className="ruta">
