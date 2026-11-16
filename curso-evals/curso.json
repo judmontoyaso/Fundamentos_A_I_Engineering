@@ -1,7 +1,9 @@
 {
   "orden": 2,
-  "etapa": "Etapa 2 · Medir con rigor",
-  "descripcion": "¿Cómo sabes, con evidencia, si un cambio mejoró o empeoró tu sistema? Análisis de errores, etiquetado, datos sintéticos, LLM como juez calibrado y evals en CI.",
+  "etapa": "Etapa 2 · Medir si funciona",
+  "descripcion": "Aprendes a saber, con datos, si un cambio mejoró tu sistema o lo empeoró. Revisas errores a mano, armas conjuntos de prueba, calibras un modelo que actúa como juez y dejas todo corriendo como una prueba automática en cada cambio de código.",
   "infografia": "/infografias/evals-arquitectura.svg",
-  "dependencias": ["ai-engineering"]
+  "dependencias": [
+    "ai-engineering"
+  ]
 }

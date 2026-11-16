@@ -1,7 +1,10 @@
 {
   "orden": 3,
-  "etapa": "Etapa 3 · Optimizar la recuperación",
-  "descripcion": "¿Qué está fallando en tu RAG y qué cambio lo arregla? Cada módulo mide primero (Recall@k, MRR, NDCG), prueba una técnica y verifica si los números se mueven.",
+  "etapa": "Etapa 3 · Mejorar la búsqueda",
+  "descripcion": "Cuando un RAG responde mal, muchas veces es porque trajo los documentos equivocados. En este curso mides la recuperación con métricas como Recall@k y NDCG, pruebas una técnica distinta en cada módulo y te quedas con las que de verdad mejoran los resultados.",
   "infografia": "/infografias/ai-search-arquitectura.svg",
-  "dependencias": ["ai-engineering", "evals"]
+  "dependencias": [
+    "ai-engineering",
+    "evals"
+  ]
 }

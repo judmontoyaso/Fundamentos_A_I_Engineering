@@ -1,7 +1,7 @@
 {
   "orden": 4,
-  "etapa": "Etapa 4 · Orquestar agentes en producción",
-  "descripcion": "¿Cómo construyes un agente que opera sobre sistemas reales sin salirse de presupuesto ni corromper datos? Contratos poka-yoke, máquinas de estado, checkpoints, MCP, subagentes, aprobación humana y evaluación pass^k.",
+  "etapa": "Etapa 4 · Convertirlo en un agente",
+  "descripcion": "Conviertes el buscador en un agente que consulta el sistema de reclutamiento por su cuenta, sin pasarse del presupuesto ni dañar datos. Ves diseño de herramientas, estado y puntos de recuperación, MCP, aprobación humana y la forma de medir que el agente acierte una y otra vez.",
   "infografia": "/infografias/agentes-arquitectura.png",
   "dependencias": []
 }

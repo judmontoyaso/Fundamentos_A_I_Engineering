@@ -162,7 +162,7 @@ export default async function PaginaCertificado({ params }: { params: Promise<{ 
                     </defs>
                     <circle cx="60" cy="60" r="57" fill="none" stroke="#0f5f52" strokeWidth="1.5" />
                     <circle cx="60" cy="60" r="33" fill="none" stroke="#0f5f52" strokeWidth="1" />
-                    <text fontSize="9" fill="#0f5f52" fontFamily="IBM Plex Sans, sans-serif" fontWeight="600">
+                    <text fontSize="9" fill="#0f5f52" fontFamily="Roboto, sans-serif" fontWeight="600">
                       <textPath href="#cert-arco" textLength="268" lengthAdjust="spacing">IA EN PRODUCCIÓN · CERTIFICADO VERIFICABLE ·</textPath>
                     </text>
                     <path d="M47 61 l9 9 l18 -19" fill="none" stroke="#0f5f52" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />

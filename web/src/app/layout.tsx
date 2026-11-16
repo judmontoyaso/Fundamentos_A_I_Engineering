@@ -8,7 +8,7 @@ import "./sitio.css";
 const BASE = urlSitioPublico();
 const MODULOS = cursos.reduce((n, c) => n + c.modulos, 0);
 const DESCRIPCION =
-  `${cursos.length} cursos técnicos en español (${MODULOS} módulos) para llevar LLMs del notebook a producción: AI Engineering, Evals, AI Search (RAG) y Agentes con código Python descargable y certificado verificable.`;
+  `Cursos de ingeniería de IA en español para construir, evaluar y llevar a producción sistemas con modelos de lenguaje. ${cursos.length} cursos y ${MODULOS} módulos con código en Python y certificado verificable.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE),
@@ -68,7 +68,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Roboto+Mono:wght@400;500&display=swap"
         />
         <script dangerouslySetInnerHTML={{ __html: TEMA }} />
       </head>

@@ -56,11 +56,12 @@ export default async function Comprar({ searchParams }: Props) {
               <input
                 type="text"
                 name="cupon"
+                className="cupon-input"
                 defaultValue={codigoRaw}
                 placeholder="Código del cupón"
                 aria-label="Código del cupón"
                 style={{
-                  font: "500 .92rem 'IBM Plex Sans', system-ui, sans-serif",
+                  font: "500 .92rem 'Roboto', system-ui, sans-serif",
                   letterSpacing: ".04em",
                   textTransform: "uppercase",
                   padding: ".48rem .7rem",
@@ -98,8 +99,16 @@ export default async function Comprar({ searchParams }: Props) {
           <div className="caja">
             <div className="fila">
               <div>
-                <b>Plan {plan.nombre.toLowerCase()}</b>
-                <div className="aviso">{plan.resumen}. Pago único, no se renueva solo.</div>
+                <b>
+                  {plan.id === "curso"
+                    ? elegido ? `Curso: ${elegido.titulo}` : "Un curso a tu elección"
+                    : plan.id === "mensual" ? "Todos los cursos por 30 días" : "Todos los cursos por un año"}
+                </b>
+                <div className="aviso">
+                  {plan.id === "curso"
+                    ? "Pagas una sola vez y el curso queda en tu cuenta sin fecha de vencimiento."
+                    : `${plan.resumen}. Pagas una sola vez y no se renueva automáticamente.`}
+                </div>
                 {plan.usdAntes && (
                   <div className="aviso" style={{ color: "var(--ok)" }}>
                     Promoción de lanzamiento: antes {plan.usdAntes} USD, ahora {plan.usd} USD.

@@ -14,22 +14,22 @@ export const PLANES: Record<PlanId, Plan> = {
     nombre: "Mensual",
     usd: 10,
     dias: 30,
-    resumen: "Acceso a todo el catálogo actual y nuevos cursos durante 30 días",
+    resumen: "Acceso a todos los cursos durante 30 días",
   },
   anual: {
     id: "anual",
     nombre: "Anual",
     usd: 100,
     dias: 365,
-    resumen: "Acceso a todo el catálogo actual y nuevos cursos durante un año",
+    resumen: "Acceso a todos los cursos, incluidos los que salgan, durante un año",
   },
   curso: {
     id: "curso",
-    nombre: "Un curso",
+    nombre: "Curso individual",
     usd: 30,
     usdAntes: 40, // promoción de lanzamiento
     dias: null,
-    resumen: "Un curso a tu elección, para siempre",
+    resumen: "Un curso, sin fecha de vencimiento",
   },
 };
 

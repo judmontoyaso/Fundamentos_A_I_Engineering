@@ -8,20 +8,20 @@ a { color: inherit; }
 .btn { text-decoration: none; display: inline-block; cursor: pointer; }
 .btn.grande { font-size: 1rem; padding: .75em 1.3em; border-radius: 11px; }
 .aviso { font-size: .78rem; color: var(--muted); }
-.ref { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .9em; }
+.ref { font-family: "Roboto Mono", ui-monospace, monospace; font-size: .9em; }
 
 /* ---------- Código e infografías ---------- */
 .md figure.infografia { margin: 1.5rem 0; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 10px 28px -18px rgba(0, 0, 0, .22); }
 .md figure.infografia img, .md img { display: block; width: 100%; height: auto; border-radius: 12px; }
 .md figure.infografia img { border-radius: 0; cursor: zoom-in; transition: transform .2s ease; }
-.md figure.infografia figcaption { padding: .65rem 1rem; font: 500 .78rem "IBM Plex Mono", monospace; color: var(--muted); border-top: 1px solid var(--border); text-align: center; }
+.md figure.infografia figcaption { padding: .65rem 1rem; font: 500 .78rem "Roboto Mono", monospace; color: var(--muted); border-top: 1px solid var(--border); text-align: center; }
 
 .lightbox { position: fixed; inset: 0; z-index: 100; background: rgba(8, 12, 20, .88); backdrop-filter: blur(6px); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.2rem; cursor: zoom-out; }
 .lightbox-bar { width: 100%; max-width: 82rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: .8rem; color: #e2e8f0; font-size: .88rem; }
 .lightbox img { max-width: min(95vw, 82rem); max-height: 82vh; width: auto; height: auto; border-radius: 12px; border: 1px solid rgba(255, 255, 255, .16); box-shadow: 0 24px 60px rgba(0, 0, 0, .5); cursor: default; }
 .md pre { position: relative; margin: 1.3em 0; padding: .95rem 1rem; background: var(--code-bg); color: var(--code-fg); border: 1px solid var(--border); border-radius: 11px; overflow-x: auto; font-size: .82rem; line-height: 1.6; }
 .md pre code { font-size: inherit; background: none; border: 0; padding: 0; }
-.md pre .copiar { position: absolute; top: .45rem; right: .45rem; font: 500 .74rem "IBM Plex Sans", system-ui, sans-serif; background: rgba(255, 255, 255, .08); color: #cbd3e1; border: 1px solid rgba(255, 255, 255, .14); border-radius: 7px; padding: .25em .6em; cursor: pointer; opacity: 0; transition: opacity .15s; }
+.md pre .copiar { position: absolute; top: .45rem; right: .45rem; font: 500 .74rem "Roboto", system-ui, sans-serif; background: rgba(255, 255, 255, .08); color: #cbd3e1; border: 1px solid rgba(255, 255, 255, .14); border-radius: 7px; padding: .25em .6em; cursor: pointer; opacity: 0; transition: opacity .15s; }
 .md pre:hover .copiar, .md pre .copiar:focus-visible { opacity: 1; }
 @media (hover: none) { .md pre .copiar { opacity: 1; } }
 .hljs-comment, .hljs-quote { color: #6f7b91; font-style: italic; }
@@ -43,7 +43,7 @@ a { color: inherit; }
 /* ---------- Página de venta ---------- */
 .sitio { min-height: 100%; display: flex; flex-direction: column; }
 .sitio-top { display: flex; align-items: center; gap: .75rem; padding: .8rem max(16px, 4vw); border-bottom: 1px solid var(--border); background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: saturate(1.4) blur(10px); position: sticky; top: 0; z-index: 10; }
-.sitio-top .marca { display: flex; align-items: center; gap: .6rem; font: 700 1.02rem "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -.01em; text-decoration: none; margin-right: auto; }
+.sitio-top .marca { display: flex; align-items: center; gap: .6rem; font: 700 1.02rem "Roboto", system-ui, sans-serif; letter-spacing: -.01em; text-decoration: none; margin-right: auto; }
 .sitio-top nav { display: flex; gap: 1.4rem; font-size: .92rem; margin-right: .4rem; }
 .sitio-top nav a { text-decoration: none; color: var(--muted); }
 .sitio-top nav a:hover { color: var(--fg); }
@@ -69,8 +69,8 @@ a { color: inherit; }
 /* Portada: el texto a la izquierda, la traza a la derecha. */
 .hero { padding: clamp(2.5rem, 7vw, 5.5rem) 0 clamp(2.5rem, 6vw, 4.5rem); }
 .hero-grid { display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; grid-template-columns: minmax(0, 1fr) minmax(0, 1.02fr); }
-.hero h1 { font-size: clamp(2.3rem, 5.4vw, 4rem); font-weight: 700; line-height: 1.02; letter-spacing: -.035em; margin: 0 0 1.2rem; max-width: 14ch; text-wrap: balance; }
-.hero p.lead { font-size: clamp(1.02rem, 1.5vw, 1.17rem); color: var(--muted); max-width: 46ch; margin: 0 0 1.8rem; }
+.hero h1 { font-size: clamp(2.1rem, 4.4vw, 3.3rem); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; margin: 0 0 1.2rem; max-width: 20ch; text-wrap: balance; }
+.hero p.lead { font-size: clamp(1.02rem, 1.5vw, 1.15rem); line-height: 1.65; color: var(--muted); max-width: 52ch; margin: 0 0 1.8rem; }
 .hero .acciones { display: flex; flex-wrap: wrap; gap: .7rem; }
 .hero-nota { margin: 1.6rem 0 0; font-size: .88rem; color: var(--muted); max-width: 44ch; }
 
@@ -80,7 +80,7 @@ a { color: inherit; }
 .traza-pasos { list-style: none; margin: .55rem 0 0; padding: 0; display: grid; }
 .traza-pasos li { display: grid; grid-template-columns: 2.6rem minmax(0, 1fr); column-gap: .6rem; padding: .48rem .2rem; border-bottom: 1px dashed rgba(255, 255, 255, .07); }
 .traza-pasos li:last-child { border-bottom: 0; }
-.traza .t-n { grid-row: span 2; color: #6f8a80; font: 500 .74rem "IBM Plex Mono", monospace; padding-top: .14rem; }
+.traza .t-n { grid-row: span 2; color: #6f8a80; font: 500 .74rem "Roboto Mono", monospace; padding-top: .14rem; }
 .traza code { font-size: .8rem; color: #e9f1ed; overflow-wrap: anywhere; }
 .traza .t-r { display: flex; align-items: center; gap: .35rem; color: #9fb4ab; font-size: .8rem; }
 .traza .t-ok .t-r { color: #6fd8a8; }
@@ -88,7 +88,7 @@ a { color: inherit; }
 .traza-medidor { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .5rem; margin: .7rem 0 0; padding: .8rem .2rem 0; border-top: 1px solid rgba(255, 255, 255, .09); }
 .traza-medidor div { min-width: 0; }
 .traza-medidor dt { font-size: .72rem; color: #8fa59c; }
-.traza-medidor dd { margin: 0; font: 600 1rem "Bricolage Grotesque", system-ui, sans-serif; color: #f2f7f4; white-space: nowrap; }
+.traza-medidor dd { margin: 0; font: 600 1rem "Roboto", system-ui, sans-serif; color: #f2f7f4; white-space: nowrap; }
 .traza-medidor .t-ok dd { color: #6fd8a8; }
 
 /* Secciones */
@@ -102,7 +102,7 @@ a { color: inherit; }
 .pasos-modulo { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); counter-reset: paso; }
 .pasos-modulo li { counter-increment: paso; padding: 1.4rem 1.4rem 0 0; border-top: 2px solid var(--fg); position: relative; }
 .pasos-modulo li + li { padding-left: 1.4rem; border-left: 1px solid var(--border); }
-.pasos-modulo li::before { content: counter(paso); display: block; font: 700 2.4rem/1 "Bricolage Grotesque", system-ui, sans-serif; color: var(--accent); margin-bottom: .8rem; }
+.pasos-modulo li::before { content: counter(paso); display: block; font: 700 2.4rem/1 "Roboto", system-ui, sans-serif; color: var(--accent); margin-bottom: .8rem; }
 .pasos-modulo h3 { margin: 0 0 .4rem; font-size: 1.15rem; }
 .pasos-modulo p { margin: 0; color: var(--muted); font-size: .93rem; }
 
@@ -110,7 +110,7 @@ a { color: inherit; }
 .ruta { list-style: none; margin: 0; padding: 0; display: grid; }
 .ruta-curso { display: grid; grid-template-columns: 3.4rem minmax(0, 1fr) minmax(0, .85fr); gap: 1.2rem 2.2rem; padding: 2.2rem 0; border-top: 1px solid var(--border); align-items: start; }
 .ruta-curso:last-child { border-bottom: 1px solid var(--border); }
-.ruta-marca { font: 700 3rem/1 "Bricolage Grotesque", system-ui, sans-serif; color: var(--accent); letter-spacing: -.04em; }
+.ruta-marca { font: 700 3rem/1 "Roboto", system-ui, sans-serif; color: var(--accent); letter-spacing: -.04em; }
 .ruta-etapa { margin: 0 0 .2rem; color: var(--accent); font-weight: 600; font-size: .9rem; }
 .ruta-cuerpo h3 { margin: 0 0 .55rem; font-size: clamp(1.3rem, 2.2vw, 1.65rem); line-height: 1.15; letter-spacing: -.02em; }
 .ruta-desc { margin: 0 0 1rem; color: var(--muted); max-width: 58ch; }
@@ -135,7 +135,7 @@ a { color: inherit; }
 .cert-mini:hover { transform: rotate(0); }
 .cert-mini-sello { margin-bottom: .4rem; }
 .cert-mini-pre, .cert-mini-texto { font-size: .8rem; color: var(--muted); }
-.cert-mini-nombre { font: 600 1.6rem "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -.02em; }
+.cert-mini-nombre { font: 600 1.6rem "Roboto", system-ui, sans-serif; letter-spacing: -.02em; }
 .cert-mini-curso { font-size: .98rem; color: var(--accent); max-width: 26ch; }
 .cert-mini-codigo { margin-top: .6rem; font-size: .72rem; color: var(--muted); }
 
@@ -143,9 +143,9 @@ a { color: inherit; }
 .planes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; align-items: stretch; }
 .plan { display: flex; flex-direction: column; gap: .7rem; padding: 1.6rem 1.5rem; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); }
 .plan h3 { margin: 0; font-size: 1.15rem; }
-.plan .precio { margin: 0; font: 700 2.9rem/1 "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -.04em; }
-.plan .precio span { font: 400 .9rem "IBM Plex Sans", system-ui, sans-serif; letter-spacing: 0; color: var(--muted); }
-.plan .precio .tachado { display: block; margin: .35rem 0 0; font: 400 .88rem "IBM Plex Sans", system-ui, sans-serif; letter-spacing: 0; color: var(--muted); }
+.plan .precio { margin: 0; font: 700 2.9rem/1 "Roboto", system-ui, sans-serif; letter-spacing: -.04em; }
+.plan .precio span { font: 400 .9rem "Roboto", system-ui, sans-serif; letter-spacing: 0; color: var(--muted); }
+.plan .precio .tachado { display: block; margin: .35rem 0 0; font: 400 .88rem "Roboto", system-ui, sans-serif; letter-spacing: 0; color: var(--muted); }
 .plan ul { margin: .2rem 0 .6rem; padding: 0; list-style: none; display: grid; gap: .45rem; font-size: .92rem; }
 .plan ul li { padding-left: 1.3rem; position: relative; }
 .plan ul li::before { content: ""; position: absolute; left: 0; top: .55em; width: .55rem; height: .3rem; border-left: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(-45deg); }
@@ -245,7 +245,7 @@ a { color: inherit; }
 /* La hoja es papel: mismos colores en modo claro y oscuro, y mismas medidas en cualquier pantalla. */
 .cert-estado { display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; justify-content: space-between; margin-bottom: 1.6rem; }
 .cert-estado-texto { max-width: 38rem; }
-.cert-veredicto { display: inline-flex; align-items: center; gap: .45rem; margin: 0 0 .25rem; font: 700 1.35rem "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -.02em; color: var(--ok); }
+.cert-veredicto { display: inline-flex; align-items: center; gap: .45rem; margin: 0 0 .25rem; font: 700 1.35rem "Roboto", system-ui, sans-serif; letter-spacing: -.02em; color: var(--ok); }
 .cert-veredicto.ejemplo { color: var(--accent); }
 .cert-resumen { margin: 0; color: var(--muted); }
 .cert-acciones { display: flex; flex-wrap: wrap; gap: .5rem; }
@@ -265,22 +265,22 @@ a { color: inherit; }
 }
 .cert-cabecera { display: flex; justify-content: space-between; align-items: flex-start; }
 .cert-marca { display: flex; align-items: center; gap: 14px; }
-.cert-marca b { display: block; font: 700 21px "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -.02em; color: var(--tinta); }
+.cert-marca b { display: block; font: 700 21px "Roboto", system-ui, sans-serif; letter-spacing: -.02em; color: var(--tinta); }
 .cert-marca span { font-size: 14px; color: var(--gris); }
 .cert-numero { margin: 0; text-align: right; font-size: 12.5px; color: var(--gris); display: grid; gap: 2px; }
 .cert-numero code { font-size: 13px; color: var(--tinta); font-weight: 600; }
 
 .cert-cuerpo { align-self: center; text-align: center; }
-.cert-tipo { margin: 0; font: 600 30px/1.1 "Newsreader", Georgia, serif; color: var(--verde); letter-spacing: -.01em; }
-.cert-otorgado, .cert-por { margin: 18px 0 6px; font: italic 400 18px "Newsreader", Georgia, serif; color: var(--gris); }
-.cert-hoja .cert-nombre { margin: 0 auto; font: 500 62px/1.08 "Newsreader", Georgia, serif; letter-spacing: -.015em; color: var(--tinta); max-width: 880px; padding-bottom: 14px; border-bottom: 1px solid var(--filete); display: inline-block; min-width: 520px; }
-.cert-hoja .cert-curso { margin: 0 auto; font: 700 31px/1.15 "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -.025em; color: var(--verde); max-width: 800px; text-wrap: balance; }
+.cert-tipo { margin: 0; font: 500 28px/1.1 "Roboto", system-ui, sans-serif; color: var(--verde); letter-spacing: -.01em; }
+.cert-otorgado, .cert-por { margin: 18px 0 6px; font: italic 300 18px "Roboto", system-ui, sans-serif; color: var(--gris); }
+.cert-hoja .cert-nombre { margin: 0 auto; font: 300 60px/1.1 "Roboto", system-ui, sans-serif; letter-spacing: -.02em; color: var(--tinta); max-width: 880px; padding-bottom: 14px; border-bottom: 1px solid var(--filete); display: inline-block; min-width: 520px; }
+.cert-hoja .cert-curso { margin: 0 auto; font: 700 31px/1.15 "Roboto", system-ui, sans-serif; letter-spacing: -.025em; color: var(--verde); max-width: 800px; text-wrap: balance; }
 .cert-detalle { margin: 12px 0 0; font-size: 15px; color: var(--gris); }
 
 .cert-pie { display: grid; grid-template-columns: 1fr auto 1fr 1.25fr; gap: 32px; align-items: end; }
 .cert-firma, .cert-fecha { display: grid; gap: 6px; justify-items: start; }
-.cert-firma-trazo { font: italic 400 25px "Newsreader", Georgia, serif; color: var(--tinta); white-space: nowrap; }
-.cert-fecha-valor { font: 500 18px "Newsreader", Georgia, serif; color: var(--tinta); white-space: nowrap; }
+.cert-firma-trazo { font: italic 300 24px "Roboto", system-ui, sans-serif; color: var(--tinta); white-space: nowrap; }
+.cert-fecha-valor { font: 500 18px "Roboto", system-ui, sans-serif; color: var(--tinta); white-space: nowrap; }
 .cert-linea { width: 100%; min-width: 170px; height: 1px; background: var(--tinta); opacity: .55; }
 .cert-pie-etq { font-size: 12.5px; color: var(--gris); }
 .cert-sello { align-self: center; color: var(--verde); }
@@ -407,3 +407,4 @@ a { color: inherit; }
 .num { font-size: .84rem; font-weight: 600; color: var(--accent); }
 .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 :root .planes .plan-destacado a.btn.primary { background: var(--bg); border-color: var(--bg); color: var(--fg); }
+.cupon-input::placeholder { text-transform: none; letter-spacing: 0; }

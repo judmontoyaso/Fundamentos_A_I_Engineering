@@ -174,7 +174,7 @@ export default async function Admin() {
                   name="codigo"
                   placeholder="Ej. BECAMES100"
                   required
-                  style={{ textTransform: "uppercase", fontFamily: "'IBM Plex Mono', monospace" }}
+                  style={{ textTransform: "uppercase", fontFamily: "'Roboto Mono', monospace" }}
                 />
               </label>
               <label>
