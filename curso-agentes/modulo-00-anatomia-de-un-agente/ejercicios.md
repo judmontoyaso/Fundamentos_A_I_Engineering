@@ -39,3 +39,50 @@ resultado = correr_con_presupuesto(crear_modelo(), "VAC-101", presupuesto_caro)
 
 Con `$10 / 1M` de entrada, apenas la suma acumulada de `tokens_entrada` supera los `5.000` tokens (alrededor del **paso 5**), `costo_usd` rebasa `$0.05` y `registrar()` corta la corrida con `motivo_corte="max_costo_usd=0.05"`.
 </details>
+
+---
+
+### Ejercicio 3 — Calibrar el presupuesto con datos
+Corre `bucle_agente` sobre las dos vacantes con el modelo normal y con `errata=True`. Anota pasos y tokens de cada
+corrida. ¿Qué `max_pasos` y `max_tokens` pondrías para que ninguna corrida sana se corte y un bucle se corte pronto?
+
+<details>
+<summary>Ver solución</summary>
+
+Las corridas sanas usan 7 a 12 pasos y hasta unos 17.000 tokens de entrada (la de errata, un paso más). Un límite de
+16 pasos y 30.000 tokens deja margen a las sanas y corta un bucle en pocas vueltas. Con un conjunto real de tareas, el
+criterio es el mismo: por encima del percentil 99 de las ejecuciones buenas. Revisa el límite cuando cambies de modelo
+o añadas herramientas, porque la distribución cambia.
+</details>
+
+---
+
+### Ejercicio 4 — Workflow con un LLM dentro
+Imagina que los CVs llegan en texto libre y hay que extraer años, inglés y habilidades. Diseña la solución en el nivel
+más bajo de la escalera que funcione. ¿Cuántas llamadas al modelo hace por vacante?
+
+<details>
+<summary>Ver solución</summary>
+
+Nivel 1 dentro de un workflow (nivel 2): una llamada de extracción estructurada por CV (texto → esquema validado con
+Pydantic, como en el curso de AI Engineering) y después `motivos_bloqueo` en código. Son N llamadas para N CVs, sin
+decisiones de flujo para el modelo, paralelizables y cacheables (un CV no cambia entre vacantes). Un agente solo se
+justifica si además hay que decidir qué fuentes consultar según lo que se encuentre.
+</details>
+
+---
+
+### Ejercicio 5 — Detector de llamadas repetidas
+Añade al bucle de `02_presupuesto_y_frenos.py` un detector: si el modelo repite una llamada idéntica (misma herramienta
+y mismos argumentos) a otra que ya tuvo éxito, no la ejecutes y devuélvele un error que lo diga. Si lo hace 3 veces
+seguidas, corta. Pruébalo con `terco=True`.
+
+<details>
+<summary>Ver solución</summary>
+
+Guarda en un conjunto las huellas `clave_idempotencia(nombre, argumentos)` de las llamadas exitosas. Antes de ejecutar,
+si la huella está, responde `{"ok": false, "codigo": "LLAMADA_DUPLICADA", "error": "Ya hiciste esta llamada; usa ese
+resultado o cambia los argumentos."}` y suma uno a un contador de repeticiones seguidas (que vuelve a 0 con cualquier
+llamada nueva). Con el modelo terco, la ejecución se corta por bucle en el paso 4, antes que el freno de `max_pasos`,
+y el motivo queda claro en el reporte.
+</details>

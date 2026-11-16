@@ -2,7 +2,11 @@
 // PAGOS_MONEDA y PRECIO_* (las pasarelas locales cobran en moneda local).
 import type { PlanId } from "./tipos";
 
-export type Plan = { id: PlanId; nombre: string; usd: number; dias: number | null; resumen: string };
+export type Plan = {
+  id: PlanId; nombre: string; usd: number; dias: number | null; resumen: string;
+  /** Precio anterior en USD cuando el plan está en promoción (se muestra tachado). */
+  usdAntes?: number;
+};
 
 export const PLANES: Record<PlanId, Plan> = {
   mensual: {
@@ -22,7 +26,8 @@ export const PLANES: Record<PlanId, Plan> = {
   curso: {
     id: "curso",
     nombre: "Un curso",
-    usd: 40,
+    usd: 30,
+    usdAntes: 40, // promoción de lanzamiento
     dias: null,
     resumen: "Un curso a tu elección, para siempre",
   },

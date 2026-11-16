@@ -22,3 +22,36 @@ Modifica una copia local de `buscar_candidatos` para que acepte un parámetro op
 
 Con `max_aspiracion_usd=8000` y `solo_remoto=False` entran 5 candidatos (`CAND-01`, `CAND-03`, `CAND-04`, `CAND-06`, `CAND-07`). Al activar `solo_remoto=True`, queda excluida `CAND-06` (*Daniela Pardo*, que tiene `remoto: False`), devolviendo 4 candidatos.
 </details>
+
+---
+
+### Ejercicio 3 — Modo estricto del proveedor
+Activa el modo estricto de OpenAI en los esquemas (`"strict": true` dentro de `function`). ¿Qué tienes que cambiar en
+los esquemas del ATS para que la API los acepte? ¿Qué validaciones sigues necesitando en tu código?
+
+<details>
+<summary>Ver solución</summary>
+
+En modo estricto todas las propiedades deben estar en `required` y cada objeto debe tener `additionalProperties:
+false`; los parámetros opcionales se expresan como unión con `null`. Algunas palabras clave de JSON Schema no están
+soportadas en ese modo; revisa la documentación vigente. Aunque los argumentos lleguen con la forma correcta, sigues
+validando en código lo que el schema no sabe: que la habilidad esté en el catálogo, que el candidato exista, que la
+vacante esté abierta.
+</details>
+
+---
+
+### Ejercicio 4 — Paginación en la búsqueda
+`buscar_candidatos` devuelve todos los resultados. Con 300 candidatos sería un volcado. Añade `limite` (por defecto 5,
+máximo 15) y `pagina`, y devuelve `total`, `mostrando` y `hay_mas`. ¿Cómo debería decidir el modelo si pide otra
+página o afina los filtros?
+
+<details>
+<summary>Ver solución</summary>
+
+Ordena los resultados de forma estable (por ejemplo, por cobertura de requisitos y luego aspiración) y corta con
+`limite` y `pagina`. En la descripción de la herramienta di: "si `total` es mayor que 15, afina los filtros en lugar de
+paginar". Así la observación nunca pasa de un tamaño conocido y el modelo recibe la señal para refinar. Ojo con la
+interacción con el módulo 2: la guarda que exige verificar "a todos los encontrados" debe referirse a los mostrados, o
+a todos los de la búsqueda si se paginan todos.
+</details>

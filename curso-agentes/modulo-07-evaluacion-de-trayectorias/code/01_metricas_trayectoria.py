@@ -73,7 +73,10 @@ def evaluar_corrida(corrida: dict, pasos_optimos: int) -> dict:
         "f1_terna": round(f1, 3),
         "pasos_reales": len(pasos),
         "pasos_optimos": pasos_optimos,
-        "eficiencia_trayectoria": round(pasos_optimos / max(len(pasos), 1), 3),
+        # Menos pasos que el óptimo no es "más eficiente": significa que se saltó trabajo obligatorio.
+        # Por eso la eficiencia se acota a 1 y el atajo se reporta aparte.
+        "eficiencia_trayectoria": round(min(1.0, pasos_optimos / max(len(pasos), 1)), 3),
+        "pasos_saltados": max(0, pasos_optimos - len(pasos)),
         "errores_herramienta": fallos_herramienta,
         "recuperado_de_errores": fallos_herramienta > 0 and (obtenida == esperada),
         "violaciones_politica_sin_verificar": sin_verificar,

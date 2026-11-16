@@ -98,6 +98,11 @@ export default async function Comprar({ searchParams }: Props) {
               <div>
                 <b>Plan {plan.nombre.toLowerCase()}</b>
                 <div className="aviso">{plan.resumen}. Pago único · no se renueva solo.</div>
+                {plan.usdAntes && (
+                  <div className="aviso" style={{ color: "var(--ok)" }}>
+                    Promoción de lanzamiento: antes {plan.usdAntes} USD, ahora {plan.usd} USD.
+                  </div>
+                )}
               </div>
               <div style={{ textAlign: "right" }}>
                 {descuentoPct > 0 && montoBase !== null && (

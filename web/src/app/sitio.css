@@ -87,6 +87,7 @@ a { color: inherit; }
 .temario li::before { content: attr(data-n); font-family: "IBM Plex Mono", monospace; font-size: .74rem; color: var(--muted); min-width: 1.4rem; padding-top: .12rem; }
 .tarjeta .pie { margin-top: auto; padding-top: .9rem; display: flex; flex-wrap: wrap; gap: .5rem; }
 .plan .precio { font: 600 2.2rem "IBM Plex Mono", monospace; letter-spacing: -.03em; line-height: 1.1; }
+.tachado { opacity: .55; font-weight: 400; margin-right: .2em; }
 .plan .precio small { font-size: .85rem; font-weight: 400; color: var(--muted); letter-spacing: 0; }
 .plan.destacado { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
 .plan ul { margin: .3rem 0 0; padding-left: 1.1rem; font-size: .9rem; color: var(--muted); display: grid; gap: .25rem; }

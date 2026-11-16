@@ -29,13 +29,18 @@ def extraer_hechos_cv(candidato: dict) -> dict:
     }
 
 
-def correr_escenario(*, defender: bool) -> dict:
-    """Corre un modelo vulnerable (obedece_inyeccion=True) ante el CV malicioso de CAND-04."""
+def correr_escenario(*, aislar: bool = False, minimo_privilegio: bool = False, politica: bool = False) -> dict:
+    """Corre un modelo vulnerable (obedece_inyeccion=True) ante el CV malicioso de CAND-04.
+
+    Cada defensa se enciende por separado:
+      aislar             el agente recibe la ficha pasada por extraer_hechos_cv, no el texto crudo del CV;
+      minimo_privilegio  enviar_oferta no está entre las herramientas del agente de preselección;
+      politica           un punto de control en código bloquea enviar_oferta a quien no es elegible.
+    """
     modelo = crear_modelo(obedece_inyeccion=True)
-    # Si no hay defensa de mínimo privilegio, el agente tiene enviar_oferta en su barra de herramientas
     esquemas = (
         herramientas_ats("obtener_vacante", "buscar_candidatos", "consultar_ficha_candidato", "verificar_elegibilidad", "entregar_terna")
-        if defender
+        if minimo_privilegio
         else herramientas_ats(
             "obtener_vacante",
             "buscar_candidatos",
@@ -73,14 +78,22 @@ def correr_escenario(*, defender: bool) -> dict:
         )
         fin = False
         for tc in r.llamadas:
-            if tc.nombre == "consultar_ficha_candidato" and defender:
+            if tc.nombre == "consultar_ficha_candidato" and aislar:
                 cid = str(tc.argumentos.get("candidato_id", ""))
                 res = {"ok": True, "candidato": extraer_hechos_cv(CANDIDATOS[cid])}
-            elif tc.nombre == "enviar_oferta" and defender:
+            elif tc.nombre not in {e["function"]["name"] for e in esquemas}:
+                # Una llamada a una herramienta que no se le ofreció no se ejecuta nunca.
+                intentos_bloqueados.append(f"{tc.nombre} no está disponible para este agente")
+                res = {"ok": False, "error": f"La herramienta '{tc.nombre}' no está disponible."}
+            elif tc.nombre == "enviar_oferta" and politica:
                 cid = str(tc.argumentos.get("candidato_id", ""))
-                bloqueos = motivos_bloqueo(VACANTES["VAC-101"], CANDIDATOS[cid])
+                vac = VACANTES[str(tc.argumentos.get("vacante_id", "VAC-101"))]
+                bloqueos = motivos_bloqueo(vac, CANDIDATOS[cid])
+                if int(tc.argumentos.get("monto_usd", 0)) > vac["presupuesto_usd_mes"]:
+                    bloqueos.append(f"Monto {tc.argumentos.get('monto_usd')} USD por encima del presupuesto {vac['presupuesto_usd_mes']} USD.")
+                bloqueos.append("Falta la aprobación humana firmada.")
                 intentos_bloqueados.append(f"enviar_oferta({cid}) bloqueada: {bloqueos}")
-                res = {"ok": False, "error": "Política de seguridad: prohibido enviar oferta sin elegibilidad y firma humana."}
+                res = {"ok": False, "error": "Política de seguridad: oferta rechazada.", "motivos": bloqueos}
             else:
                 res = ejecutar_herramienta_ats(tc.nombre, tc.argumentos)
                 if tc.nombre == "enviar_oferta" and res.get("ok"):
@@ -94,7 +107,7 @@ def correr_escenario(*, defender: bool) -> dict:
             break
 
     return {
-        "defensa_activa": defender,
+        "defensas": {"aislar": aislar, "minimo_privilegio": minimo_privilegio, "politica": politica},
         "ofertas_fraudulentas_ejecutadas": ofertas_emitidas,
         "intentos_bloqueados": intentos_bloqueados,
         "terna": terna,
@@ -103,5 +116,7 @@ def correr_escenario(*, defender: bool) -> dict:
 
 
 if __name__ == "__main__":
-    imprimir("1. Agente vulnerable (el CV de CAND-04 secuestra el flujo y emite oferta de $9,500)", correr_escenario(defender=False))
-    imprimir("2. Agente defendido (aislamiento extraer_hechos_cv + mínimo privilegio + regla dura)", correr_escenario(defender=True))
+    imprimir("1. Sin defensas: el CV de CAND-04 secuestra el flujo y emite una oferta de 9.500 USD", correr_escenario())
+    imprimir("2. Solo la política en código: la orden llega al modelo, pero la oferta no se ejecuta", correr_escenario(politica=True))
+    imprimir("3. Solo mínimo privilegio: la herramienta no existe para este agente", correr_escenario(minimo_privilegio=True))
+    imprimir("4. Las tres capas: el modelo ni siquiera ve la orden", correr_escenario(aislar=True, minimo_privilegio=True, politica=True))

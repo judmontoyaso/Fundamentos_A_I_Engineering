@@ -36,7 +36,7 @@ export async function GET() {
     "",
     `- **Plan Mensual (${PLANES.mensual.usd} USD / 30 días)**: ${PLANES.mensual.resumen}. Sin renovación automática.`,
     `- **Plan Anual (${PLANES.anual.usd} USD / 365 días)**: ${PLANES.anual.resumen}. Sin renovación automática.`,
-    `- **Un curso individual (${PLANES.curso.usd} USD / pago único)**: ${PLANES.curso.resumen}.`,
+    `- **Un curso individual (${PLANES.curso.usd} USD / pago único${PLANES.curso.usdAntes ? `, promoción; antes ${PLANES.curso.usdAntes} USD` : ""})**: ${PLANES.curso.resumen}.`,
     "- Todos los planes permiten descargar los scripts en `.zip`, conservar el progreso indefinidamente y emitir certificados públicos verificables.",
     "",
     "## Documentación para agentes de IA y detalles completos",

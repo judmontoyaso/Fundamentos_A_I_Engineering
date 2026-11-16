@@ -290,7 +290,7 @@ export default function Inicio() {
                       Leer muestra gratis
                     </Link>
                     <Link className="btn" href={`/comprar?plan=curso&curso=${c.id}`}>
-                      Comprar · {PLANES.curso.usd} USD
+                      Comprar · {PLANES.curso.usdAntes && <s className="tachado">{PLANES.curso.usdAntes}</s>} {PLANES.curso.usd} USD
                     </Link>
                   </div>
                 </div>
@@ -398,8 +398,8 @@ export default function Inicio() {
         <div className="ancho">
           <h2>Planes</h2>
           <p className="sub">
-            Precios de referencia en dólares. El cobro se realiza en moneda local al cambio del día con el total exacto
-            visible antes de pagar. Ningún plan se renueva solo.
+            Precios de referencia en dólares. Con Mercado Pago el cobro se hace en pesos colombianos y ves el total
+            exacto antes de pagar. Ningún plan se renueva solo.
           </p>
           <div className="rejilla">
             <div className="tarjeta plan">
@@ -440,9 +440,10 @@ export default function Inicio() {
               </div>
             </div>
             <div className="tarjeta plan">
+              {PLANES.curso.usdAntes && <span className="etiqueta">Promoción de lanzamiento</span>}
               <h3>{PLANES.curso.nombre}</h3>
               <div className="precio">
-                {PLANES.curso.usd} USD <small>/ pago único</small>
+                {PLANES.curso.usdAntes && <s className="tachado">{PLANES.curso.usdAntes}</s>} {PLANES.curso.usd} USD <small>/ pago único</small>
               </div>
               <ul>
                 <li>El curso que elijas, sin fecha de vencimiento</li>

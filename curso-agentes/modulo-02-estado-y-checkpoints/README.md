@@ -1,58 +1,195 @@
 # Módulo 2 · Máquinas de estados, checkpoints e idempotencia
 
-> **Objetivo:** gobernar el bucle del agente con invariantes de estado que impidan saltarse verificaciones obligatorias, persistir checkpoints en disco para reanudar corridas interrumpidas y deduplicar efectos secundarios con claves de idempotencia.
+> **Objetivo:** que el procedimiento lo haga cumplir el código, no el prompt, y que una ejecución que se cae a mitad
+> de camino se pueda reanudar sin repetir lo que ya tuvo efectos fuera.
+>
+> **Lo que te llevas:** una máquina de estados con invariantes que bloquea una terna sin verificar, un checkpoint en
+> disco después de cada paso y una caché de idempotencia que impide agendar dos veces la misma entrevista.
 
-En un bucle ReAct ingenuo, todo el estado del agente vive implícitamente dentro de la lista `mensajes` en memoria RAM. Ese diseño tiene tres fallas graves cuando pasa a producción:
+Índice:
 
-1. **El modelo puede saltarse pasos obligatorios**: por prisa o alucinación, el LLM puede llamar a `entregar_terna` inmediatamente después de `buscar_candidatos`, sin haber llamado a `verificar_elegibilidad` para comprobar si el candidato está en enfriamiento o cumple el nivel de inglés.
-2. **Cero tolerancia a fallos de proceso**: si el contenedor se reinicia en el paso 6 de 11, pierdes todos los tokens ya pagados y debes empezar desde el paso 1.
-3. **Efectos secundarios duplicados**: si el agente ya había ejecutado `agendar_entrevista` para `CAND-01` antes del reinicio y reintenta la corrida, creará dos eventos duplicados en el calendario de la reclutadora.
+1. [El prompt no es un contrato](#1-prompt)
+2. [Estado explícito e invariantes](#2-estado)
+3. [Laboratorio 1: la guarda que atrapa el descuido](#3-lab1)
+4. [Qué guardar en un checkpoint](#4-checkpoint)
+5. [Idempotencia: la única forma segura de reintentar](#5-idempotencia)
+6. [Laboratorio 2: caída en el paso 6 y reanudación](#6-lab2)
+7. [Cómo lo resuelven los frameworks](#7-frameworks)
+8. [Lista de revisión](#8-lista)
 
-![Módulo 2 · Máquina de estados, persistencia por checkpoint y claves de idempotencia](/infografias/agentes-m2-maquina-estados-checkpoints.png)
+Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
+
+![Módulo 2 · Máquina de estados, checkpoints e idempotencia](/infografias/agentes-m2-maquina-estados-checkpoints.png)
 
 ---
 
-## 1. Máquina de estados e invariantes de transición (`01_maquina_de_estados.py`)
+<a name="1-prompt"></a>
+## 1. El prompt no es un contrato
 
-Las reglas de negocio críticas no se piden «por favor» en el system prompt: **se imponen como precondiciones en el despachador de herramientas**.
+El system prompt del módulo 0 dice "verifica la elegibilidad de cada candidato antes de entregar la terna". El modelo
+lo cumple casi siempre. "Casi siempre" es el problema: cuando el historial es largo, cuando una observación es ambigua
+o cuando el modelo concluye que "ya es obvio" que un candidato sirve, se salta el paso. Y la terna sale con alguien
+que está en enfriamiento o que no habla el inglés que pide la vacante.
 
-En `code/01_maquina_de_estados.py` definimos `EstadoPreseleccion`, que lleva el registro estructurado de qué vacante se cargó, qué candidatos devolvió la búsqueda y cuáles fueron pasados por `verificar_elegibilidad`:
+Todo lo que **tiene que pasar siempre** se saca del prompt y se escribe en el controlador: el orden obligatorio de los
+pasos, lo que debe estar comprobado antes de una acción, lo que no puede repetirse. El prompt queda para orientar; el
+código, para garantizar.
+
+---
+
+<a name="2-estado"></a>
+## 2. Estado explícito e invariantes
+
+El controlador mantiene un **estado de negocio** aparte del historial de mensajes: lo que ya se sabe con certeza
+porque lo devolvió una herramienta. En [`code/01_maquina_de_estados.py`](code/01_maquina_de_estados.py):
 
 ```python
-if herramienta == "entregar_terna":
-    sin_verificar = [c for c in propuestos if c not in self.verificados]
-    if sin_verificar:
-        return f"Transición bloqueada: intentaste incluir {sin_verificar} sin llamar a verificar_elegibilidad."
+@dataclass
+class EstadoPreseleccion:
+    vacante_id: str
+    vacante_cargada: bool = False
+    candidatos_buscados: list[str] = field(default_factory=list)
+    verificados: dict[str, bool] = field(default_factory=dict)   # candidato -> elegible según la regla
 ```
 
-Para probar su eficacia, ejecutamos el agente con `crear_modelo(p_descuido=1.0)` (un modelo negligente que da por elegibles a todos los candidatos devueltos por `buscar_candidatos` sin verificarlos):
+Y dos funciones:
 
-| Configuración | Qué hace el modelo descuidado (`p_descuido=1.0`) | Respuesta del controlador | Terna final entregada | ¿Cumple reglas? |
-|---|---|---|---|---|
-| **Sin guarda (`usar_guarda=False`)** | Llama a `entregar_terna` con los 4 candidatos de la búsqueda | Acepta la llamada sin objetar | `["CAND-01", "CAND-03", "CAND-04", "CAND-07"]` | **No** (cuela a `CAND-04` con 1 año exp. e inyección, y a `CAND-07` en Medellín) |
-| **Con guarda (`usar_guarda=True`)** | Intenta llamar a `entregar_terna` sin verificar | Bloquea el cierre prematuro, fuerza `verificar_elegibilidad` en los 4 y filtra no elegibles | `["CAND-01", "CAND-03"]` | **Sí** (`exacta: true`) |
+- `registrar_resultado(herramienta, args, res)` actualiza el estado **solo con resultados exitosos de herramientas**,
+  nunca con lo que el modelo afirma en texto.
+- `validar_transicion(herramienta, args)` se llama **antes** de ejecutar y devuelve un bloqueo si la llamada rompe una
+  precondición:
+  - no se busca sin haber cargado la vacante;
+  - no se entrega una terna con candidatos que no pasaron por `verificar_elegibilidad`;
+  - no se entrega una terna con candidatos que la verificación marcó como no elegibles.
+
+Esto es una **máquina de estados** aunque no tenga un diagrama: cada herramienta es una transición, y cada transición
+tiene precondiciones que se comprueban con datos. La ventaja frente a confiar en el modelo es que una invariante en
+código se cumple el 100 % de las veces, y se puede probar con un test.
 
 ---
 
-## 2. Checkpoints atómicos e idempotencia (`02_checkpoints_e_idempotencia.py`)
+<a name="3-lab1"></a>
+## 3. Laboratorio 1: la guarda que atrapa el descuido
 
-Para que una ejecución larga pueda pausarse, caerse y reanudarse sin perder progreso ni repetir mutaciones externas, combinamos dos mecanismos en `code/02_checkpoints_e_idempotencia.py`:
+El laboratorio usa un modelo descuidado al extremo (`p_descuido=1.0`): encuentra 4 candidatos para `VAC-101` y los da
+a todos por buenos sin verificar ninguno.
 
-### A. Persistencia de checkpoint paso a paso
-Al terminar cada turno del bucle, `EjecutorConCheckpoint` serializa en `salida/m2_checkpoint.json` el diccionario completo de estado (`paso`, `mensajes`, `cache_idempotencia`, `completado`, `terna`).
+| | Sin guarda | Con guarda |
+|---|---|---|
+| Terna entregada | `CAND-01`, `CAND-03`, `CAND-04`, `CAND-07` | `CAND-01`, `CAND-03` |
+| ¿Correcta? | No | Sí |
+| Bloqueos | ninguno | 1: "intentaste incluir [...] sin haber llamado antes a verificar_elegibilidad" |
 
-### B. Clave de idempotencia determinista (`clave_idempotencia`)
-Para cualquier llamada a herramienta, `comun/ag_comun.py` calcula un hash SHA-256 canónico sobre el nombre de la herramienta y sus argumentos ordenados:
+Sin guarda, `CAND-04` (1 año de experiencia, inglés A2) y `CAND-07` (inglés B1, vive en Medellín para una vacante
+híbrida en Bogotá) llegan a la terna. Con guarda, el intento de cierre se bloquea, el controlador ejecuta las
+verificaciones que faltaban y entrega solo a los elegibles.
+
+Hay dos formas de reaccionar a una transición bloqueada, y el laboratorio usa la segunda:
+
+1. **Devolver el bloqueo al modelo** como observación de error, para que haga lo que falta. Más autónomo, cuesta más
+   pasos y depende de que el modelo entienda el mensaje.
+2. **Completar en código lo que falta** (aquí: verificar a los pendientes) y continuar. Más barato y determinista;
+   aplicable cuando lo que falta es mecánico y no requiere criterio.
+
+Elige la segunda siempre que puedas escribir lo que falta sin el modelo.
+
+---
+
+<a name="4-checkpoint"></a>
+## 4. Qué guardar en un checkpoint
+
+Un agente de 13 pasos con un modelo real tarda entre 20 segundos y varios minutos. En ese tiempo pasan cosas: el
+proceso se reinicia en un despliegue, el proveedor devuelve un 529, el contenedor se queda sin memoria. Si el estado
+vive solo en memoria, se pierde todo, incluido el dinero gastado.
+
+Un **checkpoint** es una fotografía serializable de la ejecución, guardada después de cada paso. Debe permitir que
+**otro proceso** la reanude. Para eso necesita:
+
+- **Los mensajes completos**: el historial que se le envía al modelo, con las llamadas y sus resultados.
+- **El estado de negocio** (sección 2) y el número de paso.
+- **La caché de idempotencia** (sección 5): qué llamadas con efectos ya se ejecutaron y qué devolvieron.
+- **El gasto acumulado**, para que el presupuesto no se reinicie al reanudar.
+- **Si está pausada esperando a un humano**, y qué propuesta espera (módulo 6).
+
+Dónde guardarlo: un archivo JSON vale para un laboratorio; en producción, una fila en Postgres o una clave en Redis
+por `ejecucion_id`, escrita en la misma transacción que marca el paso como hecho.
+
+---
+
+<a name="5-idempotencia"></a>
+## 5. Idempotencia: la única forma segura de reintentar
+
+Reanudar desde un checkpoint tiene una trampa. Si el proceso se cayó **después** de llamar a `agendar_entrevista` pero
+**antes** de guardar el checkpoint, al reanudar el modelo volverá a pedir esa entrevista, y la reclutadora recibirá dos
+invitaciones.
+
+La solución es que repetir una llamada con efectos **no repita el efecto**. Cada llamada recibe una clave de
+idempotencia derivada de lo que identifica la operación:
 
 ```python
-def clave_idempotencia(herramienta: str, argumentos: dict[str, Any]) -> str:
+def clave_idempotencia(herramienta, argumentos):
     cuerpo = json.dumps({"h": herramienta, "a": argumentos}, sort_keys=True, ensure_ascii=False)
     return hashlib.sha256(cuerpo.encode("utf-8")).hexdigest()[:16]
 ```
 
-Si la clave ya existe en `estado["cache_idempotencia"]`, el controlador devuelve el resultado guardado **sin volver a invocar el sistema externo**.
+Antes de ejecutar, el controlador mira si la clave ya está en la caché. Si está, devuelve el resultado guardado sin
+tocar el sistema externo. Dos matices de producción:
 
-Al correr `code/02_checkpoints_e_idempotencia.py` comprobamos los tres momentos:
-1. **Caída simulada en el paso 6**: el proceso lanza `RuntimeError("Caída simulada del proceso en el paso 6")` tras haber guardado 6 pasos y sus resultados en `salida/m2_checkpoint.json`.
-2. **Reanudación en caliente**: al invocar de nuevo `ejecutor.correr("VAC-101")`, lee el checkpoint del paso 6 y completa los pasos restantes hasta el paso 13 (`terna: ["CAND-01", "CAND-03"]`, 2 entrevistas agendadas).
-3. **Deduplicación ante reintento**: al disparar de nuevo `agendar_entrevista` para `CAND-01` con la misma fecha, el caché de idempotencia intercepta la llamada (`reintento_duplicado_bloqueado_por_cache: true`) y el contador de entrevistas reales en el calendario permanece en `2`.
+- **La clave debe incluir el id de la ejecución** cuando la misma acción es legítima en ejecuciones distintas (dos
+  procesos de selección pueden entrevistar al mismo candidato). Sin él, la segunda ejecución quedaría bloqueada.
+- **La caché local no basta si la caída ocurre entre el efecto y el guardado.** Por eso las APIs serias aceptan una
+  cabecera de idempotencia (`Idempotency-Key` en Stripe; `X-Idempotency-Key` en Mercado Pago): el servidor externo
+  recuerda la clave y no duplica. La web de este curso la usa al crear el cobro. Si el sistema externo no la soporta,
+  consulta antes de crear ("¿ya existe una entrevista para este candidato y esta vacante?").
+
+---
+
+<a name="6-lab2"></a>
+## 6. Laboratorio 2: caída en el paso 6 y reanudación
+
+[`code/02_checkpoints_e_idempotencia.py`](code/02_checkpoints_e_idempotencia.py) corre el agente con la herramienta
+`agendar_entrevista` disponible y un modelo que agenda una entrevista con cada elegible. El estado se guarda en
+`salida/m2_checkpoint.json` después de cada paso.
+
+1. **Primera corrida:** el proceso "se cae" al llegar al paso 6. Quedan guardados 6 pasos y 6 llamadas en la caché.
+2. **Reanudación:** un nuevo ejecutor carga el checkpoint y continúa desde el paso 6.
+3. **Prueba de idempotencia:** se repite a propósito una llamada a `agendar_entrevista` ya hecha.
+
+Resultado:
+
+| | |
+|---|---|
+| Pasos totales (antes y después de la caída) | 13 |
+| Terna | `CAND-01`, `CAND-03` |
+| Entrevistas creadas en el calendario externo | 2 (una por elegible) |
+| Reintento duplicado | bloqueado por la caché |
+
+Abre `salida/m2_checkpoint.json` después de correrlo: ahí está todo lo necesario para que otra máquina continúe la
+ejecución. Esa misma estructura es la que se muestra a un humano cuando el agente se pausa para pedir aprobación.
+
+---
+
+<a name="7-frameworks"></a>
+## 7. Cómo lo resuelven los frameworks
+
+Lo que escribiste a mano es lo que ofrecen los frameworks de orquestación. En LangGraph (visto en el curso de AI
+Engineering): un grafo de nodos con un `State` tipado es la máquina de estados, un *checkpointer* (`SqliteSaver`,
+`PostgresSaver`) guarda el estado después de cada nodo bajo un `thread_id`, e `interrupt` pausa la ejecución para un
+humano. Temporal y otros motores de *durable execution* hacen lo mismo a nivel de proceso: reejecutan el código desde el
+historial de eventos y exigen que las actividades con efectos sean idempotentes.
+
+Ninguno resuelve por ti la idempotencia del efecto externo: eso sigue siendo responsabilidad de cada herramienta.
+
+---
+
+<a name="8-lista"></a>
+## 8. Lista de revisión
+
+- [ ] Las reglas que deben cumplirse siempre están en el controlador, no solo en el prompt.
+- [ ] El estado de negocio se actualiza con resultados de herramientas, nunca con afirmaciones del modelo.
+- [ ] Cada transición crítica tiene precondiciones comprobadas antes de ejecutarse, con un test que las cubre.
+- [ ] Hay un checkpoint después de cada paso, con mensajes, estado, caché de idempotencia y gasto.
+- [ ] Toda herramienta con efectos es idempotente, idealmente también en el sistema externo.
+- [ ] Sabes reanudar una ejecución desde otro proceso, y lo has probado matando el proceso a mitad.
+
+En el siguiente módulo atacamos el costo: un historial que crece en cada paso.

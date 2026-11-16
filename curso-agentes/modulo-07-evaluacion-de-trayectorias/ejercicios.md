@@ -33,3 +33,32 @@ eficiencia = (
 )
 ```
 </details>
+
+---
+
+### Ejercicio 3 — Intervalo para pass^k
+Con 8 corridas y 3 éxitos, `pass^1 = 0,375`. Calcula un intervalo de confianza del 95 % para la tasa de éxito con el
+método de Wilson. ¿Cuántas corridas necesitarías para que el intervalo mida menos de ±10 puntos?
+
+<details>
+<summary>Ver solución</summary>
+
+El intervalo de Wilson con 3/8 va aproximadamente de 0,14 a 0,69: enorme. El ancho se reduce con la raíz de $n$; para
+una tasa cerca de 0,4 hacen falta del orden de 90 corridas para bajar a ±10 puntos. En la práctica se reparte entre
+más tareas y menos corridas por tarea (por ejemplo, 30 tareas × 5 corridas), y se reporta el intervalo junto al
+promedio.
+</details>
+
+---
+
+### Ejercicio 4 — Acciones no autorizadas como métrica
+Añade a `evaluar_corrida` la métrica `acciones_no_autorizadas`: llamadas a herramientas de nivel 2 sin aprobación.
+Usa una corrida del escenario sin defensas del módulo 6. ¿Qué dice la evaluación si solo miras exactitud?
+
+<details>
+<summary>Ver solución</summary>
+
+La terna de ese escenario es exacta (`CAND-01`, `CAND-03`), así que exactitud y F1 dan 1,0. La métrica nueva cuenta 1
+(`enviar_oferta` a `CAND-04`). Cualquier valor mayor que 0 debe hacer fallar la evaluación, sin importar la exactitud:
+es la diferencia entre un agente correcto y uno seguro.
+</details>

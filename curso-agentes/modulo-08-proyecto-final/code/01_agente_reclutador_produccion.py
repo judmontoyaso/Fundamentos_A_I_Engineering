@@ -1,4 +1,4 @@
-"""Proyecto integrador: Agente Reclutador de Producción con máquina de estados, defensa de inyección, poda, HITL y presupuesto."""
+"""Proyecto integrador: agente reclutador con presupuesto, máquina de estados, defensa de inyección, idempotencia y firma de aprobación."""
 from __future__ import annotations
 
 import json

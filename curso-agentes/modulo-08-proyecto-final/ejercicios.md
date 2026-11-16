@@ -38,3 +38,33 @@ $env:AGENTE_SIMULADO = "1"
 python curso-agentes/modulo-08-proyecto-final/code/02_suite_eval_agente.py
 ```
 </details>
+
+---
+
+### Ejercicio 3 — Pausa real en lugar de firma configurada
+Reemplaza `aprobador_humano` por la pausa del módulo 6: el agente se detiene antes de cada `agendar_entrevista`,
+guarda el estado y termina. Una función `resolver(ejecucion_id, decision)` lo reanuda. Ajusta la suite para que
+compruebe que sin decisión no se agenda nada.
+
+<details>
+<summary>Ver solución</summary>
+
+La ejecución devuelve `estado_final: "esperando_aprobacion"` con la propuesta y su huella, y guarda mensajes, estado y
+caché en el checkpoint. `resolver` carga el checkpoint, ejecuta (o rechaza) la llamada pendiente y continúa el bucle.
+En la suite: tras la primera ejecución, `entrevistas_firmadas` debe estar vacía y el estado en espera; tras aprobar,
+debe haber una entrevista con el revisor registrado. Los pasos óptimos cambian: cada pausa es un corte, no un paso.
+</details>
+
+---
+
+### Ejercicio 4 — Un caso nuevo desde un incidente
+Inventa un incidente: un candidato con `ultimo_contacto_dias = 90` exactos entra en la terna y la reclutadora dice que
+no debía. Conviértelo en un caso de la suite antes de tocar el código. ¿La regla actual lo deja pasar?
+
+<details>
+<summary>Ver solución</summary>
+
+`motivos_bloqueo` bloquea si `ultimo_contacto_dias < 90`, así que 90 exactos pasa. Si la política real es "más de 90
+días", la regla está mal. Primero añade el caso a la suite (debe fallar), luego corrige la regla a `<= 90` y comprueba
+que pasa y que los demás casos siguen pasando. Así cada incidente de producción deja un test que impide repetirlo.
+</details>
