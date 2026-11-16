@@ -29,21 +29,22 @@ Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 <a name="1-por-que-chunking"></a>
 ## 1. Por qué un documento entero no se recupera bien
 
-En el Módulo 2 metiste cada CV en **un solo vector**. Funciona para "tráeme candidatos parecidos a esto", pero se
-rompe cuando la pregunta es específica. Dos razones concretas:
+En el Módulo 2 guardaste cada CV en **un solo vector**. Eso funciona para pedir candidatos parecidos a un perfil,
+pero falla cuando la pregunta es específica, por dos razones:
 
 1. **Un vector promedia todo el documento.** Un CV habla de Python, de liderazgo, de un hobby de fotografía y de un
    voluntariado. Metido en un solo embedding, todo eso se mezcla en un "promedio de significado" difuso. Una
-   consulta sobre "liderazgo de equipos" se diluye entre los otros temas y el match es débil.
+   consulta sobre "liderazgo de equipos" se diluye entre los otros temas y la coincidencia es débil.
 2. **La ventana del embedder trunca.** Cada modelo embedea hasta N tokens; un CV largo pierde su segunda mitad **en
-   silencio** (Módulo 2, §5). Lo que no entró, no se puede recuperar.
+   silencio** (Módulo 2, §5), y lo que no entró en el vector no se puede recuperar.
 
 La solución es **partir el documento en trozos más pequeños y temáticamente coherentes** (chunks), embedear cada
-trozo por separado, e indexarlos todos. Ahora la consulta sobre liderazgo encuentra *el párrafo de liderazgo*, no un
-promedio del CV entero. Recuperas **pasajes**, no documentos.
+trozo por separado e indexarlos todos. Así la consulta sobre liderazgo encuentra el párrafo que habla de liderazgo
+en lugar de un promedio del CV entero, y lo que recuperas son **pasajes**.
 
-> El chunking es, junto con la elección del texto a indexar (Módulo 2, §10), **la decisión que más mueve la calidad
-> de un sistema de recuperación.** Más que el modelo de embeddings. Trátalo con el mismo rigor: cámbialo y **mide**.
+> El chunking y la elección del texto que se indexa (Módulo 2, §10) son **las decisiones que más influyen en la
+> calidad de un sistema de recuperación**, por encima del modelo de embeddings. Conviene tratarlo con el mismo
+> cuidado: cada cambio de chunking se **mide**.
 
 ---
 
@@ -53,15 +54,15 @@ promedio del CV entero. Recuperas **pasajes**, no documentos.
 Un **chunk** es una unidad de texto que embedeas e indexas de forma independiente, y que recuperas y le pasas al LLM.
 El tamaño del chunk es un **trade-off** central:
 
-- **Chunks pequeños** (1-3 frases): el embedding es *preciso* (un solo tema), el match es nítido. Pero el chunk
-  recuperado puede **carecer de contexto** para responder ("liderazgo de equipos" sin decir en qué empresa ni cuántos
-  años). Y generas muchos vectores.
+- **Chunks pequeños** (de una a tres frases): el embedding es *preciso* porque cubre un solo tema, y la coincidencia
+  es clara. El problema es que el chunk recuperado puede **quedarse sin contexto** para responder ("liderazgo de
+  equipos" sin decir en qué empresa ni durante cuántos años), y además se generan muchos vectores.
 - **Chunks grandes** (varios párrafos): traen contexto completo, pero el embedding vuelve a *promediar* varios temas
   y pierde precisión; además llenan la ventana del LLM rápido (§9).
 
-No hay tamaño universal. Un punto de partida razonable es **200-500 tokens por chunk**, y luego se ajusta midiendo.
-La regla mental: *el chunk debe ser lo bastante pequeño para tener un solo tema, y lo bastante grande para que ese
-tema se entienda solo.*
+No hay un tamaño que sirva para todo. Un punto de partida razonable es **entre 200 y 500 tokens por chunk**, que
+luego se ajusta midiendo. Como criterio general, *el chunk debe ser lo bastante pequeño para tratar un solo tema y lo
+bastante grande para que ese tema se entienda por sí solo.*
 
 ---
 
@@ -87,68 +88,68 @@ temas sin estructura clara.
 **4. Consciente del documento (document-aware / contextual).** Aprovechas el formato del documento: Markdown por
 encabezados, código por funciones, un PDF por sus secciones y tablas. Una variante reciente que funciona muy bien es el **contextual
 retrieval**: antes de embedear cada chunk, le antepones una o dos frases generadas por un LLM que lo sitúan en el
-documento ("Este fragmento es de la sección Experiencia del CV de Laura, sobre su rol como Tech Lead"). Eso le
-devuelve al chunk el contexto que perdió al separarlo. Cuánto ayuda **depende**, y medirlo tiene una trampa que el
+documento ("Este fragmento es de la sección Experiencia del CV de Laura, sobre su rol como Tech Lead"), lo que le
+devuelve el contexto que perdió al separarlo. Cuánto ayuda **depende del caso**, y medirlo tiene una dificultad que el
 laboratorio ([`code/06_contextual_retrieval.py`](code/06_contextual_retrieval.py)) deja a la vista. Sobre los 10 CVs
 del proyecto partidos por líneas, la primera corrida dijo que el contexto **largo empeoraba** la recuperación y el
 **breve la mejoraba**. Repetido, salió al revés. El contexto lo genera un LLM, así que cada corrida produce frases
 distintas, y **esa variación era del mismo tamaño que el efecto**. Por eso el laboratorio repite cada variante y
-compara rangos, no números sueltos. La técnica está bien documentada en colecciones grandes; en una de 10 documentos
-y 8 consultas, lo honesto es decir "no concluyente" hasta tener más datos.
+compara rangos en lugar de números sueltos. La técnica está bien documentada en colecciones grandes, pero con 10
+documentos y 8 consultas el resultado no es concluyente, y hacen falta más datos para afirmar algo.
 
 **5. Decidido por un LLM (LLM-based chunking).** Le pasas el documento a un modelo y le pides que marque dónde
 cortar y por qué. A diferencia del semántico —que mide una caída de similitud entre frases y no sabe de qué habla el
-texto—, el LLM entiende el documento: cierra la sección "Experiencia" donde termina de verdad, no donde el coseno
-baja. Y como ya está leyendo, **sale gratis pedirle la metadata en la misma llamada**: que devuelva cada chunk con su
-sección, su rango de fechas y las tecnologías que menciona, en un `response_model` de Pydantic como los del Módulo 1.
-Esa metadata es justo la que vas a filtrar en §6, y es la diferencia entre generarla en una pasada o en dos.
+texto—, el LLM entiende el documento y cierra la sección "Experiencia" donde realmente termina. Como ya está leyendo
+el documento, **puedes pedirle la metadata en la misma llamada**: cada chunk con su sección, su rango de fechas y las
+tecnologías que menciona, en un `response_model` de Pydantic como los del Módulo 1. Esa es la metadata que vas a
+usar para filtrar en §6, y así la obtienes en una sola pasada.
 
-El precio es el que te imaginas: pagas una llamada por documento, y una llamada *larga*, porque el documento entero
-viaja en el prompt. Partir 10 CVs así cuesta centavos; partir 100.000 documentos es un presupuesto. Las dos reglas
-que lo hacen viable:
+La desventaja es el costo: pagas una llamada por documento, y es una llamada *larga* porque el documento entero va en
+el prompt. Partir 10 CVs de esta forma cuesta centavos, pero partir 100.000 documentos requiere presupuesto. Dos
+criterios lo hacen viable:
 
 - **Úsalo donde el corte es difícil y caro de equivocar**: contratos, historias clínicas, documentos sin estructura
   donde un corte malo arruina la respuesta. Para un CV con encabezados claros, el recursivo estructural (familia 2)
-  acierta igual por cero pesos.
+  acierta igual y no cuesta nada.
 - **Es un paso de indexación, no de consulta.** Se paga una vez por documento, no una vez por búsqueda, y el
   resultado se cachea como cualquier otra extracción (Módulo 1 §13). Si reindexas sin que el documento cambie, no
   deberías volver a pagar.
 
-> Mención aparte: **late chunking.** En vez de embedear cada chunk por separado, embedeas el documento largo de una
+> Vale la pena mencionar también el **late chunking**. En vez de embedear cada chunk por separado, embedeas el documento largo de una
 > vez con un modelo de contexto largo y *luego* promedias por chunk, de modo que cada vector "recuerda" el documento
-> entero. Es una técnica reciente que combina lo mejor de chunks pequeños y contexto global. No la necesitas para
-> empezar, pero conviene saber que existe.
+> entero. Es una técnica reciente que combina la precisión de los chunks pequeños con el contexto del documento
+> completo. No hace falta para empezar, pero conviene conocerla.
 
 ### Indexar pequeño y devolver grande: chunking jerárquico
 
-Las cinco familias responden a "¿dónde corto?". El chunking jerárquico responde a otra pregunta, y es la que de
-verdad duele: **lo que se busca bien no es lo que se lee bien.**
+Las cinco familias deciden dónde cortar. El chunking jerárquico resuelve un problema distinto: **el fragmento que
+mejor se encuentra no suele ser el que mejor se lee.**
 
-Un chunk pequeño gana la búsqueda, porque su vector apunta a una sola idea y no promedia nada. Pero cuando ese chunk
-llega al LLM, llega mutilado: "lideró la migración a Kubernetes" sin decir en qué empresa ni en qué años. El chunk
-grande tiene el contexto, pero su vector mezcla cinco temas y la búsqueda lo encuentra peor. Elegir un tamaño es
-elegir cuál de los dos problemas prefieres.
+Un chunk pequeño gana en la búsqueda, porque su vector apunta a una sola idea. Pero cuando llega al LLM le falta
+información: "lideró la migración a Kubernetes", sin decir en qué empresa ni en qué años. El chunk grande trae ese
+contexto, pero su vector mezcla varios temas y la búsqueda lo encuentra peor. Con un solo tamaño, siempre te quedas
+con uno de los dos problemas.
 
-La salida es no elegir: **indexas el chunk pequeño y devuelves el grande.** Guardas en cada chunk de qué documento y
+La solución es usar los dos tamaños: **indexas el chunk pequeño y devuelves el grande.** Guardas en cada chunk de qué documento y
 de qué sección viene (la metadata de §6), buscas con los pequeños, y antes de armar el prompt reemplazas cada
 resultado por la unidad mayor a la que pertenece.
 
 Dos formas, según cuánto quieras devolver:
 
-- **Traer los vecinos.** Devuelves el chunk ganador más los k anteriores y posteriores del mismo documento. Barato y
-  suele bastar: le devuelve al fragmento su frase anterior y su frase siguiente. Necesitas guardar el orden del chunk
+- **Traer los vecinos.** Devuelves el chunk ganador junto con los k anteriores y posteriores del mismo documento. Es
+  barato y suele bastar, porque le devuelve al fragmento lo que venía antes y después. Necesitas guardar el orden del chunk
   dentro del documento, un entero en el payload.
 - **Traer la unidad completa.** Devuelves la sección entera, o el documento, a la que pertenece el chunk. Da el
   contexto más limpio y es lo natural cuando partiste por estructura: el chunk vive en "Experiencia", devuelves
   "Experiencia". Cuesta más tokens de contexto, así que vigila §9.
 
-Lo mismo sirve en el corte: **sección con fallback por oraciones.** Partes por sección; si una sección se pasa del
+La misma idea sirve al cortar: **por sección, y por oraciones cuando la sección es muy larga.** Partes por sección; si una sección se pasa del
 tamaño máximo, *esa* la vuelves a partir por oraciones, y los pedazos siguen apuntando a su sección madre. Así ningún
 chunk se pasa de largo y ninguno pierde de dónde salió.
 
-> Dos cosas que muerden aquí. La primera: si varios chunks del top-k pertenecen a la misma sección, al expandir
+> Hay dos detalles que suelen causar problemas. El primero: si varios chunks del top-k pertenecen a la misma sección, al expandir
 > **mandas la misma sección repetida** al prompt; hay que deduplicar por id de la unidad mayor antes de armarlo. La
-> segunda: lo que mides cambia. `recall@5` sobre los chunks pequeños ya no te dice cuánto contexto llegó al modelo,
+> segundo es que cambia lo que mides. `recall@5` sobre los chunks pequeños ya no te dice cuánto contexto llegó al modelo,
 > porque esos cinco pueden expandirse a dos secciones o a cinco. Mide el recall sobre la **unidad que devuelves**, no
 > sobre la que indexas.
 
@@ -157,7 +158,8 @@ chunk se pasa de largo y ninguno pierde de dónde salió.
 <a name="4-overlap"></a>
 ## 4. Overlap: por qué los chunks se solapan
 
-Si cortas en seco, una idea que vive **a caballo entre dos chunks** se parte y ninguno de los dos la recupera bien.
+Si cortas sin solapamiento, una idea que queda **repartida entre dos chunks** se parte y ninguno de los dos la
+recupera bien.
 El **overlap** (solapamiento) repite los últimos ~10-20% de un chunk al inicio del siguiente, como un tejado de
 tejas. Así, una frase que cae en la frontera aparece **entera en al menos un chunk**.
 
@@ -167,7 +169,7 @@ Chunk B:              [████..................]
                        ↑ el solapamiento salva la idea de la frontera
 ```
 
-Coste: duplicas un poco de texto (más vectores, más almacenamiento). Beneficio: menos ideas partidas. Un overlap de
+A cambio de duplicar un poco de texto, lo que implica algo más de almacenamiento, se parten menos ideas. Un overlap de
 **10-15%** es un punto de partida típico. En chunking estructural (por secciones) el overlap suele sobrar, porque los
 cortes ya caen en fronteras limpias.
 
@@ -176,7 +178,7 @@ cortes ya caen en fronteras limpias.
 <a name="5-elegir"></a>
 ## 5. Cómo elegir tu estrategia
 
-No adivines: decide por el **tipo de documento** y confirma con el eval (§11).
+La estrategia se elige según el **tipo de documento** y se confirma con la evaluación (§11).
 
 | Tu documento | Estrategia de arranque |
 |---|---|
@@ -189,7 +191,7 @@ No adivines: decide por el **tipo de documento** y confirma con el eval (§11).
 | El chunk que gana la búsqueda llega sin contexto al prompt | Cualquiera de las anteriores **+ jerárquico** (indexa pequeño, devuelve grande) |
 
 Para el proyecto (CVs), empieza **estructural por secciones** (Experiencia, Educación, Skills), con un chunk por
-entrada de experiencia. Es lo que mejor casa con las preguntas que recibirás.
+entrada de experiencia, porque es lo que mejor encaja con el tipo de preguntas que va a recibir el buscador.
 
 Las dos últimas filas funcionan de otra manera que las cinco anteriores: el LLM-based paga con dinero una mejor calidad
 de corte, y el jerárquico mantiene los cortes y cambia **lo que devuelves**. Puedes montar el jerárquico encima de la
@@ -212,8 +214,8 @@ sistema:
 3. **Post-recuperación / en la respuesta.** La metadata del chunk recuperado se usa para **citar** ("según la sección
    Experiencia del CV de Laura, 2020-presente") y para agrupar resultados por candidato.
 
-> El error típico es indexar solo el texto y olvidar la metadata. Sin ella no puedes filtrar, y un buscador que no
-> filtra obliga al usuario a leer ruido. La metadata es lo que convierte "búsqueda" en "búsqueda **útil**".
+> Un error frecuente es indexar solo el texto y olvidar la metadata. Sin ella no se puede filtrar, y un buscador
+> sin filtros obliga al usuario a revisar muchos resultados que no le sirven.
 
 **Indexing de metadata:** en Qdrant, crea índices de payload sobre los campos por los que filtrarás (`nivel`,
 `areas`) para que el filtro sea rápido a escala. Un filtro sobre un campo no indexado funciona, pero se vuelve lento
@@ -224,29 +226,29 @@ con millones de puntos.
 <a name="7-que-es-rag"></a>
 ## 7. Qué es RAG y por qué
 
-**RAG = Retrieval-Augmented Generation.** En vez de preguntarle al LLM "de memoria" (donde alucina o no conoce tus
-datos privados), haces tres pasos:
+**RAG** significa *Retrieval-Augmented Generation*. En lugar de preguntarle al LLM y que responda de memoria, donde
+puede inventar o simplemente no conocer tus datos privados, el proceso tiene tres pasos:
 
 1. **Retrieve:** recuperas de tu índice los chunks relevantes a la pregunta (lo que montaste en los Módulos 2-3).
 2. **Augment:** los pegas en el prompt como *contexto*.
 3. **Generate:** el LLM responde **usando ese contexto**, no su memoria.
 
-Por qué RAG en vez de meter todo en el prompt o reentrenar el modelo:
+Las razones para usar RAG en lugar de poner todo en el prompt o reentrenar el modelo son estas:
 
 - **Datos privados y frescos:** tus CVs no están en el entrenamiento del modelo, y cambian. RAG los trae en el momento.
 - **Barato y actualizable:** añadir un CV es indexar un documento, no reentrenar nada.
 - **Verificable:** como la respuesta se basa en chunks concretos, puedes **citar la fuente** y detectar invenciones.
 - **Cabe:** no puedes meter 10.000 CVs en una ventana de contexto; sí puedes recuperar los 5 pasajes que importan.
 
-RAG es, hoy, la arquitectura por defecto para "pregúntale a tus documentos". Todo lo anterior del curso —extracción,
-embeddings, chunking, metadata— existía para llegar aquí.
+Hoy RAG es la arquitectura habitual para hacerle preguntas a un conjunto de documentos, y todo lo que vimos hasta
+ahora (extracción, embeddings, chunking y metadata) son las piezas que la hacen funcionar.
 
 ---
 
 <a name="8-pipeline"></a>
 ## 8. El pipeline RAG mínimo con Qdrant
 
-De punta a punta, con las piezas que ya tienes. Código completo en [`code/04_rag_minimo.py`](code/04_rag_minimo.py).
+Este es el pipeline completo, armado con las piezas que ya tienes. Código completo en [`code/04_rag_minimo.py`](code/04_rag_minimo.py).
 
 ```python
 # 1. INDEXAR (una vez): chunk -> embedding -> Qdrant con metadata
@@ -263,7 +265,7 @@ def responder(pregunta, filtro=None):
     return llm_responder(pregunta, contexto)       # augment + generate
 ```
 
-El prompt de generación es donde se gana o se pierde la confiabilidad:
+Buena parte de la confiabilidad del sistema depende del prompt de generación:
 
 ```python
 SYSTEM = (
@@ -273,7 +275,7 @@ SYSTEM = (
 )
 ```
 
-Fíjate en las tres defensas en una sola frase: **anclar al contexto** (no inventar), **permiso de abstenerse** (si no
+El prompt incluye tres defensas: **anclar al contexto** (no inventar), **permiso de abstenerse** (si no
 está, dilo), y **citar** (verificable), más la nota anti-inyección del Módulo 1 §12.
 
 Citar con un nombre entre corchetes no prueba nada: el modelo puede poner `[Laura]` junto a algo que Laura no dice.
@@ -288,24 +290,25 @@ literales, y ante una pregunta sin respuesta en los CVs ("¿quién habla japoné
 <a name="9-contexto"></a>
 ## 9. El problema del contexto: cuántos chunks caben y cómo
 
-Recuperas `k` chunks y los pegas en el prompt. Dos decisiones críticas:
+Después de recuperar `k` chunks hay que pegarlos en el prompt, y eso implica dos decisiones:
 
-- **Cuántos (`k`).** Pocos: te arriesgas a dejar fuera el pasaje clave (recall bajo). Muchos: metes ruido, pagas más
-  tokens, y aparece el efecto **"lost in the middle"**: los LLMs atienden mejor al **principio y al final** del
+- **Cuántos (`k`).** Con pocos te arriesgas a dejar fuera el pasaje que contiene la respuesta (recall bajo). Con
+  muchos agregas ruido, pagas más tokens y aparece el efecto **"lost in the middle"**: los LLMs atienden mejor al **principio y al final** del
   contexto que al medio, así que un chunk relevante enterrado en la posición 7 de 10 puede ser ignorado. Arranca con
   `k=3-5` y mide.
 - **En qué orden.** Pon los chunks **más relevantes al principio y al final** del bloque de contexto, no en el medio.
   Y considera un **re-ranker**: recuperas 20 candidatos rápido (vector), luego un modelo más caro reordena y te
   quedas con los 5 mejores. Sube la precisión del contexto sin disparar el coste de generación.
 
-Regla: **más contexto no es mejor contexto.** El trabajo es traer *lo justo y lo correcto*, no todo.
+**Más contexto no significa mejor contexto.** El objetivo es traer lo necesario y correcto, no todo lo que haya.
 
 ---
 
 <a name="10-fallas"></a>
 ## 10. Cómo falla un RAG (y cómo se diagnostica)
 
-Cuando un RAG responde mal, la causa está en una de dos mitades. Diagnosticar *cuál* es la mitad del trabajo:
+Cuando un RAG responde mal, la causa está en una de sus dos partes, y averiguar en cuál es buena parte del
+trabajo de depuración:
 
 - **Falló la recuperación (retrieval):** el chunk con la respuesta **no estaba** entre los `k` recuperados. Da igual
   lo bueno que sea el LLM: no puede responder con lo que no recibió. Causas: chunking malo, modelo de embeddings
@@ -314,8 +317,9 @@ Cuando un RAG responde mal, la causa está en una de dos mitades. Diagnosticar *
   por encima de él. Causas: prompt débil, "lost in the middle", contexto contradictorio. *Diagnóstico:* dale tú el
   chunk correcto a mano y mira si entonces responde bien.
 
-> Esta separación es la herramienta de depuración más importante de RAG. Antes de "mejorar el prompt", comprueba si
-> el pasaje siquiera llegó. La mitad de los "el LLM alucina" son en realidad "el retrieval no trajo el dato".
+> Esta separación es la herramienta de depuración más útil en RAG. Antes de cambiar el prompt, comprueba si el
+> pasaje correcto llegó al modelo, porque muchos casos que parecen alucinaciones son en realidad fallos de
+> recuperación.
 
 ---
 
@@ -330,12 +334,12 @@ realmente relevantes). Si el recall es bajo, arregla el retrieval primero.
 **Calidad de generación**, con un **LLM como juez** (lo formalizamos en el Módulo 7):
 
 - **Faithfulness / groundedness:** ¿cada afirmación de la respuesta está respaldada por el contexto? (detecta
-  alucinación). Es la métrica reina de RAG.
+  alucinación). Es la métrica más importante en RAG.
 - **Answer relevance:** ¿la respuesta contesta la pregunta?
 - **Context relevance:** ¿el contexto recuperado venía al caso?
 
-Necesitas un set de **preguntas + respuesta esperada + chunks relevantes** etiquetado a mano (20-50 casos). Tedioso,
-y otra vez **la mejor inversión del proyecto**: sin él no sabes si un cambio de chunking mejoró o empeoró. Ejemplo
+Necesitas un conjunto etiquetado a mano con **preguntas, respuesta esperada y chunks relevantes**, de 20 a 50 casos.
+Es un trabajo tedioso, pero sin él no hay forma de saber si un cambio de chunking mejoró o empeoró el sistema. Ejemplo
 mínimo en [`code/05_eval_rag.py`](code/05_eval_rag.py).
 
 ---
@@ -362,7 +366,7 @@ Criterios de la rúbrica:
 - El chunking es **estructural** y cada chunk lleva **metadata** suficiente para filtrar y citar.
 - La respuesta se **ancla al contexto**, **se abstiene** cuando no alcanza y **cita** al candidato.
 - Sabes distinguir un fallo de retrieval de uno de generación.
-- Tienes números, no impresiones.
+- Tus conclusiones se apoyan en métricas medidas.
 
 En el **Módulo 4** verás que la búsqueda semántica sola falla con nombres propios, siglas y códigos exactos (un
 candidato que puso "AWS" y la consulta dice "Amazon Web Services"), y lo arreglamos combinándola con búsqueda léxica
@@ -370,16 +374,19 @@ candidato que puso "AWS" y la consulta dice "Amazon Web Services"), y lo arregla
 
 ---
 
-## Resumen del módulo (lo que no puedes olvidar)
+## Resumen del módulo
 
 - Un documento entero en un vector **promedia** y **trunca**; por eso se parte en **chunks** y se recupera por pasajes.
 - Cinco familias: **fijo, recursivo/estructural, semántico, document-aware, decidido por un LLM**; elige por tipo
   de documento y **mide**.
-- **Indexa pequeño, devuelve grande** (jerárquico): el chunk que gana la búsqueda no es el que el modelo necesita leer.
+- **Indexa pequeño y devuelve grande** (jerárquico), porque el chunk que gana la búsqueda no suele ser el que el
+  modelo necesita leer.
 - El **overlap** salva las ideas que caen en la frontera entre chunks.
-- La **metadata** filtra antes, reordena durante y **cita** después: es lo que hace útil la búsqueda.
-- **RAG = recuperar + aumentar + generar**: responder con tus datos, barato, fresco y **verificable**.
-- **Más contexto no es mejor contexto**: `k` justo, orden pensado, re-ranker si hace falta ("lost in the middle").
-- Cuando falla, pregunta primero: **¿falló el retrieval o la generación?** Es media depuración resuelta.
+- La **metadata** sirve para filtrar antes de buscar, reordenar durante la búsqueda y **citar** en la respuesta.
+- **RAG** recupera, aumenta el prompt y genera, y así responde con tus datos de forma barata, actualizada y
+  **verificable**.
+- **Más contexto no significa mejor contexto**: un `k` ajustado, un orden pensado y un re-ranker cuando haga falta
+  ("lost in the middle").
+- Cuando falla, lo primero es averiguar **si falló la recuperación o la generación**.
 
 Sigue con [`ejercicios.md`](ejercicios.md).
