@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { MenuMovil } from "@/components/MenuMovil";
 import { TemaBtn } from "@/components/TemaBtn";
-import { esAdmin, getUsuario, urlEntrar } from "@/lib/auth";
+import { esAdmin, getUsuario, urlEntrar, urlSalir } from "@/lib/auth";
 import { CONTACTO_SITIO, NOMBRE_SITIO } from "@/lib/sitio";
 
 export async function Sitio({ children }: { children: React.ReactNode }) {
@@ -21,7 +21,14 @@ export async function Sitio({ children }: { children: React.ReactNode }) {
         </nav>
         <TemaBtn />
         <span className="solo-ancho">
-          {usuario ? <Link className="btn" href="/cuenta">Mi cuenta</Link> : <a className="btn" href={urlEntrar("/cuenta")}>Entrar</a>}
+          {usuario ? (
+            <>
+              <Link className="btn" href="/cuenta">Mi cuenta</Link>
+              <a className="salir-link" href={urlSalir()}>Cerrar sesión</a>
+            </>
+          ) : (
+            <a className="btn" href={urlEntrar("/cuenta")}>Entrar</a>
+          )}
         </span>
         <MenuMovil
           enlaces={[
@@ -31,6 +38,7 @@ export async function Sitio({ children }: { children: React.ReactNode }) {
             ...(esAdmin(usuario) ? [{ href: "/admin", texto: "Admin" }] : []),
           ]}
           cuenta={usuario ? { href: "/cuenta", texto: "Mi cuenta" } : { href: urlEntrar("/cuenta"), texto: "Entrar" }}
+          salir={usuario ? urlSalir() : undefined}
         />
       </header>
       <main id="contenido" className="sitio-main">{children}</main>

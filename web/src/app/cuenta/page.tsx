@@ -41,7 +41,10 @@ export default async function Cuenta({ searchParams }: Props) {
   return (
     <Sitio>
       <div className="pagina">
-        <h1>Mi cuenta</h1>
+        <div className="fila">
+          <h1 style={{ margin: 0 }}>Mi cuenta</h1>
+          <a className="btn" href={urlSalir()}>Cerrar sesión</a>
+        </div>
         <p className="muted">
           {usuario.nombre ? <><b>{usuario.nombre}</b>, </> : null}
           {usuario.email}{admin ? " (administrador)" : ""}

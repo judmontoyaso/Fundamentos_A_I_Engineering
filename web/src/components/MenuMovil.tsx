@@ -7,7 +7,7 @@ import { useState } from "react";
 
 type Enlace = { href: string; texto: string };
 
-export function MenuMovil({ enlaces, cuenta }: { enlaces: Enlace[]; cuenta: Enlace }) {
+export function MenuMovil({ enlaces, cuenta, salir }: { enlaces: Enlace[]; cuenta: Enlace; salir?: string }) {
   const [abierto, setAbierto] = useState(false);
   const cerrar = () => setAbierto(false);
   return (
@@ -35,6 +35,11 @@ export function MenuMovil({ enlaces, cuenta }: { enlaces: Enlace[]; cuenta: Enla
           <Link className="btn primary" href={cuenta.href} onClick={cerrar}>
             {cuenta.texto}
           </Link>
+          {salir && (
+            <a className="btn" href={salir}>
+              Cerrar sesión
+            </a>
+          )}
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

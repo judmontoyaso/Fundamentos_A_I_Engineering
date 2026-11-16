@@ -423,3 +423,6 @@ button, input, select, textarea { font-family: inherit; }
   :root:not([data-theme="light"]) .traza { border: 1px solid #26332e; }
   :root:not([data-theme="light"]) .logo-marca { box-shadow: 0 0 0 1px rgba(92, 196, 168, .45); }
 }
+@media (min-width: 681px) { .sitio-top .solo-ancho { display: inline-flex; align-items: center; gap: .9rem; } }
+.salir-link { font-size: .88rem; color: var(--muted); text-decoration: none; }
+.salir-link:hover { color: var(--fg); text-decoration: underline; }
