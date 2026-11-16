@@ -32,7 +32,7 @@ espejo de la API interna**: endpoints CRUD, códigos numéricos, campos que solo
 
 Una API pensada para personas asume que quien la llama leyó el manual una vez y lo recuerda. Un modelo decide en cada
 turno a partir de tres cosas: **el nombre de la herramienta, la descripción de sus parámetros y lo que devolvieron las
-llamadas anteriores**. Eso es todo lo que ve. Si un parámetro se llama `t` y acepta `1`, `2` o `3`, el modelo va a
+llamadas anteriores**. No tiene más información que esa. Si un parámetro se llama `t` y acepta `1`, `2` o `3`, el modelo va a
 adivinar.
 
 *Poka-yoke* es un término de manufactura japonesa: diseñar la pieza para que sea imposible montarla mal (un enchufe que

@@ -8,7 +8,7 @@
 
 Índice:
 
-1. [Roles teatrales contra límites físicos](#1-roles)
+1. [Repartir personajes o resolver límites reales](#1-roles)
 2. [El patrón orquestador-trabajadores](#2-patron)
 3. [Laboratorio 1: secuencial contra paralelo](#3-lab1)
 4. [Laboratorio 2: map-reduce sobre el ATS](#4-lab2)
@@ -23,10 +23,10 @@ Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 ---
 
 <a name="1-roles"></a>
-## 1. Roles teatrales contra límites físicos
+## 1. Repartir personajes o resolver límites reales
 
 Un diseño frecuente de "sistema multiagente" reparte personajes: un *Agente Gerente*, un *Agente Analista* y un
-*Agente Crítico* que conversan entre sí. Se ve bien en un diagrama y se comporta mal en producción: cada mensaje entre
+*Agente Crítico* que conversan entre sí. Queda bien en un diagrama, pero en producción funciona mal: cada mensaje entre
 agentes es una llamada más, el error compuesto del módulo 0 se multiplica por el número de agentes, y nadie sabe qué
 agente decidió qué.
 

@@ -8,7 +8,7 @@
 
 Índice:
 
-1. [El prompt no es un contrato](#1-prompt)
+1. [Lo que el prompt no puede garantizar](#1-prompt)
 2. [Estado explícito e invariantes](#2-estado)
 3. [Laboratorio 1: la guarda que atrapa el descuido](#3-lab1)
 4. [Qué guardar en un checkpoint](#4-checkpoint)
@@ -24,7 +24,7 @@ Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 ---
 
 <a name="1-prompt"></a>
-## 1. El prompt no es un contrato
+## 1. Lo que el prompt no puede garantizar
 
 El system prompt del módulo 0 dice "verifica la elegibilidad de cada candidato antes de entregar la terna". El modelo
 lo cumple casi siempre. "Casi siempre" es el problema: cuando el historial es largo, cuando una observación es ambigua
@@ -32,8 +32,8 @@ o cuando el modelo concluye que "ya es obvio" que un candidato sirve, se salta e
 que está en enfriamiento o que no habla el inglés que pide la vacante.
 
 Todo lo que **tiene que pasar siempre** se saca del prompt y se escribe en el controlador: el orden obligatorio de los
-pasos, lo que debe estar comprobado antes de una acción, lo que no puede repetirse. El prompt queda para orientar; el
-código, para garantizar.
+pasos, lo que debe estar comprobado antes de una acción y lo que no puede repetirse. El prompt sirve para orientar al
+modelo, y el código, para garantizar que esas reglas se cumplan.
 
 ---
 

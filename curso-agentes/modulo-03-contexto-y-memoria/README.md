@@ -46,7 +46,7 @@ problema: el contexto sigue creciendo, y con él la latencia y el riesgo de que 
 
 **Costo.** Cada observación vieja se vuelve a pagar en todos los pasos que siguen.
 
-**Atención.** Más contexto no es mejor contexto. Los modelos usan peor la información que está en medio de un contexto
+**Atención.** Más contexto no significa mejor contexto. Los modelos usan peor la información que está en medio de un contexto
 largo que la que está al principio o al final (*Lost in the Middle*, Liu et al., 2023), y en un agente el contexto
 largo está lleno de observaciones parecidas: fichas de cuatro candidatos con los mismos campos. El riesgo concreto es
 mezclar atributos: atribuirle al candidato del paso 9 el inglés del candidato descartado en el paso 4.
@@ -98,7 +98,7 @@ preselección dos veces:
 | Terna | `CAND-01`, `CAND-03` | `CAND-01`, `CAND-03` |
 | Ahorro de entrada | | **29,1 %** |
 
-Mismo resultado, 29 % menos de tokens de entrada. Dos detalles del código que importan:
+La terna es la misma y los tokens de entrada bajan un 29 %. Hay dos detalles del código que conviene notar:
 
 - **La poda se aplica a la vista que recibe el modelo**, no al historial guardado. El checkpoint (módulo 2) conserva
   todo; solo cambia lo que se envía. Así puedes auditar después y cambiar la política de poda sin perder datos.

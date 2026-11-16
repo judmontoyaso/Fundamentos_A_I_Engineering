@@ -9,7 +9,7 @@
 
 Índice:
 
-1. [Qué es un agente, sin marketing](#1-que-es)
+1. [Qué es un agente](#1-que-es)
 2. [La escalera de autonomía](#2-escalera)
 3. [El error compuesto: por qué cada paso cuesta](#3-error)
 4. [El entorno del curso: el ATS y el modelo simulado](#4-entorno)
@@ -25,7 +25,7 @@ Código en [`code/`](code/). Ejercicios en [`ejercicios.md`](ejercicios.md).
 ---
 
 <a name="1-que-es"></a>
-## 1. Qué es un agente, sin marketing
+## 1. Qué es un agente
 
 Un **agente** es un programa en el que un modelo de lenguaje decide, en cada vuelta de un bucle, **qué herramienta
 llamar a continuación y cuándo terminar**. Todo lo demás (memoria, planificación, subagentes, MCP) son añadidos sobre
@@ -41,7 +41,8 @@ Lo que separa a uno del otro es **quién controla el flujo**, y ese control tien
 le das al modelo es una decisión que puede salir mal, que hay que pagar en tokens y que hay que poder auditar después.
 
 Este curso enseña a construir el código que rodea al modelo: el **controlador**. Es lo que decide qué se ejecuta de
-verdad, cuánto se gasta, qué se guarda y cuándo se detiene todo. El modelo propone; el controlador dispone.
+verdad, cuánto se gasta, qué se guarda y cuándo se detiene todo. El modelo propone acciones y el controlador decide
+cuáles se ejecutan.
 
 ---
 
@@ -212,9 +213,9 @@ Tres decisiones de diseño que vas a repetir en todo el curso:
 <a name="7-lab2"></a>
 ## 7. Laboratorio 2: el presupuesto fuera del modelo
 
-Pedirle al modelo en el prompt "no uses más de 8 pasos" es una sugerencia. El modelo no lleva la cuenta de forma
-fiable, no sabe cuánto cuesta cada token y, cuando se atasca, es justo cuando menos caso hace a las instrucciones. Un
-límite de gasto tiene que ser una **invariante del programa**.
+Escribir en el prompt "no uses más de 8 pasos" funciona como una sugerencia y no como un límite. El modelo no lleva
+la cuenta de forma fiable, no sabe cuánto cuesta cada token y, cuando se atasca, es cuando menos atiende a las
+instrucciones. Por eso un límite de gasto tiene que ser una **invariante del programa**.
 
 `PresupuestoAgente` (en `comun/ag_comun.py`) lleva tres contadores y lanza `PresupuestoAgotado` al pasarse:
 
@@ -229,9 +230,9 @@ límite de gasto tiene que ser una **invariante del programa**.
 | Modelo terco (repite la misma búsqueda) | 5 pasos | Cortado por `max_pasos=5` | 5 | 3.860 | 0,0017 USD |
 | Tope de tokens estricto | 1.500 tokens | Cortado por `max_tokens=1500` | 3 | 2.383 | 0,0010 USD |
 
-El segundo caso es el importante. Un agente atascado no falla con una excepción: sigue llamando, contento, hasta que
-alguien lo para. Sin el freno, esa ejecución habría seguido hasta el límite del proveedor o hasta el *timeout* del
-servidor, cobrando cada vuelta. Con el freno, la pérdida queda acotada a 5 llamadas.
+El segundo caso es el más importante. Un agente atascado no lanza una excepción: sigue haciendo llamadas hasta que
+algo lo detiene. Sin el freno, esa ejecución habría seguido hasta el límite del proveedor o hasta el *timeout* del
+servidor, y cada vuelta se habría cobrado. Con el freno, el gasto queda limitado a 5 llamadas.
 
 El tercer caso muestra la otra cara: un tope demasiado bajo corta ejecuciones sanas. Los límites se calibran con datos:
 corre tu agente sobre un conjunto de tareas reales, mira la distribución de pasos y tokens, y pon el límite por encima

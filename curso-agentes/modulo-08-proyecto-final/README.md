@@ -143,4 +143,5 @@ Para cerrar el curso, aplica el controlador a un caso tuyo:
 5. Córrelo con un modelo real, 5 veces por tarea, y reporta `pass^k`, costo y latencia.
 6. Decide con esos números si va a producción, si necesita más guardas o si debió ser un workflow.
 
-El último punto también es un resultado válido. Saber cuándo no usar un agente es la mitad del oficio.
+Concluir que el problema debió resolverse con un workflow también es un resultado válido: saber cuándo no usar un
+agente es una parte importante del trabajo.

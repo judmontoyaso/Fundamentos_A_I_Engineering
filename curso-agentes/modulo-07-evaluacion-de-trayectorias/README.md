@@ -119,8 +119,8 @@ todos sus miembros fueron verificados.
 | **Promedio** | | 0,312 | **0,938** | 0,312 | 0,071 | **0,0** |
 
 Con `pass@5 = 0,94` el agente "funciona": casi siempre hay alguna corrida buena. Con `pass^5 = 0`, ningún usuario que
-lo use cinco veces seguidas tendrá cinco resultados correctos. Los dos números describen al mismo agente; cuál reportes
-decide si lo despliegas.
+lo use cinco veces seguidas tendrá cinco resultados correctos. Los dos números describen al mismo agente, y la
+decisión de desplegarlo depende de cuál de los dos mires.
 
 La tarea con más candidatos falla más, por la misma cuenta del módulo 0: con 4 candidatos, la probabilidad de no
 saltarse ninguno es $0{,}75^4 \approx 0{,}32$; con 2, $0{,}75^2 \approx 0{,}56$. Más decisiones del modelo, más error
