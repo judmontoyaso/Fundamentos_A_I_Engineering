@@ -35,6 +35,7 @@ export const mercadopago: Proveedor = {
       body: JSON.stringify({
         items: [{ id: pedido.plan, title: titulo, quantity: 1, unit_price: pedido.monto, currency_id: pedido.moneda }],
         payer: { email: pedido.email },
+        statement_descriptor: "IA PRODUCCION",
         external_reference: pedido.id,
         back_urls: {
           success: `${vuelta}&retorno=ok`,
