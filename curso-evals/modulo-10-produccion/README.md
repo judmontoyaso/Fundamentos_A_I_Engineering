@@ -47,7 +47,7 @@ Un chequeo **sin referencia** compara la salida con **la propia entrada**, no co
 | **Años imposibles** | Más años que los que caben entre la primera y la última fecha del CV (o hasta hoy, si dice "actual") | 9 años con trabajos entre 2011 y 2016 |
 | Skills vacías | No extrajo ninguna tecnología | El CV en mayúsculas del Módulo 1 |
 
-No dicen si la salida es **correcta**: dicen si es **imposible** o **sospechosa**. Son gratis, instantáneos y se pueden
+No indican si la salida es **correcta**, sino si es **imposible** o **sospechosa**. Son gratis, instantáneos y se pueden
 correr sobre el 100 % del tráfico.
 
 ---
@@ -81,12 +81,12 @@ rangos que se solapan** (2011-2013 y 2012-2016 → 9 años en vez de 5), y eso d
 fechas del CV. El error viola una invariante, así que un chequeo de imposibilidad lo atrapa. Y como el chequeo solo
 marca lo imposible, no da falsas alarmas.
 
-Los 2 errores que **no** se vieron son la otra cara: "12 años en vez de 13" y "10 en vez de 11". Son errores
-**plausibles**: caben en las fechas. Ningún chequeo sin referencia distingue un 12 correcto de un 12 incorrecto. Es lo
-que producción no te cuenta, y por eso los evals con etiquetas (nocturnos, sobre una muestra) siguen haciendo falta
-aunque tengas monitoreo.
+Los 2 errores que **no** se detectaron muestran el límite de este enfoque: "12 años en vez de 13" y "10 en vez de 11". Son errores
+**plausibles**: caben en las fechas, y ningún chequeo sin referencia distingue un 12 correcto de un 12 incorrecto.
+Esos errores no aparecen en el monitoreo de producción, y por eso los evals con etiquetas (nocturnos, sobre una
+muestra) siguen siendo necesarios aunque tengas monitoreo.
 
-Regla: **la cobertura de un chequeo sin referencia depende del tipo de error**. Aquí fue alta porque el error típico
+En general, **la cobertura de un chequeo sin referencia depende del tipo de error**. Aquí fue alta porque el error típico
 era imposible. En un sistema cuyos errores son plausibles (un resumen que omite algo, un nivel mal asignado), la
 cobertura puede ser casi nula. Mídela una vez con datos etiquetados, como aquí, antes de confiar en el monitoreo.
 
@@ -103,11 +103,11 @@ más en 25 si la tasa no hubiera cambiado (cola de una binomial):
 P(≥ 6 alertas de 25 | tasa del 6 %) = 0.003
 ```
 
-Es muy improbable por azar: **la alerta está justificada**, y señala justo el día del drift. Con la misma regla, un día
+Es muy improbable que ocurra por azar, así que **la alerta está justificada**, y señala justo el día del drift. Con la misma regla, un día
 con 3 alertas no la dispararía. Dos ideas que generalizan:
 
-- **Alerta sobre tasas con su incertidumbre**, no sobre conteos crudos ("¡hoy hubo 3 alertas!").
-- **Mira también las entradas**, no solo las salidas: el drift se ve antes en la mezcla (idioma, formato, longitud)
+- **Alerta sobre tasas con su incertidumbre** y no sobre conteos sueltos ("hoy hubo 3 alertas").
+- **Mira también las entradas** además de las salidas, porque el drift se ve antes en la mezcla (idioma, formato, longitud)
   que en los errores. Un aumento de CVs en portugués es una alerta útil aunque todavía no haya fallos.
 
 ---
@@ -127,7 +127,7 @@ compara tres políticas sobre los 75 CVs:
 La cascada elimina cerca de dos tercios de los errores del modelo barato y paga el modelo grande en menos del 10 % de
 los CVs. Los errores que quedan son exactamente los plausibles del §4: la cascada **no puede arreglar lo que el chequeo
 no ve**. Si esos errores son aceptables para el producto, la cascada es casi tan buena como el modelo grande a una
-fracción del costo. Si no lo son, el modelo grande siempre.
+fracción del costo; si no lo son, conviene usar siempre el modelo grande.
 
 Esta es la conexión con el Módulo 8 de AI Engineering: **un guardrail es un eval que corre en línea y actúa**. Se mide
 igual (cobertura, falsas alarmas, costo) y cada activación se registra, porque cada caso que saltó es un candidato a
@@ -143,7 +143,7 @@ Los chequeos sin referencia no son la única fuente:
 - **Jueces sobre una muestra.** El juez calibrado del Módulo 5, sobre un 5-10 % del tráfico cada día, con la tasa
   corregida por Rogan-Gladen. Cuesta, así que se muestrea.
 - **Señales del usuario.** Un reclutador que corrige el nivel extraído, descarta una recomendación o vuelve a
-  preguntar lo mismo. Son ruidosas, pero gratis y numerosas.
+  preguntar lo mismo. Son señales imprecisas, pero gratuitas y abundantes.
 - **Muestras para personas.** Las salidas con alerta, las que el usuario corrigió y una muestra aleatoria (para no ver
   solo lo que ya sospechabas) van a revisión humana, y lo que se etiqueta entra al set del Módulo 1. Así el set de
   evaluación crece con lo que de verdad llega.
@@ -155,7 +155,7 @@ Los chequeos sin referencia no son la única fuente:
 ## Resumen del módulo
 
 - En producción **no hay respuesta correcta**: usa chequeos **sin referencia** (salida contra entrada).
-- Detectan lo **imposible**, no lo **plausible**: aquí vieron 9 de 11 errores con 0 falsas alarmas, porque el error
+- Detectan lo **imposible** pero no lo **plausible**: aquí vieron 9 de 11 errores con 0 falsas alarmas, porque el error
   típico violaba una invariante. **Mide su cobertura** una vez con datos etiquetados.
 - El drift del día 3 subió las alertas a 6/25; con la tasa previa del 6 %, **p = 0.003**: alerta justificada.
 - **Alerta sobre tasas con incertidumbre**, y vigila también la mezcla de entradas.

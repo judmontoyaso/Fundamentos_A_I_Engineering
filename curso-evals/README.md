@@ -1,14 +1,14 @@
 # Evals para AI Engineers
 
-> Contenido, datos y código **originales**, escritos a partir de investigación propia y de práctica con
+> El contenido, los datos y el código de este curso se escribieron para el curso, a partir de la práctica con
 > sistemas reales.
 
 El curso de AI Engineering terminó con un sistema que funciona: extrae CVs, busca con RAG híbrido, recomienda con un
 agente y tiene guardrails. Este curso responde la pregunta que viene después: **¿cómo sé, con evidencia, si un cambio
 lo mejoró o lo empeoró?**
 
-El orden importa y es el contrario al intuitivo. **No se empieza escribiendo métricas.** Se empieza leyendo salidas:
-dónde falla el sistema, con qué frecuencia, qué fallo importa. Solo después se decide qué medir, y solo al final se
+El orden del curso es el contrario al que se suele seguir: **en lugar de empezar escribiendo métricas, se empieza
+leyendo salidas** para entender dónde falla el sistema, con qué frecuencia y qué fallos importan. Solo después se decide qué medir, y solo al final se
 escribe un juez. Cada técnica entra cuando el sistema la necesita, del caso más fácil de verificar al más difícil.
 
 ![Curso 2 · Ciclo de evaluación continua: Error Analysis, Dataset Dorado, Juez Calibrado y Puerta de Calidad en CI/CD](/infografias/evals-arquitectura.svg)

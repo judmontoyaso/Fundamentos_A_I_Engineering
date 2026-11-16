@@ -9,7 +9,7 @@
 
 Índice:
 
-1. [Un eval que nadie corre no existe](#1-nadie)
+1. [Un eval que nadie corre no protege nada](#1-nadie)
 2. [Tres niveles, de lo gratis a lo caro](#2-niveles)
 3. [La caché: pagar solo lo que cambió](#3-cache)
 4. [La línea base](#4-base)
@@ -23,11 +23,11 @@ Código en [`code/`](code/), tests en [`tests/`](tests/), workflow en [`ci/evals
 ---
 
 <a name="1-nadie"></a>
-## 1. Un eval que nadie corre no existe
+## 1. Un eval que nadie corre no protege nada
 
 Los Módulos 1 a 8 construyeron evals que se corren a mano, en un laboratorio. Eso sirve para aprender y para investigar
-un fallo. No sirve para lo que más importa: **detectar la regresión el día que alguien cambia el prompt** "solo un
-poco". Ese día nadie se acuerda de correr el eval. La solución es la misma que con el resto del software: los evals
+un fallo, pero no para lo más importante, que es **detectar la regresión el día que alguien cambia el prompt** "solo un
+poco", porque ese día nadie se acuerda de correr el eval. La solución es la misma que con el resto del software: los evals
 pasan a ser tests, y los tests corren solos en cada cambio.
 
 Dos diferencias con los tests normales lo complican: **cuestan dinero** (cada caso es una llamada) y **no son
@@ -44,8 +44,8 @@ deterministas** (un caso puede fallar por azar). Este módulo resuelve las dos.
 | **Con LLM y caché** | Casos críticos y umbrales sobre el set del Módulo 1 | Cada pull request | Solo lo que cambió |
 | **Nocturno, sin caché** | Lo mismo, sin caché y con repeticiones | Cada noche | El eval completo |
 
-El primer nivel sorprende: **los evals también tienen bugs**. Un chequeo mal escrito da resultados falsos con total
-seguridad, y nadie lo nota porque el número "sale bien".
+El primer nivel puede parecer innecesario, pero **los evals también tienen bugs**. Un chequeo mal escrito da
+resultados falsos sin ninguna señal de error, y nadie lo nota porque el número parece correcto.
 [`tests/test_chequeos.py`](tests/test_chequeos.py) fija las decisiones de los módulos anteriores: que "net" no vale por
 ".net" (Módulo 1), que la regex de contacto marca "LinkedIn" y no marca "2016-2024" (Módulo 2), que el kappa de la
 paradoja es negativo (Módulo 4), que Rogan-Gladen da 1/7 en el ejemplo del Módulo 5. Si alguien "arregla" un chequeo y
@@ -67,7 +67,7 @@ eval del extractor:
 | Segunda, idéntica | **0** | 30 | **0.1 s** |
 | Con una palabra cambiada en el prompt ("No inventes nada.") | 30 | 0 | 9.1 s |
 
-Que cambiar el prompt invalide la caché es la propiedad que importa: **la caché nunca esconde un cambio**. Lo que sí
+Lo importante es que cambiar el prompt invalida la caché, de modo que **la caché nunca esconde un cambio**. Lo que sí
 esconde es la **variación entre corridas**: con caché, la segunda corrida es idéntica a la primera por construcción. Por
 eso el pull request usa caché (¿rompió algo mi cambio?) y la corrida nocturna no (¿cuánto varía el sistema?).
 
@@ -76,8 +76,8 @@ eso el pull request usa caché (¿rompió algo mi cambio?) y la corrida nocturna
 <a name="4-base"></a>
 ## 4. La línea base
 
-Un test de eval no compara con un número mágico ("la exactitud debe ser ≥ 90 %"), sino con **lo que el sistema hacía
-antes del cambio**: la línea base. El laboratorio 01 la guarda en [`linea_base.json`](linea_base.json), con el modelo,
+Un test de eval no compara contra un número fijo elegido a ojo ("la exactitud debe ser ≥ 90 %"), sino contra **lo que
+el sistema hacía antes del cambio**, que es la línea base. El laboratorio 01 la guarda en [`linea_base.json`](linea_base.json), con el modelo,
 la versión del prompt y la fecha. Con `gpt-6-luna` y el prompt `v1` es 100 % en los cuatro campos (el set del Módulo 1
 no le encuentra fallos).
 
@@ -94,10 +94,11 @@ nunca fallaría.
 
 - **Críticos:** casos que no pueden fallar **nunca**. La inyección (#22: 3 años, no 30), el correo que el candidato
   dice no usar (#24), el CV sin correo (#16), las prácticas que no cuentan como experiencia (#25). Un fallo bloquea el
-  cambio, sin estadística: un sistema que obedece una inyección una vez de cada cien no está bien "en promedio".
+  cambio, sin estadística de por medio, porque un sistema que obedece una inyección una vez de cada cien tiene un
+  problema aunque su promedio sea bueno.
 - **Umbral:** la exactitud de cada campo sobre los 30 casos no puede bajar de la línea base **menos una tolerancia**
-  del 7 % (unos 2 casos). La tolerancia existe porque, con 30 casos, uno solo son 3 puntos, y el ruido no es una
-  regresión.
+  del 7 % (unos 2 casos). La tolerancia existe porque, con 30 casos, uno solo equivale a 3 puntos, y una variación
+  por azar no debe confundirse con una regresión.
 
 Los tests que llaman al modelo llevan la marca `llm`: `pytest -m "not llm"` corre solo los gratis, y sin
 `OPENAI_API_KEY` se saltan en vez de fallar. [`code/02_correr_la_suite.py`](code/02_correr_la_suite.py) corre las dos
@@ -139,8 +140,8 @@ Y la regla tiene un límite que hay que conocer: con 30 casos, McNemar necesita 
 
 Cuatro roturas sin ningún arreglo pasarían. Por eso la regla tiene tres partes y no una: **los casos críticos
 bloquean siempre**, la estadística bloquea las degradaciones grandes, y todo lo demás pasa **con aviso** para que una
-persona lea los rotos. Un CI de evals con 30 casos es una red con agujeros grandes: atrapa las regresiones fuertes y
-lo explícitamente prohibido, no las sutiles.
+persona lea los rotos. Con 30 casos, un CI de evals detecta las regresiones fuertes y lo explícitamente prohibido,
+pero deja pasar las sutiles.
 
 ---
 
@@ -164,7 +165,7 @@ secreto** en los logs.
 
 ## Resumen del módulo
 
-- Un eval que nadie corre no existe: conviértelo en **tests que corren solos**.
+- Un eval que nadie corre no protege nada, así que hay que convertirlo en **tests que se ejecutan solos**.
 - **Tres niveles**: sin LLM en cada commit, con caché en cada pull request, sin caché cada noche.
 - **Los evals tienen bugs**: testea el código de los chequeos (10 tests, menos de un segundo).
 - Una **caché** con el prompt en la clave: 30 llamadas → 0; un cambio de prompt → 30 otra vez. Nunca esconde un
@@ -172,6 +173,6 @@ secreto** en los logs.
 - Compara contra una **línea base** que se actualiza a propósito.
 - **Críticos** (bloquean siempre) y **umbrales** (con tolerancia).
 - Decide con los **discordantes** y **McNemar**: v2 arregló 2 y rompió 2 (p = 0.69) → pasar y leer. Con 30 casos, 4
-  roturas sin arreglos no bloquean: la red tiene agujeros.
+  roturas sin arreglos no bloquean, así que la regla tiene límites.
 
 Sigue con [`ejercicios.md`](ejercicios.md).

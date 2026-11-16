@@ -32,7 +32,7 @@ usa para buscar y responder. Eso abre fallos que no existen en una sola llamada:
 - **Ceder en el turno siguiente**: bloquear un pedido discriminatorio y aplicarlo después, cuando vuelve disfrazado.
 - **Perder el hilo**: no entender "¿y tiene alguna certificación?" si no sabe de quién se habla.
 
-Ninguno se ve evaluando turnos sueltos: hay que evaluar la conversación.
+Ninguno aparece si se evalúan turnos sueltos; hay que evaluar la conversación completa.
 
 ---
 
@@ -45,7 +45,7 @@ Ninguno se ve evaluando turnos sueltos: hay que evaluar la conversación.
 | **Conversación** | ¿Se cumplió el objetivo, y todos los turnos fueron correctos? | "Toda la conversación pasa" |
 | **Estado** | ¿Lo que el sistema **guardó** es correcto? | "No queda un recuerdo activo de 'exige inglés avanzado'" |
 
-El tercero es el que casi nadie mide, y en este módulo fue el que encontró el fallo.
+El tercer nivel es el que menos se suele medir, y en este módulo fue el que encontró el fallo.
 
 ---
 
@@ -80,7 +80,7 @@ El laboratorio se corrió cuatro veces (dos corridas por conversación cada vez)
 | 4 (tras el arreglo de abajo) | 18 / 18 | 9 / 10 | la memoria del "cambio de requisito" (1 de 2) |
 
 El aislamiento entre reclutadoras funcionó siempre, y la discriminación se bloqueó y no volvió en el turno siguiente.
-Dos fallos merecen su propia historia.
+Dos fallos merecen explicarse con más detalle.
 
 **"¿Y tiene alguna certificación?"** pasó en la primera ejecución y falló en las dos siguientes, con una respuesta
 falsa: "El CV de Diego Ruiz no menciona certificaciones". El CV dice "Certificado AWS Solutions Architect". La
@@ -88,14 +88,15 @@ referencia al turno anterior se resolvió bien (habla de Diego): el sistema no g
 pero el turno anterior dejó en la memoria "busca a alguien con Terraform y Kubernetes", y la búsqueda del segundo turno
 lo usó. El problema estaba **en la ingesta**: el esquema de extracción del Módulo 9 de AI Engineering no tenía campo de
 certificaciones, así que una certificación solo llegaba al índice si el extractor la metía de paso en una descripción,
-cosa que unas ejecuciones hacía y otras no. **Lo que no se extrae no existe para el sistema.** Se añadió el campo
+cosa que unas ejecuciones hacía y otras no. **Un dato que no se extrae no llega al índice, y para el sistema es como
+si no estuviera.** Se añadió el campo
 (`certificaciones` en `CVExtraido`); con él, el caso pasó en 2 de 2 y la evaluación de punta a punta del Módulo 9 se
 mantuvo igual (9/9, sin salidas inseguras).
 
-Lección doble: un eval de varios turnos encontró un fallo de **ingesta**, y solo porque se corrió más de una vez. En la
-primera ejecución todo parecía bien.
+Hay dos cosas que aprender de este caso: un eval de varios turnos encontró un fallo de **ingesta**, y lo encontró
+solo porque se corrió más de una vez, ya que en la primera ejecución todo parecía bien.
 
-El otro fallo está en el **estado**, no en una respuesta.
+El otro fallo está en el **estado** y no en una respuesta.
 
 ---
 
@@ -112,10 +113,10 @@ recuerdo (Módulo 8 de AI Engineering, §4); en esa corrida no lo hizo. La respu
 esta vez, la búsqueda recuperó el recuerdo nuevo. Pero el viejo sigue ahí, y en cualquier conversación futura de esa
 reclutadora puede recuperarse primero y descartar candidatos por un requisito que ya no existe.
 
-Es la lección del módulo: **en un sistema con memoria, el estado es parte de la salida**. Un eval que solo mira
-respuestas da por bueno un sistema que ya tiene el fallo dentro, esperando el turno que lo saque a la luz. Pasó en 1 de
-2 corridas en las cuatro ejecuciones: es un fallo **frecuente**, y aun así, con una sola corrida, la mitad de las veces
-no lo habrías visto. El arreglo está en el paso de memoria del Módulo 8 de AI Engineering y queda como ejercicio.
+Esta es la idea central del módulo: **en un sistema con memoria, el estado es parte de la salida**. Un eval que solo
+mira respuestas da por bueno un sistema que ya tiene el fallo guardado, a la espera de la conversación en la que se
+manifieste. Ocurrió en 1 de 2 corridas en las cuatro ejecuciones, así que es un fallo **frecuente**, y aun así, con
+una sola corrida, la mitad de las veces no se habría visto. El arreglo está en el paso de memoria del Módulo 8 de AI Engineering y queda como ejercicio.
 
 ---
 
@@ -150,13 +151,13 @@ La conversación fallida fue esta (resumida):
 > **Reclutador:** Entonces Andrés no me sirve si no podemos confirmar su **vigencia**. ¿Tienes otro?
 > **Asistente:** No encontré candidatos que encajen con claridad.
 
-¿Falló el asistente? No. Respondió con honestidad: el CV no dice si la certificación está vigente. **Falló el
-simulador**: su personaje pedía "una certificación de auditoría", y él añadió por su cuenta "vigente", un requisito
+El asistente no falló: respondió correctamente que el CV no dice si la certificación está vigente. **El que falló fue
+el simulador**: su personaje pedía "una certificación de auditoría", y él añadió por su cuenta "vigente", un requisito
 que ningún CV puede cumplir. Después rechazó al único candidato correcto. El eval contó un fallo del asistente que
 no lo era.
 
 El chequeo del simulador del laboratorio (¿reveló su requisito?) dio 6 de 6, y no lo detectó: comprobaba que el
-simulador **dijera** lo que debía, no que **no inventara** nada más. Tres reglas:
+simulador **dijera** lo que debía, pero no que **evitara inventar** algo más. De aquí salen tres reglas:
 
 - **Valida al simulador como validaste al generador del Módulo 3**: ¿hizo lo que su personaje pedía, y solo eso?
 - **Lee las conversaciones fallidas antes de contarlas.** La atribución del fallo (asistente, simulador o caso mal

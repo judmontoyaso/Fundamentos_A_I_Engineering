@@ -48,7 +48,7 @@ Con el modelo barato (`gpt-5.4-nano`), el cálculo de años falló en tres módu
 - **Módulo 9:** la regla de McNemar volvió a encontrar el #18 entre los rotos.
 
 Hipótesis: **sumar años a partir de rangos es aritmética, y un modelo pequeño la hace mal**. Más instrucciones sobre
-cómo sumar (v2) le dan más trabajo, no menos.
+cómo sumar (v2) le agregan trabajo en lugar de quitárselo.
 
 ---
 
@@ -65,7 +65,7 @@ cómo sumar (v2) le dan más trabajo, no menos.
 | **v4** | El modelo **no suma**: extrae cada trabajo con sus años (o un total declarado) y el total **se calcula en código** con la regla de las etiquetas | La hipótesis del §2 |
 | v5 | v4 + un campo para la **duración** de un trabajo sin fechas | Los fallos de v4 (§5) |
 
-v4 es un tipo de cambio distinto: no le pide al modelo que haga mejor la suma, **se la quita**. El modelo hace lo que
+v4 es un cambio de otro tipo: en lugar de pedirle al modelo que sume mejor, **le quita la suma**. El modelo hace lo que
 hace bien (leer y copiar fechas) y el código hace lo que hace bien (contar años sin solapes, con la misma función que
 calculó las etiquetas en el Módulo 3).
 
@@ -100,14 +100,14 @@ Y en el holdout, por cómo vienen expresados los años (segunda ejecución):
 | v4 | 6/6 | 5/6 | **6/6** | 4/6 |
 | v5 | 5/6 | 5/6 | **6/6** | 5/6 |
 
-Tres lecturas:
+Los resultados dejan tres conclusiones:
 
 - **En desarrollo, las versiones son indistinguibles** (27-29 de 30). Si hubieras elegido mirando solo desarrollo,
   cualquier elección habría sido una apuesta.
 - **En el holdout, sumar en código gana con claridad**: 30-32 de 36 frente a 21-27, en las dos ejecuciones. La causa
   está en una columna: los rangos solapados pasan de 1/6 a 6/6. La hipótesis del §2 era correcta.
 - **v3 no rompió los solapes, pero tampoco los arregló** (1/6, como v1). Quitar la línea de reglas evitó la rotura de
-  v2; no resolvió el problema de fondo.
+  v2, aunque no resolvió el problema de fondo.
 
 ---
 
@@ -123,8 +123,8 @@ cada uno:
 
 La causa: v4 tenía un campo para los años de inicio y fin de cada trabajo, otro para los meses y otro para un total
 declarado, pero **ninguno para "3 años como analista"**, una duración en años sin fechas. Ese hecho no cabía en el
-schema, y el modelo a veces lo dejaba fuera. Es la misma lección del Módulo 8 (las certificaciones que no se extraían):
-**lo que no cabe en el schema, se pierde**. v5 añade el campo `anios` por trabajo, y en desarrollo pasó a 29/30 (falla
+schema, y el modelo a veces lo dejaba fuera. Es lo mismo que pasó en el Módulo 8 con las certificaciones: **un hecho
+para el que no hay campo en el schema puede perderse**. v5 añade el campo `anios` por trabajo, y en desarrollo pasó a 29/30 (falla
 solo el #23, el de las skills en mayúsculas).
 
 ---
@@ -145,10 +145,10 @@ tiene 7 años", "si el CV dice 'SAS, R', las skills son 'sas' y 'r'"…).
 El resultado esperado era "sube en desarrollo y no en el holdout". **No pasó**: no subió ni en desarrollo. El modelo
 pequeño no aplicó ni las pistas literales. Y v2, que en el §4 sacó 27 de 30 dos veces, sacó aquí 29.
 
-Esa última cifra es la lección: **con 30 casos y dos repeticiones, la misma versión varía de 27 a 29 entre
-ejecuciones**, tanto como varían las versiones de prompt entre sí. En esas condiciones, iterar prompts mirando el set de
-desarrollo es elegir entre ruidos, y el sobreajuste llega solo: te quedas con la versión que tuvo una buena corrida. Las
-defensas:
+Esa última cifra es la más importante: **con 30 casos y dos repeticiones, la misma versión varía de 27 a 29 entre
+ejecuciones**, tanto como varían las versiones de prompt entre sí. En esas condiciones, al iterar prompts mirando el
+conjunto de desarrollo se termina eligiendo por azar, y el sobreajuste aparece sin buscarlo: te quedas con la versión
+que tuvo una buena corrida. Para evitarlo:
 
 - **Un holdout que no se mira al iterar**, y que se usa una vez al final (como el set de prueba del juez en el Módulo 5).
 - **Cambios grandes antes que retoques**: v4 superó el ruido por 5-10 casos en el holdout; las versiones de prompt, por
@@ -165,7 +165,7 @@ defensas:
 3. **Lo que el código hace bien, que lo haga el código**: contar, comparar, validar formatos.
 4. **Cada campo nuevo del schema es un hecho que deja de perderse**, y cada hecho sin campo es uno que puede perderse.
 5. **Desarrollo para iterar, holdout para decidir.**
-6. **Desconfía de las mejoras del tamaño del ruido**: si una versión gana por un caso en 30, no ha ganado.
+6. **Desconfía de las mejoras del tamaño del ruido**: ganar por un caso en 30 no demuestra que una versión sea mejor.
 7. **Re-mide lo crítico** después de cada cambio: v4 mejoró el holdout y empezó a fallar el #22.
 
 ---
@@ -176,7 +176,7 @@ defensas:
 - En desarrollo, cinco versiones quedaron entre 27 y 29 de 30: **indistinguibles**.
 - En el holdout, **sumar en código** (v4, v5) ganó con claridad: 30-32 de 36 frente a 21-27, con los rangos solapados
   de 1/6 a 6/6.
-- v4 perdía las duraciones sin fechas: **lo que no cabe en el schema se pierde** (v5 lo arregla).
+- v4 perdía las duraciones sin fechas, porque **un hecho sin campo en el schema puede perderse** (v5 lo arregla).
 - El prompt con pistas literales **no mejoró ni en desarrollo**, y la misma versión varió de 27 a 29 entre ejecuciones:
   con 30 casos, **el ruido iguala a la diferencia entre prompts**.
 - Prefiere **cambios estructurales** que superen el ruido por mucho, y decide con un **holdout**.

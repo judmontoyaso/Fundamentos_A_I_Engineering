@@ -7,7 +7,7 @@
 Índice:
 
 1. [El sistema](#1-sistema)
-2. [Las reglas del juego](#2-reglas)
+2. [Las reglas del proyecto](#2-reglas)
 3. [Las fases](#3-fases)
 4. [Entregables y rúbrica](#4-entregables)
 
@@ -38,13 +38,13 @@ evaluación, ni documentación.
 ---
 
 <a name="2-reglas"></a>
-## 2. Las reglas del juego
+## 2. Las reglas del proyecto
 
 - **No leas `comun/m12_vacantes.py` hasta la fase 4.** En un sistema ajeno de verdad no sabrías dónde mirar, y leer
   el código antes te haría buscar solo lo que ves en él.
 - **No leas la solución de referencia** (al final de `ejercicios.md` y en `solucion/`) hasta tener tu informe.
-- **Todo número que des, con su tamaño de muestra y su repetición.** "Falla el 40 %" no vale; "falla en 4 de 10
-  ofertas, en las 2 corridas" sí.
+- **Cada número que reportes va con su tamaño de muestra y sus repeticiones.** En lugar de "falla el 40 %", escribe
+  "falla en 4 de 10 ofertas, en las 2 corridas".
 
 ---
 
